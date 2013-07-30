@@ -7,13 +7,15 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.AbstractListModel;
+
+import scripts.Barrows.types.Var;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -23,98 +25,117 @@ public class BarrowGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JList<Object> listUnselected;
+	private static JList<String> listSelected;
+	static DefaultListModel<String> modelSelected = new DefaultListModel<String>();
+
 	public BarrowGUI() {
+		modelSelected.addElement("Dharok");
+		modelSelected.addElement("Karil");
+		modelSelected.addElement("Verac");
+		modelSelected.addElement("Guthan");
+		modelSelected.addElement("Torag");
+		modelSelected.addElement("Ahrim");
 		setTitle("Barrows");
 		setBounds(100, 100, 750, 422);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Brothers", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		JButton btnStart = new JButton("Start");
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int index = 0; index < 6; index++) {
+					String s = modelSelected.getElementAt(index);
+					switch (s) {
+						case "Dharok":
+							Var.dharok.killOrder=index;
+						case "Karil":
+							Var.karil.killOrder=index;
+						case "Verac":
+							Var.verac.killOrder=index;
+						case "Guthan":
+							Var.guthan.killOrder=index;
+						case "Torag":
+							Var.torag.killOrder=index;
+						case "Ahrim":
+							Var.ahrim.killOrder=index;
+					}
+				}
+				
+				Var.guiWait = false;
+				Var.gui.setVisible(false);
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 254, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(470, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnStart))
+					.addContainerGap(613, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(202, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+					.addComponent(btnStart)
+					.addContainerGap())
 		);
 		
-		JLabel lblBrothers = new JLabel("Unselected");
-		
-		JList<String> listSelected = new JList<String>((ListModel<String>) null);
-		listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		JButton btnRight = new JButton("-->");
+		JButton btnRight = new JButton("▲");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String s1 = listSelected.getSelectedValue();
+				int i = listSelected.getSelectedIndex();
+				if (i > 0) {
+					modelSelected.remove(i);
+					modelSelected.add(i-1, s1);
+					listSelected.setSelectedIndex(i-1);
+				}
 			}
 		});
 		
-		JButton btnLeft = new JButton("<--");
+		JButton btnLeft = new JButton("▼");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String s1 = listSelected.getSelectedValue();
+				int i = listSelected.getSelectedIndex();
+				if (i < 5) {
+					modelSelected.remove(i);
+					modelSelected.add(i+1, s1);
+					listSelected.setSelectedIndex(i+1);
+				}
 			}
 		});
 		
-		JLabel lblSelectedOrder = new JLabel("Selected Order");
+		listSelected = new JList<String>(modelSelected);
 		
-		listUnselected = new JList<Object>(new AbstractListModel<Object>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			String[] values = new String[] {"Dharok", "Karil", "Verac", "Guthan", "Torag", "Ahrim"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		listUnselected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(listUnselected, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnRight, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnLeft, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(lblBrothers, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
-					.addGap(7)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblSelectedOrder, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(listSelected, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-					.addContainerGap(299, Short.MAX_VALUE))
+						.addComponent(btnLeft, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+						.addComponent(listSelected, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnRight, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+					.addGap(154))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBrothers)
-						.addComponent(lblSelectedOrder))
+					.addComponent(btnRight)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(17)
-							.addComponent(btnRight)
-							.addGap(26)
-							.addComponent(btnLeft))
-						.addComponent(listSelected, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-						.addComponent(listUnselected, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(90, Short.MAX_VALUE))
+					.addComponent(listSelected, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnLeft)
+					.addContainerGap(38, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		getContentPane().setLayout(groupLayout);

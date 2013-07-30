@@ -7,6 +7,9 @@ import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
 import org.tribot.api.types.generic.CustomRet_0P;
 
+import scripts.Barrows.types.Brother;
+import scripts.Barrows.types.Var;
+
 public class GeneralMethods {
 	public static Point getRandomPoint(Rectangle rec) {
 		int randomX = getRandomInteger(rec.getMinX() + 10, rec.getMaxX() - 10);
@@ -30,5 +33,17 @@ public class GeneralMethods {
 
 	static void leftClick(int x, int y) {
 		leftClick(new Point(x, y));
+	}
+	
+	public void assignNewBrother() {
+		for (Brother b : Var.Brothers) {
+			if (!b.killed && !b.isTunnel) {
+				if (Var.curBrother == null) {
+					Var.curBrother = b;
+				} else if (Var.curBrother.killOrder > b.killOrder) {
+						Var.curBrother = b;
+				}
+			}
+		}
 	}
 }

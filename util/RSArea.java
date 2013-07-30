@@ -2,8 +2,6 @@ package scripts.Barrows.util;
 
 import org.tribot.api2007.types.RSTile; 
 
-import scripts.Barrows.types.Var;
-
 import java.awt.*;
 import java.util.ArrayList;
 
