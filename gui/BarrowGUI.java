@@ -14,6 +14,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 
 import java.awt.event.ActionListener;
@@ -48,17 +49,17 @@ public class BarrowGUI extends JFrame {
 					String s = modelSelected.getElementAt(index);
 					switch (s) {
 						case "Dharok":
-							Var.dharok.killOrder=index;
+							Brother.Brothers.Dharok.killOrder = index;
 						case "Karil":
-							Var.karil.killOrder=index;
+							Brother.Brothers.Karil.killOrder = index;
 						case "Verac":
-							Var.verac.killOrder=index;
+							Brother.Brothers.Verac.killOrder = index;
 						case "Guthan":
-							Var.guthan.killOrder=index;
+							Brother.Brothers.Guthan.killOrder = index;
 						case "Torag":
-							Var.torag.killOrder=index;
+							Brother.Brothers.Torag.killOrder = index;
 						case "Ahrim":
-							Var.ahrim.killOrder=index;
+							Brother.Brothers.Ahrim.killOrder = index;
 					}
 				}
 				

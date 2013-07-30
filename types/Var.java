@@ -3,6 +3,7 @@ package scripts.Barrows.types;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
+import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.util.RSArea;
 
 public class Var {
@@ -41,14 +42,10 @@ public class Var {
 			 new RSTile(3581, 3303, 0), new RSTile(3578, 3307, 0), new RSTile(3573, 3307, 0),
 			 new RSTile(3568, 3308, 0) });
 	
-	public static Brother curBrother;
+	public static Brothers curBrother;
 
 	public static boolean running = true;
 
-	public static Brother verac, ahrim, dharok, karil, guthan, torag;
-	
-	public static Brother[] Brothers = {dharok, karil, verac, karil, guthan, torag};
-	
 	public static BarrowGUI gui;
 	
 	public static boolean guiWait = true;

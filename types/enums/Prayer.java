@@ -19,7 +19,7 @@ import scripts.Barrows.types.Var;
 public class Prayer {
 
 	public static void flicker() {
-		if (!Var.curBrother.prayer.isActivated()) {
+		if (!Var.curBrother.getPrayer().isActivated()) {
 			int xp = Skills.getXP("Hitpoints");
 			Prayer.activate();
 			for (int fsafe = 0; Skills.getXP("Hitpoints") == xp
@@ -30,7 +30,7 @@ public class Prayer {
 					System.out.println("Must of hit a 0 turnning piety off");
 				}
 			}
-			if (Var.curBrother.prayer.isActivated()) {
+			if (Var.curBrother.getPrayer().isActivated()) {
 				Prayer.disable();
 			}
 		} else {
@@ -91,14 +91,14 @@ public class Prayer {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				Var.curBrother.prayer.getInterfaceId()).getAbsoluteBounds());
+				Var.curBrother.getPrayer().getInterfaceId()).getAbsoluteBounds());
 		Mouse.hop(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
-						"Deactivate " + Var.curBrother.prayer.getName()); fsafe++) {
+						"Deactivate " + Var.curBrother.getPrayer().getName()); fsafe++) {
 			General.sleep(30);
 		}
-		if (Game.getUptext().contains("Deactivate " + Var.curBrother.prayer.getName())) {
+		if (Game.getUptext().contains("Deactivate " + Var.curBrother.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
 		}
 	}
@@ -108,14 +108,14 @@ public class Prayer {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				Var.curBrother.prayer.getInterfaceId()).getAbsoluteBounds());
+				Var.curBrother.getPrayer().getInterfaceId()).getAbsoluteBounds());
 		Mouse.hop(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
-						"Activate " + Var.curBrother.prayer.getName()); fsafe++) {
+						"Activate " + Var.curBrother.getPrayer().getName()); fsafe++) {
 			General.sleep(30);
 		}
-		if (Game.getUptext().contains("Activate " + Var.curBrother.prayer.getName())) {
+		if (Game.getUptext().contains("Activate " + Var.curBrother.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
 		}
 	}

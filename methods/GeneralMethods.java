@@ -36,12 +36,12 @@ public class GeneralMethods {
 	}
 	
 	public void assignNewBrother() {
-		for (Brother b : Var.Brothers) {
-			if (!b.killed && !b.isTunnel) {
+		for (Brother.Brothers b : Brother.Brothers.values()) {
+			if (!b.isKilled() && !b.isTunnel()) {
 				if (Var.curBrother == null) {
 					Var.curBrother = b;
-				} else if (Var.curBrother.killOrder > b.killOrder) {
-						Var.curBrother = b;
+				} else if (Var.curBrother.killOrder() > b.killOrder()) {
+					Var.curBrother = b;
 				}
 			}
 		}

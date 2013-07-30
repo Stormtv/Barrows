@@ -5,7 +5,6 @@ import javax.swing.SwingUtilities;
 import org.tribot.script.Script;
 
 import scripts.Barrows.gui.BarrowGUI;
-import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 
 public class Barrows extends Script {
@@ -24,12 +23,6 @@ public class Barrows extends Script {
 	}
 
 	private void onStart() {
-        Var.ahrim = new Brother(Var.ahrimDig, "Ahrim");
-        Var.torag = new Brother(Var.toragDig, "Torag");
-        Var.verac = new Brother(Var.veracDig, "Verac");
-        Var.guthan = new Brother(Var.guthanDig, "Guthan");
-        Var.karil = new Brother(Var.karilDig, "Karil");
-        Var.dharok = new Brother(Var.dharokDig, "Dharok");
         activateGUI();
 	}
 
