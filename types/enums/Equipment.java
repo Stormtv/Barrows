@@ -1,7 +1,5 @@
 package scripts.Barrows.types.enums;
 
-import java.util.ArrayList;
-
 import org.tribot.api.General;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -44,19 +42,11 @@ public class Equipment {
 	}
 
 	public static boolean isAllEquiped(int... id) {
-		ArrayList<Integer> equip = new ArrayList<Integer>();
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		if (Interfaces.get(387, 28) != null) {
-			for (RSItem i : Interfaces.get(387, 28).getItems()) {
-				equip.add(i.getID());
-			}
-		}
 		for (int i : id) {
-			ids.add(i);
+			if (!isEquiped(i))
+				return false;
 		}
-		if (equip.contains(ids))
-			return true;
-		return false;
+		return true;
 	}
 
 	public static boolean isEquiped(int id) {
