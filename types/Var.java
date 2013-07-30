@@ -28,5 +28,10 @@ public class Var {
 
 	public static final RSArea toragDig = new RSArea(new RSTile[] {
 			new RSTile(3549, 3286, 0), new RSTile(3558, 3286, 0),
-			new RSTile(3558, 3278, 0), new RSTile(3549, 3278, 0) });
+			new RSTile(3558, 3278, 0), new RSTile(3549, 3278, 0) });	
+	
+	public static Brother curBrother;
+
+	public static boolean running = true;
+
 }
