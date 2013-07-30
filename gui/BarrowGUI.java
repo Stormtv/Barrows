@@ -7,13 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.AbstractListModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -23,7 +23,9 @@ public class BarrowGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JList<Object> listUnselected;
+	private static JList<String> listUnselected,listSelected;
+	static DefaultListModel<String> modelUnselected, modelSelected = new DefaultListModel<String>();
+
 	public BarrowGUI() {
 		setTitle("Barrows");
 		setBounds(100, 100, 750, 422);
@@ -48,12 +50,14 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel lblBrothers = new JLabel("Unselected");
 		
-		JList<String> listSelected = new JList<String>((ListModel<String>) null);
-		listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
 		JButton btnRight = new JButton("-->");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!modelUnselected.contains(listSelected.getSelectedValuesList())) {
+					String selected = listUnselected.getSelectedValue();
+					modelSelected.addElement(selected);
+					modelUnselected.remove(modelUnselected.indexOf(selected));
+				}
 			}
 		});
 		
@@ -65,19 +69,10 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel lblSelectedOrder = new JLabel("Selected Order");
 		
-		listUnselected = new JList<Object>(new AbstractListModel<Object>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			String[] values = new String[] {"Dharok", "Karil", "Verac", "Guthan", "Torag", "Ahrim"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		listUnselected = new JList<String>(modelUnselected);
+		listSelected = new JList<String>(modelSelected);
+		listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		listUnselected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(

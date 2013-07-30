@@ -2,14 +2,14 @@ package scripts.Barrows.main;
 
 import org.tribot.script.Script;
 
+import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 
 public class Barrows extends Script {
 
 	@Override
 	public void run() {
-		activateGUI();
-		onStart();
+		onStart();		
 		while (Var.running) {
 			sleep(loop());
 		}
@@ -21,8 +21,13 @@ public class Barrows extends Script {
 	}
 
 	private void onStart() {
-		// TODO Auto-generated method stub
-		
+        Var.ahrim = new Brother();
+        Var.torag = new Brother();
+        Var.verac = new Brother();
+        Var.guthan = new Brother();
+        Var.karil = new Brother();
+        Var.dharok = new Brother();
+        activateGUI();
 	}
 
 	private void activateGUI() {

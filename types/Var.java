@@ -34,4 +34,6 @@ public class Var {
 
 	public static boolean running = true;
 
+	public static Brother verac, ahrim, dharok, karil, guthan, torag;
+
 }
