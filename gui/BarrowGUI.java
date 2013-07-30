@@ -19,6 +19,7 @@ import scripts.Barrows.types.Var;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTabbedPane;
 
 public class BarrowGUI extends JFrame {
 
@@ -37,7 +38,7 @@ public class BarrowGUI extends JFrame {
 		modelSelected.addElement("Torag");
 		modelSelected.addElement("Ahrim");
 		setTitle("Barrows");
-		setBounds(100, 100, 750, 422);
+		setBounds(100, 100, 498, 296);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -67,25 +68,67 @@ public class BarrowGUI extends JFrame {
 				Var.gui.setVisible(false);
 			}
 		});
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Brother Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnStart))
-					.addContainerGap(613, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(btnStart, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 111, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
-					.addComponent(btnStart)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnStart)))
 					.addContainerGap())
 		);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(10)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(11)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
+		);
+		
+		JPanel panelDharok = new JPanel();
+		tabbedPane.addTab("Dharok", null, panelDharok, null);
+		
+		JPanel panelKaril = new JPanel();
+		tabbedPane.addTab("Karil", null, panelKaril, null);
+		
+		JPanel panelVerac = new JPanel();
+		tabbedPane.addTab("Verac", null, panelVerac, null);
+		
+		JPanel panelGuthan = new JPanel();
+		tabbedPane.addTab("Guthan", null, panelGuthan, null);
+		
+		JPanel panelTorag = new JPanel();
+		tabbedPane.addTab("Torag", null, panelTorag, null);
+		
+		JPanel panelAhrim = new JPanel();
+		tabbedPane.addTab("Ahrim", null, panelAhrim, null);
+		panel_1.setLayout(gl_panel_1);
 		
 		JButton btnRight = new JButton("▲");
 		btnRight.addActionListener(new ActionListener() {
