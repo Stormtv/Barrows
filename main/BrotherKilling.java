@@ -38,7 +38,7 @@ public class BrotherKilling {
 		} else {
 			if (Pathing.isInBarrows()) {
 				if (b.digArea().getTiles().length > 0) {
-					Walking.blindWalkTo(b.digArea().getTiles()[0]);
+					Walking.blindWalkTo(Pathing.getRandomTile(b.digArea));
 					General.sleep(500);
 				}
 			}

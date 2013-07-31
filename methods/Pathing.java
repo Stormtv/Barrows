@@ -9,6 +9,8 @@ import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.Barrows.util.RSArea;
+
 public class Pathing {
 
 	public enum Path {
@@ -55,7 +57,7 @@ public class Pathing {
 		return midleTile.distanceTo(Player.getPosition()) < 30;
 	}
 
-	public static boolean goViaSwamp() {
+	private static boolean goViaSwamp() {
 		if (!warning()) {
 			if (isInBarrows())
 				return true;
@@ -189,5 +191,16 @@ public class Pathing {
 				return true;
 		}
 		return false;
+	}
+
+	public static RSTile getRandomTile(RSArea r) {
+		int rand = General.random(0, r.getTiles().length - 1);
+		if (r.getTiles().length > 0) {
+			for (int i = 0; i < r.getTiles().length; i++) {
+				if (r.getTiles().length > i && i == rand)
+					return r.getTiles()[i];
+			}
+		}
+		return null;
 	}
 }
