@@ -57,6 +57,8 @@ public class Pathing {
 	}
 
 	private static boolean goViaSwamp() {
+		Walking.control_click = true;
+		Walking.walking_timeout = 500;
 		if (!warning()) {
 			if (isInBarrows())
 				return true;
@@ -64,18 +66,20 @@ public class Pathing {
 			if (isInBoat())
 				return false;
 
-			if (isFromBoatToBarrows())
-				Walking.randomizePath(pathToBarrows, 2, 3);
-			else if (isFromGateToBoat()) {
+			if (isFromBoatToBarrows()) {
+				System.out.println("hi");
+				Walking.walkPath(Walking.randomizePath(pathToBarrows, 2, 3));
+			} else if (isFromGateToBoat()) {
 				if (canEnterBoat())
 					enterBoat();
 				else
-					Walking.randomizePath(pathToBoat, 2, 3);
+					Walking.walkPath(Walking.randomizePath(pathToBoat, 2, 3));
 			} else if (isFromBankToGate()) {
 				if (canOpenGate())
 					openGate();
 				else
-					Walking.randomizePath(pathToGate, 2, 3);
+					Walking.walkPath(Walking.randomizePath(pathToGate, 2, 3));
+
 			}
 		}
 		return false;

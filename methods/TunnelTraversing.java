@@ -12,7 +12,8 @@ import scripts.Barrows.main.BrotherKilling;
 
 public class TunnelTraversing {
 
-	static int doorId = 1;
+	static int[] doorIDs = { 20691, 20696, 20715, 26082, 20701, 20710, 20694,
+			20713, 20708, 20689 };
 
 	RSTile[] chestDoorTiles = {};
 
@@ -96,18 +97,15 @@ public class TunnelTraversing {
 	}
 
 	static boolean isOpenable(RSObject o) {
-		return o.getID() == doorId && o.getDefinition() != null
+		return isDoor(o.getID())
+				&& o.getDefinition() != null
 				&& o.getDefinition().getActions() != null
 				&& o.getDefinition().getActions().length > 0
-				&& contains("Open", o.getDefinition().getActions());
+				&& GeneralMethods.contains("Open", o.getDefinition()
+						.getActions());
 	}
 
-	static boolean contains(String s, String[] arr) {
-		for (String l : arr) {
-			if (l == s)
-				return true;
-		}
-		return false;
+	static boolean isDoor(int i) {
+		return GeneralMethods.contains(i, doorIDs);
 	}
-
 }
