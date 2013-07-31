@@ -51,7 +51,7 @@ public class Pathing {
 
 	final static RSTile midleTile = new RSTile(1, 1, 1);
 
-	static boolean isInBarrows() {
+	public static boolean isInBarrows() {
 		return midleTile.distanceTo(Player.getPosition()) < 30;
 	}
 
