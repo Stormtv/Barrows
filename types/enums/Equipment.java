@@ -40,6 +40,16 @@ public class Equipment {
 		}
 		return -1;
 	}
+	
+	public static int[] getEquipedItems() {
+		int[] items = new int [11];
+		int count = 0;
+		for (Gear i : Gear.values()) {
+			items[count] = getEquipmentID(i);
+			count++;
+		}
+		return items;
+	}
 
 	public static boolean isAllEquiped(int... id) {
 		for (int i : id) {

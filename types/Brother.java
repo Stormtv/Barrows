@@ -6,24 +6,26 @@ import scripts.Barrows.types.enums.Prayer;
 public class Brother {
 	 
 	public enum Brothers {
-		Dharok(0,"Dharok",false,false,Var.dharokDig,new int[] {},Prayer.Prayers.ProtectFromMelee),
-		Karil(1,"Karil",false,false,Var.karilDig,new int[] {}, Prayer.Prayers.ProtectFromMissiles),
-		Verac(2,"Verac",false,false,Var.veracDig,new int[] {}, Prayer.Prayers.ProtectFromMelee),
-		Guthan(3,"Guthan",false,false,Var.guthanDig, new int[] {}, Prayer.Prayers.ProtectFromMelee),
-		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee),
-		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic);
+		Dharok(0,"Dharok",false,false,Var.dharokDig,new int[] {},Prayer.Prayers.ProtectFromMelee, false),
+		Karil(1,"Karil",false,false,Var.karilDig,new int[] {}, Prayer.Prayers.ProtectFromMissiles, false),
+		Verac(2,"Verac",false,false,Var.veracDig,new int[] {}, Prayer.Prayers.ProtectFromMelee, false),
+		Guthan(3,"Guthan",false,false,Var.guthanDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false),
+		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false),
+		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false);
 
 	    public int killOrder;
-	    public final String name;
+	    private final String name;
 	    public boolean killed;
 	    public boolean isTunnel;
-	    public final RSArea digArea;
+	    private final RSArea digArea;
 	    public int[] equipmentIds;
 		public Prayer.Prayers prayer;
+		public boolean usePotions;
 
 		Brothers(final int killOrder, String name, boolean killed,
 				boolean isTunnel, final RSArea digArea,
-				int[] equipmentIds, final Prayer.Prayers prayer) {
+				int[] equipmentIds, final Prayer.Prayers prayer,
+				boolean usePotions) {
 			this.killOrder = killOrder;
 			this.name = name;
 			this.killed = killed;
@@ -59,6 +61,10 @@ public class Brother {
 		
 		public Prayer.Prayers getPrayer() {
 			return prayer;
+		}
+		
+		public boolean usePotions() {
+			return usePotions;
 		}
 	}
 }
