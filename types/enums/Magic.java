@@ -11,18 +11,27 @@ import org.tribot.api2007.types.RSModel;
 public class Magic {
 
 	public enum Spell {
-		FIRE_BLAST(59, 3, 25, "Fire Blast");
+		WIND_BLAST(41, 24, 19, "Wind Blast", 8), WATER_BLAST(47, 27, 21,
+				"Water Blast", 9), EARTH_BLAST(53, 33, 23, "Earth Blast", 10), FIRE_BLAST(
+				59, 38, 25, "Fire Blast", 11), WIND_WAVE(62, 45, 27,
+				"Wind Wave", 12), WATER_WAVE(65, 48, 29, "Water Wave", 13), EARTH_WAVE(
+				70, 52, 31, "Earth Wave", 14), FIRE_WAVE(75, 55, 33,
+				"Fire Wave", 15);
 
+		// TODO add slayer dart
 		private final int req;
 		private final int interfaceID;
 		private final int setting;
 		private final String name;
+		private final int secondInterface;
 
-		private Spell(int req, int interfaceID, int setting, String name) {
+		private Spell(int req, int interfaceID, int setting, String name,
+				int secondInterface) {
 			this.req = req;
 			this.interfaceID = interfaceID;
 			this.setting = setting;
 			this.name = name;
+			this.secondInterface = secondInterface;
 		}
 
 		int getRequiredlevel() {
@@ -33,6 +42,10 @@ public class Magic {
 			return interfaceID;
 		}
 
+		int getSecondInterfaceID() {
+			return secondInterface;
+		}
+
 		int getSettingID() {
 			return setting;
 		}
@@ -40,19 +53,18 @@ public class Magic {
 		String getName() {
 			return name;
 		}
-
-		boolean canCast() {
-			return Skills.getCurrentLevel("Magic") >= getRequiredlevel();
-		}
-
-		boolean isAutocasting() {
-			return Game.getSetting(108) == getSettingID();
-		}
-
 	}
 
-	boolean castOn(Spell s, RSModel m) {
-		if (!s.canCast())
+	public static boolean canCast(Spell s) {
+		return Skills.getCurrentLevel("Magic") >= s.getRequiredlevel();
+	}
+
+	public static boolean isAutocasting(Spell s) {
+		return Game.getSetting(108) == s.getSettingID();
+	}
+
+	public static boolean castOn(Spell s, RSModel m) {
+		if (!canCast(s))
 			return false;
 
 		if (Game.getUptext().contains(s.getName())) {
@@ -74,18 +86,19 @@ public class Magic {
 		return false;
 	}
 
-	boolean autoCast(Spell s) {
-		if (!s.canCast())
+	public static boolean autoCast(Spell s) {
+		if (!canCast(s))
 			return false;
-		if (s.isAutocasting())
+		if (isAutocasting(s))
 			return true;
 
 		if (GameTab.getOpen().equals(TABS.COMBAT)) {
-			if (Interfaces.get(319, s.getInterfaceID()) != null) {
+			if (Interfaces.get(319, s.getSecondInterfaceID()) != null) {
 				if (Equipment.isEquiped(4170)) {
 					// TODO slayer staff for magic dart
 				} else {
-					if (Interfaces.get(319, s.getInterfaceID()).click("Ok")) {
+					if (Interfaces.get(319, s.getSecondInterfaceID()).click(
+							"Ok")) {
 						// TODO dynamic sleep
 					}
 				}
