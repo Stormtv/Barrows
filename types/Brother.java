@@ -14,10 +14,10 @@ public class Brother {
 		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false);
 
 	    public int killOrder;
-	    private final String name;
+	    public final String name;
 	    public boolean killed;
 	    public boolean isTunnel;
-	    private final RSArea digArea;
+	    public final RSArea digArea;
 	    public int[] equipmentIds;
 		public Prayer.Prayers prayer;
 		public boolean usePotions;
