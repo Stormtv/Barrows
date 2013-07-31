@@ -45,6 +45,11 @@ public class BrotherKilling {
 		}
 	}
 
+	public static void killBrotherInTunnel() {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void dig() {
 		if (GameTab.getOpen().equals(TABS.INVENTORY)) {
 			if (Inventory.find(Var.SPADE_ID).length > 0) {
