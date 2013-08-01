@@ -9,7 +9,9 @@ import org.tribot.api2007.Walking;
 
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother.Brothers;
+import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.types.enums.Prayer;
 
 public class BrotherKilling {
 
@@ -29,18 +31,21 @@ public class BrotherKilling {
 	}
 
 	private void goToCrypt(Brothers b) {
-		if (b.digArea().contains(Player.getPosition())) {
-			if (isReadyToFight(b)) {
-				dig();
-			} else {
-				getReadyToFight(b);
-			}
-		} else {
+		if (!b.digArea().contains(Player.getPosition())) {
 			if (Pathing.isInBarrows()) {
 				if (b.digArea().getTiles().length > 0) {
 					Walking.blindWalkTo(Pathing.getRandomTile(b.digArea));
-					General.sleep(500);
+					General.sleep(350,500);
+					while (Player.isMoving()) {
+						General.sleep(30);
+					}
 				}
+			}
+		} else {
+			if (!isReadyToFight(b)) {
+				getReadyToFight(b);
+			} else {
+				dig();
 			}
 		}
 	}
@@ -62,7 +67,9 @@ public class BrotherKilling {
 	}
 
 	private void getReadyToFight(Brothers b) {
-
+		if (!b.prayer.equals(Prayer.Prayers.None)) {
+			Potions.fillPrayer();
+		}
 	}
 
 	boolean isInCrypt(Brothers b) {

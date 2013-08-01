@@ -8,6 +8,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -17,6 +18,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
+import scripts.Barrows.types.enums.Magic;
+import scripts.Barrows.types.enums.Magic.Spell;
 import scripts.Barrows.types.enums.Prayer;
 
 import java.awt.event.ActionListener;
@@ -37,6 +40,8 @@ public class BarrowGUI extends JFrame {
 	private static JCheckBox DharokPrayer, DharokPotions, KarilPrayer, KarilPotions,
 	VeracPrayer, VeracPotions, GuthanPrayer, GuthanPotions,
 	ToragPrayer, ToragPotions, AhrimPrayer, AhrimPotions;
+	
+	private static JComboBox<Magic.Spell> cbxDharok, cbxKaril, cbxVerac, cbxGuthan, cbxTorag, cbxAhrim;
 	public BarrowGUI() {
 		modelSelected.addElement("Dharok");
 		modelSelected.addElement("Karil");
@@ -95,8 +100,14 @@ public class BarrowGUI extends JFrame {
 				Brother.Brothers.Guthan.usePotions = GuthanPotions.isSelected();
 				Brother.Brothers.Torag.usePotions = ToragPotions.isSelected();
 				Brother.Brothers.Ahrim.usePotions = AhrimPotions.isSelected();
-
 				
+				Brother.Brothers.Dharok.spell = (Magic.Spell) cbxDharok.getSelectedItem();
+				Brother.Brothers.Karil.spell = (Magic.Spell) cbxKaril.getSelectedItem();
+				Brother.Brothers.Verac.spell = (Magic.Spell) cbxVerac.getSelectedItem();
+				Brother.Brothers.Guthan.spell = (Magic.Spell) cbxGuthan.getSelectedItem();
+				Brother.Brothers.Torag.spell = (Magic.Spell) cbxTorag.getSelectedItem();
+				Brother.Brothers.Ahrim.spell = (Magic.Spell) cbxAhrim.getSelectedItem();
+
 				
 				Var.guiWait = false;
 				Var.gui.setVisible(false);
@@ -180,7 +191,12 @@ public class BarrowGUI extends JFrame {
 		
 		DharokPotions = new JCheckBox("Use Potions");
 		
-		JComboBox cbxDharok = new JComboBox();
+		final DefaultComboBoxModel<Magic.Spell> SpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		for(Magic.Spell s : Magic.Spell.values()) {
+				SpellModel.addElement(s);
+		}
+		
+		cbxDharok = new JComboBox<Spell>(SpellModel);
 		
 		JLabel label_5 = new JLabel("Select Spell");
 		GroupLayout gl_panelDharok = new GroupLayout(panelDharok);
@@ -235,7 +251,7 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel label = new JLabel("Select Spell");
 		
-		JComboBox cbxKaril = new JComboBox();
+		cbxKaril = new JComboBox<Spell>(SpellModel);
 		GroupLayout gl_panelKaril = new GroupLayout(panelKaril);
 		gl_panelKaril.setHorizontalGroup(
 			gl_panelKaril.createParallelGroup(Alignment.LEADING)
@@ -287,7 +303,7 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel label_1 = new JLabel("Select Spell");
 		
-		JComboBox cbxVerac = new JComboBox();
+		cbxVerac = new JComboBox<Spell>(SpellModel);
 		GroupLayout gl_panelVerac = new GroupLayout(panelVerac);
 		gl_panelVerac.setHorizontalGroup(
 			gl_panelVerac.createParallelGroup(Alignment.LEADING)
@@ -338,7 +354,7 @@ public class BarrowGUI extends JFrame {
 		GuthanPrayer = new JCheckBox("Use Prayer");
 		GuthanPrayer.setSelected(true);
 		
-		JComboBox cbxGuthan = new JComboBox();
+		cbxGuthan = new JComboBox<Spell>(SpellModel);
 		
 		JLabel label_2 = new JLabel("Select Spell");
 		GroupLayout gl_panelGuthan = new GroupLayout(panelGuthan);
@@ -394,7 +410,7 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel label_3 = new JLabel("Select Spell");
 		
-		JComboBox cbxTorag = new JComboBox();
+		cbxTorag = new JComboBox<Spell>(SpellModel);
 		GroupLayout gl_panelTorag = new GroupLayout(panelTorag);
 		gl_panelTorag.setHorizontalGroup(
 			gl_panelTorag.createParallelGroup(Alignment.LEADING)
@@ -447,7 +463,7 @@ public class BarrowGUI extends JFrame {
 		AhrimPrayer = new JCheckBox("Use Prayer");
 		AhrimPrayer.setSelected(true);
 		
-		JComboBox cbxAhrim = new JComboBox();
+		cbxAhrim = new JComboBox<Spell>(SpellModel);
 		
 		JLabel label_4 = new JLabel("Select Spell");
 		GroupLayout gl_panelAhrim = new GroupLayout(panelAhrim);

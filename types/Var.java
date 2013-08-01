@@ -4,6 +4,7 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
 import scripts.Barrows.types.Brother.Brothers;
+import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.util.RSArea;
 
 public class Var {
@@ -56,5 +57,7 @@ public class Var {
 	public static BarrowGUI gui;
 
 	public static boolean guiWait = true;
+
+	public static Food.Edibles food;
 
 }

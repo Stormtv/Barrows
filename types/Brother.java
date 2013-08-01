@@ -1,17 +1,18 @@
 package scripts.Barrows.types;
 
 import scripts.Barrows.util.RSArea;
+import scripts.Barrows.types.enums.Magic;
 import scripts.Barrows.types.enums.Prayer;
 
 public class Brother {
 	 
 	public enum Brothers {
-		Dharok(0,"Dharok",false,false,Var.dharokDig,new int[] {},Prayer.Prayers.ProtectFromMelee, false),
-		Karil(1,"Karil",false,false,Var.karilDig,new int[] {}, Prayer.Prayers.ProtectFromMissiles, false),
-		Verac(2,"Verac",false,false,Var.veracDig,new int[] {}, Prayer.Prayers.ProtectFromMelee, false),
-		Guthan(3,"Guthan",false,false,Var.guthanDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false),
-		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false),
-		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false);
+		Dharok(0,"Dharok",false,false,Var.dharokDig,new int[] {},Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
+		Karil(1,"Karil",false,false,Var.karilDig,new int[] {}, Prayer.Prayers.ProtectFromMissiles, false, Magic.Spell.NONE),
+		Verac(2,"Verac",false,false,Var.veracDig,new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
+		Guthan(3,"Guthan",false,false,Var.guthanDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
+		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
+		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false, Magic.Spell.NONE);
 
 	    public int killOrder;
 	    public final String name;
@@ -21,11 +22,11 @@ public class Brother {
 	    public int[] equipmentIds;
 		public Prayer.Prayers prayer;
 		public boolean usePotions;
-
+		public Magic.Spell spell;
 		Brothers(final int killOrder, String name, boolean killed,
 				boolean isTunnel, final RSArea digArea,
 				int[] equipmentIds, final Prayer.Prayers prayer,
-				boolean usePotions) {
+				boolean usePotions, Magic.Spell spell) {
 			this.killOrder = killOrder;
 			this.name = name;
 			this.killed = killed;
@@ -33,6 +34,7 @@ public class Brother {
 			this.digArea = digArea;
 			this.equipmentIds = equipmentIds;
 			this.prayer = prayer;
+			this.spell = spell;
 		}
 
 		public boolean isKilled() {
@@ -65,6 +67,10 @@ public class Brother {
 		
 		public boolean usePotions() {
 			return usePotions;
+		}
+		
+		public Magic.Spell getSpell() {
+			return spell;
 		}
 	}
 }

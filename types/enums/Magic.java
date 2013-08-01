@@ -11,12 +11,15 @@ import org.tribot.api2007.types.RSModel;
 public class Magic {
 
 	public enum Spell {
-		WIND_BLAST(41, 24, 19, "Wind Blast", 8), WATER_BLAST(47, 27, 21,
-				"Water Blast", 9), EARTH_BLAST(53, 33, 23, "Earth Blast", 10), FIRE_BLAST(
-				59, 38, 25, "Fire Blast", 11), WIND_WAVE(62, 45, 27,
-				"Wind Wave", 12), WATER_WAVE(65, 48, 29, "Water Wave", 13), EARTH_WAVE(
-				70, 52, 31, "Earth Wave", 14), FIRE_WAVE(75, 55, 33,
-				"Fire Wave", 15);
+		NONE(-1,-1,-1,"None",-1),
+		WIND_BLAST(41, 24, 19, "Wind Blast", 8),
+		WATER_BLAST(47, 27, 21,"Water Blast", 9),
+		EARTH_BLAST(53, 33, 23, "Earth Blast", 10),
+		FIRE_BLAST(59, 38, 25, "Fire Blast", 11),
+		WIND_WAVE(62, 45, 27,"Wind Wave", 12),
+		WATER_WAVE(65, 48, 29, "Water Wave", 13),
+		EARTH_WAVE(70, 52, 31, "Earth Wave", 14),
+		FIRE_WAVE(75, 55, 33, "Fire Wave", 15);
 
 		// TODO add slayer dart
 		private final int req;
