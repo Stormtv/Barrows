@@ -4,8 +4,6 @@ import org.tribot.api.General;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
 
-import scripts.wCombatAIO.types.vars;
-
 public class Potions {
 
 	static int[] PRAYER_POTIONS = { 143, 141, 139, 2434 };
