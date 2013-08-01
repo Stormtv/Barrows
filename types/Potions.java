@@ -1,8 +1,10 @@
 package scripts.Barrows.types;
 
 import org.tribot.api.General;
-import org.tribot.api.Inventory;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
+
+import scripts.wCombatAIO.types.vars;
 
 public class Potions {
 
@@ -43,6 +45,37 @@ public class Potions {
 	public static void fillPrayer() {
 		while (canDrinkWithoutWaste()) {
 			drink();
+		}
+	}
+	
+	public static void superPot() {
+		if (Inventory.getCount(161,159,157,2440) > 0) {
+			int points = Skills.getCurrentLevel("Strength");
+			Inventory.find(161,159,157,2440)[0].click("Drink");
+			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Strength") <= points; fsafe++) {
+				General.sleep(40);
+			}
+		}
+		if (Inventory.getCount(167,165,163,2442) > 0) {
+			int points = Skills.getCurrentLevel("Defence");
+			Inventory.find(167,165,163,2442)[0].click("Drink");
+			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Defence") <= points; fsafe++) {
+				General.sleep(40);
+			}
+		}
+		if (Inventory.getCount(149,147,145,2436) > 0) {
+			int points = Skills.getCurrentLevel("Attack");
+			Inventory.find(149,147,145,2436)[0].click("Drink");
+			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Attack") <= points; fsafe++) {
+				General.sleep(40);
+			}
+		}
+		if (Inventory.getCount(2444, 169, 171, 173) > 0) {
+			int points = Skills.getCurrentLevel("Range");
+			Inventory.find(2444, 169, 171, 173)[0].click("Drink");
+			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Range") <= points; fsafe++) {
+				General.sleep(40);
+			}
 		}
 	}
 	

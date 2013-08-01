@@ -20,7 +20,7 @@ public class TunnelTest extends Script implements Painting {
 			20713, 20708, 20689 };
 
 	static int[] doorRevised = { 20693, 20712, 20688, 20707, 20696, 20715,
-			20695, 20714, 20677, 20669 };
+			20695, 20714, 20677, 20669, 20705, 20686, 20700, 20681, 20687, 20706, 20671};
 
 	@Override
 	public void onPaint(Graphics g) {

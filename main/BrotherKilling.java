@@ -67,8 +67,12 @@ public class BrotherKilling {
 	}
 
 	private void getReadyToFight(Brothers b) {
-		if (!b.prayer.equals(Prayer.Prayers.None)) {
+		if (!b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
+		}
+		
+		if (b.usePotions()) {
+			Potions.superPot();
 		}
 	}
 
