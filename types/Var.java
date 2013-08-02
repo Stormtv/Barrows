@@ -59,5 +59,7 @@ public class Var {
 	public static boolean guiWait = true;
 
 	public static Food.Edibles food;
+	
+	public static int superAttack,superStrength,superDefence,rangingPotion,prayerPotion, foodAmount;
 
 }

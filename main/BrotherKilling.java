@@ -1,7 +1,10 @@
 package scripts.Barrows.main;
 
+import java.awt.event.KeyEvent;
+
 import org.tribot.api.General;
-import org.tribot.api.Inventory;
+import org.tribot.api.input.Keyboard;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Player;
@@ -11,6 +14,7 @@ import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Prayer;
 
 public class BrotherKilling {
@@ -45,7 +49,7 @@ public class BrotherKilling {
 			if (!isReadyToFight(b)) {
 				getReadyToFight(b);
 			} else {
-				dig();
+				dig(b);
 			}
 		}
 	}
@@ -55,20 +59,39 @@ public class BrotherKilling {
 
 	}
 
-	private void dig() {
-		if (GameTab.getOpen().equals(TABS.INVENTORY)) {
-			if (Inventory.find(Var.SPADE_ID).length > 0) {
-				Inventory.find(Var.SPADE_ID)[0].click("");
-				General.sleep(1000);// TODO Replace with dynamic sleep
+	private void dig(Brothers b) {
+		if (!GameTab.getOpen().equals(TABS.INVENTORY)) {
+			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+		}
+		if (Inventory.find(Var.SPADE_ID).length > 0) {
+			Inventory.find(Var.SPADE_ID)[0].click("");
+			for (int fSafe = 0; fSafe < 20
+					&& Player.getPosition().getPlane() != 3; fSafe++) {
+				General.sleep(50);
 			}
-		} else {
-			GameTab.open(TABS.INVENTORY);
+			if (Player.getPosition().getPlane() == 3) {
+				if (!b.prayer.equals(Prayer.Prayers.None)) {
+					Prayer.activate();
+				}
+			} else {
+				dig(b);
+			}
 		}
 	}
 
 	private void getReadyToFight(Brothers b) {
-		if (!b.prayer.equals(Prayer.Prayers.None)) {
+		if (!b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
+		}
+		while (!Equipment.isAllEquiped(b.getEquipment())) {
+			for (int i : b.getEquipment()) {
+				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
+					Equipment.equip(i);
+				}
+			}
+		}
+		if (b.usePotions()) {
+			Potions.superPot();
 		}
 	}
 

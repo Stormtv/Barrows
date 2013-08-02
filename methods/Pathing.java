@@ -14,11 +14,15 @@ import scripts.Barrows.util.RSArea;
 
 public class Pathing {
 
-	public enum Path {
+	public enum PathBarrows {
 		SWAMP, SHORTCUT
 	}
+	
+	public enum PathBank {
+		HOUSE, ECTOPHIAL
+	}
 
-	static Path selectedPath = Path.SWAMP;
+	static PathBarrows selectedPath = PathBarrows.SWAMP;
 
 	final static RSTile[] pathToGate = { new RSTile(3508, 3481, 0),
 			new RSTile(3503, 3481, 0), new RSTile(3498, 3481, 0),

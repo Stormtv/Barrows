@@ -41,9 +41,8 @@ public class Food {
 		}
 	}
 
-	public static void eat() 
-	{
-		if((Skills.getActualLevel("Hitpoints") - Skills.getCurrentLevel("Hitpoints")) > Var.food.getHealAmount()) {
+	public static void eat() {
+		if((Skills.getActualLevel("Hitpoints") - Skills.getCurrentLevel("Hitpoints")) >= Var.food.getHealAmount()) {
 			if (!(GameTab.getOpen() == TABS.INVENTORY)) {
 				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
 			}
@@ -59,5 +58,9 @@ public class Food {
 				}}, General.random(1200, 1300));
 			}			
 		}			
+	}
+	
+	public static boolean canEatWithoutWaste() {
+		return ((Skills.getActualLevel("Hitpoints") - Skills.getCurrentLevel("Hitpoints")) >= Var.food.getHealAmount());
 	}
 }
