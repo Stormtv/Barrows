@@ -2,14 +2,19 @@ package scripts.Barrows.methods.tunnel;
 
 import java.util.LinkedList;
 
+import org.tribot.api.General;
+import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Camera;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSModel;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.BarrowsScript;
 import scripts.Barrows.main.BrotherKilling;
-import scripts.Barrows.methods.GeneralMethods;
 
 public class TunnelTraversing {
 
@@ -30,16 +35,6 @@ public class TunnelTraversing {
 				&& PathFinding.canReach(inside, false);
 	}
 
-	boolean canOpenToChest() {
-		for (RSTile t : chestDoorTiles) {
-			RSObject[] k = Objects.getAt(t);
-			if (PathFinding.canReach(t, false) && k.length > 0
-					&& isOpenable(k[0]))
-				return true;
-		}
-		return false;
-	}
-
 	void walkToChest() {
 		if (isBeingAttackedByBrother()) {
 			BrotherKilling.killBrotherInTunnel();
@@ -50,6 +45,11 @@ public class TunnelTraversing {
 				openNextDoor();
 			}
 		}
+	}
+
+	private boolean canOpenToChest() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	void traverseTunnel() {
@@ -74,7 +74,35 @@ public class TunnelTraversing {
 
 	}
 
-	private void openNextDoor() {
+	public static void openNextDoor() {
+		Walking.walking_timeout = 500;
+		RSObject nextDoor = getDoor();
+		if (nextDoor != null) {
+			if (nextDoor.isOnScreen()) {
+				if (containsMouse(nextDoor.getModel())
+						&& nextDoor.click("Open")) {
+					General.sleep(1000);
+					while (Player.isMoving())
+						General.sleep(100);
+					General.sleep(1000);
+				} else {
+					nextDoor.hover();
+				}
+			} else {
+				System.out.println(nextDoor.getPosition().distanceTo(
+						Player.getPosition()));
+				if (nextDoor.getPosition().distanceTo(Player.getPosition()) < 13) {
+					Camera.turnToTile(nextDoor.getPosition());
+					Camera.setCameraAngle(40);
+				} else {
+					RSTile[] k = PathFinding.generatePath(Player.getPosition(),
+							nextDoor.getPosition(), false);
+					if (k != null && k.length > 0)
+						General.sleep(300);
+					// Walking.walkScreenPath(k);
+				}
+			}
+		}
 
 	}
 
@@ -85,7 +113,10 @@ public class TunnelTraversing {
 	public static RSObject getDoor() {
 		LinkedList<RSObject> possible = new LinkedList<RSObject>();
 		for (RSObject b : Objects.getAll(20)) {
-			if (isOpenable(b)) {
+			if (TunnelDoor.isOpenable(b) && b != null
+					&& b.getModel().getPoints().length == 1494
+					&& PathFinding.canReach(b.getPosition(), true)
+					&& !possible.contains(b)) {
 				possible.add(b);
 			}
 		}
@@ -95,8 +126,26 @@ public class TunnelTraversing {
 			RSObject[] k = Objects.sortByDistance(Player.getPosition(), array);
 			if (k.length > 0) {
 				if (k.length > 1) {
-					return k[1];
+					if (k.length > 2) {
+						RSObject[] more = removedFirst(k);
+						if (more != null && more.length > 0) {
+							if (more.length > 1) {
+								RSObject[] closest = Objects.sortByDistance(
+										new RSTile(3551, 9693, 0), more);
+								if (closest != null && closest.length > 0) {
+									BarrowsScript.status = "Multiple doors avaliable, choosing closest to chest";
+									return closest[0];
+								}
+							}
+							BarrowsScript.status = "Two doors avaliable, choosing the second closest";
+							return more[0];
+						}
+					} else {
+						BarrowsScript.status = "Two doors avaliable, choosing the second closest";
+						return k[1];
+					}
 				} else {
+					BarrowsScript.status = "Only one door avaliable, choosing it.";
 					return k[0];
 				}
 			}
@@ -105,16 +154,14 @@ public class TunnelTraversing {
 
 	}
 
-	static boolean isOpenable(RSObject o) {
-		return o.getID() == 23731
-				&& o.getDefinition() != null
-				&& o.getDefinition().getActions() != null
-				&& o.getDefinition().getActions().length > 0
-				&& GeneralMethods.contains("Open", o.getDefinition()
-						.getActions());
+	public static RSObject[] removedFirst(RSObject[] symbols) {
+		RSObject[] copy = new RSObject[symbols.length - 1];
+		System.arraycopy(symbols, 0, copy, 0, 0);
+		System.arraycopy(symbols, 0 + 1, copy, 0, symbols.length - 0 - 1);
+		return copy;
 	}
 
-	static boolean isDoor(int i) {
-		return GeneralMethods.contains(i, doorIDs);
+	public static boolean containsMouse(RSModel m) {
+		return m.getEnclosedArea().contains(Mouse.getPos());
 	}
 }
