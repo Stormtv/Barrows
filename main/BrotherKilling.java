@@ -31,7 +31,7 @@ public class BrotherKilling {
 	}
 
 	private void kill(Brothers bro) {
-
+		//TODO
 	}
 
 	private void goToCrypt(Brothers b) {
@@ -45,10 +45,12 @@ public class BrotherKilling {
 					}
 				}
 			}
-		} else {
+		}
+		if (b.digArea().contains(Player.getPosition())) {
 			if (!isReadyToFight(b)) {
 				getReadyToFight(b);
-			} else {
+			}
+			if (isReadyToFight(b)) {
 				dig(b);
 			}
 		}
@@ -56,7 +58,6 @@ public class BrotherKilling {
 
 	public static void killBrotherInTunnel() {
 		// TODO Auto-generated method stub
-
 	}
 
 	private void dig(Brothers b) {
