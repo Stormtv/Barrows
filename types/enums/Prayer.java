@@ -13,14 +13,14 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 
 import scripts.Barrows.methods.GeneralMethods;
-import scripts.Barrows.types.Var;
+import scripts.Barrows.types.Brother.Brothers;
 
 public class Prayer {
 
-	public static void flicker() {
-		if (!Var.curBrother.getPrayer().isActivated()) {
+	public static void flicker(Brothers b) {
+		if (!b.getPrayer().isActivated()) {
 			int xp = Skills.getXP("Hitpoints");
-			Prayer.activate();
+			Prayer.activate(b);
 			for (int fsafe = 0; Skills.getXP("Hitpoints") == xp
 					&& !(Player.getRSPlayer().getInteractingCharacter() == null)
 					&& fsafe < 41; fsafe++) {
@@ -29,11 +29,11 @@ public class Prayer {
 					System.out.println("Must of hit a 0 turnning piety off");
 				}
 			}
-			if (Var.curBrother.getPrayer().isActivated()) {
-				Prayer.disable();
+			if (b.getPrayer().isActivated()) {
+				Prayer.disable(b);
 			}
 		} else {
-			Prayer.disable();
+			Prayer.disable(b);
 		}
 	}
 
@@ -83,40 +83,40 @@ public class Prayer {
 		return Skills.getActualLevel("Prayer");
 	}
 
-	public static void disable() {
+	public static void disable(Brothers b) {
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				Var.curBrother.getPrayer().getInterfaceId())
+				b.getPrayer().getInterfaceId())
 				.getAbsoluteBounds());
 		Mouse.hop(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
-						"Deactivate " + Var.curBrother.getPrayer().getName()); fsafe++) {
+						"Deactivate " + b.getPrayer().getName()); fsafe++) {
 			General.sleep(30);
 		}
 		if (Game.getUptext().contains(
-				"Deactivate " + Var.curBrother.getPrayer().getName())) {
+				"Deactivate " + b.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
 		}
 	}
 
-	public static void activate() {
+	public static void activate(Brothers b) {
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				Var.curBrother.getPrayer().getInterfaceId())
+				b.getPrayer().getInterfaceId())
 				.getAbsoluteBounds());
 		Mouse.hop(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
-						"Activate " + Var.curBrother.getPrayer().getName()); fsafe++) {
+						"Activate " + b.getPrayer().getName()); fsafe++) {
 			General.sleep(30);
 		}
 		if (Game.getUptext().contains(
-				"Activate " + Var.curBrother.getPrayer().getName())) {
+				"Activate " + b.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
 		}
 	}
