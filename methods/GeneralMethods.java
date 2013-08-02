@@ -17,7 +17,9 @@ import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
+import org.tribot.api2007.Skills;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
@@ -25,7 +27,12 @@ import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 
 public class GeneralMethods {
-
+	
+	public static double getHPPercent() {
+		return ((double) Skills.getCurrentLevel("Hitpoints")
+				/ (double) Skills.getActualLevel("Hitpoints") * 100);
+	}
+	
 	public boolean tunnelInterface() {
 		return Interfaces.get(210, 0) != null;
 	}
@@ -100,50 +107,57 @@ public class GeneralMethods {
 		}
 	}
 
-	static void clickObject(RSObject o, String option) {
-		clickObject(o, option, 0, true);
+	public static void clickObject(RSObject o, String option, boolean minimapVisible) {
+		clickObject(o, option, 0, true, minimapVisible);
 	}
 
-	static void turnTo(final RSTile loc) {
+	static boolean turnTo(final RSTile loc) {
 		if (loc == null) {
-			return;
+			return false;
 		}
 		final int cAngle = Camera.getCameraRotation();
 		final int angle = 180 + Camera.getTileAngle(loc);
 		final int dir = cAngle - angle;
 		if (Math.abs(dir) <= 190 && Math.abs(dir) >= 180) {
-			return;
+			return false;
 		}
 		Camera.setCameraRotation(Camera.getCameraRotation()
 				+ ((dir > 0 ^ Math.abs(dir) > 180) ? 10 : -10));
+		return true;
 	}
 
-	static void clickObject(RSObject o, String option, int fail, boolean fast) {
+	static void clickObject(RSObject o, String option, int fail, boolean fast,  boolean minimap) {
 		if (o == null || o.getModel() == null
 				|| o.getID() != Objects.getAt(o.getPosition())[0].getID()
 				|| Banking.isBankScreenOpen())
 			return;
 		if (!o.isOnScreen() || fail > 4) {
 			RSTile tile = o.getPosition();
-			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-			Walking.walkTo(tile);
-			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-			General.sleep(250, 350);
-			while (Player.isMoving() && !o.isOnScreen()) {
-				// If Object is moving or if using
-				// NPC pass the npc/Object
-				turnTo(tile);
+			if (minimap) {
+				Walking.control_click=true;
+				Walking.walkTo(tile);
+				General.sleep(250, 350);
+				while (Player.isMoving() && !o.isOnScreen()) {
+					turnTo(tile);
+				}
+				while (Player.isMoving())
+					General.sleep(30, 50);
+				if (!o.isOnScreen()) {
+					clickObject(o, option, fail + 1, fast, minimap);
+				}
+				fail = 0;
+			} else {
+				while (!o.isOnScreen() && turnTo(tile));
+				if (!o.isOnScreen()) {
+					Walking.walking_timeout= 20000;
+					Walking.control_click = true;
+					Walking.walkScreenPath(Walking.generateStraightScreenPath(tile));
+				}
+				if (!o.isOnScreen()) {
+					clickObject(o,option,fail+1,fast,minimap);
+				}
 			}
-			// Additonal Failsafe so that it always clicks properly
-			while (Player.isMoving())
-				General.sleep(30, 50);
-			// Probably not needed
-			if (!o.isOnScreen()) {
-				clickObject(o, option, fail + 1, fast);
-			}
-			fail = 0;
 		}
-		// 5 Is a default offset of 5 Increase this to make it more random
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 10);
 		Mouse.move(p);
 		if (!fast) {
@@ -166,9 +180,9 @@ public class GeneralMethods {
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				} else if (ChooseOption.isOpen()) {
 					ChooseOption.close();
-					clickObject(o, option, fail + 1, fast);
+					clickObject(o, option, fail + 1, fast, minimap);
 				} else {
-					clickObject(o, option, fail + 1, fast);
+					clickObject(o, option, fail + 1, fast, minimap);
 				}
 			}
 		} else {
@@ -246,5 +260,39 @@ public class GeneralMethods {
 			}
 		}
 		return null;
+	}
+	
+	public static boolean click(RSNPC m, String option) {
+		Mouse.setSpeed(500);
+		if (m.isValid()) {
+			if (m.getModel() != null)
+				Mouse.move(GeneralMethods.getAverage(m.getModel()
+						.getAllVisiblePoints(), 0));
+			for (int fSafe = 0; fSafe < 20
+					&& !Game.getUptext().contains(
+							option + " " + m.getName()); fSafe++)
+				General.sleep(General.random(10, 15));
+			if (Game.getUptext().contains(option + " " + m.getName())) {
+				Mouse.click(1);
+				return true;
+			} else {
+				Mouse.click(GeneralMethods.getAverage(m.getModel()
+						.getAllVisiblePoints(), 0), 3);
+				General.sleep(80, 120);
+				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+					General.sleep(General.random(10, 15));
+				if (ChooseOption.isOpen()) {
+					if (ChooseOption.isOptionValid(option + " "
+							+ m.getName())) {
+						return ChooseOption.select(option + " "
+								+ m.getName());
+					} else {
+						General.println("Misclicked");
+						click(m,option);
+					}
+				}
+			}
+		}
+	return false;
 	}
 }

@@ -1,13 +1,17 @@
 package scripts.Barrows.main;
 
+import java.awt.Graphics;
+
 import javax.swing.SwingUtilities;
 
 import org.tribot.script.Script;
+import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.types.Brother.Brothers;
 
-public class Barrows extends Script {
+public class Barrows extends Script implements Painting{
 
 	@Override
 	public void run() {
@@ -18,7 +22,7 @@ public class Barrows extends Script {
 	}
 
 	private int loop() {
-		// TODO Auto-generated method stub
+		BrotherKilling.StartFight();
 		return 50;
 	}
 
@@ -37,6 +41,22 @@ public class Barrows extends Script {
 		});
 		while (Var.guiWait) {
 			sleep(100);
+		}
+	}
+
+	@Override
+	public void onPaint(Graphics g) {
+		int i = 0;
+		for (Brothers b: Brothers.values()) {
+			String s = b.getName();
+			if (b.isKilled()) {
+				s = s + " Killed: " + b.isKilled(); 
+			}
+			if (b.isTunnel()) {
+				s = s + " Tunnel: " + b.isTunnel();
+			}
+			g.drawString(s, 287, 362 + 10 * i);
+			i++;
 		}
 	}
 	

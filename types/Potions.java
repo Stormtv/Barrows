@@ -4,6 +4,9 @@ import org.tribot.api.General;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
 
+import scripts.Barrows.types.Brother.Brothers;
+import scripts.Barrows.types.enums.Prayer;
+
 public class Potions {
 
 	static int[] PRAYER_POTIONS = { 143, 141, 139, 2434 };
@@ -44,6 +47,22 @@ public class Potions {
 		while (canDrinkWithoutWaste()) {
 			drink();
 		}
+	}
+	
+	public static void drinkPrayerInCombat() {
+		if (Prayer.getPoints() - prayerDrain() < 7) {
+			drink();
+		}
+	}
+	
+	private static int prayerDrain() {
+		int drain = 8;
+		for (Brothers b: Brothers.values()) {
+			if (b.isKilled()) {
+				drain++;
+			}
+		}
+		return drain;
 	}
 	
 	public static void superPot() {

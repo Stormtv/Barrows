@@ -11,6 +11,7 @@ import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
 
+import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.types.Var;
 
 public class Food {
@@ -58,6 +59,12 @@ public class Food {
 				}}, General.random(1200, 1300));
 			}			
 		}			
+	}
+	
+	public static void eatInCombat() {
+		if (Skills.getActualLevel("Hitpoints") < 20 || GeneralMethods.getHPPercent() < 50) {
+			eat();
+		}
 	}
 	
 	public static boolean canEatWithoutWaste() {
