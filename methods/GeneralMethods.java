@@ -22,7 +22,6 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
-import scripts.wWood.Vars;
 
 public class GeneralMethods {
 
@@ -67,24 +66,23 @@ public class GeneralMethods {
 	}
 
 	// Finds average points in a Point[] use offset to make it random
-		static Point getAverage(Point[] pointArray, int offset) {
-			int averagex = 0;
-			int averagey = 0;
-			int totalx = 0;
-			int totaly = 0;
-			for (int i = 0; i < pointArray.length; i++) {
-				totalx = totalx + pointArray[i].x;
-				totaly = totaly + pointArray[i].y;
-			}
-			if (pointArray.length != 0) {
-				averagex = totalx / pointArray.length;
-				averagey = totaly / pointArray.length;
-			}
-			return new Point(averagex + General.random(-offset, offset), averagey
-					+ General.random(-offset, offset));
+	static Point getAverage(Point[] pointArray, int offset) {
+		int averagex = 0;
+		int averagey = 0;
+		int totalx = 0;
+		int totaly = 0;
+		for (int i = 0; i < pointArray.length; i++) {
+			totalx = totalx + pointArray[i].x;
+			totaly = totaly + pointArray[i].y;
 		}
+		if (pointArray.length != 0) {
+			averagex = totalx / pointArray.length;
+			averagey = totaly / pointArray.length;
+		}
+		return new Point(averagex + General.random(-offset, offset), averagey
+				+ General.random(-offset, offset));
+	}
 
-	
 	static void leftClick(int x, int y) {
 		leftClick(new Point(x, y));
 	}
@@ -100,11 +98,11 @@ public class GeneralMethods {
 			}
 		}
 	}
-	
+
 	static void clickObject(RSObject o, String option) {
-		clickObject(o,option,0, true);
+		clickObject(o, option, 0, true);
 	}
-	
+
 	static void turnTo(final RSTile loc) {
 		if (loc == null) {
 			return;
@@ -118,11 +116,11 @@ public class GeneralMethods {
 		Camera.setCameraRotation(Camera.getCameraRotation()
 				+ ((dir > 0 ^ Math.abs(dir) > 180) ? 10 : -10));
 	}
-	
+
 	static void clickObject(RSObject o, String option, int fail, boolean fast) {
-		if (o == null || o.getModel() == null 
+		if (o == null || o.getModel() == null
 				|| o.getID() != Objects.getAt(o.getPosition())[0].getID()
-				||Banking.isBankScreenOpen())
+				|| Banking.isBankScreenOpen())
 			return;
 		if (!o.isOnScreen() || fail > 4) {
 			RSTile tile = o.getPosition();
@@ -131,15 +129,16 @@ public class GeneralMethods {
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 			General.sleep(250, 350);
 			while (Player.isMoving() && !o.isOnScreen()) {
-				//If Object is moving or if using
-				//NPC pass the npc/Object
+				// If Object is moving or if using
+				// NPC pass the npc/Object
 				turnTo(tile);
 			}
-			//Additonal Failsafe so that it always clicks properly
-			while (Player.isMoving()) General.sleep(30,50);
-			//Probably not needed
+			// Additonal Failsafe so that it always clicks properly
+			while (Player.isMoving())
+				General.sleep(30, 50);
+			// Probably not needed
 			if (!o.isOnScreen()) {
-				clickObject(o,option,fail+1,fast);
+				clickObject(o, option, fail + 1, fast);
 			}
 			fail = 0;
 		}
@@ -181,5 +180,5 @@ public class GeneralMethods {
 			General.sleep(20, 30);
 		}
 	}
-	
+
 }

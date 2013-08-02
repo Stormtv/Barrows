@@ -4,9 +4,9 @@ import java.awt.event.KeyEvent;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
-import org.tribot.api2007.Inventory;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
@@ -18,7 +18,6 @@ import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Prayer;
-import scripts.wCombatAIO.methods.DefaultMethods;
 
 public class BrotherKilling {
 
@@ -37,8 +36,8 @@ public class BrotherKilling {
 
 	private void kill(Brothers bro) {
 		RSObject[] coffin = Objects.find(10, bro.getCryptID());
-		if (coffin.length > 0){
-			DefaultMethods.clickObject(coffin[0], "Search");
+		if (coffin.length > 0) {
+			// DefaultMethods.clickObject(coffin[0], "Search");
 		}
 	}
 
@@ -47,7 +46,7 @@ public class BrotherKilling {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea().getTiles().length > 0) {
 					Walking.blindWalkTo(Pathing.getRandomTile(b.getDigArea()));
-					General.sleep(350,500);
+					General.sleep(350, 500);
 					while (Player.isMoving()) {
 						General.sleep(30);
 					}
@@ -57,7 +56,7 @@ public class BrotherKilling {
 		if (b.getDigArea().contains(Player.getPosition())) {
 			if (!isReadyToFight(b)) {
 				getReadyToFight(b);
-				
+
 			}
 			if (b.usePotions()) {
 				Potions.superPot();
@@ -84,7 +83,7 @@ public class BrotherKilling {
 			}
 			if (Player.getPosition().getPlane() == 3) {
 				if (!b.prayer.equals(Prayer.Prayers.None)) {
-					Prayer.activate();
+					Prayer.activate(b);
 				}
 			} else {
 				dig(b);
@@ -106,8 +105,8 @@ public class BrotherKilling {
 	}
 
 	private boolean isInCrypt(Brothers b) {
-		return (Player.getPosition().getPlane() == 3 
-				&& Objects.find(15,b.getCryptID()).length > 0);
+		return (Player.getPosition().getPlane() == 3 && Objects.find(15,
+				b.getCryptID()).length > 0);
 	}
 
 	private boolean isReadyToFight(Brothers b) {
@@ -116,7 +115,8 @@ public class BrotherKilling {
 				return false;
 			}
 		}
-		if (!b.getPrayer().equals(Prayer.Prayers.None) && Potions.canDrinkWithoutWaste()) {
+		if (!b.getPrayer().equals(Prayer.Prayers.None)
+				&& Potions.canDrinkWithoutWaste()) {
 			return false;
 		}
 		return true;
