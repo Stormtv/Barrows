@@ -7,26 +7,28 @@ import scripts.Barrows.types.enums.Prayer;
 public class Brother {
 	 
 	public enum Brothers {
-		Dharok(0,"Dharok",false,false,Var.dharokDig,new int[] {},Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
-		Karil(1,"Karil",false,false,Var.karilDig,new int[] {}, Prayer.Prayers.ProtectFromMissiles, false, Magic.Spell.NONE),
-		Verac(2,"Verac",false,false,Var.veracDig,new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
-		Guthan(3,"Guthan",false,false,Var.guthanDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
-		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST),
-		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false, Magic.Spell.NONE);
+		Dharok(0,"Dharok",false,false,Var.dharokDig,new int[] {},Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST, 20720),
+		Karil(1,"Karil",false,false,Var.karilDig,new int[] {}, Prayer.Prayers.ProtectFromMissiles, false, Magic.Spell.NONE, 20771),
+		Verac(2,"Verac",false,false,Var.veracDig,new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST, 20772),
+		Guthan(3,"Guthan",false,false,Var.guthanDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST, 20722),
+		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST, 20721),
+		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false, Magic.Spell.NONE, 20770);
 
 	    public int killOrder;
-	    public final String name;
+	    private final String name;
 	    public boolean killed;
 	    public boolean isTunnel;
-	    public final RSArea digArea;
+	    private final RSArea digArea;
 	    public int[] equipmentIds;
 		public Prayer.Prayers prayer;
 		public boolean usePotions;
 		public Magic.Spell spell;
+		private int cryptID;
+		
 		Brothers(final int killOrder, String name, boolean killed,
 				boolean isTunnel, final RSArea digArea,
 				int[] equipmentIds, final Prayer.Prayers prayer,
-				boolean usePotions, Magic.Spell spell) {
+				boolean usePotions, Magic.Spell spell, int cryptID) {
 			this.killOrder = killOrder;
 			this.name = name;
 			this.killed = killed;
@@ -35,6 +37,7 @@ public class Brother {
 			this.equipmentIds = equipmentIds;
 			this.prayer = prayer;
 			this.spell = spell;
+			this.cryptID = cryptID;
 		}
 
 		public boolean isKilled() {
@@ -53,7 +56,7 @@ public class Brother {
 			return isTunnel;
 		}
 
-		public RSArea digArea() {
+		public RSArea getDigArea() {
 			return digArea;
 		}
 		
@@ -71,6 +74,10 @@ public class Brother {
 		
 		public Magic.Spell getSpell() {
 			return spell;
+		}
+		
+		public int getCryptID() {
+			return cryptID;
 		}
 	}
 }
