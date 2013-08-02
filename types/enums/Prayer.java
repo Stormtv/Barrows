@@ -7,14 +7,13 @@ import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
-import org.tribot.api2007.GameTab.TABS;
 
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.types.Var;
-
 
 public class Prayer {
 
@@ -39,20 +38,18 @@ public class Prayer {
 	}
 
 	public enum Prayers {
-		None(-1,-1,"",-1),
-		Piety(55, 54, "Piety", 70),
-		Chivalry(53, 52, "Chivalry", 60),
-		ProtectFromMelee(41, 40, "Protect from Melee", 43),
-		ProtectFromMissiles(39, 38,	"Protect from Missiles", 40),
-		ProtectFromMagic(37, 36, "Protect from Magic", 37);
+		None(-1, -1, "", -1), Piety(55, 54, "Piety", 70), Chivalry(53, 52,
+				"Chivalry", 60), ProtectFromMelee(41, 97, "Protect from Melee",
+				43), ProtectFromMissiles(39, 96, "Protect from Missiles", 40), ProtectFromMagic(
+				37, 95, "Protect from Magic", 37);
 
-		private int interfaceId, hiddenId, levelRequired;
-		private String name;
+		private final int interfaceId, settingID, levelRequired;
+		private final String name;
 
-		Prayers(final int interfaceId, final int hiddenId, final String name,
+		Prayers(final int interfaceId, final int settingID, final String name,
 				final int levelRequired) {
 			this.interfaceId = interfaceId;
-			this.hiddenId = hiddenId;
+			this.settingID = settingID;
 			this.name = name;
 			this.levelRequired = levelRequired;
 		}
@@ -61,8 +58,8 @@ public class Prayer {
 			return interfaceId;
 		}
 
-		public int getHiddenId() {
-			return hiddenId;
+		public int getSettingID() {
+			return settingID;
 		}
 
 		public String getName() {
@@ -74,16 +71,16 @@ public class Prayer {
 		}
 
 		public boolean isActivated() {
-			if (Interfaces.get(271, hiddenId).isHidden()) {
-				return false;
-			} else {
-				return true;
-			}
+			return Game.getSetting(getSettingID()) > 0;
 		}
 	}
 
-	public int points() {
+	public static int getPoints() {
 		return Skills.getCurrentLevel("Prayer");
+	}
+
+	public static int getLevel() {
+		return Skills.getActualLevel("Prayer");
 	}
 
 	public static void disable() {
@@ -91,14 +88,16 @@ public class Prayer {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				Var.curBrother.getPrayer().getInterfaceId()).getAbsoluteBounds());
+				Var.curBrother.getPrayer().getInterfaceId())
+				.getAbsoluteBounds());
 		Mouse.hop(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
 						"Deactivate " + Var.curBrother.getPrayer().getName()); fsafe++) {
 			General.sleep(30);
 		}
-		if (Game.getUptext().contains("Deactivate " + Var.curBrother.getPrayer().getName())) {
+		if (Game.getUptext().contains(
+				"Deactivate " + Var.curBrother.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
 		}
 	}
@@ -108,14 +107,16 @@ public class Prayer {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				Var.curBrother.getPrayer().getInterfaceId()).getAbsoluteBounds());
+				Var.curBrother.getPrayer().getInterfaceId())
+				.getAbsoluteBounds());
 		Mouse.hop(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
 						"Activate " + Var.curBrother.getPrayer().getName()); fsafe++) {
 			General.sleep(30);
 		}
-		if (Game.getUptext().contains("Activate " + Var.curBrother.getPrayer().getName())) {
+		if (Game.getUptext().contains(
+				"Activate " + Var.curBrother.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
 		}
 	}

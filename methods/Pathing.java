@@ -29,18 +29,17 @@ public class Pathing {
 			new RSTile(3456, 3465, 0), new RSTile(3452, 3461, 0),
 			new RSTile(3448, 3458, 0), new RSTile(3444, 3458, 0) };
 
-	final static RSTile[] pathToBoat = { new RSTile(3443, 3455, 0),
-			new RSTile(3446, 3451, 0), new RSTile(3449, 3447, 0),
-			new RSTile(3451, 3442, 0), new RSTile(3452, 3437, 0),
-			new RSTile(3454, 3432, 0), new RSTile(3455, 3427, 0),
-			new RSTile(3456, 3422, 0), new RSTile(3459, 3418, 0),
-			new RSTile(3460, 3413, 0), new RSTile(3463, 3409, 0),
-			new RSTile(3465, 3404, 0), new RSTile(3468, 3400, 0),
-			new RSTile(3470, 3395, 0), new RSTile(3472, 3390, 0),
-			new RSTile(3474, 3385, 0), new RSTile(3477, 3381, 0),
-			new RSTile(3481, 3378, 0), new RSTile(3485, 3375, 0),
-			new RSTile(3490, 3374, 0), new RSTile(3495, 3375, 0),
-			new RSTile(3499, 3378, 0) };
+	final static RSTile[] pathToBoat = { new RSTile(3443, 3456, 0),
+			new RSTile(3449, 3455, 0), new RSTile(3455, 3455, 0),
+			new RSTile(3456, 3449, 0), new RSTile(3458, 3443, 0),
+			new RSTile(3458, 3437, 0), new RSTile(3460, 3431, 0),
+			new RSTile(3458, 3425, 0), new RSTile(3462, 3420, 0),
+			new RSTile(3467, 3416, 0), new RSTile(3467, 3410, 0),
+			new RSTile(3467, 3404, 0), new RSTile(3475, 3361, 0),
+			new RSTile(3467, 3401, 0), new RSTile(3470, 3395, 0),
+			new RSTile(3472, 3389, 0), new RSTile(3476, 3384, 0),
+			new RSTile(3480, 3379, 0), new RSTile(3486, 3376, 0),
+			new RSTile(3492, 3376, 0), new RSTile(3497, 3380, 0) };
 
 	final static RSTile[] pathToBarrows = { new RSTile(3516, 3281, 0),
 			new RSTile(3526, 3280, 0), new RSTile(3536, 3279, 0),
@@ -68,17 +67,17 @@ public class Pathing {
 
 			if (isFromBoatToBarrows()) {
 				System.out.println("hi");
-				Walking.walkPath(Walking.randomizePath(pathToBarrows, 2, 3));
+				Walking.walkPath(pathToBarrows);
 			} else if (isFromGateToBoat()) {
 				if (canEnterBoat())
 					enterBoat();
 				else
-					Walking.walkPath(Walking.randomizePath(pathToBoat, 2, 3));
+					Walking.walkPath(pathToBoat);
 			} else if (isFromBankToGate()) {
 				if (canOpenGate())
 					openGate();
 				else
-					Walking.walkPath(Walking.randomizePath(pathToGate, 2, 3));
+					Walking.walkPath(pathToGate);
 
 			}
 		}
@@ -89,7 +88,7 @@ public class Pathing {
 		if (isInBarrows())
 			return true;
 		if (isFromBoatToBarrows())
-			Walking.randomizePath(pathToBarrows, 2, 3);
+			Walking.walkPath(pathToBarrows);
 		else {
 			switch (selectedPath) {
 			case SWAMP:
@@ -169,7 +168,7 @@ public class Pathing {
 
 	static boolean isFromGateToBoat() {
 		for (RSTile t : pathToBoat) {
-			if (t.distanceTo(Player.getPosition()) < 10
+			if (t.distanceTo(Player.getPosition()) < 5
 					&& PathFinding.canReach(t, false)) {
 				Walking.walkTo(t);
 				return true;
@@ -180,7 +179,7 @@ public class Pathing {
 
 	static boolean isFromBoatToBarrows() {
 		for (RSTile t : pathToBarrows) {
-			if (t.distanceTo(Player.getPosition()) < 20
+			if (t.distanceTo(Player.getPosition()) < 5
 					&& PathFinding.canReach(t, false))
 				return true;
 		}
@@ -189,7 +188,7 @@ public class Pathing {
 
 	static boolean isFromBankToGate() {
 		for (RSTile t : pathToGate) {
-			if (t.distanceTo(Player.getPosition()) < 20
+			if (t.distanceTo(Player.getPosition()) < 5
 					&& PathFinding.canReach(t, false))
 				return true;
 		}

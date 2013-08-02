@@ -1,4 +1,4 @@
-package scripts.Barrows.methods;
+package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.types.RSInterface;

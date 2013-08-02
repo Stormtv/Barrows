@@ -1,4 +1,4 @@
-package scripts.Barrows.methods;
+package scripts.Barrows.methods.tunnel;
 
 import java.util.LinkedList;
 
@@ -9,6 +9,7 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.main.BrotherKilling;
+import scripts.Barrows.methods.GeneralMethods;
 
 public class TunnelTraversing {
 
@@ -16,6 +17,18 @@ public class TunnelTraversing {
 			20713, 20708, 20689 };
 
 	RSTile[] chestDoorTiles = {};
+
+	RSTile[] adjacentTiles = { new RSTile(3541, 9695, 0),
+			new RSTile(3541, 9694, 0), new RSTile(3552, 9705, 0),
+			new RSTile(3551, 9705, 0), new RSTile(3562, 9694, 0),
+			new RSTile(3562, 9695, 0), new RSTile(3551, 9684, 0),
+			new RSTile(3552, 9684, 0) };
+
+	boolean isInChestRoom() {
+		RSTile inside = new RSTile(3551, 9693, 0);
+		return inside.distanceTo(Player.getPosition()) < 20
+				&& PathFinding.canReach(inside, false);
+	}
 
 	boolean canOpenToChest() {
 		for (RSTile t : chestDoorTiles) {
@@ -69,10 +82,6 @@ public class TunnelTraversing {
 		return false;
 	}
 
-	public static boolean can(RSObject c) {
-		return c.getID() == 3030 || c.getID() == 3031;
-	}
-
 	public static RSObject getDoor() {
 		LinkedList<RSObject> possible = new LinkedList<RSObject>();
 		for (RSObject b : Objects.getAll(20)) {
@@ -97,7 +106,7 @@ public class TunnelTraversing {
 	}
 
 	static boolean isOpenable(RSObject o) {
-		return isDoor(o.getID())
+		return o.getID() == 23731
 				&& o.getDefinition() != null
 				&& o.getDefinition().getActions() != null
 				&& o.getDefinition().getActions().length > 0
