@@ -16,6 +16,7 @@ import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Projection;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
@@ -181,4 +182,69 @@ public class GeneralMethods {
 		}
 	}
 
+	private static final Rectangle screen = new Rectangle(0, 0, 515, 335);
+
+	static void clickPointOnScreen(RSTile r) {
+		Point p = getRandomPoint(Projection.getTileBoundsPoly(r, 0).getBounds());
+		if (screen != null && p != null && screen.contains(p)) {
+			Mouse.click(p, 1);
+		}
+	}
+
+	public static RSTile getFurthestTileOnScreen(RSTile[] t) {
+		RSTile furthestVisibleTile = null;
+		RSTile home = Player.getPosition();
+		for (RSTile tile : t) {
+			if (tile.isOnScreen()) {
+				if (furthestVisibleTile != null) {
+					if (home.distanceTo(furthestVisibleTile) < home
+							.distanceTo(tile)) {
+						furthestVisibleTile = tile;
+					}
+				} else {
+					furthestVisibleTile = tile;
+				}
+			}
+		}
+		return furthestVisibleTile;
+	}
+
+	static boolean closestToEnd(RSTile end, RSTile start, RSTile cur) {
+		int toEnd = cur.distanceTo(end);
+		int toStart = cur.distanceTo(start);
+		System.out.println("end_" + toEnd + "   start_" + toStart);
+		return toEnd < toStart || toEnd == toStart;
+	}
+
+	static public RSTile getFinalTile(RSTile[] hi) {
+		if (hi.length > 0) {
+			return hi[hi.length - 1];
+		}
+		return null;
+	}
+
+	static public RSTile getStartTile(RSTile[] hi) {
+		if (hi.length > 0) {
+			return hi[0];
+		}
+		return null;
+	}
+
+	public static void walkScreen(RSTile[] r) {
+		RSTile fur = getFurthestTileOnScreen(r);
+		clickPointOnScreen(fur);
+	}
+
+	public static Point getVisiblePoint(RSTile t) {
+		if (t != null) {
+			Point[] pd = Projection.getTileBounds(t, 0);
+			if (pd != null) {
+				for (Point c : pd) {
+					if (screen.contains(c))
+						return c;
+				}
+			}
+		}
+		return null;
+	}
 }

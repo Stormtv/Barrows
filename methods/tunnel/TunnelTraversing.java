@@ -53,10 +53,14 @@ public class TunnelTraversing {
 	}
 
 	void traverseTunnel() {
-		if (comingBack()) {
-			walkToChest();
-		} else {
-			walkToRope();
+		if (TunnelPuzzle.isPuzzleScreenOpen())
+			TunnelPuzzle.solvePuzzle();
+		else {
+			if (comingBack()) {
+				walkToChest();
+			} else {
+				walkToRope();
+			}
 		}
 	}
 
@@ -78,28 +82,27 @@ public class TunnelTraversing {
 		Walking.walking_timeout = 500;
 		RSObject nextDoor = getDoor();
 		if (nextDoor != null) {
-			if (nextDoor.isOnScreen()) {
-				if (containsMouse(nextDoor.getModel())
-						&& nextDoor.click("Open")) {
-					General.sleep(1000);
-					while (Player.isMoving())
-						General.sleep(100);
-					General.sleep(1000);
-				} else {
-					nextDoor.hover();
-				}
+			if (TunnelSidePath.isInSidePath()) {
+				TunnelSidePath.walk();
 			} else {
-				System.out.println(nextDoor.getPosition().distanceTo(
-						Player.getPosition()));
-				if (nextDoor.getPosition().distanceTo(Player.getPosition()) < 13) {
-					Camera.turnToTile(nextDoor.getPosition());
-					Camera.setCameraAngle(40);
+				if (nextDoor.isOnScreen()) {
+					if (containsMouse(nextDoor.getModel())
+							&& nextDoor.click("Open")) {
+						General.sleep(1000);
+						while (Player.isMoving())
+							General.sleep(100);
+						General.sleep(1000);
+					} else {
+						nextDoor.hover();
+					}
+
 				} else {
-					RSTile[] k = PathFinding.generatePath(Player.getPosition(),
-							nextDoor.getPosition(), false);
-					if (k != null && k.length > 0)
-						General.sleep(300);
-					// Walking.walkScreenPath(k);
+					if (nextDoor.getPosition().distanceTo(Player.getPosition()) < 13) {
+						Camera.turnToTile(nextDoor.getPosition());
+						Camera.setCameraAngle(40);
+					} else {
+						TunnelSidePath.walk();
+					}
 				}
 			}
 		}
@@ -112,7 +115,7 @@ public class TunnelTraversing {
 
 	public static RSObject getDoor() {
 		LinkedList<RSObject> possible = new LinkedList<RSObject>();
-		for (RSObject b : Objects.getAll(20)) {
+		for (RSObject b : Objects.getAll(50)) {
 			if (TunnelDoor.isOpenable(b) && b != null
 					&& b.getModel().getPoints().length == 1494
 					&& PathFinding.canReach(b.getPosition(), true)
@@ -125,6 +128,7 @@ public class TunnelTraversing {
 					.size()]);
 			RSObject[] k = Objects.sortByDistance(Player.getPosition(), array);
 			if (k.length > 0) {
+				System.out.println(k.length);
 				if (k.length > 1) {
 					if (k.length > 2) {
 						RSObject[] more = removedFirst(k);
