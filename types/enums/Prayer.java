@@ -101,7 +101,7 @@ public class Prayer {
 			GeneralMethods.leftClick(p);
 		}
 		for (int fsafe = 0; fsafe<20 && b.getPrayer().isActivated(); fsafe++){
-			General.sleep(20);
+			General.sleep(40);
 		}
 		if (b.getPrayer().isActivated()) {
 			disable(b);
@@ -126,7 +126,7 @@ public class Prayer {
 			GeneralMethods.leftClick(p);
 		}
 		for (int fsafe = 0; fsafe<20 && !b.getPrayer().isActivated(); fsafe++){
-			General.sleep(20);
+			General.sleep(40);
 		}
 		if (!b.getPrayer().isActivated()) {
 			activate(b);

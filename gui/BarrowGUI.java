@@ -381,12 +381,23 @@ public class BarrowGUI extends JFrame {
 		
 		DharokPotions = new JCheckBox("Use Potions");
 		
-		final DefaultComboBoxModel<Magic.Spell> SpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		final DefaultComboBoxModel<Magic.Spell> DharokSpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		final DefaultComboBoxModel<Magic.Spell> KarilSpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		final DefaultComboBoxModel<Magic.Spell> VeracSpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		final DefaultComboBoxModel<Magic.Spell> ToragSpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		final DefaultComboBoxModel<Magic.Spell> GuthanSpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		final DefaultComboBoxModel<Magic.Spell> AhrimSpellModel = new DefaultComboBoxModel<Magic.Spell>();
+		
 		for(Magic.Spell s : Magic.Spell.values()) {
-				SpellModel.addElement(s);
+				DharokSpellModel.addElement(s);
+				KarilSpellModel.addElement(s);
+				VeracSpellModel.addElement(s);
+				ToragSpellModel.addElement(s);
+				GuthanSpellModel.addElement(s);
+				AhrimSpellModel.addElement(s);
 		}
 		
-		cbxDharok = new JComboBox<Spell>(SpellModel);
+		cbxDharok = new JComboBox<Spell>(DharokSpellModel);
 		
 		JLabel label_5 = new JLabel("Select Spell");
 		GroupLayout gl_panelDharok = new GroupLayout(panelDharok);
@@ -438,7 +449,7 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel label = new JLabel("Select Spell");
 		
-		cbxKaril = new JComboBox<Spell>(SpellModel);
+		cbxKaril = new JComboBox<Spell>(KarilSpellModel);
 		GroupLayout gl_panelKaril = new GroupLayout(panelKaril);
 		gl_panelKaril.setHorizontalGroup(
 			gl_panelKaril.createParallelGroup(Alignment.LEADING)
@@ -488,7 +499,7 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel label_1 = new JLabel("Select Spell");
 		
-		cbxVerac = new JComboBox<Spell>(SpellModel);
+		cbxVerac = new JComboBox<Spell>(VeracSpellModel);
 		GroupLayout gl_panelVerac = new GroupLayout(panelVerac);
 		gl_panelVerac.setHorizontalGroup(
 			gl_panelVerac.createParallelGroup(Alignment.LEADING)
@@ -536,7 +547,7 @@ public class BarrowGUI extends JFrame {
 		GuthanPrayer = new JCheckBox("Use Prayer");
 		GuthanPrayer.setSelected(true);
 		
-		cbxGuthan = new JComboBox<Spell>(SpellModel);
+		cbxGuthan = new JComboBox<Spell>(GuthanSpellModel);
 		
 		JLabel label_2 = new JLabel("Select Spell");
 		GroupLayout gl_panelGuthan = new GroupLayout(panelGuthan);
@@ -588,7 +599,7 @@ public class BarrowGUI extends JFrame {
 		
 		JLabel label_3 = new JLabel("Select Spell");
 		
-		cbxTorag = new JComboBox<Spell>(SpellModel);
+		cbxTorag = new JComboBox<Spell>(ToragSpellModel);
 		GroupLayout gl_panelTorag = new GroupLayout(panelTorag);
 		gl_panelTorag.setHorizontalGroup(
 			gl_panelTorag.createParallelGroup(Alignment.LEADING)
@@ -636,7 +647,7 @@ public class BarrowGUI extends JFrame {
 		AhrimPrayer = new JCheckBox("Use Prayer");
 		AhrimPrayer.setSelected(true);
 		
-		cbxAhrim = new JComboBox<Spell>(SpellModel);
+		cbxAhrim = new JComboBox<Spell>(AhrimSpellModel);
 		
 		JLabel label_4 = new JLabel("Select Spell");
 		GroupLayout gl_panelAhrim = new GroupLayout(panelAhrim);

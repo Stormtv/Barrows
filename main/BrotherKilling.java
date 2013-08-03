@@ -1,11 +1,13 @@
 package scripts.Barrows.main;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
+import org.tribot.api2007.Camera;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
@@ -28,15 +30,27 @@ import scripts.Barrows.types.enums.Prayer;
 public class BrotherKilling {
 
 	public static void StartFight() {
+		ArrayList<Brothers> ba = new ArrayList<Brothers>();
+		int i = 0;
 		for (Brothers bro : Brothers.values()) {
+			if (bro.killOrder() == i) {
+				ba.add(bro);
+			}
+			i++;
+		}
+		for (Brothers bro : ba) {
 			if (bro != null && !bro.isTunnel && !bro.killed) {
 				if (!isInCrypt(bro)) {
 					Var.status = "Going to crypt " + bro.getName();
 					goToCrypt(bro);
 				}
 				if (isInCrypt(bro)) {
-					Var.status = "Checking Coffin";
-					kill(bro);
+					if (bro!=null && !bro.isTunnel() && !bro.isKilled()){
+						Var.status = "Checking Coffin";
+						kill(bro);
+					} else {
+						exitCrypt(bro);
+					}
 				}
 			}
 		}
@@ -50,7 +64,7 @@ public class BrotherKilling {
 			Var.status = "Searched the coffin";
 		}
 		for (int fSafe = 0; fSafe<20 && !tunnelInterface() || fSafe<20 && aggressiveNPC() == null; fSafe++) {
-			General.sleep(50);
+			General.sleep(100);
 			Var.status = "Waiting";
 		}
 		if (tunnelInterface()) {
@@ -97,17 +111,23 @@ public class BrotherKilling {
 
 	private static void exitCrypt(Brothers b) {
 		if (Objects.find(10, b.getStair()).length > 0) {
-			GeneralMethods.clickObject(Objects.find(10, b.getStair())[0],"Climb", false);
+			RSObject stair = Objects.find(10, b.getStair())[0];
+			if (!stair.isOnScreen()) {
+				Camera.turnToTile(stair.getPosition());
+				stair.click("Climb");
+			} else {
+				stair.click("Climb");
+			}
 			for (int fSafe = 0; fSafe < 20
 					&& Player.getPosition().getPlane() == 3; fSafe++) {
-				General.sleep(50);
+				General.sleep(75);
 			}
 			if (Player.getPosition().getPlane() != 3) {
-				if (!b.prayer.equals(Prayer.Prayers.None)) {
+				Var.status = "Disabling Prayer";
+				if (!b.getPrayer().equals(Prayer.Prayers.None)) {
+					Var.status = "Toggling Prayer";
 					Prayer.disable(b);
 				}
-			} else {
-				exitCrypt(b);
 			}
 		}
 	}
@@ -117,6 +137,8 @@ public class BrotherKilling {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea() != null) {
 					Var.status = "Walking to mound";
+					Walking.control_click = true;
+					Walking.walking_timeout = 20000;
 					Walking.blindWalkTo(b.getDigArea().getRandomTile());
 					General.sleep(350, 500);
 					while (Player.isMoving()) {
@@ -147,14 +169,12 @@ public class BrotherKilling {
 			Inventory.find(Var.SPADE_ID)[0].click("");
 			for (int fSafe = 0; fSafe < 20
 					&& Player.getPosition().getPlane() != 3; fSafe++) {
-				General.sleep(50);
+				General.sleep(75);
 			}
 			if (Player.getPosition().getPlane() == 3) {
-				if (!b.prayer.equals(Prayer.Prayers.None)) {
+				if (!b.getPrayer().equals(Prayer.Prayers.None)) {
 					Prayer.activate(b);
 				}
-			} else {
-				dig(b);
 			}
 		}
 	}
