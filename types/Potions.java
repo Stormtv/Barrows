@@ -44,7 +44,7 @@ public class Potions {
 	}
 	
 	public static void fillPrayer() {
-		while (canDrinkWithoutWaste()) {
+		while (canDrinkWithoutWaste() && Inventory.find(PRAYER_POTIONS).length > 0) {
 			drink();
 		}
 	}

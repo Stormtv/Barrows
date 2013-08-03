@@ -10,12 +10,12 @@ import scripts.Barrows.util.RSArea;
 public class Var {
 
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
-			new RSTile(3557, 3298, 0), new RSTile(3558, 3298, 0),
+			new RSTile(3557, 3298, 0), new RSTile(3557, 3299, 0),
 			new RSTile(3558, 3297, 0), new RSTile(3557, 3297, 0) });
 
 	public static final RSArea dharokDig = new RSArea(new RSTile[] {
-			new RSTile(3574, 3298, 0), new RSTile(3575, 3298, 0),
-			new RSTile(3575, 3297, 0), new RSTile(3574, 3297, 0) });
+			new RSTile(3574, 3299, 0), new RSTile(3576, 3299, 0),
+			new RSTile(3576, 3297, 0), new RSTile(3574, 3297, 0) });
 	
 	public final static int SPADE_ID = 952;
 
@@ -61,5 +61,7 @@ public class Var {
 	public static Food.Edibles food;
 	
 	public static int superAttack,superStrength,superDefence,rangingPotion,prayerPotion, foodAmount;
+	
+	public static String status;
 
 }

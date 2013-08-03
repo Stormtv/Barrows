@@ -1,5 +1,7 @@
 package scripts.Barrows.types.enums;
 
+import org.tribot.api.General;
+import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -95,26 +97,25 @@ public class Magic {
 		if (isAutocasting(s))
 			return true;
 
-		if (GameTab.getOpen().equals(TABS.COMBAT)) {
-			if (Interfaces.get(319, s.getSecondInterfaceID()) != null) {
-				if (Equipment.isEquiped(4170)) {
-					// TODO slayer staff for magic dart
-				} else {
-					if (Interfaces.get(319, s.getSecondInterfaceID()).click(
-							"Ok")) {
-						// TODO dynamic sleep
-					}
-				}
-			} else {
-				if (Interfaces.get(90, 5) != null) {
-					if (Interfaces.get(90, 5).click("Spell")) {
-						// TODO dynamic sleep
-					}
+		if (!GameTab.getOpen().equals(TABS.COMBAT)) {
+			Keyboard.pressFunctionKey(1);
+		}
+		if (Interfaces.get(90, 5) != null) {
+			if (Interfaces.get(90, 5).click("Spell")) {
+				for (int fsafe =0; fsafe<5 && Interfaces.get(319,s.getSecondInterfaceID()) != null; fsafe++) {
+					General.sleep(40);
 				}
 			}
-		} else {
-			GameTab.open(TABS.COMBAT);
 		}
+		if (Interfaces.get(319, s.getSecondInterfaceID()) != null) {
+			if (Equipment.isEquiped(4170)) {
+				// TODO slayer staff for magic dart
+			} else {
+				if (Interfaces.get(319, s.getSecondInterfaceID()).click("Ok")) {
+					// TODO dynamic sleep
+				}
+			}
+		} 
 		return false;
 	}
 }

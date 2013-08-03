@@ -63,7 +63,9 @@ public class Food {
 	
 	public static void eatInCombat() {
 		if (Skills.getActualLevel("Hitpoints") < 20 || GeneralMethods.getHPPercent() < 50) {
-			eat();
+			if (Inventory.find(Var.food.getId()).length >0) {
+				eat();
+			}
 		}
 	}
 	

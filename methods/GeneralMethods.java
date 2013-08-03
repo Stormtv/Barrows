@@ -73,6 +73,16 @@ public class GeneralMethods {
 		}, 1);
 	}
 
+	public static void rightClick(final Point point) {
+		DynamicClicking.clickPoint(new CustomRet_0P<Point>() {
+			@Override
+			public Point ret() {
+				return point;
+			}
+		}, 3);
+	}
+
+	
 	// Finds average points in a Point[] use offset to make it random
 	static Point getAverage(Point[] pointArray, int offset) {
 		int averagex = 0;
@@ -108,7 +118,7 @@ public class GeneralMethods {
 	}
 
 	public static void clickObject(RSObject o, String option, boolean minimapVisible) {
-		clickObject(o, option, 0, true, minimapVisible);
+		clickObject(o, option, 0, false, minimapVisible);
 	}
 
 	static boolean turnTo(final RSTile loc) {
@@ -128,7 +138,6 @@ public class GeneralMethods {
 
 	static void clickObject(RSObject o, String option, int fail, boolean fast,  boolean minimap) {
 		if (o == null || o.getModel() == null
-				|| o.getID() != Objects.getAt(o.getPosition())[0].getID()
 				|| Banking.isBankScreenOpen())
 			return;
 		if (!o.isOnScreen() || fail > 4) {
@@ -168,16 +177,21 @@ public class GeneralMethods {
 			if (Game.getUptext().contains(option)
 					|| Game.getUptext().contains("Use")) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-				Mouse.click(1);
+				leftClick(p);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 			} else {
-				Mouse.click(3);
+				rightClick(p);
 				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
 					General.sleep(20, 25);
 				if (ChooseOption.isOpen() && ChooseOption.isOptionValid(option)) {
 					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 					ChooseOption.select(option);
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+					General.sleep(450, 650);
+					while (Player.isMoving() && Player.getAnimation() == -1) {
+						General.sleep(20, 30);
+					}
+					return;
 				} else if (ChooseOption.isOpen()) {
 					ChooseOption.close();
 					clickObject(o, option, fail + 1, fast, minimap);
@@ -189,10 +203,11 @@ public class GeneralMethods {
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 			Mouse.click(1);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-		}
-		General.sleep(250, 350);
-		while (Player.isMoving() && Player.getAnimation() == -1) {
-			General.sleep(20, 30);
+			General.sleep(450, 650);
+			while (Player.isMoving() && Player.getAnimation() == -1) {
+				General.sleep(20, 30);
+			}
+			return;
 		}
 	}
 

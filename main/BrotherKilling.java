@@ -31,9 +31,11 @@ public class BrotherKilling {
 		for (Brothers bro : Brothers.values()) {
 			if (bro != null && !bro.isTunnel && !bro.killed) {
 				if (!isInCrypt(bro)) {
+					Var.status = "Going to crypt " + bro.getName();
 					goToCrypt(bro);
 				}
 				if (isInCrypt(bro)) {
+					Var.status = "Checking Coffin";
 					kill(bro);
 				}
 			}
@@ -43,20 +45,34 @@ public class BrotherKilling {
 	private static void kill(Brothers bro) {
 		RSObject[] coffin = Objects.find(10, bro.getCryptID());
 		if (coffin.length > 0) {
+			Var.status = "Searching the coffin";
 			GeneralMethods.clickObject(coffin[0], "Search", false);
+			Var.status = "Searched the coffin";
+		}
+		for (int fSafe = 0; fSafe<20 && !tunnelInterface() || fSafe<20 && aggressiveNPC() == null; fSafe++) {
+			General.sleep(50);
+			Var.status = "Waiting";
 		}
 		if (tunnelInterface()) {
+			General.println("Tunnel Found");
+			Var.status = bro.getName() + " is tunnel";
 			bro.isTunnel = true;
 		} else {
+			General.println("Searching Aggressive NPC");
 			RSNPC target = aggressiveNPC();
 			if (target!=null) {
+				General.println("Found Aggressive NPC");
+				Var.status = "Target Found";
 				attackMob(target);
 				CombatManager(bro);
 			} else {
+				General.println("No Brother was Found");
+				Var.status = "No Target must of killed him already";
 				bro.killed = true;
 			}
-			exitCrypt(bro);
 		}
+		Var.status = "Exiting Crypt";
+		exitCrypt(bro);
 	}
 	
 	private static void CombatManager(Brothers b) {
@@ -83,10 +99,10 @@ public class BrotherKilling {
 		if (Objects.find(10, b.getStair()).length > 0) {
 			GeneralMethods.clickObject(Objects.find(10, b.getStair())[0],"Climb", false);
 			for (int fSafe = 0; fSafe < 20
-					&& !Var.barrowsArea.contains(Player.getPosition()); fSafe++) {
+					&& Player.getPosition().getPlane() == 3; fSafe++) {
 				General.sleep(50);
 			}
-			if (Var.barrowsArea.contains(Player.getPosition())) {
+			if (Player.getPosition().getPlane() != 3) {
 				if (!b.prayer.equals(Prayer.Prayers.None)) {
 					Prayer.disable(b);
 				}
@@ -99,8 +115,9 @@ public class BrotherKilling {
 	private static void goToCrypt(Brothers b) {
 		if (!b.getDigArea().contains(Player.getPosition())) {
 			if (Pathing.isInBarrows()) {
-				if (b.getDigArea().getTiles().length > 0) {
-					Walking.blindWalkTo(Pathing.getRandomTile(b.getDigArea()));
+				if (b.getDigArea() != null) {
+					Var.status = "Walking to mound";
+					Walking.blindWalkTo(b.getDigArea().getRandomTile());
 					General.sleep(350, 500);
 					while (Player.isMoving()) {
 						General.sleep(30);
@@ -111,10 +128,9 @@ public class BrotherKilling {
 				goToCrypt(b);
 		}
 		if (b.getDigArea().contains(Player.getPosition())) {
+			Var.status = "Getting Ready to fight";
 			getReadyToFight(b);
-			if (b.usePotions()) {
-				Potions.superPot();
-			}
+			Var.status = "Digging";
 			dig(b);
 		}
 	}
@@ -164,6 +180,9 @@ public class BrotherKilling {
 				Magic.autoCast(b.getSpell());
 				General.println("Spell should be turned on now");
 			}
+		}
+		if (b.usePotions()) {
+			Potions.superPot();
 		}
 	}
 

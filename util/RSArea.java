@@ -1,8 +1,11 @@
 package scripts.Barrows.util;
 
+import org.tribot.api.General;
+import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile; 
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 
@@ -117,8 +120,35 @@ public class RSArea {
         }
         return polygon;
     }
+    
+    //Draws the area
+	public void drawArea(Graphics g) {
+		Rectangle2D b = area.getBounds2D();
+		for (int x = (int) b.getMinX(); x <= (int) b.getMaxX(); x++) {
+			for (int y = (int) b.getMinX(); y <= (int) b.getMaxY(); y++) {
+				if (area.contains(x, y))
+					drawTile(new RSTile(x, y), (Graphics2D) g, false);
+			}
+		}
+	}
+
+	// Draws the tile
+	private void drawTile(RSTile tile, Graphics2D g, boolean fill) {
+		if (tile.isOnScreen()) {
+			if (fill)
+				g.fillPolygon(Projection.getTileBoundsPoly(tile, 0));
+			else
+				g.drawPolygon(Projection.getTileBoundsPoly(tile, 0));
+		}
+	}
  
     public static double distanceBetween(RSTile curr, RSTile dest) {
         return Math.sqrt((curr.getX() - dest.getX()) * (curr.getX() - dest.getX()) + (curr.getY() - dest.getY()) * (curr.getY() - dest.getY()));
+    }
+
+    public RSTile getRandomTile() {
+        Rectangle2D bounds = area.getBounds2D();
+        RSTile tile = new RSTile(General.random((int)bounds.getMinX(), (int)bounds.getMaxX()), General.random((int)bounds.getMinY(), (int)bounds.getMaxY()));
+        return area.contains(tile.getX(), tile.getY()) ? tile : getRandomTile();
     }
 }

@@ -1,9 +1,12 @@
 package scripts.Barrows.main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.SwingUtilities;
 
+import org.tribot.api.General;
+import org.tribot.api.input.Mouse;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
@@ -22,6 +25,7 @@ public class Barrows extends Script implements Painting{
 	}
 
 	private int loop() {
+		Mouse.setSpeed(General.random(250,350));
 		BrotherKilling.StartFight();
 		return 50;
 	}
@@ -48,7 +52,9 @@ public class Barrows extends Script implements Painting{
 	public void onPaint(Graphics g) {
 		int i = 0;
 		for (Brothers b: Brothers.values()) {
+			g.setColor(Color.BLACK);
 			String s = b.getName();
+			if (s != null) {
 			if (b.isKilled()) {
 				s = s + " Killed: " + b.isKilled(); 
 			}
@@ -57,7 +63,15 @@ public class Barrows extends Script implements Painting{
 			}
 			g.drawString(s, 287, 362 + 10 * i);
 			i++;
+			}
+			g.setColor(Color.RED);
+			b.getDigArea().drawArea(g);
 		}
+		if (Var.status != null) {
+			g.drawString(Var.status, 574, 376);
+		}
+		
+
 	}
 	
 }

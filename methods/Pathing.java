@@ -198,15 +198,4 @@ public class Pathing {
 		}
 		return false;
 	}
-
-	public static RSTile getRandomTile(RSArea r) {
-		int rand = General.random(0, r.getTiles().length - 1);
-		if (r.getTiles().length > 0) {
-			for (int i = 0; i < r.getTiles().length; i++) {
-				if (r.getTiles().length > i && i == rand)
-					return r.getTiles()[i];
-			}
-		}
-		return null;
-	}
 }

@@ -90,7 +90,7 @@ public class Prayer {
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
 				b.getPrayer().getInterfaceId())
 				.getAbsoluteBounds());
-		Mouse.hop(p);// Could be move doesn't really matter
+		Mouse.move(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
 						"Deactivate " + b.getPrayer().getName()); fsafe++) {
@@ -99,6 +99,12 @@ public class Prayer {
 		if (Game.getUptext().contains(
 				"Deactivate " + b.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
+		}
+		for (int fsafe = 0; fsafe<20 && b.getPrayer().isActivated(); fsafe++){
+			General.sleep(20);
+		}
+		if (b.getPrayer().isActivated()) {
+			disable(b);
 		}
 	}
 
@@ -109,7 +115,7 @@ public class Prayer {
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
 				b.getPrayer().getInterfaceId())
 				.getAbsoluteBounds());
-		Mouse.hop(p);// Could be move doesn't really matter
+		Mouse.move(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
 						"Activate " + b.getPrayer().getName()); fsafe++) {
@@ -118,6 +124,12 @@ public class Prayer {
 		if (Game.getUptext().contains(
 				"Activate " + b.getPrayer().getName())) {
 			GeneralMethods.leftClick(p);
+		}
+		for (int fsafe = 0; fsafe<20 && !b.getPrayer().isActivated(); fsafe++){
+			General.sleep(20);
+		}
+		if (!b.getPrayer().isActivated()) {
+			activate(b);
 		}
 	}
 }
