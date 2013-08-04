@@ -10,30 +10,30 @@ import scripts.Barrows.util.RSArea;
 public class Var {
 
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
-			new RSTile(3557, 3298, 0), new RSTile(3557, 3299, 0),
-			new RSTile(3558, 3297, 0), new RSTile(3557, 3297, 0) });
+			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
+			new RSTile(3559, 3296, 0), new RSTile(3555, 3296, 0) });
 
 	public static final RSArea dharokDig = new RSArea(new RSTile[] {
-			new RSTile(3574, 3299, 0), new RSTile(3576, 3299, 0),
-			new RSTile(3576, 3297, 0), new RSTile(3574, 3297, 0) });
+			new RSTile(3574, 3301, 0), new RSTile(3578, 3301, 0),
+			new RSTile(3578, 3297, 0), new RSTile(3574, 3297, 0) });
 	
 	public final static int SPADE_ID = 952;
 
 	public static final RSArea ahrimDig = new RSArea(new RSTile[] {
-			new RSTile(3566, 3288, 0), new RSTile(3568, 3288, 0),
-			new RSTile(3568, 3290, 0), new RSTile(3566, 3290, 0) });
+			new RSTile(3563, 3291, 0), new RSTile(3567, 3291, 0),
+			new RSTile(3567, 3287, 0), new RSTile(3563, 3287, 0) });
 
 	public static final RSArea guthanDig = new RSArea(new RSTile[] {
-			new RSTile(3575, 3281, 0), new RSTile(3576, 3281, 0),
-			new RSTile(3576, 3280, 0), new RSTile(3575, 3280, 0) });
+			new RSTile(3575, 3284, 0), new RSTile(3579, 3284, 0),
+			new RSTile(3579, 3280, 0), new RSTile(3575, 3280, 0) });
 
 	public static final RSArea karilDig = new RSArea(new RSTile[] {
-			new RSTile(3564, 3278, 0), new RSTile(3565, 3278, 0),
-			new RSTile(3565, 3277, 0), new RSTile(3564, 3277, 0) });
+			new RSTile(3564, 3277, 0), new RSTile(3567, 3277, 0),
+			new RSTile(3567, 3274, 0), new RSTile(3564, 3274, 0) });
 
 	public static final RSArea toragDig = new RSArea(new RSTile[] {
-			new RSTile(3554, 3283, 0), new RSTile(3555, 3283, 0),
-			new RSTile(3555, 3282, 0), new RSTile(3554, 3282, 0) });
+			new RSTile(3552, 3285, 0), new RSTile(3556, 3285, 0),
+			new RSTile(3556, 3281, 0), new RSTile(3552, 3281, 0) });
 
 	public static final RSArea barrowsArea = new RSArea(new RSTile[] {
 			new RSTile(3562, 3307, 0), new RSTile(3557, 3307, 0),
@@ -60,7 +60,7 @@ public class Var {
 
 	public static Food.Edibles food;
 	
-	public static int superAttack,superStrength,superDefence,rangingPotion,prayerPotion, foodAmount;
+	public static int superAttack,superStrength,superDefence,rangingPotion,prayerPotion,foodAmount;
 	
 	public static String status;
 

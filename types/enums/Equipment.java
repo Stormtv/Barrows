@@ -53,7 +53,7 @@ public class Equipment {
 
 	public static boolean isAllEquiped(int... id) {
 		for (int i : id) {
-			if (!isEquiped(i))
+			if (i != -1 && !isEquiped(i))
 				return false;
 		}
 		return true;

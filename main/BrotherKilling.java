@@ -7,7 +7,6 @@ import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
-import org.tribot.api2007.Camera;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
@@ -29,7 +28,7 @@ import scripts.Barrows.types.enums.Prayer;
 
 public class BrotherKilling {
 
-	public static void StartFight() {
+	public static ArrayList<Brothers> killOrder() {
 		ArrayList<Brothers> ba = new ArrayList<Brothers>();
 		int i = 0;
 		for (Brothers bro : Brothers.values()) {
@@ -38,19 +37,29 @@ public class BrotherKilling {
 			}
 			i++;
 		}
-		for (Brothers bro : ba) {
-			if (bro != null && !bro.isTunnel && !bro.killed) {
-				if (!isInCrypt(bro)) {
-					Var.status = "Going to crypt " + bro.getName();
-					goToCrypt(bro);
-				}
-				if (isInCrypt(bro)) {
-					if (bro!=null && !bro.isTunnel() && !bro.isKilled()){
-						Var.status = "Checking Coffin";
-						kill(bro);
-					} else {
-						exitCrypt(bro);
-					}
+		return ba;
+	}
+	
+	public static void StartFight() {
+		Brothers bro = null;
+		for (Brothers b : killOrder()) {
+			if (b != null && !b.isKilled() && !b.isTunnel()) {
+				bro = b;
+				break;
+			}
+		}
+		if (bro != null && !bro.isTunnel && !bro.killed) {
+			if (!isInCrypt(bro)) {
+				Prayer.disableAllPrayers();
+				Var.status = "Going to crypt " + bro.getName();
+				goToCrypt(bro);
+			}
+			if (isInCrypt(bro)) {
+				if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
+					Var.status = "Checking Coffin";
+					kill(bro);
+				} else {
+					exitCrypt(bro);
 				}
 			}
 		}
@@ -62,9 +71,13 @@ public class BrotherKilling {
 			Var.status = "Searching the coffin";
 			GeneralMethods.clickObject(coffin[0], "Search", false);
 			Var.status = "Searched the coffin";
+			General.sleep(350,500);
+			while(Player.isMoving()) {
+				General.sleep(20,40);
+			}
 		}
 		for (int fSafe = 0; fSafe<20 && !tunnelInterface() || fSafe<20 && aggressiveNPC() == null; fSafe++) {
-			General.sleep(100);
+			General.sleep(20);
 			Var.status = "Waiting";
 		}
 		if (tunnelInterface()) {
@@ -112,22 +125,14 @@ public class BrotherKilling {
 	private static void exitCrypt(Brothers b) {
 		if (Objects.find(10, b.getStair()).length > 0) {
 			RSObject stair = Objects.find(10, b.getStair())[0];
-			if (!stair.isOnScreen()) {
-				Camera.turnToTile(stair.getPosition());
-				stair.click("Climb");
-			} else {
-				stair.click("Climb");
-			}
+			GeneralMethods.clickObject(stair, "Climb", false);
 			for (int fSafe = 0; fSafe < 20
 					&& Player.getPosition().getPlane() == 3; fSafe++) {
 				General.sleep(75);
 			}
 			if (Player.getPosition().getPlane() != 3) {
 				Var.status = "Disabling Prayer";
-				if (!b.getPrayer().equals(Prayer.Prayers.None)) {
-					Var.status = "Toggling Prayer";
-					Prayer.disable(b);
-				}
+				Prayer.disableAllPrayers();
 			}
 		}
 	}
@@ -146,8 +151,6 @@ public class BrotherKilling {
 					}
 				}
 			}
-			if (!b.getDigArea().contains(Player.getPosition()))
-				goToCrypt(b);
 		}
 		if (b.getDigArea().contains(Player.getPosition())) {
 			Var.status = "Getting Ready to fight";
@@ -172,8 +175,8 @@ public class BrotherKilling {
 				General.sleep(75);
 			}
 			if (Player.getPosition().getPlane() == 3) {
-				if (!b.getPrayer().equals(Prayer.Prayers.None)) {
-					Prayer.activate(b);
+				if (!b.getPrayer().equals(Prayer.Prayers.None) && !b.getPrayer().isActivated()) {
+					Prayer.activate(b.getPrayer());
 				}
 			}
 		}
@@ -188,6 +191,9 @@ public class BrotherKilling {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				}
+			}
+			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(b.getEquipment()); fsafe++) {
+				General.sleep(50);
 			}
 		}
 		if (Food.canEatWithoutWaste()) {
@@ -217,17 +223,17 @@ public class BrotherKilling {
 	
 	private static RSNPC aggressiveNPC() {
 		for (RSNPC n : NPCs.getAll()) {
-				if (n.isInteractingWithMe() 
-						&& isBrother(n)) {
-					return n;
-				}
+			if (n.isInteractingWithMe() 
+					&& isBrother(n)) {
+				return n;
+			}
 		}
 		return null;
 	}
 
 	private static void attackMob(RSNPC n) {
 		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-			GeneralMethods.click(n, "Attack");
+		GeneralMethods.click(n, "Attack");
 		General.sleep(50, 100);
 		while (Player.isMoving())
 			General.sleep(10);
@@ -236,7 +242,7 @@ public class BrotherKilling {
 	
 	private static boolean isBrother(RSNPC n) {
 		for (Brothers bro : Brothers.values()) {
-			if (n.getName().equals(bro.getName())) {
+			if (n.getName().contains(bro.getName())) {
 				return true;
 			}
 		}

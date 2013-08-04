@@ -13,14 +13,13 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 
 import scripts.Barrows.methods.GeneralMethods;
-import scripts.Barrows.types.Brother.Brothers;
 
 public class Prayer {
 
-	public static void flicker(Brothers b) {
-		if (!b.getPrayer().isActivated()) {
+	public static void flicker(Prayers p) {
+		if (!p.isActivated()) {
 			int xp = Skills.getXP("Hitpoints");
-			Prayer.activate(b);
+			Prayer.activate(p);
 			for (int fsafe = 0; Skills.getXP("Hitpoints") == xp
 					&& !(Player.getRSPlayer().getInteractingCharacter() == null)
 					&& fsafe < 41; fsafe++) {
@@ -29,11 +28,11 @@ public class Prayer {
 					System.out.println("Must of hit a 0 turnning piety off");
 				}
 			}
-			if (b.getPrayer().isActivated()) {
-				Prayer.disable(b);
+			if (p.isActivated()) {
+				Prayer.disable(p);
 			}
 		} else {
-			Prayer.disable(b);
+			Prayer.disable(p);
 		}
 	}
 
@@ -83,53 +82,61 @@ public class Prayer {
 		return Skills.getActualLevel("Prayer");
 	}
 
-	public static void disable(Brothers b) {
+	public static void disable(Prayers b) {
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				b.getPrayer().getInterfaceId())
+				b.getInterfaceId())
 				.getAbsoluteBounds());
 		Mouse.move(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
-						"Deactivate " + b.getPrayer().getName()); fsafe++) {
+						"Deactivate " + b.getName()); fsafe++) {
 			General.sleep(30);
 		}
 		if (Game.getUptext().contains(
-				"Deactivate " + b.getPrayer().getName())) {
+				"Deactivate " + b.getName())) {
 			GeneralMethods.leftClick(p);
 		}
-		for (int fsafe = 0; fsafe<20 && b.getPrayer().isActivated(); fsafe++){
+		for (int fsafe = 0; fsafe<20 && b.isActivated(); fsafe++){
 			General.sleep(40);
 		}
-		if (b.getPrayer().isActivated()) {
+		if (b.isActivated()) {
 			disable(b);
 		}
 	}
+	
+	public static void disableAllPrayers() {
+		for (Prayers p : Prayers.values()) {
+			if (p.isActivated()) {
+				disable(p);
+			}
+		}
+	}
 
-	public static void activate(Brothers b) {
+	public static void activate(Prayers p) {
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
 		}
-		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				b.getPrayer().getInterfaceId())
+		Point a = GeneralMethods.getRandomPoint(Interfaces.get(271,
+				p.getInterfaceId())
 				.getAbsoluteBounds());
-		Mouse.move(p);// Could be move doesn't really matter
+		Mouse.move(a);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
 				&& !Game.getUptext().contains(
-						"Activate " + b.getPrayer().getName()); fsafe++) {
+						"Activate " + p.getName()); fsafe++) {
 			General.sleep(30);
 		}
 		if (Game.getUptext().contains(
-				"Activate " + b.getPrayer().getName())) {
-			GeneralMethods.leftClick(p);
+				"Activate " + p.getName())) {
+			GeneralMethods.leftClick(a);
 		}
-		for (int fsafe = 0; fsafe<20 && !b.getPrayer().isActivated(); fsafe++){
+		for (int fsafe = 0; fsafe<20 && !p.isActivated(); fsafe++){
 			General.sleep(40);
 		}
-		if (!b.getPrayer().isActivated()) {
-			activate(b);
+		if (!p.isActivated()) {
+			activate(p);
 		}
 	}
 }

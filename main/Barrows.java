@@ -7,6 +7,8 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Projection;
+import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
@@ -65,7 +67,6 @@ public class Barrows extends Script implements Painting{
 			i++;
 			}
 			g.setColor(Color.RED);
-			b.getDigArea().drawArea(g);
 		}
 		if (Var.status != null) {
 			g.drawString(Var.status, 574, 376);
