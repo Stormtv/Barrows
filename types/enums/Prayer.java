@@ -85,6 +85,9 @@ public class Prayer {
 	public static void disable(Prayers b) {
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
+			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
+				General.sleep(15);
+			}
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
 				b.getInterfaceId())
@@ -118,6 +121,9 @@ public class Prayer {
 	public static void activate(Prayers p) {
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
+			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
+				General.sleep(15);
+			}
 		}
 		Point a = GeneralMethods.getRandomPoint(Interfaces.get(271,
 				p.getInterfaceId())

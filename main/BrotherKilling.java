@@ -55,6 +55,9 @@ public class BrotherKilling {
 				goToCrypt(bro);
 			}
 			if (isInCrypt(bro)) {
+				if (aggressiveNPC() != null) {
+					CombatManager(bro);
+				}
 				if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
 					Var.status = "Checking Coffin";
 					kill(bro);
@@ -103,18 +106,18 @@ public class BrotherKilling {
 	}
 	
 	private static void CombatManager(Brothers b) {
-		while (Player.getRSPlayer().getInteractingCharacter() != null
+		if (Player.getRSPlayer().getInteractingCharacter() != null
 				|| aggressiveNPC() != null) {
 			UpKeep();
 			RSNPC target = aggressiveNPC();
 			if (target.isInCombat() && target.getHealth() == 0) {
-				break;
+				b.killed = true;
+				return;
 			}
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {
 				GeneralMethods.click(target, "Attack");
 			}
 		}
-		b.killed = true;
 	}
 
 	private static void UpKeep() {
@@ -167,6 +170,9 @@ public class BrotherKilling {
 	private static void dig(Brothers b) {
 		if (!GameTab.getOpen().equals(TABS.INVENTORY)) {
 			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
+				General.sleep(15);
+			}
 		}
 		if (Inventory.find(Var.SPADE_ID).length > 0) {
 			Inventory.find(Var.SPADE_ID)[0].click("");
@@ -200,11 +206,9 @@ public class BrotherKilling {
 			Food.eat();
 		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
-			General.println("Spell is not NONE");
-			while (!Magic.isAutocasting(b.getSpell())) {
-				General.println("Turning ON auto Cast");
+			if (!Magic.isAutocasting(b.getSpell())) {
+				Var.status = "Activating auto casting";
 				Magic.autoCast(b.getSpell());
-				General.println("Spell should be turned on now");
 			}
 		}
 		if (b.usePotions()) {

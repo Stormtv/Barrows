@@ -1,8 +1,13 @@
 package scripts.Barrows.types;
 
+import java.awt.event.KeyEvent;
+
 import org.tribot.api.General;
+import org.tribot.api.input.Keyboard;
+import org.tribot.api2007.GameTab;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
+import org.tribot.api2007.GameTab.TABS;
 
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Prayer;
@@ -34,6 +39,7 @@ public class Potions {
 			int doseID = getBestDoseToDrink();
 			int points = Skills.getCurrentLevel("Prayer");
 			if (Inventory.find(doseID).length > 0) {
+				openInventory();
 				if (Inventory.find(doseID)[0].click("Drink")) {
 					for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Prayer") <= points; fsafe++) {
 						General.sleep(40);
@@ -55,6 +61,15 @@ public class Potions {
 		}
 	}
 	
+	public static void openInventory() {
+		if (GameTab.getOpen() != TABS.INVENTORY) {
+			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
+				General.sleep(15);
+			}
+		}
+	}
+	
 	private static int prayerDrain() {
 		int drain = 8;
 		for (Brothers b: Brothers.values()) {
@@ -67,6 +82,7 @@ public class Potions {
 	
 	public static void superPot() {
 		if (Inventory.getCount(161,159,157,2440) > 0) {
+			openInventory();
 			int points = Skills.getCurrentLevel("Strength");
 			Inventory.find(161,159,157,2440)[0].click("Drink");
 			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Strength") <= points; fsafe++) {
@@ -74,6 +90,7 @@ public class Potions {
 			}
 		}
 		if (Inventory.getCount(167,165,163,2442) > 0) {
+			openInventory();
 			int points = Skills.getCurrentLevel("Defence");
 			Inventory.find(167,165,163,2442)[0].click("Drink");
 			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Defence") <= points; fsafe++) {
@@ -81,6 +98,7 @@ public class Potions {
 			}
 		}
 		if (Inventory.getCount(149,147,145,2436) > 0) {
+			openInventory();
 			int points = Skills.getCurrentLevel("Attack");
 			Inventory.find(149,147,145,2436)[0].click("Drink");
 			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Attack") <= points; fsafe++) {
@@ -88,6 +106,7 @@ public class Potions {
 			}
 		}
 		if (Inventory.getCount(2444, 169, 171, 173) > 0) {
+			openInventory();
 			int points = Skills.getCurrentLevel("Range");
 			Inventory.find(2444, 169, 171, 173)[0].click("Drink");
 			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel("Range") <= points; fsafe++) {

@@ -6,6 +6,7 @@ import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
+import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSModel;
@@ -72,20 +73,29 @@ public class Magic {
 		if (!canCast(s))
 			return false;
 
-		if (Game.getUptext().contains(s.getName())) {
-			if (m != null && m.click("Cast " + s.getName())) {
-				// TODO dynamic sleep
+		if (!Game.getUptext().contains(s.getName())) {
+			if (!GameTab.getOpen().equals(TABS.MAGIC)) {
+				Keyboard.pressFunctionKey(6);
+				for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.MAGIC); fsafe++) {
+					General.sleep(15);
+				}
 			}
-		} else {
-			if (GameTab.getOpen().equals(TABS.MAGIC)) {
-				RSInterface spell = Interfaces.get(192, s.getInterfaceID());
-				if (spell != null) {
-					if (spell.click("Cast " + s.getName())) {
-						// TODO dynamic sleep
+			RSInterface spell = Interfaces.get(192, s.getInterfaceID());
+			if (spell != null) {
+				if (spell.click("Cast " + s.getName())) {
+					for (int fsafe = 0; fsafe<25 && !Game.getUptext().contains(s.getName());fsafe++) {
+						General.sleep(10);
 					}
 				}
-			} else {
-				GameTab.open(TABS.MAGIC);
+			}
+		} else {
+			if (m != null && m.click("Cast " + s.getName())) {
+				for (int fsafe = 0; fsafe<25 && Player.getAnimation() == -1; fsafe++) {
+					General.sleep(40);
+				}
+				if (Player.getAnimation() != -1) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -99,6 +109,9 @@ public class Magic {
 
 		if (!GameTab.getOpen().equals(TABS.COMBAT)) {
 			Keyboard.pressFunctionKey(1);
+			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.COMBAT); fsafe++) {
+				General.sleep(15);
+			}
 		}
 		if (Interfaces.get(90, 5) != null) {
 			if (Interfaces.get(90, 5).click("Spell")) {
@@ -112,7 +125,9 @@ public class Magic {
 				// TODO slayer staff for magic dart
 			} else {
 				if (Interfaces.get(319, s.getSecondInterfaceID()).click("Ok")) {
-					// TODO dynamic sleep
+					for (int fsafe = 0; fsafe<25 && !isAutocasting(s);fsafe++) {
+						General.sleep(10);
+					}
 				}
 			}
 		} 
