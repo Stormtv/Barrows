@@ -115,8 +115,8 @@ public class Magic {
 		}
 		if (Interfaces.get(90, 5) != null) {
 			if (Interfaces.get(90, 5).click("Spell")) {
-				for (int fsafe =0; fsafe<5 && Interfaces.get(319,s.getSecondInterfaceID()) != null; fsafe++) {
-					General.sleep(40);
+				for (int fsafe =0; fsafe<40 && Interfaces.get(319,s.getSecondInterfaceID()) != null; fsafe++) {
+					General.sleep(50);
 				}
 			}
 		}
@@ -125,8 +125,11 @@ public class Magic {
 				// TODO slayer staff for magic dart
 			} else {
 				if (Interfaces.get(319, s.getSecondInterfaceID()).click("Ok")) {
-					for (int fsafe = 0; fsafe<25 && !isAutocasting(s);fsafe++) {
-						General.sleep(10);
+					for (int fsafe = 0; fsafe<40 && !isAutocasting(s);fsafe++) {
+						General.sleep(25);
+					}
+					if (isAutocasting(s)) {
+						return true;
 					}
 				}
 			}

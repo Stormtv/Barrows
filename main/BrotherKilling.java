@@ -57,12 +57,13 @@ public class BrotherKilling {
 			if (isInCrypt(bro)) {
 				if (aggressiveNPC() != null) {
 					CombatManager(bro);
-				}
-				if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
-					Var.status = "Checking Coffin";
-					kill(bro);
 				} else {
-					exitCrypt(bro);
+					if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
+						Var.status = "Checking Coffin";
+						kill(bro);
+					} else {
+						exitCrypt(bro);
+					}
 				}
 			}
 		}
@@ -106,11 +107,11 @@ public class BrotherKilling {
 	}
 	
 	private static void CombatManager(Brothers b) {
-		if (Player.getRSPlayer().getInteractingCharacter() != null
+		while (Player.getRSPlayer().getInteractingCharacter() != null
 				|| aggressiveNPC() != null) {
 			UpKeep();
 			RSNPC target = aggressiveNPC();
-			if (target.isInCombat() && target.getHealth() == 0) {
+			if (target == null || target.isInCombat() && target.getHealth() == 0) {
 				b.killed = true;
 				return;
 			}
@@ -208,7 +209,9 @@ public class BrotherKilling {
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
 			if (!Magic.isAutocasting(b.getSpell())) {
 				Var.status = "Activating auto casting";
-				Magic.autoCast(b.getSpell());
+				for(int fsafe = 0; fsafe<3 && !Magic.isAutocasting(b.getSpell()); fsafe++) {
+					Magic.autoCast(b.getSpell());
+				}
 			}
 		}
 		if (b.usePotions()) {
