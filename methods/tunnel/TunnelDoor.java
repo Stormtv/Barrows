@@ -27,7 +27,7 @@ public enum TunnelDoor {
 	W_S_DOOR("W_S_DOOR", 6745, new RSTile(3534, 9688, 0), 20, 38, 117, 7, 3),
 	W_E_DOOR("W_E_DOOR", 6743, new RSTile(3541, 9694, 0), 18, 60, 94, 3, 7),
 	
-	C_N_DOOR("C_N_DOOR", 6739, new RSTile(3552, 9701, 0), 14, 94, 77, 7, 3),
+	C_N_DOOR("C_N_DOOR", 6739, new RSTile(3552, 9701, 0), 14, 94, 76, 7, 3),
 	C_W_DOOR("C_W_DOOR", 6743, new RSTile(3545, 9695, 0), 18, 77, 94, 3, 7),
 	C_S_DOOR("C_S_DOOR", 6746, new RSTile(3551, 9688, 0), 21, 94, 117, 7, 3),
 	C_E_DOOR("C_E_DOOR", 6744, new RSTile(3558, 9694, 0), 19, 117, 94, 3, 7),
