@@ -14,13 +14,15 @@ import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.methods.tunnel.TunnelDoor;
+import scripts.Barrows.methods.tunnel.WTunnelTraverse;
 
 public class TunnelTestPainter extends Script implements Painting {
 	private Image i = getImage("http://i.imgur.com/TuV9Zmw.gif");
 	private final float alpha = (float) 0.75;
-
+	private TunnelDoor[] Pathway;
 	@Override
 	public void run() {
+		Pathway = WTunnelTraverse.pathToChest();
 		while(true)sleep(500);
 	}
 
@@ -41,6 +43,12 @@ public class TunnelTestPainter extends Script implements Painting {
 		g.setColor(Color.RED);
 		for (TunnelDoor d: TunnelDoor.values()) {
 			if (!d.isOpenable()) {
+				d.paint(g);
+			}
+		}
+		g.setColor(Color.WHITE);
+		if (WTunnelTraverse.visitedDoors !=null) {
+			for (TunnelDoor d: WTunnelTraverse.visitedDoors) {
 				d.paint(g);
 			}
 		}

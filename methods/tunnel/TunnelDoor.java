@@ -6,6 +6,8 @@ import org.tribot.api2007.Game;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
+
 public enum TunnelDoor {
 	//North Row
 	NW_N_DOOR("NW_N_DOOR", 6735, new RSTile(3535, 9718, 0), 10, 39, 22, 7, 3),
@@ -69,6 +71,10 @@ public enum TunnelDoor {
 		return x;
 	}
 	
+	public TunnelDoor getDoor() {
+		return this;
+	}
+	
 	public int getY() {
 		return y;
 	}
@@ -122,5 +128,18 @@ public enum TunnelDoor {
 		if (cp != null && cp.isOpenable())
 			return true;
 		return false;
+	}
+
+	public TunnelRoom getOtherRoom(TunnelRoom currentRoom) {
+		for (TunnelRoom r : Rooms.TunnelRoom.values()) {
+			if (!r.equals(currentRoom)) {
+				for (TunnelDoor d : r.getConnectedDoors()) {
+					if (d.equals(getDoor())) {
+						return r;
+					}
+				}
+			}
+		}
+		return null;
 	}
 }
