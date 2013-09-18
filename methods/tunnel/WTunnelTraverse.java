@@ -1,61 +1,57 @@
 package scripts.Barrows.methods.tunnel;
 
 import java.util.ArrayList;
-
-import org.tribot.api.General;
+import java.util.Random;
 
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 
 public class WTunnelTraverse {
 	
-	public static ArrayList<TunnelDoor> visitedDoors = new ArrayList<TunnelDoor>();
-	public static TunnelRoom currentRoom = TunnelRoom.SE;
-	
 	public static TunnelDoor[] pathToChest() {
-		//This is how we will keep track of if we have tried to go that way
-		ArrayList<TunnelRoom> visitedRooms = new ArrayList<TunnelRoom>();
-		
-		//This will be what we return in the end
-		//ArrayList<TunnelDoor> visitedDoors = new ArrayList<TunnelDoor>();
-		
-		//This is for testing since I don't want to go to the tunnels (http://i.imgur.com/Cztt9KW.jpg)
-		
-		//This grabs the start room that your character is in
-		//TunnelRoom currentRoom = Room.getRoom(); 
-		
-		//Adds first room we start in to the visited room arraylist
-		visitedRooms.add(currentRoom);
-		General.println("Current Room: "+currentRoom.toString());
-		//While we are not in the chest room
-		while (!currentRoom.equals(TunnelRoom.CC)) {
-			//Loops through all the open doors in the current room
-			for (TunnelDoor d : currentRoom.getOpenDoors()) {
-				//Checks if we have not visited this room yet
-				if (!visitedRooms.contains(d.getOtherRoom(currentRoom))) {
-					//Adds the room we are going to
-					visitedRooms.add(d.getOtherRoom(currentRoom));
-					//Adds the door we had to go through to get to the room
-					visitedDoors.add(d);
-					//Found a unvisited room so exit the for
-					break;
+		ArrayList<TunnelDoor> savedDoors = new ArrayList<TunnelDoor>();
+		for (int i = 0; i<20; i++) {
+			boolean deadEnd = true;
+			TunnelRoom currentRoom = TunnelRoom.NC;
+			ArrayList<TunnelDoor> visitedDoors = new ArrayList<TunnelDoor>();
+			ArrayList<TunnelRoom> visitedRooms = new ArrayList<TunnelRoom>();
+			ArrayList<TunnelRoom> roomPath = new ArrayList<TunnelRoom>();
+			visitedRooms.add(currentRoom);
+			while (!currentRoom.equals(TunnelRoom.CC)) {
+				deadEnd = true;
+				for (TunnelDoor d : shuffleArray(currentRoom.getOpenDoors())) {
+					TunnelRoom room = d.getOtherRoom(currentRoom);
+					if (!visitedRooms.contains(room)) {
+						visitedRooms.add(room);
+						currentRoom = room;
+						roomPath.add(room);
+						visitedDoors.add(d);
+						deadEnd = false;
+						break;
+					}
+				}
+				if (deadEnd) {
+					currentRoom = roomPath.get(roomPath.size() - 2);
+					roomPath.remove(roomPath.size()-1);
+					visitedDoors.remove(visitedDoors.size()-1);
 				}
 			}
-			//if the last visited room is the same as the current room after looking for a new room we found a dead end
-			if (visitedRooms.get(visitedRooms.size()-1).equals(currentRoom)) {
-				//Dead end so we will go back two rooms (one cooridor/tunnel)(one room)
-				General.println("Dead end");
-				currentRoom = visitedRooms.get(visitedRooms.size()-2);
-				General.println("Current Room: "+currentRoom.toString());
-				//Remove the last door
-				visitedDoors.remove(visitedDoors.size()-1);
-			} else {
-				currentRoom = visitedRooms.get(visitedRooms.size()-1);
-				General.println("Current Room: "+currentRoom.toString());
+			if (savedDoors.size() > visitedDoors.size() || savedDoors.size() == 0) {
+				savedDoors = visitedDoors;
 			}
-			General.sleep(1000);
 		}
-		General.println("Chest Room Found!");
-		//Hopefully we have reached the chest room so lets return what doors we took to get there!
-		return visitedDoors.toArray(new TunnelDoor[visitedDoors.size()]);
+		return savedDoors.toArray(new TunnelDoor[savedDoors.size()]);
 	}
+	
+	//Fisher–Yates shuffle (modified slightly)
+	private static TunnelDoor[] shuffleArray(TunnelDoor[] ar) {
+		Random rnd = new Random();
+	    for (int i = ar.length - 1; i > 0; i--) {
+	    	int index = rnd.nextInt(i + 1);
+	    	// Simple swap
+	    	TunnelDoor a = ar[index];
+	    	ar[index] = ar[i];
+	    	ar[i] = a;
+	      }
+	    return ar;
+	  }
 }

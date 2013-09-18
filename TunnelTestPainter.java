@@ -22,7 +22,9 @@ public class TunnelTestPainter extends Script implements Painting {
 	private TunnelDoor[] Pathway;
 	@Override
 	public void run() {
+		long start = System.currentTimeMillis();
 		Pathway = WTunnelTraverse.pathToChest();
+		println("Took " + (System.currentTimeMillis()-start) + " ms");
 		while(true)sleep(500);
 	}
 
@@ -47,8 +49,8 @@ public class TunnelTestPainter extends Script implements Painting {
 			}
 		}
 		g.setColor(Color.WHITE);
-		if (WTunnelTraverse.visitedDoors !=null) {
-			for (TunnelDoor d: WTunnelTraverse.visitedDoors) {
+		if (Pathway !=null) {
+			for (TunnelDoor d: Pathway) {
 				d.paint(g);
 			}
 		}
