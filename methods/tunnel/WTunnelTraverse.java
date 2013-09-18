@@ -11,7 +11,7 @@ public class WTunnelTraverse {
 		ArrayList<TunnelDoor> savedDoors = new ArrayList<TunnelDoor>();
 		for (int i = 0; i<20; i++) {
 			boolean deadEnd = true;
-			TunnelRoom currentRoom = TunnelRoom.NC;
+			TunnelRoom currentRoom = Rooms.getRoom();
 			ArrayList<TunnelDoor> visitedDoors = new ArrayList<TunnelDoor>();
 			ArrayList<TunnelRoom> visitedRooms = new ArrayList<TunnelRoom>();
 			ArrayList<TunnelRoom> roomPath = new ArrayList<TunnelRoom>();
