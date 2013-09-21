@@ -7,12 +7,12 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
-import org.tribot.api2007.Projection;
-import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
+import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.Brother.Brothers;
 
@@ -28,7 +28,18 @@ public class Barrows extends Script implements Painting{
 
 	private int loop() {
 		Mouse.setSpeed(General.random(250,350));
-		BrotherKilling.StartFight();
+		//Bank Check
+		//Tunnel Check
+		//More checks
+		
+		//Kill Test
+		if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
+			BrotherKilling.StartFight();
+			return 50;
+		} else if (Pathing.isInBarrows()) {
+			Tunnel.goToTunnel();
+			return 50;
+		}
 		return 50;
 	}
 

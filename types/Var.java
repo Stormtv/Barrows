@@ -64,4 +64,5 @@ public class Var {
 	
 	public static String status;
 
+	public static int[] tunnelEquipment;
 }

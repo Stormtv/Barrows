@@ -28,8 +28,8 @@ import scripts.Barrows.types.Var;
 public class GeneralMethods {
 	
 	public static double getHPPercent() {
-		return ((double) Skills.getCurrentLevel("Hitpoints")
-				/ (double) Skills.getActualLevel("Hitpoints") * 100);
+		return ((double) Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)
+				/ (double) Skills.getActualLevel(Skills.SKILLS.HITPOINTS) * 100);
 	}
 	
 	public boolean tunnelInterface() {

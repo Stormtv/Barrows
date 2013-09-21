@@ -28,7 +28,7 @@ import scripts.Barrows.types.enums.Prayer;
 
 public class BrotherKilling {
 
-	public static ArrayList<Brothers> killOrder() {
+	private static ArrayList<Brothers> killOrder() {
 		ArrayList<Brothers> ba = new ArrayList<Brothers>();
 		int i = 0;
 		for (Brothers bro : Brothers.values()) {
@@ -38,6 +38,15 @@ public class BrotherKilling {
 			i++;
 		}
 		return ba;
+	}
+	
+	public static boolean canKill() {
+		for (Brothers b : Brothers.values()) {
+			if (!b.isTunnel || !b.isKilled()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static void StartFight() {
@@ -141,7 +150,7 @@ public class BrotherKilling {
 		}
 	}
 
-	private static void goToCrypt(Brothers b) {
+	public static void goToCrypt(Brothers b) {
 		if (!b.getDigArea().contains(Player.getPosition())) {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea() != null) {
@@ -157,8 +166,13 @@ public class BrotherKilling {
 			}
 		}
 		if (b.getDigArea().contains(Player.getPosition())) {
-			Var.status = "Getting Ready to fight";
-			getReadyToFight(b);
+			if (!b.isTunnel) {
+				Var.status = "Getting Ready to fight";
+				getReadyToFight(b);
+			} else {
+				Var.status = "Getting Ready for tunnels";
+				getReadyForTunnels();
+			}
 			Var.status = "Digging";
 			dig(b);
 		}
@@ -189,6 +203,22 @@ public class BrotherKilling {
 		}
 	}
 
+	private static void getReadyForTunnels() {
+		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
+			for (int i : Var.tunnelEquipment) {
+				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
+					Equipment.equip(i);
+				}
+			}
+			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
+				General.sleep(50);
+			}
+		}
+		if (Food.canEatWithoutWaste()) {
+			Food.eat();
+		}
+	}
+	
 	private static void getReadyToFight(Brothers b) {
 		if (!b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
@@ -219,11 +249,11 @@ public class BrotherKilling {
 		}
 	}
 
-	 private static boolean tunnelInterface() {
+	private static boolean tunnelInterface() {
 		  return Interfaces.get(210, 0) != null;
 	}
 	
-	private static boolean isInCrypt(Brothers b) {
+	public static boolean isInCrypt(Brothers b) {
 		return (Player.getPosition().getPlane() == 3 && Objects.find(15,
 				b.getCryptID()).length > 0);
 	}

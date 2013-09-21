@@ -681,6 +681,32 @@ public class BarrowGUI extends JFrame {
 					.addContainerGap())
 		);
 		panelAhrim.setLayout(gl_panelAhrim);
+		
+		JPanel panelTunnels = new JPanel();
+		tabbedPane.addTab("Tunnel", null, panelTunnels, null);
+		
+		JButton button_5 = new JButton("Set Equipment");
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Var.tunnelEquipment = Equipment.getEquipedItems();
+			}
+		});
+		GroupLayout gl_panelTunnels = new GroupLayout(panelTunnels);
+		gl_panelTunnels.setHorizontalGroup(
+			gl_panelTunnels.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTunnels.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(180, Short.MAX_VALUE))
+		);
+		gl_panelTunnels.setVerticalGroup(
+			gl_panelTunnels.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTunnels.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(button_5)
+					.addContainerGap(79, Short.MAX_VALUE))
+		);
+		panelTunnels.setLayout(gl_panelTunnels);
 		panel_1.setLayout(gl_panel_1);
 		
 		JButton btnRight = new JButton("▲");
