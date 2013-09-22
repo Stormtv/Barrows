@@ -1,5 +1,7 @@
 package scripts.Barrows.methods.tunnel;
 
+import java.io.ObjectInputStream.GetField;
+
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
@@ -67,24 +69,14 @@ public class TunnelTraversing {
 
 	}
 
-	static RSTile getNextDoorTile() {
-		TunnelDoor[] path = WTunnelTraverse.pathToChest();
-		for (TunnelDoor t : path) {
-			if (t != null) {
-				if (t.getLocation().distanceTo(Player.getRSPlayer()) < 10
-						&& PathFinding.canReach(t.getLocation(), true)) {
-					return t.getLocation();
-				}
-			}
-		}
-		return null;
-	}
-
 	public static void openNextDoor() {
 		Walking.walking_timeout = 500;
-		RSObject[] nextDoor = Objects.getAt(getNextDoorTile());
-		if (nextDoor.length > 0) {
-			GeneralMethods.clickObject(nextDoor[0], "Open", false);
+		TunnelDoor[] path = WTunnelTraverse.pathToChest();
+		if (path.length > 0) {
+			RSObject[] nextDoor = Objects.getAt(path[0].getLocation());
+			if (nextDoor.length > 0) {
+				GeneralMethods.clickObject(nextDoor[0], "Open", false);
+			}
 		}
 	}
 
