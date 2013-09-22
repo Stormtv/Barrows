@@ -258,7 +258,7 @@ public class BrotherKilling {
 				b.getCryptID()).length > 0);
 	}
 	
-	private static RSNPC aggressiveNPC() {
+	public static RSNPC aggressiveNPC() {
 		for (RSNPC n : NPCs.getAll()) {
 			if (n.isInteractingWithMe() 
 					&& isBrother(n)) {
