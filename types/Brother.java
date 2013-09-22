@@ -86,4 +86,12 @@ public class Brother {
 			return cryptID;
 		}
 	}
+	public static Brothers getTunnelBrother() {
+		for (Brothers b : Brothers.values()) {
+			if (b.isTunnel()) {
+				return b;
+			}
+		}
+		return null;
+	}
 }

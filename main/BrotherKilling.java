@@ -18,6 +18,7 @@ import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
@@ -179,7 +180,21 @@ public class BrotherKilling {
 	}
 
 	public static void killBrotherInTunnel() {
-		// TODO Auto-generated method stub
+		while (Player.isMoving())General.sleep(15,30);
+		for (int fSafe = 0; fSafe<15 && aggressiveNPC() == null; fSafe++) {
+			General.sleep(20,30);
+			Var.status = "Checking for npc spawn";
+		}
+		RSNPC target = aggressiveNPC();
+		if (target!=null) {
+			Brothers bro = Brother.getTunnelBrother();
+			getReadyToFight(bro);
+			Var.status = "Found Brother in Tunnel";
+			attackMob(target);
+			CombatManager(bro);
+		} else {
+			Var.status = "No Brother spawned";
+		}
 	}
 
 	private static void dig(Brothers b) {
