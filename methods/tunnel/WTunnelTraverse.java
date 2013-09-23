@@ -3,19 +3,23 @@ package scripts.Barrows.methods.tunnel;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.tribot.api.General;
+
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 
 public class WTunnelTraverse {
 	
 	public static TunnelDoor[] pathToChest() {
 		ArrayList<TunnelDoor> savedDoors = new ArrayList<TunnelDoor>();
+		ArrayList<TunnelRoom> savedRooms = new ArrayList<TunnelRoom>();
 		for (int i = 0; i<20; i++) {
 			boolean deadEnd = true;
-			TunnelRoom currentRoom = Rooms.getRoom();
+			TunnelRoom currentRoom = TunnelRoom.WTunnel;//Rooms.getRoom();
 			ArrayList<TunnelDoor> visitedDoors = new ArrayList<TunnelDoor>();
 			ArrayList<TunnelRoom> visitedRooms = new ArrayList<TunnelRoom>();
 			ArrayList<TunnelRoom> roomPath = new ArrayList<TunnelRoom>();
 			visitedRooms.add(currentRoom);
+			roomPath.add(currentRoom);
 			while (!currentRoom.equals(TunnelRoom.CC)) {
 				deadEnd = true;
 				for (TunnelDoor d : shuffleArray(currentRoom.getOpenDoors())) {
@@ -30,13 +34,14 @@ public class WTunnelTraverse {
 					}
 				}
 				if (deadEnd) {
-					currentRoom = roomPath.get(roomPath.size() - 2);
 					roomPath.remove(roomPath.size()-1);
+					currentRoom = roomPath.get(roomPath.size() - 1);
 					visitedDoors.remove(visitedDoors.size()-1);
 				}
 			}
 			if (savedDoors.size() > visitedDoors.size() || savedDoors.size() == 0) {
 				savedDoors = visitedDoors;
+				savedRooms = roomPath;
 			}
 		}
 		return savedDoors.toArray(new TunnelDoor[savedDoors.size()]);
