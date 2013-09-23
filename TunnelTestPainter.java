@@ -22,6 +22,7 @@ public class TunnelTestPainter extends Script implements Painting {
 	private TunnelDoor[] Pathway;
 	@Override
 	public void run() {
+		super.setLoginBotState(false);
 		long start = System.currentTimeMillis();
 		Pathway = WTunnelTraverse.pathToChest();
 		println("Took " + (System.currentTimeMillis()-start) + " ms");
