@@ -18,7 +18,7 @@ public class WTunnelTraverse {
 			ArrayList<TunnelRoom> roomPath = new ArrayList<TunnelRoom>();
 			visitedRooms.add(currentRoom);
 			roomPath.add(currentRoom);
-			while (!currentRoom.equals(TunnelRoom.CC)) {
+			while (currentRoom != null && !currentRoom.equals(TunnelRoom.CC)) {
 				deadEnd = true;
 				for (TunnelDoor d : shuffleArray(currentRoom.getOpenDoors())) {
 					TunnelRoom room = d.getOtherRoom(currentRoom);

@@ -83,4 +83,8 @@ public class Rooms {
 		}
 		return null;
 	}
+
+	public static boolean InTunnel() {
+		return getRoom() != null && getRoom().toString().contains("unne");
+	}
 }

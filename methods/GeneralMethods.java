@@ -3,6 +3,7 @@ package scripts.Barrows.methods;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
@@ -14,6 +15,8 @@ import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
+import org.tribot.api2007.Objects;
+import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.Skills;
@@ -22,16 +25,18 @@ import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.util.RSArea;
 
 public class GeneralMethods {
-	
+
 	public static double getHPPercent() {
 		return ((double) Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)
 				/ (double) Skills.getActualLevel(Skills.SKILLS.HITPOINTS) * 100);
 	}
-	
+
 	public boolean tunnelInterface() {
 		return Interfaces.get(210, 0) != null;
 	}
@@ -81,7 +86,6 @@ public class GeneralMethods {
 		}, 3);
 	}
 
-	
 	// Finds average points in a Point[] use offset to make it random
 	static Point getAverage(Point[] pointArray, int offset) {
 		int averagex = 0;
@@ -116,7 +120,8 @@ public class GeneralMethods {
 		}
 	}
 
-	public static void clickObject(RSObject o, String option, boolean minimapVisible) {
+	public static void clickObject(RSObject o, String option,
+			boolean minimapVisible) {
 		clickObject(o, option, 0, false, minimapVisible);
 	}
 
@@ -135,14 +140,14 @@ public class GeneralMethods {
 		return true;
 	}
 
-	static void clickObject(RSObject o, String option, int fail, boolean fast,  boolean minimap) {
-		if (o == null || o.getModel() == null
-				|| Banking.isBankScreenOpen())
+	static void clickObject(RSObject o, String option, int fail, boolean fast,
+			boolean minimap) {
+		if (o == null || o.getModel() == null || Banking.isBankScreenOpen())
 			return;
 		if (!o.isOnScreen() || fail > 4) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
-				Walking.control_click=true;
+				Walking.control_click = true;
 				Walking.walkTo(tile);
 				General.sleep(250, 350);
 				while (Player.isMoving() && !o.isOnScreen()) {
@@ -155,14 +160,16 @@ public class GeneralMethods {
 				}
 				fail = 0;
 			} else {
-				while (!o.isOnScreen() && turnTo(tile));
+				while (!o.isOnScreen() && turnTo(tile))
+					;
 				if (!o.isOnScreen()) {
-					Walking.walking_timeout= 20000;
+					Walking.walking_timeout = 20000;
 					Walking.control_click = true;
-					Walking.walkScreenPath(Walking.generateStraightScreenPath(tile));
+					Walking.walkScreenPath(Walking
+							.generateStraightScreenPath(tile));
 				}
 				if (!o.isOnScreen()) {
-					clickObject(o,option,fail+1,fast,minimap);
+					clickObject(o, option, fail + 1, fast, minimap);
 				}
 			}
 		}
@@ -213,6 +220,8 @@ public class GeneralMethods {
 	private static final Rectangle screen = new Rectangle(0, 0, 515, 335);
 
 	static void clickPointOnScreen(RSTile r) {
+		if (r == null)
+			return;
 		Point p = getRandomPoint(Projection.getTileBoundsPoly(r, 0).getBounds());
 		if (screen != null && p != null && screen.contains(p)) {
 			Mouse.click(p, 1);
@@ -226,40 +235,31 @@ public class GeneralMethods {
 			if (tile.isOnScreen()) {
 				if (furthestVisibleTile != null) {
 					if (home.distanceTo(furthestVisibleTile) < home
-							.distanceTo(tile)) {
+							.distanceTo(tile)
+							&& PathFinding.canReach(tile, false)
+							&& PathFinding.isTileWalkable(tile)
+							&& Objects.getAt(tile).length > 0
+							&& Objects.getAt(tile)[0].getModel().getPoints().length != 6
+							&& Objects.getAt(tile)[0].getModel().getPoints().length < 200) {
 						furthestVisibleTile = tile;
 					}
 				} else {
-					furthestVisibleTile = tile;
+					if (PathFinding.canReach(tile, false)
+							&& PathFinding.isTileWalkable(tile)
+							&& Objects.getAt(tile).length > 0
+							&& Objects.getAt(tile)[0].getModel().getPoints().length != 6
+							&& Objects.getAt(tile)[0].getModel().getPoints().length < 200)
+						furthestVisibleTile = tile;
 				}
 			}
 		}
 		return furthestVisibleTile;
 	}
 
-	static boolean closestToEnd(RSTile end, RSTile start, RSTile cur) {
-		int toEnd = cur.distanceTo(end);
-		int toStart = cur.distanceTo(start);
-		System.out.println("end_" + toEnd + "   start_" + toStart);
-		return toEnd < toStart || toEnd == toStart;
-	}
 
-	static public RSTile getFinalTile(RSTile[] hi) {
-		if (hi.length > 0) {
-			return hi[hi.length - 1];
-		}
-		return null;
-	}
 
-	static public RSTile getStartTile(RSTile[] hi) {
-		if (hi.length > 0) {
-			return hi[0];
-		}
-		return null;
-	}
-
-	public static void walkScreen(RSTile[] r) {
-		RSTile fur = getFurthestTileOnScreen(r);
+	public static void walkScreen(RSTile r) {
+		RSTile fur = getFurthestTileOnScreen(getWithin(5, r).getTiles());
 		clickPointOnScreen(fur);
 	}
 
@@ -275,7 +275,15 @@ public class GeneralMethods {
 		}
 		return null;
 	}
-	
+
+	public static RSArea getWithin(int distance, RSTile refe) {
+		RSTile southwest = new RSTile(refe.getX() - distance, refe.getY()
+				- distance);
+		RSTile northeast = new RSTile(refe.getX() + distance, refe.getY()
+				+ distance);
+		return new RSArea(southwest, northeast);
+	}
+
 	public static boolean click(RSNPC m, String option) {
 		Mouse.setSpeed(500);
 		if (m.isValid()) {
@@ -283,8 +291,7 @@ public class GeneralMethods {
 				Mouse.move(GeneralMethods.getAverage(m.getModel()
 						.getAllVisiblePoints(), 0));
 			for (int fSafe = 0; fSafe < 20
-					&& !Game.getUptext().contains(
-							option + " " + m.getName()); fSafe++)
+					&& !Game.getUptext().contains(option + " " + m.getName()); fSafe++)
 				General.sleep(General.random(10, 15));
 			if (Game.getUptext().contains(option + " " + m.getName())) {
 				Mouse.click(1);
@@ -296,17 +303,15 @@ public class GeneralMethods {
 				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
 					General.sleep(General.random(10, 15));
 				if (ChooseOption.isOpen()) {
-					if (ChooseOption.isOptionValid(option + " "
-							+ m.getName())) {
-						return ChooseOption.select(option + " "
-								+ m.getName());
+					if (ChooseOption.isOptionValid(option + " " + m.getName())) {
+						return ChooseOption.select(option + " " + m.getName());
 					} else {
 						General.println("Misclicked");
-						click(m,option);
+						click(m, option);
 					}
 				}
 			}
 		}
-	return false;
+		return false;
 	}
 }
