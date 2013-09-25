@@ -235,7 +235,7 @@ public class BrotherKilling {
 	}
 	
 	private static void getReadyToFight(Brothers b) {
-		if (!b.getPrayer().equals(Prayer.Prayers.None)) {
+		if (!b.getPrayer().equals(null) && !b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
 		}
 		while (!Equipment.isAllEquiped(b.getEquipment())) {
