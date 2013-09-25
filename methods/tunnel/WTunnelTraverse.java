@@ -3,6 +3,8 @@ package scripts.Barrows.methods.tunnel;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.tribot.api.General;
+
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 
 public class WTunnelTraverse {
@@ -13,6 +15,10 @@ public class WTunnelTraverse {
 		for (int i = 0; i<20; i++) {
 			boolean deadEnd = true;
 			TunnelRoom currentRoom = Rooms.getRoom();
+			if (currentRoom == null) {
+				General.println("currentRoom is null make sure you are in the tunnel");
+				return null;
+			}
 			ArrayList<TunnelDoor> visitedDoors = new ArrayList<TunnelDoor>();
 			ArrayList<TunnelRoom> visitedRooms = new ArrayList<TunnelRoom>();
 			ArrayList<TunnelRoom> roomPath = new ArrayList<TunnelRoom>();

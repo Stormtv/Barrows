@@ -2,6 +2,7 @@ package scripts.Barrows.methods.tunnel;
 
 import java.util.ArrayList;
 
+import org.tribot.api.General;
 import org.tribot.api2007.PathFinding;
 
 public class Rooms {
@@ -81,6 +82,7 @@ public class Rooms {
 				return r;
 			}
 		}
+		General.println("Unable to find room");
 		return null;
 	}
 }
