@@ -14,15 +14,15 @@ public class Brother {
 		Torag(4,"Torag",false,false,Var.toragDig, new int[] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST, 20721, 20671),
 		Ahrim(5,"Ahrim",false,false,Var.ahrimDig, new int[] {}, Prayer.Prayers.ProtectFromMagic, false, Magic.Spell.NONE, 20770, 20667);
 
-	    public int killOrder;
+	    private int killOrder;
 	    private final String name;
-	    public boolean killed;
-	    public boolean isTunnel;
+	    private boolean killed;
+	    private boolean isTunnel;
 	    private final RSArea digArea;
-	    public int[] equipmentIds;
-		public Prayer.Prayers prayer;
-		public boolean usePotions;
-		public Magic.Spell spell;
+	    private int[] equipmentIds;
+		private Prayer.Prayers prayer;
+		private boolean usePotions;
+		private Magic.Spell spell;
 		private int cryptID;
 		private int stairID;
 		
@@ -32,16 +32,18 @@ public class Brother {
 				boolean usePotions, Magic.Spell spell, int cryptID, int stairID) {
 			this.killOrder = killOrder;
 			this.name = name;
-			this.killed = killed;
-			this.isTunnel = isTunnel;
+			this.setKilled(killed);
+			this.setTunnel(isTunnel);
 			this.digArea = digArea;
-			this.equipmentIds = equipmentIds;
+			this.setEquipmentIds(equipmentIds);
 			this.prayer = prayer;
 			this.spell = spell;
 			this.cryptID = cryptID;
 			this.stairID = stairID;
 		}
 
+		//Getters
+		
 		public boolean isKilled() {
 			return killed;
 		}
@@ -61,13 +63,13 @@ public class Brother {
 		public boolean isTunnel() {
 			return isTunnel;
 		}
-
+		
 		public RSArea getDigArea() {
 			return digArea;
 		}
 		
 		public int[] getEquipment() {
-			return equipmentIds;
+			return getEquipmentIds();
 		}
 		
 		public Prayer.Prayers getPrayer() {
@@ -75,7 +77,7 @@ public class Brother {
 		}
 		
 		public boolean usePotions() {
-			return usePotions;
+			return isUsePotions();
 		}
 		
 		public Magic.Spell getSpell() {
@@ -85,6 +87,49 @@ public class Brother {
 		public int getCryptID() {
 			return cryptID;
 		}
+		
+		//Setters 
+		
+		public void setKillOrder(int index) {
+			killOrder = index;
+		}
+		
+		public void setSpell(Magic.Spell s) {
+			spell = s;
+		}
+		
+		public void setPrayer(Prayer.Prayers selectedPrayer) {
+			prayer = selectedPrayer;
+		}
+		
+		public void setEquipment(int[] equipIds) {
+			setEquipmentIds(equipIds);
+		}
+
+		public void setKilled(boolean killed) {
+			this.killed = killed;
+		}
+
+		public void setTunnel(boolean isTunnel) {
+			this.isTunnel = isTunnel;
+		}
+
+		public boolean isUsePotions() {
+			return usePotions;
+		}
+
+		public void setUsePotions(boolean usePotions) {
+			this.usePotions = usePotions;
+		}
+
+		public int[] getEquipmentIds() {
+			return equipmentIds;
+		}
+
+		public void setEquipmentIds(int[] equipmentIds) {
+			this.equipmentIds = equipmentIds;
+		}
+		
 	}
 	public static Brothers getTunnelBrother() {
 		for (Brothers b : Brothers.values()) {

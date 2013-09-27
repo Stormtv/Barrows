@@ -68,51 +68,51 @@ public class BarrowGUI extends JFrame {
 					String s = modelSelected.getElementAt(index);
 					switch (s) {
 						case "Dharok":
-							Brother.Brothers.Dharok.killOrder = index;
+							Brother.Brothers.Dharok.setKillOrder(index);
 						case "Karil":
-							Brother.Brothers.Karil.killOrder = index;
+							Brother.Brothers.Karil.setKillOrder(index);
 						case "Verac":
-							Brother.Brothers.Verac.killOrder = index;
+							Brother.Brothers.Verac.setKillOrder(index);
 						case "Guthan":
-							Brother.Brothers.Guthan.killOrder = index;
+							Brother.Brothers.Guthan.setKillOrder(index);
 						case "Torag":
-							Brother.Brothers.Torag.killOrder = index;
+							Brother.Brothers.Torag.setKillOrder(index);
 						case "Ahrim":
-							Brother.Brothers.Ahrim.killOrder = index;
+							Brother.Brothers.Ahrim.setKillOrder(index);
 					}
 				}
 				
 				if (!DharokPrayer.isSelected()) {
-					Brother.Brothers.Dharok.prayer = Prayer.Prayers.None;
+					Brother.Brothers.Dharok.setPrayer(Prayer.Prayers.None);
 				}
 				if (!KarilPrayer.isSelected()) {
-					Brother.Brothers.Karil.prayer = Prayer.Prayers.None;
+					Brother.Brothers.Karil.setPrayer(Prayer.Prayers.None);
 				}
 				if (!VeracPrayer.isSelected()) {
-					Brother.Brothers.Verac.prayer = Prayer.Prayers.None;
+					Brother.Brothers.Verac.setPrayer(Prayer.Prayers.None);
 				}
 				if (!GuthanPrayer.isSelected()) {
-					Brother.Brothers.Guthan.prayer = Prayer.Prayers.None;
+					Brother.Brothers.Guthan.setPrayer(Prayer.Prayers.None);
 				}
 				if (!ToragPrayer.isSelected()) {
-					Brother.Brothers.Torag.prayer = Prayer.Prayers.None;
+					Brother.Brothers.Torag.setPrayer(Prayer.Prayers.None);
 				}
 				if (!AhrimPrayer.isSelected()) {
-					Brother.Brothers.Ahrim.prayer = Prayer.Prayers.None;
+					Brother.Brothers.Ahrim.setPrayer(Prayer.Prayers.None);
 				}
-				Brother.Brothers.Dharok.usePotions = DharokPotions.isSelected();
-				Brother.Brothers.Karil.usePotions = KarilPotions.isSelected();
-				Brother.Brothers.Verac.usePotions = VeracPotions.isSelected();
-				Brother.Brothers.Guthan.usePotions = GuthanPotions.isSelected();
-				Brother.Brothers.Torag.usePotions = ToragPotions.isSelected();
-				Brother.Brothers.Ahrim.usePotions = AhrimPotions.isSelected();
+				Brother.Brothers.Dharok.setUsePotions(DharokPotions.isSelected());
+				Brother.Brothers.Karil.setUsePotions(KarilPotions.isSelected());
+				Brother.Brothers.Verac.setUsePotions(VeracPotions.isSelected());
+				Brother.Brothers.Guthan.setUsePotions(GuthanPotions.isSelected());
+				Brother.Brothers.Torag.setUsePotions(ToragPotions.isSelected());
+				Brother.Brothers.Ahrim.setUsePotions(AhrimPotions.isSelected());
 				
-				Brother.Brothers.Dharok.spell = (Magic.Spell) cbxDharok.getSelectedItem();
-				Brother.Brothers.Karil.spell = (Magic.Spell) cbxKaril.getSelectedItem();
-				Brother.Brothers.Verac.spell = (Magic.Spell) cbxVerac.getSelectedItem();
-				Brother.Brothers.Guthan.spell = (Magic.Spell) cbxGuthan.getSelectedItem();
-				Brother.Brothers.Torag.spell = (Magic.Spell) cbxTorag.getSelectedItem();
-				Brother.Brothers.Ahrim.spell = (Magic.Spell) cbxAhrim.getSelectedItem();
+				Brother.Brothers.Dharok.setSpell((Magic.Spell) cbxDharok.getSelectedItem());
+				Brother.Brothers.Karil.setSpell((Magic.Spell) cbxKaril.getSelectedItem());
+				Brother.Brothers.Verac.setSpell((Magic.Spell) cbxVerac.getSelectedItem());
+				Brother.Brothers.Guthan.setSpell((Magic.Spell) cbxGuthan.getSelectedItem());
+				Brother.Brothers.Torag.setSpell((Magic.Spell) cbxTorag.getSelectedItem());
+				Brother.Brothers.Ahrim.setSpell((Magic.Spell) cbxAhrim.getSelectedItem());
 				
 				Var.food = (Food.Edibles) cbxFood.getSelectedItem();
 				
@@ -372,7 +372,7 @@ public class BarrowGUI extends JFrame {
 		JButton btnSetEquipment = new JButton("Set Equipment");
 		btnSetEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Brother.Brothers.Dharok.equipmentIds = Equipment.getEquipedItems();
+				Brother.Brothers.Dharok.setEquipmentIds(Equipment.getEquipedItems());
 			}
 		});
 		
@@ -438,7 +438,7 @@ public class BarrowGUI extends JFrame {
 		JButton button = new JButton("Set Equipment");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Brother.Brothers.Karil.equipmentIds = Equipment.getEquipedItems();
+				Brother.Brothers.Karil.setEquipmentIds(Equipment.getEquipedItems());
 			}
 		});
 		
@@ -488,7 +488,7 @@ public class BarrowGUI extends JFrame {
 		JButton button_1 = new JButton("Set Equipment");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Brother.Brothers.Verac.equipmentIds = Equipment.getEquipedItems();
+				Brother.Brothers.Verac.setEquipmentIds(Equipment.getEquipedItems());
 			}
 		});
 		
@@ -538,7 +538,7 @@ public class BarrowGUI extends JFrame {
 		JButton button_2 = new JButton("Set Equipment");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Brother.Brothers.Guthan.equipmentIds = Equipment.getEquipedItems();
+				Brother.Brothers.Guthan.setEquipmentIds(Equipment.getEquipedItems());
 			}
 		});
 		
@@ -588,7 +588,7 @@ public class BarrowGUI extends JFrame {
 		JButton button_3 = new JButton("Set Equipment");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Brother.Brothers.Torag.equipmentIds = Equipment.getEquipedItems();
+				Brother.Brothers.Torag.setEquipmentIds(Equipment.getEquipedItems());
 			}
 		});
 		
@@ -638,7 +638,7 @@ public class BarrowGUI extends JFrame {
 		JButton button_4 = new JButton("Set Equipment");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Brother.Brothers.Ahrim.equipmentIds = Equipment.getEquipedItems();
+				Brother.Brothers.Ahrim.setEquipmentIds(Equipment.getEquipedItems());
 			}
 		});
 		

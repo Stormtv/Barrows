@@ -43,7 +43,7 @@ public class BrotherKilling {
 	
 	public static boolean canKill() {
 		for (Brothers b : Brothers.values()) {
-			if (!b.isTunnel || !b.isKilled()) {
+			if (!b.isTunnel() || !b.isKilled()) {
 				return true;
 			}
 		}
@@ -58,7 +58,7 @@ public class BrotherKilling {
 				break;
 			}
 		}
-		if (bro != null && !bro.isTunnel && !bro.killed) {
+		if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
 			if (!isInCrypt(bro)) {
 				Prayer.disableAllPrayers();
 				Var.status = "Going to crypt " + bro.getName();
@@ -97,7 +97,7 @@ public class BrotherKilling {
 		if (tunnelInterface()) {
 			General.println("Tunnel Found");
 			Var.status = bro.getName() + " is tunnel";
-			bro.isTunnel = true;
+			bro.setTunnel(true);
 		} else {
 			General.println("Searching Aggressive NPC");
 			RSNPC target = aggressiveNPC();
@@ -109,7 +109,7 @@ public class BrotherKilling {
 			} else {
 				General.println("No Brother was Found");
 				Var.status = "No Target must of killed him already";
-				bro.killed = true;
+				bro.setKilled(true);
 			}
 		}
 		Var.status = "Exiting Crypt";
@@ -122,7 +122,7 @@ public class BrotherKilling {
 			UpKeep();
 			RSNPC target = aggressiveNPC();
 			if (target == null || target.isInCombat() && target.getHealth() == 0) {
-				b.killed = true;
+				b.setKilled(true);
 				return;
 			}
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {
@@ -167,7 +167,7 @@ public class BrotherKilling {
 			}
 		}
 		if (b.getDigArea().contains(Player.getPosition())) {
-			if (!b.isTunnel) {
+			if (!b.isTunnel()) {
 				Var.status = "Getting Ready to fight";
 				getReadyToFight(b);
 			} else {
