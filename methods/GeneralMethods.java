@@ -164,9 +164,10 @@ public class GeneralMethods {
 					;
 				if (!o.isOnScreen()) {
 					Walking.walking_timeout = 20000;
-					Walking.control_click = true;
+					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 					Walking.walkScreenPath(Walking
 							.generateStraightScreenPath(tile));
+					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, fast, minimap);
@@ -177,8 +178,7 @@ public class GeneralMethods {
 		Mouse.move(p);
 		if (!fast) {
 			for (int fSafe = 0; fSafe < 20
-					&& !Game.getUptext().contains(option) || fSafe < 20
-					&& !Game.getUptext().contains("Use"); fSafe++)
+					&& !Game.getUptext().contains(option); fSafe++)
 				General.sleep(10, 15);
 			if (Game.getUptext().contains(option)
 					|| Game.getUptext().contains("Use")) {
