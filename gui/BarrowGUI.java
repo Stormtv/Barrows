@@ -26,18 +26,21 @@ import scripts.Barrows.types.enums.Prayer;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class BarrowGUI extends JFrame {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private static JList<String> listSelected;
 	private static DefaultListModel<String> modelSelected = new DefaultListModel<String>();
 	private static JCheckBox DharokPrayer, DharokPotions, KarilPrayer, KarilPotions,
@@ -49,12 +52,55 @@ public class BarrowGUI extends JFrame {
 	private static JComboBox<Pathing.PathBank> cbxBank;
 	private JTextField txtFood,txtSA,txtSS,txtSD,txtRP,txtPP;
 	public BarrowGUI() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				try {
+					GUISave.load();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				cbxDharok.setSelectedItem(Brother.Brothers.Dharok.getSpell());
+				cbxKaril.setSelectedItem(Brother.Brothers.Karil.getSpell());
+				cbxGuthan.setSelectedItem(Brother.Brothers.Guthan.getSpell());
+				cbxAhrim.setSelectedItem(Brother.Brothers.Ahrim.getSpell());
+				cbxVerac.setSelectedItem(Brother.Brothers.Verac.getSpell());
+				cbxTorag.setSelectedItem(Brother.Brothers.Torag.getSpell());
+				
+				DharokPrayer.setSelected(!Brother.Brothers.Dharok.getPrayer().equals(Prayer.Prayers.None));
+				KarilPrayer.setSelected(!Brother.Brothers.Karil.getPrayer().equals(Prayer.Prayers.None));
+				GuthanPrayer.setSelected(!Brother.Brothers.Guthan.getPrayer().equals(Prayer.Prayers.None));
+				AhrimPrayer.setSelected(!Brother.Brothers.Ahrim.getPrayer().equals(Prayer.Prayers.None));
+				VeracPrayer.setSelected(!Brother.Brothers.Verac.getPrayer().equals(Prayer.Prayers.None));
+				ToragPrayer.setSelected(!Brother.Brothers.Torag.getPrayer().equals(Prayer.Prayers.None));
+				
+				DharokPotions.setSelected(Brother.Brothers.Dharok.usePotions());
+				KarilPotions.setSelected(Brother.Brothers.Karil.usePotions());
+				GuthanPotions.setSelected(Brother.Brothers.Guthan.usePotions());
+				AhrimPotions.setSelected(Brother.Brothers.Ahrim.usePotions());
+				VeracPotions.setSelected(Brother.Brothers.Verac.usePotions());
+				ToragPotions.setSelected(Brother.Brothers.Torag.usePotions());
+				
+				cbxFood.setSelectedItem(Var.food);
+
+				txtFood.setText(Integer.toString(Var.foodAmount));
+				txtSA.setText(Integer.toString(Var.superAttack));
+				txtSS.setText(Integer.toString(Var.superStrength));
+				txtSD.setText(Integer.toString(Var.superDefence));
+				txtRP.setText(Integer.toString(Var.rangingPotion));
+				txtPP.setText(Integer.toString(Var.prayerPotion));
+				
+				cbxBarrows.setSelectedItem(Var.barrowsPath);
+				cbxBank.setSelectedItem(Var.bankPath);
+			}
+		});
 		modelSelected.addElement("Dharok");
 		modelSelected.addElement("Karil");
 		modelSelected.addElement("Verac");
 		modelSelected.addElement("Guthan");
 		modelSelected.addElement("Torag");
 		modelSelected.addElement("Ahrim");
+
 		setTitle("Barrows");
 		setBounds(100, 100, 708, 352);
 		
@@ -123,6 +169,13 @@ public class BarrowGUI extends JFrame {
 				Var.rangingPotion = Integer.parseInt(txtRP.getText());
 				Var.prayerPotion = Integer.parseInt(txtPP.getText());
 				
+				Var.bankPath = (Pathing.PathBank) cbxBank.getSelectedItem();
+				Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows.getSelectedItem();
+				try {
+					GUISave.save();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				Var.guiWait = false;
 				Var.gui.setVisible(false);
 			}

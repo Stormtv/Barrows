@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import org.tribot.util.Util;
 
+import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Food;
@@ -35,6 +36,9 @@ public class GUISave {
 		prop.setProperty("rangingPotion",Integer.toString(Var.rangingPotion));
 		prop.setProperty("prayerPotion", Integer.toString(Var.prayerPotion));
 
+		prop.setProperty("bankPath",Var.bankPath.toString());
+		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
+		
 		try {
 			boolean exist = (new File(Util.getWorkingDirectory()+File.separator+"barrows").mkdirs());
 			if(exist) {
@@ -84,6 +88,18 @@ public class GUISave {
 			Var.superDefence = Integer.valueOf(prop.getProperty("superDefence"));
 			Var.rangingPotion = Integer.valueOf(prop.getProperty("rangingPotion"));
 			Var.prayerPotion = Integer.valueOf(prop.getProperty("prayerPotion"));
+			
+			for (Pathing.PathBank p : Pathing.PathBank.values()) {
+				if (prop.getProperty("bankPath").equals(p.toString())) {
+					Var.bankPath = p;
+				}
+			}
+			for (Pathing.PathBarrows p : Pathing.PathBarrows.values()) {
+				if (prop.getProperty("barrowsPath").equals(p.toString())) {
+					Var.barrowsPath = p;
+				}
+			}
+			
 			streamI.close();
 		} catch (Exception e) {
 		}
