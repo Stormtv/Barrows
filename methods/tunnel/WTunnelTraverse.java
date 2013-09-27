@@ -10,6 +10,10 @@ import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 public class WTunnelTraverse {
 	
 	public static TunnelDoor[] pathToChest() {
+		return pathToChest(TunnelRoom.CC);
+	}
+	
+	public static TunnelDoor[] pathToChest(TunnelRoom endRoom) {
 		ArrayList<TunnelDoor> savedDoors = new ArrayList<TunnelDoor>();
 		ArrayList<TunnelRoom> savedRooms = new ArrayList<TunnelRoom>();
 		for (int i = 0; i<20; i++) {
@@ -24,7 +28,7 @@ public class WTunnelTraverse {
 			ArrayList<TunnelRoom> roomPath = new ArrayList<TunnelRoom>();
 			visitedRooms.add(currentRoom);
 			roomPath.add(currentRoom);
-			while (currentRoom != null && !currentRoom.equals(TunnelRoom.CC)) {
+			while (currentRoom != null && !currentRoom.equals(endRoom)) {
 				deadEnd = true;
 				for (TunnelDoor d : shuffleArray(currentRoom.getOpenDoors())) {
 					TunnelRoom room = d.getOtherRoom(currentRoom);
