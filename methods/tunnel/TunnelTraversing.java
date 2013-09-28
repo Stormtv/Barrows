@@ -14,6 +14,7 @@ import org.tribot.api2007.types.RSTile;
 import scripts.Barrows.util.RSArea;
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 
 public class TunnelTraversing {
 
@@ -64,7 +65,7 @@ public class TunnelTraversing {
 		Walking.walking_timeout = 500;
 
 		TunnelDoor[] path = WTunnelTraverse.pathToChest();
-
+		TunnelRoom curRoom = Rooms.getRoom();
 		if (path.length > 0) {
 			System.out.println(path[0].toString());
 			RSObject[] nextDoor = Objects.getAt(path[0].getLocation());
@@ -85,7 +86,9 @@ public class TunnelTraversing {
 				} else {
 					System.out.println("no");
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					General.sleep(2000);
+					for (int i=0; i<200 && curRoom != null && curRoom.equals(Rooms.getRoom()); i++) {
+						General.sleep(10);
+					}
 				}
 			}
 		}
@@ -94,11 +97,11 @@ public class TunnelTraversing {
 	private static void walkInsideTunnel(RSTile location) {
 		RSTile tile = Player.getPosition();
 		if (location.getX() > (Player.getPosition().getX() + 5)) {
-			System.out.println("ta mais á direita");
+			System.out.println("ta mais ï¿½ direita");
 			tile = new RSTile(Player.getPosition().getX() + 5, Player
 					.getPosition().getY());
 		} else if (location.getX() < (Player.getPosition().getX() - 5)) {
-			System.out.println("ta mais á esquerda");
+			System.out.println("ta mais ï¿½ esquerda");
 			tile = new RSTile(Player.getPosition().getX() - 5, Player
 					.getPosition().getY());
 		}

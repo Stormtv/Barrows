@@ -3,6 +3,7 @@ package scripts.Barrows.types;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
+import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.util.RSArea;
@@ -63,6 +64,10 @@ public class Var {
 	public static int superAttack,superStrength,superDefence,rangingPotion,prayerPotion,foodAmount;
 	
 	public static String status;
+	
+	public static Pathing.PathBank bankPath;
+	
+	public static Pathing.PathBarrows barrowsPath;
 
 	public static int[] tunnelEquipment;
 }

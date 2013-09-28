@@ -10,10 +10,13 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import org.tribot.api.General;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
+import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.TunnelDoor;
+import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.methods.tunnel.WTunnelTraverse;
 
 public class TunnelTestPainter extends Script implements Painting {
@@ -24,9 +27,8 @@ public class TunnelTestPainter extends Script implements Painting {
 	public void run() {
 		super.setLoginBotState(false);
 		long start = System.currentTimeMillis();
-		Pathway = WTunnelTraverse.pathToChest();
-		println("Took " + (System.currentTimeMillis()-start) + " ms");
-		while(true)sleep(500);
+		while(!Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) TunnelTraversing.traverseTunnel();
+		General.println(System.currentTimeMillis()-start+" ms to reach chest");
 	}
 
 	private Image getImage(String url) {
