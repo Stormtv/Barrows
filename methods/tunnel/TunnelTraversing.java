@@ -83,6 +83,7 @@ public class TunnelTraversing {
 						}
 					}
 				} else {
+					System.out.println("no");
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
 					General.sleep(2000);
 				}
