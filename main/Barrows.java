@@ -12,7 +12,9 @@ import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
+import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.Brother.Brothers;
 
@@ -22,11 +24,11 @@ public class Barrows extends Script implements Painting{
 	public void run() {
 		onStart();		
 		while (Var.running) {
-			sleep(loop());
+			loop();
 		}
 	}
 
-	private int loop() {
+	private void loop() {
 		Mouse.setSpeed(General.random(250,350));
 		//Bank Check
 		//Tunnel Check
@@ -35,12 +37,17 @@ public class Barrows extends Script implements Painting{
 		//Kill Test
 		if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
 			BrotherKilling.StartFight();
-			return 50;
-		} else if (Pathing.isInBarrows()) {
-			Tunnel.goToTunnel();
-			return 50;
+			return;
 		}
-		return 50;
+		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
+				|| Tunnel.inCrypt() && !BrotherKilling.canKill()) {
+			Tunnel.goToTunnel();
+			return;
+		}
+		if (Rooms.getRoom()!=null) {
+			TunnelTraversing.traverseTunnel();
+			return;
+		}
 	}
 
 	private void onStart() {
