@@ -14,8 +14,6 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother;
@@ -38,8 +36,6 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.DustSkin;
 import org.tribot.api.General;
 
 @SuppressWarnings("serial")
@@ -119,9 +115,7 @@ public class BarrowGUI extends JFrame {
 		}
 		setTitle("Barrows");
 		setBounds(100, 100, 779, 352);
-		
-	    SubstanceLookAndFeel.setSkin(new DustSkin());
-		
+				
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
