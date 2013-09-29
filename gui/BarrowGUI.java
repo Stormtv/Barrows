@@ -14,6 +14,8 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother;
@@ -35,6 +37,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+
+import org.pushingpixels.substance.api.SubstanceLookAndFeel;
+import org.pushingpixels.substance.api.skin.DustSkin;
+import org.tribot.api.General;
 
 @SuppressWarnings("serial")
 public class BarrowGUI extends JFrame {
@@ -81,6 +87,14 @@ public class BarrowGUI extends JFrame {
 				VeracPotions.setSelected(Brother.Brothers.Verac.usePotions());
 				ToragPotions.setSelected(Brother.Brothers.Torag.usePotions());
 				
+				modelSelected.setSize(6);
+				modelSelected.set(Brother.Brothers.Dharok.killOrder(), "Dharok");
+				modelSelected.set(Brother.Brothers.Karil.killOrder(), "Karil");
+				modelSelected.set(Brother.Brothers.Guthan.killOrder(), "Guthan");
+				modelSelected.set(Brother.Brothers.Ahrim.killOrder(), "Ahrim");
+				modelSelected.set(Brother.Brothers.Verac.killOrder(), "Verac");
+				modelSelected.set(Brother.Brothers.Torag.killOrder(), "Torag");
+				
 				cbxFood.setSelectedItem(Var.food);
 
 				txtFood.setText(Integer.toString(Var.foodAmount));
@@ -94,15 +108,19 @@ public class BarrowGUI extends JFrame {
 				cbxBank.setSelectedItem(Var.bankPath);
 			}
 		});
-		modelSelected.addElement("Dharok");
-		modelSelected.addElement("Karil");
-		modelSelected.addElement("Verac");
-		modelSelected.addElement("Guthan");
-		modelSelected.addElement("Torag");
-		modelSelected.addElement("Ahrim");
-
+		if (modelSelected.isEmpty()) {
+			General.println("Model was empty");
+			modelSelected.addElement("Dharok");
+			modelSelected.addElement("Karil");
+			modelSelected.addElement("Verac");
+			modelSelected.addElement("Guthan");
+			modelSelected.addElement("Torag");
+			modelSelected.addElement("Ahrim");
+		}
 		setTitle("Barrows");
-		setBounds(100, 100, 708, 352);
+		setBounds(100, 100, 779, 352);
+		
+	    SubstanceLookAndFeel.setSkin(new DustSkin());
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -201,32 +219,32 @@ public class BarrowGUI extends JFrame {
 						.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(16)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap())
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
+							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 							.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
+							.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
 					.addGap(25))
 		);
 		

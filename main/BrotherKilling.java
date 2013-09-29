@@ -43,7 +43,7 @@ public class BrotherKilling {
 	
 	public static boolean canKill() {
 		for (Brothers b : Brothers.values()) {
-			if (!b.isTunnel() || !b.isKilled()) {
+			if (!b.isTunnel() && !b.isKilled()) {
 				return true;
 			}
 		}
@@ -181,7 +181,7 @@ public class BrotherKilling {
 
 	public static void killBrotherInTunnel() {
 		while (Player.isMoving())General.sleep(15,30);
-		for (int fSafe = 0; fSafe<15 && aggressiveNPC() == null; fSafe++) {
+		for (int fSafe = 0; fSafe<5 && aggressiveNPC() == null; fSafe++) {
 			General.sleep(20,30);
 			Var.status = "Checking for npc spawn";
 		}
@@ -235,7 +235,7 @@ public class BrotherKilling {
 	}
 	
 	private static void getReadyToFight(Brothers b) {
-		if (!b.getPrayer().equals(null) && !b.getPrayer().equals(Prayer.Prayers.None)) {
+		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
 		}
 		while (!Equipment.isAllEquiped(b.getEquipment())) {
