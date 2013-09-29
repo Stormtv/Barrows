@@ -63,7 +63,7 @@ public class TunnelTraversing {
 
 	public static void openNextDoor() {
 		Walking.walking_timeout = 500;
-
+System.out.println("hi");
 		TunnelDoor[] path = WTunnelTraverse.pathToChest();
 		TunnelRoom curRoom = Rooms.getRoom();
 		if (path.length > 0) {

@@ -1,21 +1,31 @@
 package scripts.Barrows.gui;
 
-import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
+import org.tribot.api.General;
 
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother;
@@ -25,22 +35,6 @@ import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.types.enums.Magic;
 import scripts.Barrows.types.enums.Magic.Spell;
 import scripts.Barrows.types.enums.Prayer;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
-
-import javax.swing.JTabbedPane;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-
-import org.pushingpixels.substance.api.SubstanceLookAndFeel;
-import org.pushingpixels.substance.api.skin.DustSkin;
-import org.tribot.api.General;
 
 @SuppressWarnings("serial")
 public class BarrowGUI extends JFrame {
@@ -120,7 +114,7 @@ public class BarrowGUI extends JFrame {
 		setTitle("Barrows");
 		setBounds(100, 100, 779, 352);
 		
-	    SubstanceLookAndFeel.setSkin(new DustSkin());
+	   // SubstanceLookAndFeel.setSkin(new DustSkin());
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
