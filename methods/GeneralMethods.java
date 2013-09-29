@@ -160,14 +160,23 @@ public class GeneralMethods {
 				}
 				fail = 0;
 			} else {
-				while (!o.isOnScreen() && turnTo(tile))
-					;
 				if (!o.isOnScreen()) {
-					Walking.walking_timeout = 20000;
-					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-					Walking.walkScreenPath(Walking
-							.generateStraightScreenPath(tile));
-					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+					if (o.getPosition().distanceTo(Player.getRSPlayer()) > 1) {
+						System.out.println("lol");
+						Walking.walking_timeout = 500;
+						Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+						/*
+						 * Walking.walkScreenPath(Walking
+						 * .generateStraightScreenPath(tile));
+						 */
+						walkScreen(getFurthestTileOnScreen(
+								Walking.generateStraightScreenPath(tile), false));
+						// TODO
+						Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+					} else {
+						System.out.println("looool");
+						Camera.turnToTile(o);
+					}
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, fast, minimap);
@@ -228,20 +237,29 @@ public class GeneralMethods {
 		}
 	}
 
-	public static RSTile getFurthestTileOnScreen(RSTile[] t) {
+	public static RSTile getFurthestTileOnScreen(RSTile[] t, boolean that) {
 		RSTile furthestVisibleTile = null;
 		RSTile home = Player.getPosition();
 		for (RSTile tile : t) {
 			if (tile.isOnScreen()) {
 				if (furthestVisibleTile != null) {
-					if (home.distanceTo(furthestVisibleTile) < home
-							.distanceTo(tile)
-							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile)
-							&& Objects.getAt(tile).length > 0
-							&& Objects.getAt(tile)[0].getModel().getPoints().length != 6
-							&& Objects.getAt(tile)[0].getModel().getPoints().length < 200) {
-						furthestVisibleTile = tile;
+					if (that) {
+						if (home.distanceTo(furthestVisibleTile) < home
+								.distanceTo(tile)
+								&& PathFinding.canReach(tile, false)
+								&& PathFinding.isTileWalkable(tile)
+								&& Objects.getAt(tile).length > 0
+								&& Objects.getAt(tile)[0].getModel()
+										.getPoints().length != 6
+								&& Objects.getAt(tile)[0].getModel()
+										.getPoints().length < 200) {
+							furthestVisibleTile = tile;
+						}
+					} else {
+						if (home.distanceTo(furthestVisibleTile) < home
+								.distanceTo(tile)
+								&& PathFinding.canReach(tile, false))
+							furthestVisibleTile = tile;
 					}
 				} else {
 					if (PathFinding.canReach(tile, false)
@@ -256,10 +274,10 @@ public class GeneralMethods {
 		return furthestVisibleTile;
 	}
 
-
-
 	public static void walkScreen(RSTile r) {
-		RSTile fur = getFurthestTileOnScreen(getWithin(5, r).getTiles());
+		if (r == null)
+			return;
+		RSTile fur = getFurthestTileOnScreen(getWithin(5, r).getTiles(), true);
 		clickPointOnScreen(fur);
 	}
 
@@ -277,6 +295,10 @@ public class GeneralMethods {
 	}
 
 	public static RSArea getWithin(int distance, RSTile refe) {
+		if (refe == null)
+			return null;
+		if (distance == 0)
+			return null;
 		RSTile southwest = new RSTile(refe.getX() - distance, refe.getY()
 				- distance);
 		RSTile northeast = new RSTile(refe.getX() + distance, refe.getY()

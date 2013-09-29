@@ -21,11 +21,11 @@ public class TunnelTraversing {
 	static boolean comingBack = false;
 
 	static void walkToChest() {
-		if (isBeingAttackedByBrother()) {
-			BrotherKilling.killBrotherInTunnel();
-		} else {
+		//if (isBeingAttackedByBrother()) {
+			//BrotherKilling.killBrotherInTunnel();
+	//	} else {
 			openNextDoor();
-		}
+		//}
 	}
 
 	public static void traverseTunnel() {
@@ -35,7 +35,7 @@ public class TunnelTraversing {
 			if (comingBack) {
 				walkToLadder();
 			} else {
-				if (Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
+				if (Rooms.getRoom() != null && Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
 					openChest();
 				} else {
 					walkToChest();
@@ -119,18 +119,7 @@ public class TunnelTraversing {
 
 	}
 
-	static RSTile getClosestDoor() {
-		int dist = 9999;
-		RSTile lol = new RSTile(99999, 999999, 0);
-		for (TunnelDoor tunnelDoor : TunnelDoor.values()) {
-			if (tunnelDoor.getLocation().distanceTo(Player.getPosition()) < dist) {
-				dist = tunnelDoor.getLocation()
-						.distanceTo(Player.getPosition());
-				lol = tunnelDoor.getLocation();
-			}
-		}
-		return lol;
-	}
+	
 
 	static boolean isBeingAttackedByBrother() {
 		return BrotherKilling.aggressiveNPC() != null;
