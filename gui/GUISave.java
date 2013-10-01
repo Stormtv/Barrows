@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.tribot.util.Util;
@@ -23,7 +24,7 @@ public class GUISave {
 		Properties prop = new Properties();
 		for (Brothers b : Brothers.values()) {
 			prop.setProperty(b.getName()+"KillOrder", Integer.toString(b.killOrder()));
-			prop.setProperty(b.getName()+"Equipment", b.getEquipment().toString());
+			prop.setProperty(b.getName()+"Equipment", Arrays.toString(b.getEquipment()));
 			prop.setProperty(b.getName()+"Spell", b.getSpell().toString());
 			prop.setProperty(b.getName()+"Prayer", b.getPrayer().toString());
 			prop.setProperty(b.getName()+"Potions", Boolean.toString(b.usePotions()));
@@ -35,7 +36,7 @@ public class GUISave {
 		prop.setProperty("superDefence", Integer.toString(Var.superDefence));
 		prop.setProperty("rangingPotion",Integer.toString(Var.rangingPotion));
 		prop.setProperty("prayerPotion", Integer.toString(Var.prayerPotion));
-
+		prop.setProperty("tunnelEquip", Arrays.toString(Var.tunnelEquipment));
 		prop.setProperty("bankPath",Var.bankPath.toString());
 		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
 		
@@ -82,6 +83,7 @@ public class GUISave {
 					Var.food = f;
 				}
 			}
+			Var.tunnelEquipment = parseIntegerArray(prop.getProperty("tunnelEquip"));
 			Var.foodAmount = Integer.valueOf(prop.getProperty("foodAmount"));
 			Var.superAttack = Integer.valueOf(prop.getProperty("superAttack"));
 			Var.superStrength = Integer.valueOf(prop.getProperty("superStrength"));

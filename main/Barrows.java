@@ -40,11 +40,11 @@ public class Barrows extends Script implements Painting{
 			return;
 		}
 		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-				|| Tunnel.inCrypt() && !BrotherKilling.canKill()) {
+				|| !BrotherKilling.canKill() && Tunnel.inCrypt()) {
 			Tunnel.goToTunnel();
 			return;
 		}
-		if (Rooms.getRoom()!=null) {
+		if (Rooms.getRoom()!=null && !BrotherKilling.canKill()) {
 			TunnelTraversing.traverseTunnel();
 			return;
 		}
