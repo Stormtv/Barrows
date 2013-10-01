@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
+import org.tribot.api.input.Mouse;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
@@ -156,6 +157,7 @@ public class BrotherKilling {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea() != null) {
 					Var.status = "Walking to mound";
+					Mouse.setSpeed(General.random(100,150));
 					Walking.control_click = true;
 					Walking.walking_timeout = 20000;
 					Walking.blindWalkTo(b.getDigArea().getRandomTile());
@@ -170,12 +172,14 @@ public class BrotherKilling {
 			if (!b.isTunnel()) {
 				Var.status = "Getting Ready to fight";
 				getReadyToFight(b);
+				Var.status = "Digging";
+				dig(b, false);
 			} else {
 				Var.status = "Getting Ready for tunnels";
 				getReadyForTunnels();
+				Var.status = "Digging";
+				dig(b, true);
 			}
-			Var.status = "Digging";
-			dig(b);
 		}
 	}
 
@@ -197,7 +201,7 @@ public class BrotherKilling {
 		}
 	}
 
-	private static void dig(Brothers b) {
+	private static void dig(Brothers b, boolean isTunnel) {
 		if (!GameTab.getOpen().equals(TABS.INVENTORY)) {
 			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
 			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
@@ -211,7 +215,8 @@ public class BrotherKilling {
 				General.sleep(75);
 			}
 			if (Player.getPosition().getPlane() == 3) {
-				if (!b.getPrayer().equals(Prayer.Prayers.None) && !b.getPrayer().isActivated()) {
+				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None) 
+						&& !b.getPrayer().isActivated()) {
 					Prayer.activate(b.getPrayer());
 				}
 			}

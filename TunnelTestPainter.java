@@ -10,14 +10,17 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import org.tribot.api.General;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
+import scripts.Barrows.main.BrotherKilling;
+import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.tunnel.Rooms;
+import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelDoor;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.methods.tunnel.WTunnelTraverse;
+import scripts.Barrows.types.Brother;
 
 public class TunnelTestPainter extends Script implements Painting {
 	private Image i = getImage("http://i.imgur.com/TuV9Zmw.gif");
@@ -26,9 +29,24 @@ public class TunnelTestPainter extends Script implements Painting {
 	@Override
 	public void run() {
 		super.setLoginBotState(false);
-		long start = System.currentTimeMillis();
-		while(!Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) TunnelTraversing.traverseTunnel();
-		General.println(System.currentTimeMillis()-start+" ms to reach chest");
+		Brother.Brothers.Guthan.setTunnel(true);
+		Brother.Brothers.Ahrim.setKilled(true);
+		Brother.Brothers.Dharok.setKilled(true);
+		Brother.Brothers.Karil.setKilled(true);
+		Brother.Brothers.Torag.setKilled(true);
+		Brother.Brothers.Verac.setKilled(true);
+		Pathway = WTunnelTraverse.pathToChest();
+		while(true) {
+			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
+					|| Tunnel.inCrypt() && !BrotherKilling.canKill()) {
+				Tunnel.goToTunnel();
+				continue;
+			}
+			if (Rooms.getRoom()!=null) {
+				TunnelTraversing.traverseTunnel();
+				continue;
+			}
+		}
 	}
 
 	private Image getImage(String url) {

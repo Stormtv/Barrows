@@ -1,11 +1,15 @@
 package scripts.Barrows.types.enums;
 
+import java.util.ArrayList;
+
 import org.tribot.api.General;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.types.RSItem;
+
+import scripts.Barrows.types.Brother;
 
 public class Equipment {
 
@@ -68,5 +72,21 @@ public class Equipment {
 			}
 		}
 		return false;
+	}
+	
+	public static int[] requiedEquipment() {
+		ArrayList<Integer> equip = new ArrayList<Integer>();
+		for (Brother.Brothers b : Brother.Brothers.values()) {
+			for (int i : b.getEquipmentIds()) {
+				if (!equip.contains(i)) {
+					equip.add(i);
+				}
+			}
+		}
+		int[] intArray = new int[equip.size()];
+		for (int i=0; i<equip.size();i++) {
+			intArray[i] = equip.get(i).intValue();
+		}
+		return intArray;
 	}
 }

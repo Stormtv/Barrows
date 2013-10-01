@@ -17,19 +17,19 @@ public class Tunnel {
 			if (b.isTunnel()) {
 				BrotherKilling.goToCrypt(b);
 				if (BrotherKilling.isInCrypt(b)) {
-					RSObject[] sarco = Objects.find(20, "Sarcophagus");
+					RSObject[] sarco = Objects.find(20, b.getCryptID());
 					GeneralMethods.clickObject(sarco[0], "Search", false);
 					for (int fail=0; fail < 20 && Interfaces.get(210, 1) ==null;fail++) {
 						General.sleep(10,21);
 					}
 					if (Interfaces.get(210,1)!=null) {
-						Interfaces.get(210,1).click("Click here to continue");
+						Interfaces.get(210,1).click("Continue");
 					}
 					for (int fail=0; fail < 20 && Interfaces.get(228, 1) ==null;fail++) {
 						General.sleep(10,21);
 					}
-					if (Interfaces.get(210,1)!=null) {
-						Interfaces.get(210,1).click("Yeah I'm fearless!");
+					if (Interfaces.get(228,1)!=null) {
+						Interfaces.get(228,1).click("Continue");
 					}
 					for (int fail=0; fail<40 && Rooms.getRoom()==null;fail++){
 						General.sleep(10,21);
