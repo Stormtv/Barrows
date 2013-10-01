@@ -3,6 +3,8 @@ package scripts.Barrows.methods.tunnel;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
+import org.tribot.api.Timing;
+import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
@@ -66,22 +68,37 @@ public class TunnelTraversing {
 
 	}
 
+	static boolean isAtRoom(TunnelRoom t) {
+		TunnelRoom mine = Rooms.getRoom();
+		return mine != null && t != null
+				&& t.equals(mine);
+	}
+
 	public static void openNextDoor() {
 		Walking.walking_timeout = 500;
 		TunnelDoor[] path = WTunnelTraverse.pathToChest();
-		TunnelRoom curRoom;
+		TunnelRoom curRoom = null;
 		if (path != null && path.length > 0) {
 			RSObject[] nextDoor = Objects.getAt(path[0].getLocation());
 			if (nextDoor.length > 0) {
 				if (nextDoor[0].isOnScreen()) {
-					GeneralMethods.clickObject(nextDoor[0], "Open", false);
 					curRoom = Rooms.getRoom();
-					if (curRoom != null) {
-						for (int i = 0; i < 200 && curRoom != null
-								&& curRoom.equals(Rooms.getRoom()); i++) {
-							General.sleep(10);
+					final TunnelRoom fml = curRoom;
+					GeneralMethods.clickObject(nextDoor[0], "Open", false);
+					//General.sleep(5000);
+					Timing.waitCondition(new Condition() {
+
+						@Override
+						public boolean active() {
+							return !isAtRoom(fml);
 						}
-					}
+					}, 5000);
+					/*
+					 * curRoom = Rooms.getRoom(); if (curRoom != null) { for
+					 * (int i = 0; i < 200 && curRoom != null &&
+					 * curRoom.equals(Rooms.getRoom()); i++) {
+					 * General.sleep(10); } }
+					 */
 				} else {
 					if (Rooms.InTunnel()) {
 						Camera.setCameraAngle(General.random(90, 99));
@@ -90,6 +107,15 @@ public class TunnelTraversing {
 									&& !nextDoor[0].isOnScreen()) {
 								walkInsideTunnel(path[0].getLocation());
 							}
+						}
+					} else {
+						RSTile[] t = Walking
+								.generateStraightScreenPath(nextDoor[0]);
+						for (int i = 0; i < 10; i++) {
+							if (nextDoor.length > 0 && nextDoor[0] != null
+									&& !nextDoor[0].isOnScreen())
+								GeneralMethods.walkScreen(GeneralMethods
+										.getFurthestTileOnScreen(t));
 						}
 					}
 				}

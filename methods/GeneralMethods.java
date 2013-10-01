@@ -244,7 +244,7 @@ public class GeneralMethods {
 					if (home.distanceTo(furthestVisibleTile) < home
 							.distanceTo(tile)
 							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile)) {
+							&& PathFinding.isTileWalkable(tile) && !tile.equals(Player.getPosition())) {
 						furthestVisibleTile = tile;
 					}
 
