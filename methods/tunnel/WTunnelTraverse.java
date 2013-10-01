@@ -8,15 +8,15 @@ import org.tribot.api.General;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 
 public class WTunnelTraverse {
-	
+
 	public static TunnelDoor[] pathToChest() {
 		return pathToChest(TunnelRoom.CC);
 	}
-	
+
 	public static TunnelDoor[] pathToChest(TunnelRoom endRoom) {
 		ArrayList<TunnelDoor> savedDoors = new ArrayList<TunnelDoor>();
 		ArrayList<TunnelRoom> savedRooms = new ArrayList<TunnelRoom>();
-		for (int i = 0; i<20; i++) {
+		for (int i = 0; i < 20; i++) {
 			boolean deadEnd = true;
 			TunnelRoom currentRoom = Rooms.getRoom();
 			if (currentRoom == null) {
@@ -42,29 +42,30 @@ public class WTunnelTraverse {
 					}
 				}
 				if (deadEnd) {
-					roomPath.remove(roomPath.size()-1);
+					roomPath.remove(roomPath.size() - 1);
 					currentRoom = roomPath.get(roomPath.size() - 1);
-					visitedDoors.remove(visitedDoors.size()-1);
+					visitedDoors.remove(visitedDoors.size() - 1);
 				}
 			}
-			if (savedDoors.size() > visitedDoors.size() || savedDoors.size() == 0) {
+			if (savedDoors.size() > visitedDoors.size()
+					|| savedDoors.size() == 0) {
 				savedDoors = visitedDoors;
 				savedRooms = roomPath;
 			}
 		}
 		return savedDoors.toArray(new TunnelDoor[savedDoors.size()]);
 	}
-	
-	//Fisher–Yates shuffle (modified slightly)
+
+	// Fisher–Yates shuffle (modified slightly)
 	private static TunnelDoor[] shuffleArray(TunnelDoor[] ar) {
 		Random rnd = new Random();
-	    for (int i = ar.length - 1; i > 0; i--) {
-	    	int index = rnd.nextInt(i + 1);
-	    	// Simple swap
-	    	TunnelDoor a = ar[index];
-	    	ar[index] = ar[i];
-	    	ar[i] = a;
-	      }
-	    return ar;
-	  }
+		for (int i = ar.length - 1; i > 0; i--) {
+			int index = rnd.nextInt(i + 1);
+			// Simple swap
+			TunnelDoor a = ar[index];
+			ar[index] = ar[i];
+			ar[i] = a;
+		}
+		return ar;
+	}
 }

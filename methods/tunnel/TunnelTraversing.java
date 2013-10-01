@@ -1,6 +1,6 @@
 package scripts.Barrows.methods.tunnel;
 
-import java.io.ObjectInputStream.GetField;
+import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api2007.Camera;
@@ -11,36 +11,41 @@ import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.Barrows.util.RSArea;
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
+import scripts.Barrows.util.RSArea;
 
 public class TunnelTraversing {
 
 	static boolean comingBack = false;
 
 	static void walkToChest() {
-		//if (isBeingAttackedByBrother()) {
-			//BrotherKilling.killBrotherInTunnel();
-	//	} else {
-			openNextDoor();
-		//}
+		// if (isBeingAttackedByBrother()) {
+		// BrotherKilling.killBrotherInTunnel();
+		// } else {
+		openNextDoor();
+		// }
 	}
 
 	public static void traverseTunnel() {
-		if (TunnelPuzzle.isPuzzleScreenOpen()) {
-			TunnelPuzzle.solvePuzzle();
-		} else {
-			if (comingBack) {
-				walkToLadder();
+		if (Rooms.getRoom() != null) {
+			if (TunnelPuzzle.isPuzzleScreenOpen()) {
+				TunnelPuzzle.solvePuzzle();
 			} else {
-				if (Rooms.getRoom() != null && Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
-					openChest();
+				if (comingBack) {
+					walkToLadder();
 				} else {
-					walkToChest();
+					if (Rooms.getRoom() != null
+							&& Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
+						openChest();
+					} else {
+						walkToChest();
+					}
 				}
 			}
+		} else {
+			General.sleep(200);
 		}
 	}
 
@@ -63,31 +68,29 @@ public class TunnelTraversing {
 
 	public static void openNextDoor() {
 		Walking.walking_timeout = 500;
-System.out.println("hi");
 		TunnelDoor[] path = WTunnelTraverse.pathToChest();
-		TunnelRoom curRoom = Rooms.getRoom();
-		if (path.length > 0) {
-			System.out.println(path[0].toString());
+		TunnelRoom curRoom;
+		if (path != null && path.length > 0) {
 			RSObject[] nextDoor = Objects.getAt(path[0].getLocation());
 			if (nextDoor.length > 0) {
-				if (Rooms.InTunnel() && !nextDoor[0].isOnScreen()) {
-					System.out.println("yes");
-					Camera.setCameraAngle(General.random(90, 99));
-					for (int i = 0; i < 50; i++) {
-						if (Rooms.InTunnel()
-								&& nextDoor[0] != null
-								&& !nextDoor[0].isOnScreen()
-								&& nextDoor[0].getPosition().distanceTo(
-										Player.getRSPlayer()) > 5) {
-							System.out.println("lol " + i);
-							walkInsideTunnel(path[0].getLocation());
+				if (nextDoor[0].isOnScreen()) {
+					GeneralMethods.clickObject(nextDoor[0], "Open", false);
+					curRoom = Rooms.getRoom();
+					if (curRoom != null) {
+						for (int i = 0; i < 200 && curRoom != null
+								&& curRoom.equals(Rooms.getRoom()); i++) {
+							General.sleep(10);
 						}
 					}
 				} else {
-					System.out.println("no");
-					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					for (int i=0; i<200 && curRoom != null && curRoom.equals(Rooms.getRoom()); i++) {
-						General.sleep(10);
+					if (Rooms.InTunnel()) {
+						Camera.setCameraAngle(General.random(90, 99));
+						for (int i = 0; i < 50; i++) {
+							if (Rooms.InTunnel() && nextDoor.length > 0
+									&& !nextDoor[0].isOnScreen()) {
+								walkInsideTunnel(path[0].getLocation());
+							}
+						}
 					}
 				}
 			}
@@ -97,11 +100,11 @@ System.out.println("hi");
 	private static void walkInsideTunnel(RSTile location) {
 		RSTile tile = Player.getPosition();
 		if (location.getX() > (Player.getPosition().getX() + 5)) {
-			System.out.println("ta mais � direita");
+			System.out.println("ta mais a direita");
 			tile = new RSTile(Player.getPosition().getX() + 5, Player
 					.getPosition().getY());
 		} else if (location.getX() < (Player.getPosition().getX() - 5)) {
-			System.out.println("ta mais � esquerda");
+			System.out.println("ta mais a esquerda");
 			tile = new RSTile(Player.getPosition().getX() - 5, Player
 					.getPosition().getY());
 		}
@@ -115,11 +118,31 @@ System.out.println("hi");
 			tile = new RSTile(Player.getPosition().getX(), Player.getPosition()
 					.getY() - 5);
 		}
-		GeneralMethods.walkScreen(tile);
+		GeneralMethods.walkScreen(filter(tile, location));
 
 	}
 
-	
+	public static RSTile filter(RSTile tile, RSTile end) {
+		RSArea aroundit = GeneralMethods.getWithin(5, tile);
+		ArrayList<RSTile> h = new ArrayList<RSTile>();
+
+		for (RSTile t : aroundit.getTiles()) {
+			if (t != null
+					&& PathFinding.canReach(t, false)
+					&& PathFinding.isTileWalkable(t)
+					&& Objects.getAt(t).length > 0
+					&& Objects.getAt(t)[0].getModel().getPoints().length != 6
+					&& Objects.getAt(t)[0].getModel().getPoints().length < 200
+					&& !t.equals(Player.getPosition())
+					&& (tile.distanceTo(end) < Player.getPosition().distanceTo(
+							end))) {
+				h.add(t);
+			}
+		}
+		if (h.size() > 0)
+			return GeneralMethods.getFurthestTileOnScreen(h);
+		return null;
+	}
 
 	static boolean isBeingAttackedByBrother() {
 		return BrotherKilling.aggressiveNPC() != null;
