@@ -21,7 +21,9 @@ public class Tunnel {
 				}
 				if (BrotherKilling.isInCrypt(b)) {
 					RSObject[] sarco = Objects.find(20, b.getCryptID());
-					GeneralMethods.clickObject(sarco[0], "Search", false);
+					if (Interfaces.get(210)==null && Interfaces.get(228)==null) {
+						GeneralMethods.clickObject(sarco[0], "Search", false);
+					}
 					for (int fail=0; fail < 20 && Interfaces.get(210, 1) ==null;fail++) {
 						General.sleep(10,21);
 					}

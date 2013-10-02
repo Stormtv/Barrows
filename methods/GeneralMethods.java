@@ -9,6 +9,7 @@ import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
+import org.tribot.api.interfaces.Positionable;
 import org.tribot.api.types.generic.CustomRet_0P;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
@@ -122,15 +123,15 @@ public class GeneralMethods {
 
 	public static void clickObject(RSObject o, String option,
 			boolean minimapVisible) {
-		clickObject(o, option, 0, false, minimapVisible);
+		clickObject(o, option, 0, minimapVisible);
 	}
 
-	static boolean turnTo(final RSTile loc) {
-		if (loc == null) {
+	static boolean turnTo(final Positionable o) {
+		if (o == null) {
 			return false;
 		}
 		final int cAngle = Camera.getCameraRotation();
-		final int angle = 180 + Camera.getTileAngle(loc);
+		final int angle = 180 + Camera.getTileAngle(o);
 		final int dir = cAngle - angle;
 		if (Math.abs(dir) <= 190 && Math.abs(dir) >= 180) {
 			return false;
@@ -140,8 +141,7 @@ public class GeneralMethods {
 		return true;
 	}
 
-	static void clickObject(RSObject o, String option, int fail, boolean fast,
-			boolean minimap) {
+	static void clickObject(RSObject o, String option, int fail, boolean minimap) {
 		if (o == null || o.getModel() == null || Banking.isBankScreenOpen())
 			return;
 		if (!o.isOnScreen() || fail > 4) {
@@ -156,71 +156,61 @@ public class GeneralMethods {
 				while (Player.isMoving())
 					General.sleep(30, 50);
 				if (!o.isOnScreen()) {
-					clickObject(o, option, fail + 1, fast, minimap);
+					clickObject(o, option, fail + 1, minimap);
 				}
 				fail = 0;
 			} else {
 				if (!o.isOnScreen()) {
-					if (o.getPosition().distanceTo(Player.getRSPlayer()) > 1) {
+					while(!o.isOnScreen() && turnTo(o)!=false) {
+						turnTo(o);
+						walkScreen(getFurthestTileOnScreen(Walking
+								.generateStraightScreenPath(tile),o));
+					}
+					while(Player.isMoving())General.sleep(25,40);
+					/*if (!o.isOnScreen() && o.getPosition().distanceTo(Player.getRSPlayer()) > 1) {
 						Walking.walking_timeout = 500;
 						Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-						/*
-						 * Walking.walkScreenPath(Walking
-						 * .generateStraightScreenPath(tile));
-						 */
 						walkScreen(getFurthestTileOnScreen(Walking
 								.generateStraightScreenPath(tile)));
-						// TODO
 						Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 					} else {
 						Camera.turnToTile(o);
-					}
+					}*/
 				}
 				if (!o.isOnScreen()) {
-					clickObject(o, option, fail + 1, fast, minimap);
+					clickObject(o, option, fail + 1, minimap);
 				}
 			}
 		}
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 10);
 		Mouse.move(p);
-		if (!fast) {
-			for (int fSafe = 0; fSafe < 20
-					&& !Game.getUptext().contains(option); fSafe++)
-				General.sleep(10, 15);
-			if (Game.getUptext().contains(option)
-					|| Game.getUptext().contains("Use")) {
-				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-				leftClick(p);
-				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-			} else {
-				rightClick(p);
-				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
-					General.sleep(20, 25);
-				if (ChooseOption.isOpen() && ChooseOption.isOptionValid(option)) {
-					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-					ChooseOption.select(option);
-					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-					General.sleep(450, 650);
-					while (Player.isMoving() && Player.getAnimation() == -1) {
-						General.sleep(20, 30);
-					}
-					return;
-				} else if (ChooseOption.isOpen()) {
-					ChooseOption.close();
-					clickObject(o, option, fail + 1, fast, minimap);
-				} else {
-					clickObject(o, option, fail + 1, fast, minimap);
-				}
-			}
-		} else {
+
+		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
+			General.sleep(10, 15);
+		if (Game.getUptext().contains(option)
+				|| Game.getUptext().contains("Use")) {
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-			Mouse.click(1);
+			leftClick(p);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-			General.sleep(450, 650);
-			while (Player.isMoving() && Player.getAnimation() == -1) {
-				General.sleep(20, 30);
+		} else {
+			rightClick(p);
+			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+				General.sleep(20, 25);
+			if (ChooseOption.isOpen() && ChooseOption.isOptionValid(option)) {
+				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+				ChooseOption.select(option);
+				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+				General.sleep(450, 650);
+				while (Player.isMoving() && Player.getAnimation() == -1) {
+					General.sleep(20, 30);
+				}
+				return;
+			} else if (ChooseOption.isOpen()) {
+				ChooseOption.close();
+				clickObject(o, option, fail + 1, minimap);
+			} else {
+				clickObject(o, option, fail + 1, minimap);
 			}
-			return;
 		}
 	}
 
@@ -248,6 +238,29 @@ public class GeneralMethods {
 						furthestVisibleTile = tile;
 					}
 
+				} else {
+					if (PathFinding.canReach(tile, false)
+							&& PathFinding.isTileWalkable(tile))
+						furthestVisibleTile = tile;
+				}
+			}
+		}
+		return furthestVisibleTile;
+	}
+	
+	public static RSTile getFurthestTileOnScreen(RSTile[] t, RSObject o) {
+		RSTile furthestVisibleTile = null;
+		RSTile home = Player.getPosition();
+		for (RSTile tile : t) {
+			if (tile != null && tile.isOnScreen()) {
+				if (furthestVisibleTile != null) {
+					if (home.distanceTo(furthestVisibleTile) < home
+							.distanceTo(tile)
+							&& PathFinding.canReach(tile, false)
+							&& PathFinding.isTileWalkable(tile) && !tile.equals(Player.getPosition())
+							&& o.getPosition().distanceTo(tile) < home.distanceTo(o)) {
+						furthestVisibleTile = tile;
+					}
 				} else {
 					if (PathFinding.canReach(tile, false)
 							&& PathFinding.isTileWalkable(tile))
