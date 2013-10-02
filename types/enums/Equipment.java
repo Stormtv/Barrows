@@ -74,7 +74,7 @@ public class Equipment {
 		return false;
 	}
 	
-	public static int[] requiedEquipment() {
+	public static ArrayList<Integer> requiedEquipment() {
 		ArrayList<Integer> equip = new ArrayList<Integer>();
 		for (Brother.Brothers b : Brother.Brothers.values()) {
 			for (int i : b.getEquipmentIds()) {
@@ -83,10 +83,6 @@ public class Equipment {
 				}
 			}
 		}
-		int[] intArray = new int[equip.size()];
-		for (int i=0; i<equip.size();i++) {
-			intArray[i] = equip.get(i).intValue();
-		}
-		return intArray;
+		return equip;
 	}
 }

@@ -38,7 +38,7 @@ public class Restocking {
 	}
 
 	private static void restorePrayerAtLumbridge() {
-		RSObject[] altar = Objects.find(9999, 409);
+		RSObject[] altar = Objects.find(20, 409);
 		if (altar.length > 0
 				&& altar[0].getPosition().distanceTo(Player.getPosition()) < 20) {
 			if (PathFinding.canReach(altar[0].getPosition(), true)) {
