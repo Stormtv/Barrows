@@ -218,6 +218,7 @@ public class BrotherKilling {
 				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None) 
 						&& !b.getPrayer().isActivated()) {
 					Prayer.activate(b.getPrayer());
+					General.println("Activated Prayer");
 				}
 			}
 		}

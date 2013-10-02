@@ -7,6 +7,7 @@ import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 
@@ -15,10 +16,14 @@ public class Tunnel {
 	public static void goToTunnel() {
 		for (Brothers b:Brothers.values()) {
 			if (b.isTunnel()) {
-				BrotherKilling.goToCrypt(b);
+				if (!BrotherKilling.isInCrypt(b)) {
+					BrotherKilling.goToCrypt(b);
+				}
 				if (BrotherKilling.isInCrypt(b)) {
 					RSObject[] sarco = Objects.find(20, b.getCryptID());
-					GeneralMethods.clickObject(sarco[0], "Search", false);
+					if (Interfaces.get(210)==null && Interfaces.get(228)==null) {
+						GeneralMethods.clickObject(sarco[0], "Search", false);
+					}
 					for (int fail=0; fail < 20 && Interfaces.get(210, 1) ==null;fail++) {
 						General.sleep(10,21);
 					}
@@ -44,6 +49,15 @@ public class Tunnel {
 	
 	public static boolean inCrypt() {
 		return Objects.find(20, "Sarcophagus").length>0;
+	}
+	
+	public static Brothers whosCrypt() {
+		for (Brother.Brothers b : Brother.Brothers.values()) {
+			if (Objects.find(20, b.getCryptID()).length>0) {
+				return b;
+			}
+		}
+		return null;
 	}
 
 }

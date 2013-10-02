@@ -29,23 +29,15 @@ public class TunnelTestPainter extends Script implements Painting {
 	@Override
 	public void run() {
 		super.setLoginBotState(false);
-		Brother.Brothers.Guthan.setTunnel(true);
-		Brother.Brothers.Ahrim.setKilled(true);
+		Brother.Brothers.Guthan.setKilled(true);
+		Brother.Brothers.Ahrim.setTunnel(true);
 		Brother.Brothers.Dharok.setKilled(true);
 		Brother.Brothers.Karil.setKilled(true);
 		Brother.Brothers.Torag.setKilled(true);
 		Brother.Brothers.Verac.setKilled(true);
 		Pathway = WTunnelTraverse.pathToChest();
 		while(true) {
-			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-					|| Tunnel.inCrypt() && !BrotherKilling.canKill()) {
-				Tunnel.goToTunnel();
-				continue;
-			}
-			if (Rooms.getRoom()!=null) {
-				TunnelTraversing.traverseTunnel();
-				continue;
-			}
+			TunnelTraversing.traverseTunnel();
 		}
 	}
 
