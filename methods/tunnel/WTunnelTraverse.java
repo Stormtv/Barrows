@@ -15,7 +15,7 @@ public class WTunnelTraverse {
 
 	public static TunnelDoor[] pathToChest(TunnelRoom endRoom) {
 		ArrayList<TunnelDoor> savedDoors = new ArrayList<TunnelDoor>();
-		ArrayList<TunnelRoom> savedRooms = new ArrayList<TunnelRoom>();
+		//ArrayList<TunnelRoom> savedRooms = new ArrayList<TunnelRoom>();
 		for (int i = 0; i < 20; i++) {
 			boolean deadEnd = true;
 			TunnelRoom currentRoom = Rooms.getRoom();
@@ -50,7 +50,7 @@ public class WTunnelTraverse {
 			if (savedDoors.size() > visitedDoors.size()
 					|| savedDoors.size() == 0) {
 				savedDoors = visitedDoors;
-				savedRooms = roomPath;
+				//savedRooms = roomPath;
 			}
 		}
 		return savedDoors.toArray(new TunnelDoor[savedDoors.size()]);

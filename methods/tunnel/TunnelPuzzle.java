@@ -1,5 +1,6 @@
 package scripts.Barrows.methods.tunnel;
 
+import org.tribot.api.General;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.types.RSInterface;
 
@@ -30,10 +31,13 @@ public class TunnelPuzzle {
 	}
 
 	public static boolean solvePuzzle() {
+		long time = System.currentTimeMillis();
+		General.println("solving puzzle");
 		if (isPuzzleScreenOpen()) {
 			RSInterface answer = getAnswer();
 			if (answer != null) {
 				if (answer.click("Ok")) {
+					General.println("Solved in: "+(System.currentTimeMillis()-time)+"ms");
 					// TODO dyanmic sleep
 					return true;
 				}

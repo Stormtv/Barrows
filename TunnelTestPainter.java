@@ -13,10 +13,6 @@ import javax.imageio.ImageIO;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
-import scripts.Barrows.main.BrotherKilling;
-import scripts.Barrows.methods.Pathing;
-import scripts.Barrows.methods.tunnel.Rooms;
-import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelDoor;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.methods.tunnel.WTunnelTraverse;

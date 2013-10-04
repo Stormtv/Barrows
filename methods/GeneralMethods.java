@@ -16,7 +16,6 @@ import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
-import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
@@ -26,7 +25,6 @@ import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.util.RSArea;
