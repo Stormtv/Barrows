@@ -183,7 +183,7 @@ public class BrotherKilling {
 		}
 	}
 
-	public static void killBrotherInTunnel() {
+	public static boolean killBrotherInTunnel() {
 		while (Player.isMoving())General.sleep(15,30);
 		for (int fSafe = 0; fSafe<5 && aggressiveNPC() == null; fSafe++) {
 			General.sleep(20,30);
@@ -192,12 +192,29 @@ public class BrotherKilling {
 		RSNPC target = aggressiveNPC();
 		if (target!=null) {
 			Brothers bro = Brother.getTunnelBrother();
+			tunnelPrayer(bro);
 			getReadyToFight(bro);
 			Var.status = "Found Brother in Tunnel";
 			attackMob(target);
 			CombatManager(bro);
+			Var.status = "Disabling Prayer";
+			Prayer.disableAllPrayers();
+			Var.status = "Switching back to tunnel gear";
+			bro.setKilled(true);
+			getReadyForTunnels();
+			return true;
 		} else {
 			Var.status = "No Brother spawned";
+			return false;
+		}
+	}
+	
+	private static void tunnelPrayer(Brothers b) {
+		if (!b.getPrayer().equals(Prayer.Prayers.None) && Potions.canDrinkWithoutWaste()) {
+			Potions.drink();
+			Prayer.activate(b.getPrayer());
+		} else if (!b.getPrayer().equals(Prayer.Prayers.None)) {
+			Prayer.activate(b.getPrayer());
 		}
 	}
 

@@ -43,7 +43,7 @@ public class Food {
 	}
 
 	public static void eat() {
-		if((Skills.getActualLevel("Hitpoints") - Skills.getCurrentLevel("Hitpoints")) >= Var.food.getHealAmount()) {
+		if((Skills.getActualLevel(Skills.SKILLS.HITPOINTS) - Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)) >= Var.food.getHealAmount()) {
 			if (!(GameTab.getOpen() == TABS.INVENTORY)) {
 				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
 				for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
@@ -65,7 +65,7 @@ public class Food {
 	}
 	
 	public static void eatInCombat() {
-		if (Skills.getActualLevel("Hitpoints") < 20 || GeneralMethods.getHPPercent() < 50) {
+		if (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 20 || GeneralMethods.getHPPercent() < 50) {
 			if (Inventory.find(Var.food.getId()).length >0) {
 				eat();
 			}
@@ -73,6 +73,6 @@ public class Food {
 	}
 	
 	public static boolean canEatWithoutWaste() {
-		return ((Skills.getActualLevel("Hitpoints") - Skills.getCurrentLevel("Hitpoints")) >= Var.food.getHealAmount());
+		return ((Skills.getActualLevel(Skills.SKILLS.HITPOINTS) - Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)) >= Var.food.getHealAmount());
 	}
 }

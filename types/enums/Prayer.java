@@ -18,9 +18,9 @@ public class Prayer {
 
 	public static void flicker(Prayers p) {
 		if (!p.isActivated()) {
-			int xp = Skills.getXP("Hitpoints");
+			int xp = Skills.getXP(Skills.SKILLS.HITPOINTS);
 			Prayer.activate(p);
-			for (int fsafe = 0; Skills.getXP("Hitpoints") == xp
+			for (int fsafe = 0; Skills.getXP(Skills.SKILLS.HITPOINTS) == xp
 					&& !(Player.getRSPlayer().getInteractingCharacter() == null)
 					&& fsafe < 41; fsafe++) {
 				General.sleep(15);
@@ -75,11 +75,11 @@ public class Prayer {
 	}
 
 	public static int getPoints() {
-		return Skills.getCurrentLevel("Prayer");
+		return Skills.getCurrentLevel(Skills.SKILLS.PRAYER);
 	}
 
 	public static int getLevel() {
-		return Skills.getActualLevel("Prayer");
+		return Skills.getActualLevel(Skills.SKILLS.PRAYER);
 	}
 
 	public static void disable(Prayers b) {
