@@ -55,7 +55,25 @@ public class BankHandler {
 									Var.food.getId());
 						}
 						Timing.waitCondition(new Condition() {
-							
+
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+					} else if (Var.prayerPotion != Inventory.getCount(Var.food
+							.getId())) {
+						if (Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion) {
+							Banking.withdraw((Var.prayerPotion - Inventory
+									.getCount(Potions.PRAYER_POTIONS)),
+									Var.food.getId());
+						} else {
+							Banking.deposit(
+									(Inventory.getCount(Potions.PRAYER_POTIONS) - Var.prayerPotion),
+									Potions.PRAYER_POTIONS);
+						}
+						Timing.waitCondition(new Condition() {
+
 							@Override
 							public boolean active() {
 								return Inventory.getAll().length != count;
