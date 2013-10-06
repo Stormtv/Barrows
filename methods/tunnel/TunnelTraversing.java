@@ -3,8 +3,6 @@ package scripts.Barrows.methods.tunnel;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
-import org.tribot.api.Timing;
-import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
@@ -23,11 +21,8 @@ public class TunnelTraversing {
 	static boolean comingBack = false;
 
 	static void walkToChest() {
-		// if (isBeingAttackedByBrother()) {
-		// BrotherKilling.killBrotherInTunnel();
-		// } else {
+		BrotherKilling.killBrotherInTunnel();
 		openNextDoor();
-		// }
 	}
 
 	public static void traverseTunnel() {
@@ -83,22 +78,14 @@ public class TunnelTraversing {
 			if (nextDoor.length > 0) {
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
-					final TunnelRoom fml = curRoom;
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					//General.sleep(5000);
-					Timing.waitCondition(new Condition() {
-
-						@Override
-						public boolean active() {
-							return !isAtRoom(fml);
-						}
-					}, 5000);
-					/*
-					 * curRoom = Rooms.getRoom(); if (curRoom != null) { for
-					 * (int i = 0; i < 200 && curRoom != null &&
-					 * curRoom.equals(Rooms.getRoom()); i++) {
-					 * General.sleep(10); } }
-					 */
+					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
+							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
+						General.sleep(10,15);
+					}
+					if (TunnelPuzzle.isPuzzleScreenOpen()) {
+						TunnelPuzzle.solvePuzzle();
+					}
 				} else {
 					if (Rooms.InTunnel()) {
 						Camera.setCameraAngle(General.random(90, 99));

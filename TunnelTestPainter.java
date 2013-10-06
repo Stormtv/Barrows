@@ -13,6 +13,11 @@ import javax.imageio.ImageIO;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
+import scripts.Barrows.gui.GUISave;
+import scripts.Barrows.main.BrotherKilling;
+import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.tunnel.Rooms;
+import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelDoor;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.methods.tunnel.WTunnelTraverse;
@@ -25,15 +30,32 @@ public class TunnelTestPainter extends Script implements Painting {
 	@Override
 	public void run() {
 		super.setLoginBotState(false);
-		Brother.Brothers.Guthan.setKilled(true);
-		Brother.Brothers.Ahrim.setTunnel(true);
+		Brother.Brothers.Guthan.setTunnel(true);
+		Brother.Brothers.Ahrim.setKilled(true);
 		Brother.Brothers.Dharok.setKilled(true);
 		Brother.Brothers.Karil.setKilled(true);
 		Brother.Brothers.Torag.setKilled(true);
 		Brother.Brothers.Verac.setKilled(true);
+		try {
+			GUISave.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Pathway = WTunnelTraverse.pathToChest();
 		while(true) {
-			TunnelTraversing.traverseTunnel();
+			if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
+				BrotherKilling.StartFight();
+				return;
+			}
+			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
+					|| !BrotherKilling.canKill() && Tunnel.inCrypt()) {
+				Tunnel.goToTunnel();
+				return;
+			}
+			if (Rooms.getRoom()!=null && !BrotherKilling.canKill()) {
+				TunnelTraversing.traverseTunnel();
+				return;
+			}
 		}
 	}
 
