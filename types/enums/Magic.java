@@ -12,14 +12,16 @@ import org.tribot.api2007.types.RSModel;
 public class Magic {
 
 	public enum Spell {
-		NONE(-1, -1, -1, "None", -1),
-
-		FIRE_BOLT(35, 20, 17, "Fire Bolt", 8), WIND_BLAST(41, 24, 19,
-				"Wind Blast", 9), WATER_BLAST(47, 27, 21, "Water Blast", 10), EARTH_BLAST(
-				53, 33, 23, "Earth Blast", 11), FIRE_BLAST(59, 38, 25,
-				"Fire Blast", 12), WIND_WAVE(62, 45, 27, "Wind Wave", 13), WATER_WAVE(
-				65, 48, 29, "Water Wave", 14), EARTH_WAVE(70, 52, 31,
-				"Earth Wave", 15), FIRE_WAVE(75, 55, 33, "Fire Wave", 16);
+		NONE(-1, -1, -1, "None", -1, null),
+		FIRE_BOLT(35, 20, 17, "Fire Bolt", 8, new int[][] {{554,4},{556,2},{562,1}}),
+		WIND_BLAST(41, 24, 19,"Wind Blast", 9, new int[][] {{556,3},{560,1}}),
+		WATER_BLAST(47, 27, 21, "Water Blast", 10, new int[][] {{555,3},{556,3},{560,1}}),
+		EARTH_BLAST(53, 33, 23, "Earth Blast", 11, new int[][] {{557,4},{556,3},{560,1}}),
+		FIRE_BLAST(59, 38, 25,"Fire Blast", 12, new int[][] {{554,5},{556,3},{560,1}}),
+		WIND_WAVE(62, 45, 27, "Wind Wave", 13, new int[][] {{556,5},{565,1}}),
+		WATER_WAVE(65, 48, 29, "Water Wave", 14, new int[][] {{553,7},{556,5},{565,1}}),
+		EARTH_WAVE(70, 52, 31,"Earth Wave", 15, new int[][] {{557,7},{556,5},{565,1}}),
+		FIRE_WAVE(75, 55, 33, "Fire Wave", 16, new int[][] {{554,7},{556,5},{565,1}});
 
 		// TODO add slayer dart
 		private final int req;
@@ -27,16 +29,21 @@ public class Magic {
 		private final int setting;
 		private final String name;
 		private final int secondInterface;
-
+		private final int[][] requiredRunes;
 		private Spell(int req, int interfaceID, int setting, String name,
-				int secondInterface) {
+				int secondInterface, int[][] requiredRunes) {
 			this.req = req;
 			this.interfaceID = interfaceID;
 			this.setting = setting;
 			this.name = name;
 			this.secondInterface = secondInterface;
+			this.requiredRunes = requiredRunes;
 		}
 
+		int[][] getRequiredRunes() {
+			return requiredRunes;
+		}
+		
 		int getRequiredlevel() {
 			return req;
 		}
