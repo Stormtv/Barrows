@@ -21,7 +21,7 @@ public class BankHandler {
 		}
 		items.add(Var.food.getId());
 		items.add(Var.SPADE_ID);
-		items.add(Equipment.getEquipmentID(Equipment.Gear.ARROW));
+		items.add(Var.arrowId);
 		for (int i : Potions.PRAYER_POTIONS)
 			items.add(i);
 		for (int i : Potions.SUPER_POTS)
@@ -72,6 +72,68 @@ public class BankHandler {
 									(Inventory.getCount(Potions.PRAYER_POTIONS) - Var.prayerPotion),
 									Potions.PRAYER_POTIONS);
 						}
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+					} else if (org.tribot.api2007.Equipment
+							.getCount(Var.arrowId) < 100) {
+						Banking.withdraw((100 - org.tribot.api2007.Equipment
+								.getCount(Var.arrowId)), Var.arrowId);
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+					} else if (Var.superAttack > 0
+							&& Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
+						Banking.withdraw(
+								Var.superAttack
+										- Inventory
+												.getCount(Potions.SUPER_ATTACK),
+								Potions.SUPER_ATTACK);
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+					} else if (Var.superStrength > 0
+							&& Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
+						Banking.withdraw(
+								Var.superStrength
+										- Inventory
+												.getCount(Potions.SUPER_STRENGTH),
+								Potions.SUPER_STRENGTH);
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+					} else if (Var.superDefence > 0
+							&& Inventory.getCount(Potions.SUPER_DEFENCE) < Var.superDefence) {
+						Banking.withdraw(
+								Var.superDefence
+										- Inventory
+												.getCount(Potions.SUPER_DEFENCE),
+								Potions.SUPER_DEFENCE);
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+					}else if(Inventory.getCount(Var.SPADE_ID) < 1){
+						Banking.withdraw(1, Var.SPADE_ID);
 						Timing.waitCondition(new Condition() {
 
 							@Override
