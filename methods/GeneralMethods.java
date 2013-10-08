@@ -16,6 +16,7 @@ import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
+import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
@@ -139,8 +140,21 @@ public class GeneralMethods {
 		return true;
 	}
 
+	private static boolean isObjectValid(RSObject o) {
+		for (RSObject a : Objects.getAt((Positionable)o.getPosition())) {
+			if (a.getID() == o.getID()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	static void clickObject(RSObject o, String option, int fail, boolean minimap) {
-		if (o == null || o.getModel() == null || Banking.isBankScreenOpen())
+		if (o == null 
+				|| o.getModel() == null 
+				|| Banking.isBankScreenOpen()
+				|| Objects.find(50, o.getID()).length == 0 
+				|| !isObjectValid(o))
 			return;
 		if (!o.isOnScreen() || fail > 4) {
 			RSTile tile = o.getPosition();
@@ -173,6 +187,10 @@ public class GeneralMethods {
 		}
 		if (fail>4) {
 			Camera.turnToTile(o);
+		}
+		if (fail>10) {
+			General.println("Failed to click Object: "+ o.getDefinition().getName()+"("+o.getID()+")");
+			return;
 		}
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 13);
 		Mouse.move(p);
