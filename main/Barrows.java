@@ -15,6 +15,7 @@ import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
+import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.Brother.Brothers;
 
@@ -51,6 +52,12 @@ public class Barrows extends Script implements Painting{
 	}
 
 	private void onStart() {
+		Brother.Brothers.Guthan.setKilled(true);
+		Brother.Brothers.Ahrim.setKilled(true);
+		Brother.Brothers.Dharok.setKilled(true);
+		Brother.Brothers.Karil.setTunnel(true);
+		Brother.Brothers.Torag.setKilled(true);
+		Brother.Brothers.Verac.setKilled(true);
         activateGUI();
 	}
 
