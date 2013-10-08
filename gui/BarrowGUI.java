@@ -183,6 +183,8 @@ public class BarrowGUI extends JFrame {
 
 				Var.bankPath = (Pathing.PathBank) cbxBank.getSelectedItem();
 				Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows.getSelectedItem();
+				
+				Var.arrowId = Equipment.getEquipmentID(Equipment.Gear.ARROW);
 				try {
 					GUISave.save();
 				} catch (IOException e1) {

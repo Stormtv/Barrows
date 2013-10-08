@@ -73,4 +73,6 @@ public class Var {
 	public static int[] tunnelEquipment;
 
 	public static TunnelRoom startingRoom;
+	
+	public static int arrowId;
 }
