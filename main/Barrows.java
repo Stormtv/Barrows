@@ -52,12 +52,6 @@ public class Barrows extends Script implements Painting{
 	}
 
 	private void onStart() {
-		Brother.Brothers.Guthan.setKilled(true);
-		Brother.Brothers.Ahrim.setKilled(true);
-		Brother.Brothers.Dharok.setKilled(true);
-		Brother.Brothers.Karil.setTunnel(true);
-		Brother.Brothers.Torag.setKilled(true);
-		Brother.Brothers.Verac.setKilled(true);
         activateGUI();
 	}
 
