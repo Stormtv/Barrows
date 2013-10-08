@@ -165,22 +165,16 @@ public class GeneralMethods {
 								.generateStraightScreenPath(tile),o));
 					}
 					while(Player.isMoving())General.sleep(25,40);
-					/*if (!o.isOnScreen() && o.getPosition().distanceTo(Player.getRSPlayer()) > 1) {
-						Walking.walking_timeout = 500;
-						Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-						walkScreen(getFurthestTileOnScreen(Walking
-								.generateStraightScreenPath(tile)));
-						Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-					} else {
-						Camera.turnToTile(o);
-					}*/
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, minimap);
 				}
 			}
 		}
-		Point p = getAverage(o.getModel().getAllVisiblePoints(), 10);
+		if (fail>4) {
+			Camera.turnToTile(o);
+		}
+		Point p = getAverage(o.getModel().getAllVisiblePoints(), 13);
 		Mouse.move(p);
 
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
