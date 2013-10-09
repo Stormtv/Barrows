@@ -14,10 +14,10 @@ import scripts.Barrows.types.enums.Prayer;
 
 public class Potions {
 
-	public static int[] PRAYER_POTIONS = { 143, 141, 139, 2434 };
-	public static int[] SUPER_POTS = { 161, 159, 157, 2440, 167, 165, 163, 2442, 149,
-			147, 145, 2436, 2444, 169, 171, 173 };
-	
+	public static int[] PRAYER_POTIONS = { 2434, 143, 141, 139 };
+	public static int[] SUPER_POTS = { 161, 159, 157, 2440, 167, 165, 163,
+			2442, 149, 147, 145, 2436, 2444, 169, 171, 173 };
+
 	public static int SUPER_ATTACK = 2436;
 	public static int SUPER_STRENGTH = 2440;
 	public static int SUPER_DEFENCE = 2442;
