@@ -160,7 +160,9 @@ public class Magic {
 					for (int i=0;i<req.length;i++) {
 						int need = numOfCasts*req[i][1]
 								- Inventory.getCount(req[i][0]);
-						Banking.withdraw(need, req[i][0]);
+						if (need > 0) {
+							Banking.withdraw(need, req[i][0]);
+						}
 					}
 				}
 			}
