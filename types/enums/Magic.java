@@ -1,5 +1,7 @@
 package scripts.Barrows.types.enums;
 
+import java.util.ArrayList;
+
 import org.tribot.api.General;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
@@ -167,6 +169,23 @@ public class Magic {
 				}
 			}
 		}
+	}
+	
+	public static int[] getRuneIDs() {
+		ArrayList<Integer> runeIds = new ArrayList<Integer>();
+		for (Brothers b : Brothers.values()) {
+			if (!b.getSpell().equals(Magic.Spell.NONE)) {
+				int[][] req = b.getSpell().getRequiredRunes();
+				for (int i = 0;i<req.length;i++) {
+					runeIds.add(req[i][0]);
+				}
+			}
+		}
+		int[] intArray = new int[runeIds.size()];
+		for (int i = 0; i < runeIds.size(); i++) {
+			intArray[i] = runeIds.get(i).intValue();
+		}
+		return intArray;
 	}
 	
 }
