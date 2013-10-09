@@ -1,13 +1,17 @@
 package scripts.Barrows.types.enums;
 
 import org.tribot.api.General;
+import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSModel;
+
+import scripts.Barrows.types.Brother.Brothers;
 
 public class Magic {
 
@@ -123,4 +127,44 @@ public class Magic {
 
 		return false;
 	}
+
+	public static boolean isUsingSpells() {
+		for (Brothers b : Brothers.values()) {
+			if (!b.getSpell().equals(Magic.Spell.NONE)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean hasCasts(int numOfCasts) {
+		for (Brothers b : Brothers.values()) {
+			if (!b.getSpell().equals(Magic.Spell.NONE)) {
+				int[][] req = b.getSpell().getRequiredRunes();
+				for (int i=0;i<req.length;i++) {
+					if (Inventory.getCount(req[i][0]) 
+							< numOfCasts*req[i][1]) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static void withdrawCasts(int numOfCasts) {
+		for (Brothers b: Brothers.values()) {
+			if (!b.getSpell().equals(Magic.Spell.NONE)) {
+				if (!hasCasts(numOfCasts)) {
+					int[][] req = b.getSpell().getRequiredRunes();
+					for (int i=0;i<req.length;i++) {
+						int need = numOfCasts*req[i][1]
+								- Inventory.getCount(req[i][0]);
+						Banking.withdraw(need, req[i][0]);
+					}
+				}
+			}
+		}
+	}
+	
 }

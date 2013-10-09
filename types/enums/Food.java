@@ -50,8 +50,7 @@ public class Food {
 					General.sleep(15);
 				}
 			}
-			if (Inventory.find(Var.food.getId()).length > 0)
-			{
+			if (Inventory.find(Var.food.getId()).length > 0) {
 				final int t = Inventory.getAll().length;
 				Inventory.find(Var.food.getId())[0].click("Eat"); 
 				Timing.waitCondition(new Condition(){;
@@ -60,6 +59,9 @@ public class Food {
 				{
 					return Inventory.getAll().length < t;
 				}}, General.random(1200, 1300));
+				if (Inventory.getAll().length == t) {
+					eat();
+				}
 			}			
 		}			
 	}

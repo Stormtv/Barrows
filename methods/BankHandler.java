@@ -9,6 +9,7 @@ import org.tribot.api2007.Inventory;
 
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
+import scripts.Barrows.types.enums.Magic;
 import scripts.Barrows.types.Potions;
 
 public class BankHandler {
@@ -141,6 +142,11 @@ public class BankHandler {
 								return Inventory.getAll().length != count;
 							}
 						}, 3000);
+					}
+					if (Magic.isUsingSpells()) {
+						if (!Magic.hasCasts(200)) {
+							Magic.withdrawCasts(200);
+						}
 					}
 				}
 			}

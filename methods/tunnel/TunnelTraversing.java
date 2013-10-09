@@ -55,6 +55,7 @@ public class TunnelTraversing {
 		RSObject[] chest = Objects.find(10, 20973);
 		if (chest.length > 0) {
 			GeneralMethods.clickObject(chest[0], "", false);
+			BrotherKilling.killBrotherInTunnel();
 		}
 	}
 

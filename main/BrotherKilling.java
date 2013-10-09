@@ -14,6 +14,7 @@ import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 
@@ -240,8 +241,21 @@ public class BrotherKilling {
 			}
 		}
 	}
+	
+	private static void dropVials() {
+		if (Inventory.getCount(229) > 0) {
+			for (RSItem i : Inventory.find(229)) {
+				int count = Inventory.getAll().length;
+				i.click("Drop");
+				for (int x = 0; x < 20 && count == Inventory.getAll().length;x++) {
+					General.sleep(25,30);
+				}
+			}
+		}
+	}
 
 	private static void getReadyForTunnels() {
+		dropVials();
 		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
 			for (int i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
@@ -258,6 +272,7 @@ public class BrotherKilling {
 	}
 	
 	private static void getReadyToFight(Brothers b) {
+		dropVials();
 		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
 		}
