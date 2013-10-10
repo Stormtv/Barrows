@@ -33,7 +33,8 @@ public class BankHandler {
 			items.add(i);
 		for (int i : Potions.SUPER_POTS)
 			items.add(i);
-
+		for (int i : Magic.getRuneIDs())
+			items.add(i);
 		int[] intArray = new int[items.size()];
 		for (int i = 0; i < items.size(); i++) {
 			intArray[i] = items.get(i).intValue();
@@ -142,11 +143,11 @@ public class BankHandler {
 						return;
 					}
 					if (Var.prayerPotion != Inventory
-							.getCount(Var.food.getId())) {
+							.getCount(Potions.PRAYER_POTIONS)) {
 						if (Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion) {
 							Banking.withdraw((Var.prayerPotion - Inventory
 									.getCount(Potions.PRAYER_POTIONS)),
-									Var.food.getId());
+									Potions.PRAYER_POTIONS);
 						} else {
 							Banking.deposit(
 									(Inventory.getCount(Potions.PRAYER_POTIONS) - Var.prayerPotion),
