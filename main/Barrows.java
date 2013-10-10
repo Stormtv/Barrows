@@ -1,8 +1,6 @@
 package scripts.Barrows.main;
 
 import java.awt.Color;
-
-
 import java.awt.Graphics;
 
 import javax.swing.SwingUtilities;
@@ -15,16 +13,15 @@ import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
 import scripts.Barrows.methods.BankHandler;
+import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
-import scripts.Barrows.types.Var;
 import scripts.Barrows.types.Brother.Brothers;
-
+import scripts.Barrows.types.Var;
 
 @ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Money Making", name = "Barrows")
-
 public class Barrows extends Script implements Painting {
 
 	@Override
@@ -64,18 +61,24 @@ public class Barrows extends Script implements Painting {
 
 	private void onStart() {
 		activateGUI();
+		GeneralMethods.setPrices();
+		while (Var.guiWait) {
+			sleep(100);
+		}
 	}
 
 	private void activateGUI() {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
-				Var.gui = new BarrowGUI();
-				Var.gui.setVisible(true);
+				try {
+					Var.gui = new BarrowGUI();
+					Var.gui.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
-		while (Var.guiWait) {
-			sleep(100);
-		}
 	}
 
 	@Override

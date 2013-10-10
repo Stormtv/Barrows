@@ -162,7 +162,20 @@ public class BankHandler {
 						}, 3000);
 						return;
 					}
-					General.sleep(200);
+					for (int i : Equipment.requiedEquipment()) {
+						if (!has(i) && i > 0) {
+							Banking.withdraw(1, i);
+							Timing.waitCondition(new Condition() {
+
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+							System.out.println("lil " + i);
+							return;
+						}
+					}
 					if (getSpaceLeft() > 0) {
 						Banking.withdraw(0, Var.food.getId());
 						Timing.waitCondition(new Condition() {
@@ -189,6 +202,11 @@ public class BankHandler {
 				}
 			}
 		}
+	}
+
+	static boolean has(int l) {
+		return Inventory.getCount(l) > 0
+				|| org.tribot.api2007.Equipment.getCount(l) > 0;
 	}
 
 	static int getSpaceLeft() {

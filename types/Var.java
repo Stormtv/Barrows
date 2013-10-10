@@ -1,5 +1,7 @@
 package scripts.Barrows.types;
 
+import java.util.HashMap;
+
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
@@ -11,6 +13,9 @@ import scripts.Barrows.util.RSArea;
 
 public class Var {
 
+	
+	public static HashMap<Integer, Integer> priceTable = new HashMap<Integer, Integer>();
+	
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
 			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
 			new RSTile(3559, 3296, 0), new RSTile(3555, 3296, 0) });

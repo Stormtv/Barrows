@@ -28,6 +28,7 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.util.PriceItem;
 import scripts.Barrows.util.RSArea;
 
 public class GeneralMethods {
@@ -141,20 +142,17 @@ public class GeneralMethods {
 	}
 
 	private static boolean isObjectValid(RSObject o) {
-		for (RSObject a : Objects.getAt((Positionable)o.getPosition())) {
+		for (RSObject a : Objects.getAt((Positionable) o.getPosition())) {
 			if (a.getID() == o.getID()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	static void clickObject(RSObject o, String option, int fail, boolean minimap) {
-		if (o == null 
-				|| o.getModel() == null 
-				|| Banking.isBankScreenOpen()
-				|| Objects.find(50, o.getID()).length == 0 
-				|| !isObjectValid(o))
+		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()
+				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o))
 			return;
 		if (!o.isOnScreen() || fail > 4) {
 			RSTile tile = o.getPosition();
@@ -173,23 +171,25 @@ public class GeneralMethods {
 				fail = 0;
 			} else {
 				if (!o.isOnScreen()) {
-					while(!o.isOnScreen() && turnTo(o)!=false) {
+					while (!o.isOnScreen() && turnTo(o) != false) {
 						turnTo(o);
-						walkScreen(getFurthestTileOnScreen(Walking
-								.generateStraightScreenPath(tile),o));
+						walkScreen(getFurthestTileOnScreen(
+								Walking.generateStraightScreenPath(tile), o));
 					}
-					while(Player.isMoving())General.sleep(25,40);
+					while (Player.isMoving())
+						General.sleep(25, 40);
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, minimap);
 				}
 			}
 		}
-		if (fail>4) {
+		if (fail > 4) {
 			Camera.turnToTile(o);
 		}
-		if (fail>10) {
-			General.println("Failed to click Object: "+ o.getDefinition().getName()+"("+o.getID()+")");
+		if (fail > 10) {
+			General.println("Failed to click Object: "
+					+ o.getDefinition().getName() + "(" + o.getID() + ")");
 			return;
 		}
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 13);
@@ -244,7 +244,8 @@ public class GeneralMethods {
 					if (home.distanceTo(furthestVisibleTile) < home
 							.distanceTo(tile)
 							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile) && !tile.equals(Player.getPosition())) {
+							&& PathFinding.isTileWalkable(tile)
+							&& !tile.equals(Player.getPosition())) {
 						furthestVisibleTile = tile;
 					}
 
@@ -257,7 +258,7 @@ public class GeneralMethods {
 		}
 		return furthestVisibleTile;
 	}
-	
+
 	public static RSTile getFurthestTileOnScreen(RSTile[] t, RSObject o) {
 		RSTile furthestVisibleTile = null;
 		RSTile home = Player.getPosition();
@@ -267,8 +268,10 @@ public class GeneralMethods {
 					if (home.distanceTo(furthestVisibleTile) < home
 							.distanceTo(tile)
 							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile) && !tile.equals(Player.getPosition())
-							&& o.getPosition().distanceTo(tile) < home.distanceTo(o)) {
+							&& PathFinding.isTileWalkable(tile)
+							&& !tile.equals(Player.getPosition())
+							&& o.getPosition().distanceTo(tile) < home
+									.distanceTo(o)) {
 						furthestVisibleTile = tile;
 					}
 				} else {
@@ -280,7 +283,6 @@ public class GeneralMethods {
 		}
 		return furthestVisibleTile;
 	}
-	
 
 	public static RSTile getFurthestTileOnScreen(ArrayList<RSTile> t) {
 		RSTile furthestVisibleTile = null;
@@ -365,5 +367,42 @@ public class GeneralMethods {
 			}
 		}
 		return false;
+	}
+
+	public static void setPrices() {
+		String[] names = { "Guthans Warspear", "Guthans Chainskirt",
+				"Guthans Helm", "Guthans Platebody", "Ahrims hood",
+				"Ahrims staff", "Ahrims robetop", "Ahrims robeskirt",
+				"Dharoks helm", "Dharoks greataxe", "Dharoks platebody",
+				"Dharoks platelegs", "Karils coif", "Karils crossbow",
+				"Karils leathertop", "Karils leatherskirt", "Bolt rack",
+				"Torags helm", "Torags hammers", "Torags platebody",
+				"Torags platelegs", "Veracs helm", "Veracs flail",
+				"Veracs brassard", "Veracs plateskirt", "Blood rune",
+				"Death rune", "Chaos rune", "Mind rune", "Dragon med helm",
+				"Half of a key", "Loop half of a key" };
+
+		int[] ids = { 4726, 4730, 4728, 4724, 4708, 4710, 4712, 4714, 4716,
+				4718, 4720, 4722, 4732, 4734, 4736, 4738, 4740, 4745, 4747,
+				4749, 4751, 4753, 4755, 4757, 4759, 565, 560, 562, 588, 1149,
+				985, 987 };
+		for (int i = 0; i < names.length; i++) {
+			int price = 0;
+			try {
+				price = PriceItem.getPrice(names[i]);
+			} catch (Exception e) {
+			}
+			if (price != 0) {
+				Var.priceTable.put(ids[i], price);
+				System.out.println("Id=" + ids[i] + "  |  Name=" + names[i]
+						+ "  |  Price=" + price);
+			} else {
+				System.out.println("Failed to load prices for " + names[i]);
+			}
+		}
+	}
+	
+	public static int getPrice(int id){
+		return Var.priceTable.get(id);
 	}
 }
