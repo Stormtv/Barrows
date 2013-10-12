@@ -192,7 +192,9 @@ public class GeneralMethods {
 					+ o.getDefinition().getName() + "(" + o.getID() + ")");
 			return;
 		}
-		Point p = getAverage(o.getModel().getAllVisiblePoints(), 13);
+		Var.debugObject = o;
+		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(),0);
+		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
 		Mouse.move(p);
 
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
@@ -202,6 +204,12 @@ public class GeneralMethods {
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 			leftClick(p);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+			Var.debugObject = null;
+			Var.centerPoint = null;
+			General.sleep(250, 350);
+			while (Player.isMoving() && Player.getAnimation() == -1) {
+				General.sleep(20, 30);
+			}
 		} else {
 			rightClick(p);
 			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
@@ -210,10 +218,13 @@ public class GeneralMethods {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				ChooseOption.select(option);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-				General.sleep(450, 650);
+				Var.debugObject = null;
+				Var.centerPoint = null;
+				General.sleep(250, 350);
 				while (Player.isMoving() && Player.getAnimation() == -1) {
 					General.sleep(20, 30);
 				}
+				General.println("Clicked Successfuly");
 				return;
 			} else if (ChooseOption.isOpen()) {
 				ChooseOption.close();
@@ -231,7 +242,25 @@ public class GeneralMethods {
 			return;
 		Point p = getRandomPoint(Projection.getTileBoundsPoly(r, 0).getBounds());
 		if (screen != null && p != null && screen.contains(p)) {
-			Mouse.click(p, 1);
+			Mouse.move(p);
+			for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains("Walk"); fSafe++)
+				General.sleep(10, 15);
+			if (Game.getUptext().contains("Walk")) {
+				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+				leftClick(p);
+				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+			} else {
+				rightClick(p);
+				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+					General.sleep(20, 25);
+				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
+					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+					ChooseOption.select("Walk");
+					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+				} else if (ChooseOption.isOpen()) {
+					ChooseOption.close();
+				}
+			}
 		}
 	}
 
@@ -340,7 +369,7 @@ public class GeneralMethods {
 
 	public static boolean click(RSNPC m, String option) {
 		Mouse.setSpeed(500);
-		if (m.isValid()) {
+		if (m.isValid() && m.getModel()!=null) {
 			if (m.getModel() != null)
 				Mouse.move(GeneralMethods.getAverage(m.getModel()
 						.getAllVisiblePoints(), 0));

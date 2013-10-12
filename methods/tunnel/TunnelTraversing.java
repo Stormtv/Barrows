@@ -14,11 +14,10 @@ import org.tribot.api2007.types.RSTile;
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
+import scripts.Barrows.types.Var;
 import scripts.Barrows.util.RSArea;
 
 public class TunnelTraversing {
-
-	static boolean comingBack = false;
 
 	static void walkToChest() {
 		BrotherKilling.killBrotherInTunnel();
@@ -30,8 +29,13 @@ public class TunnelTraversing {
 			if (TunnelPuzzle.isPuzzleScreenOpen()) {
 				TunnelPuzzle.solvePuzzle();
 			} else {
-				if (comingBack) {
-					walkToLadder();
+				if (Var.lootedChest) {
+					if (Rooms.getRoom() != null
+							&& Rooms.getRoom().equals(Var.startingRoom)) {
+						climbLadder();
+					} else {
+						walkToLadder();
+					}
 				} else {
 					if (Rooms.getRoom() != null
 							&& Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
@@ -46,22 +50,68 @@ public class TunnelTraversing {
 		}
 	}
 
-	// TODO add brother killing @ chest
-	// TODO add inventory space checkup before looting
-	// TODO if chest mode points .length < 800 = closed (to pot up before
-	// brother killing if needed)
+	// TODO add inventory space checkup
+	// before looting / pickup loot on ground
+
+	private static void climbLadder() {
+		RSObject climbingTool = Objects.getAt(Var.startingRoom.getExitTile())[0];
+		GeneralMethods.clickObject(climbingTool, "Climb", false);
+		//TODO dynamic sleep
+	}
 
 	private static void openChest() {
 		RSObject[] chest = Objects.find(10, 20973);
 		if (chest.length > 0) {
-			GeneralMethods.clickObject(chest[0], "", false);
-			BrotherKilling.killBrotherInTunnel();
+			if (chest[0].getModel().getPoints().length == 606) {
+				GeneralMethods.clickObject(chest[0], "Open", false);
+				BrotherKilling.killBrotherInTunnel();
+			} else {
+				GeneralMethods.clickObject(chest[0], "Search", false);
+				BrotherKilling.killBrotherInTunnel();
+				Var.lootedChest = true;
+			}
 		}
 	}
 
 	private static void walkToLadder() {
-		// TODO Auto-generated method stub
-
+		Walking.walking_timeout = 500;
+		TunnelDoor[] path = WTunnelTraverse.pathToChest(Var.startingRoom);
+		TunnelRoom curRoom = null;
+		if (path != null && path.length > 0) {
+			RSObject[] nextDoor = Objects.getAt(path[0].getLocation());
+			if (nextDoor.length > 0) {
+				if (nextDoor[0].isOnScreen()) {
+					curRoom = Rooms.getRoom();
+					GeneralMethods.clickObject(nextDoor[0], "Open", false);
+					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
+							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
+						General.sleep(10,15);
+					}
+					if (TunnelPuzzle.isPuzzleScreenOpen()) {
+						TunnelPuzzle.solvePuzzle();
+					}
+				} else {
+					if (Rooms.InTunnel()) {
+						Camera.setCameraAngle(General.random(90, 99));
+						for (int i = 0; i < 50; i++) {
+							if (Rooms.InTunnel() && nextDoor.length > 0
+									&& !nextDoor[0].isOnScreen()) {
+								walkInsideTunnel(path[0].getLocation());
+							}
+						}
+					} else {
+						RSTile[] t = Walking
+								.generateStraightScreenPath(nextDoor[0]);
+						for (int i = 0; i < 10; i++) {
+							if (nextDoor.length > 0 && nextDoor[0] != null
+									&& !nextDoor[0].isOnScreen())
+								GeneralMethods.walkScreen(GeneralMethods
+										.getFurthestTileOnScreen(t));
+						}
+					}
+				}
+			}
+		}
 	}
 
 	static boolean isAtRoom(TunnelRoom t) {

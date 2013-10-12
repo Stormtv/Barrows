@@ -11,6 +11,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import org.tribot.api.General;
+import org.tribot.api2007.Objects;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
@@ -24,14 +25,16 @@ public class TunnelTestPainter extends Script implements Painting {
 	@Override
 	public void run() {
 		super.setLoginBotState(false);
-		while(true) {
+		/*while(true) {
 			try {
 			Pathway = WTunnelTraverse.pathToChest();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			General.sleep(500);
-		}
+		}*/
+		General.println(Integer.toString(Objects.find(15, 20973)[0].getModel().getPoints().length));
+		
 	}
 
 	private Image getImage(String url) {

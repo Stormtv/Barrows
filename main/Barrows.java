@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Player;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Painting;
@@ -21,7 +22,7 @@ import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 
-@ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Money Making", name = "Barrows")
+@ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
 public class Barrows extends Script implements Painting {
 
 	@Override
@@ -34,29 +35,42 @@ public class Barrows extends Script implements Painting {
 
 	private void loop() {
 		Mouse.setSpeed(General.random(250, 350));
-		// Bank Check
-		// Tunnel Check
-		// More checks
-
-		// Kill Test
-		if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
+		
+		//TODO NEED TO PATHING CHECK eg. out of food / pots
+		
+		if (BankHandler.needToBank() 
+				&& Var.bankArea.contains(Player.getPosition())) {
+			BankHandler.bank();
+			return;
+		}
+		if (Pathing.isInBarrows() && BrotherKilling.canKill() 
+				&& !Var.lootedChest) {
 			BrotherKilling.StartFight();
 			return;
 		}
 		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-				|| !BrotherKilling.canKill() && Tunnel.inCrypt()) {
+				|| !BrotherKilling.canKill() && Tunnel.inCrypt()
+				&& !Var.lootedChest) {
 			Tunnel.goToTunnel();
 			return;
 		}
+		if (!BrotherKilling.canKill() && Tunnel.inCrypt()
+				&& Var.lootedChest) {
+			Tunnel.exitCrypt();
+			return;
+		}
 		if (Rooms.getRoom() != null && !BrotherKilling.canKill()
-				&& !Tunnel.inCrypt()) {
+				&& !Tunnel.inCrypt() 
+				&& !Var.bankArea.contains(Player.getPosition())) {
 			TunnelTraversing.traverseTunnel();
 			return;
 		}
-		if (BankHandler.needToBank()) {
-			BankHandler.bank();
+		if (Pathing.isInBarrows() && !BrotherKilling.canKill() 
+				&& Var.lootedChest) {
+			BrotherKilling.reset();
 			return;
 		}
+
 	}
 
 	private void onStart() {
@@ -81,28 +95,38 @@ public class Barrows extends Script implements Painting {
 		});
 	}
 
+	private final Color tRed = new Color(255, 0, 0, 110);
+	private final Color tYellow = new Color(255, 255, 0, 110);
 	@Override
 	public void onPaint(Graphics g) {
-		int i = 0;
-		for (Brothers b : Brothers.values()) {
-			g.setColor(Color.BLACK);
-			String s = b.getName();
-			if (s != null) {
-				if (b.isKilled()) {
-					s = s + " Killed: " + b.isKilled();
+		if (Var.debug) {
+			int i = 0;
+			for (Brothers b : Brothers.values()) {
+				g.setColor(Color.BLACK);
+				String s = b.getName();
+				if (s != null) {
+					if (b.isKilled()) {
+						s = s + " Killed: " + b.isKilled();
+					}
+					if (b.isTunnel()) {
+						s = s + " Tunnel: " + b.isTunnel();
+					}
+					g.drawString(s, 287, 362 + 10 * i);
+					i++;
 				}
-				if (b.isTunnel()) {
-					s = s + " Tunnel: " + b.isTunnel();
-				}
-				g.drawString(s, 287, 362 + 10 * i);
-				i++;
+				g.setColor(Color.GREEN);
 			}
-			g.setColor(Color.RED);
+			if (Var.status != null) {
+				g.drawString(Var.status, 574, 376);
+			}
+			if (Var.debugObject != null && Var.debugObject.isOnScreen() 
+					|| Var.centerPoint !=null ) {
+				g.setColor(tRed);
+				g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
+				g.setColor(tYellow);
+				g.drawRect(Var.centerPoint.x-7, Var.centerPoint.y-7, 14, 14);
+			}
 		}
-		if (Var.status != null) {
-			g.drawString(Var.status, 574, 376);
-		}
-
 	}
 
 }
