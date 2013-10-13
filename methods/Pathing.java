@@ -1,8 +1,11 @@
 package scripts.Barrows.methods;
 
+import org.tribot.api2007.Game;
 import org.tribot.api.General;
+import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
@@ -16,7 +19,7 @@ public class Pathing {
 	public enum PathBarrows {
 		SWAMP, SHORTCUT
 	}
-	
+
 	public enum PathBank {
 		HOUSE, ECTOPHIAL
 	}
@@ -44,15 +47,18 @@ public class Pathing {
 			new RSTile(3480, 3379, 0), new RSTile(3486, 3376, 0),
 			new RSTile(3492, 3376, 0), new RSTile(3497, 3380, 0) };
 
-	final static RSTile[] pathToBarrows = { new RSTile(3516, 3281, 0),
-			new RSTile(3526, 3280, 0), new RSTile(3536, 3279, 0),
-			new RSTile(3538, 3284, 0), new RSTile(3539, 3289, 0),
-			new RSTile(3541, 3294, 0), new RSTile(3543, 3299, 0),
-			new RSTile(3544, 3304, 0), new RSTile(3548, 3307, 0),
-			new RSTile(3553, 3310, 0), new RSTile(3557, 3313, 0),
-			new RSTile(3562, 3315, 0), new RSTile(3565, 3305, 0),
-			new RSTile(3564, 3297, 0), new RSTile(3565, 3292, 0),
-			new RSTile(3565, 3287, 0) };
+	final static RSTile[] pathToBarrows = { new RSTile(3522, 3285, 0),
+			new RSTile(3522, 3281, 0), new RSTile(3526, 3280, 0),
+			new RSTile(3530, 3280, 0), new RSTile(3534, 3280, 0),
+			new RSTile(3536, 3284, 0), new RSTile(3537, 3288, 0),
+			new RSTile(3540, 3292, 0), new RSTile(3544, 3295, 0),
+			new RSTile(3544, 3299, 0), new RSTile(3547, 3302, 0),
+			new RSTile(3551, 3305, 0), new RSTile(3553, 3309, 0),
+			new RSTile(3557, 3309, 0), new RSTile(3598, 3342, 0),
+			new RSTile(3558, 3310, 0), new RSTile(3561, 3313, 0),
+			new RSTile(3565, 3313, 0), new RSTile(3565, 3308, 0),
+			new RSTile(3565, 3304, 0), new RSTile(3565, 3300, 0),
+			new RSTile(3565, 3296, 0), new RSTile(3565, 3292, 0), };
 
 	public static boolean isInBarrows() {
 		return Var.barrowsArea.contains(Player.getPosition());
@@ -60,22 +66,23 @@ public class Pathing {
 
 	private static boolean goViaSwamp() {
 		Walking.control_click = true;
-		Walking.walking_timeout = 500;
+		Walking.walking_timeout = 5500;
+		if (Game.getRunEnergy() > 10 && !Game.isRunOn())
+			Options.setRunOn(true);
+		Mouse.setSpeed(130);
 		if (!warning()) {
 			if (isInBarrows())
 				return true;
-
-			if (isInBoat())
+			if (isInBoat()) {
+				General.sleep(500);
 				return false;
-
-			if (isFromBoatToBarrows()) {
-				System.out.println("hi");
-				Walking.walkPath(pathToBarrows);
-			} else if (isFromGateToBoat()) {
+			}
+			if (isFromGateToBoat()) {
 				if (canEnterBoat())
 					enterBoat();
 				else
 					Walking.walkPath(pathToBoat);
+				General.sleep(500);
 			} else if (isFromBankToGate()) {
 				if (canOpenGate())
 					openGate();
@@ -90,9 +97,10 @@ public class Pathing {
 	public static boolean getToBarrows() {
 		if (isInBarrows())
 			return true;
-		if (isFromBoatToBarrows())
+
+		if (isFromBoatToBarrows()) {
 			Walking.walkPath(pathToBarrows);
-		else {
+		} else {
 			switch (selectedPath) {
 			case SWAMP:
 				goViaSwamp();
@@ -105,7 +113,90 @@ public class Pathing {
 	}
 
 	private static void goViaShortcut() {
-		// TODO Auto-generated method stub
+		if (isNearTrapDoor()) {
+			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
+			if (trapdoor.length > 0) {
+				GeneralMethods.clickObject(trapdoor[0], "Climb", true);
+			} else {
+				Walking.walkTo(new RSTile(3505, 3468, 0));
+			}
+		} else {
+			if (isUnderground()) {
+				RSObject[] door = Objects.getAt(new RSTile(3500, 9812, 0));
+				if (door.length > 0
+						&& Player.getPosition().distanceTo(door[0]) < 20) {
+					GeneralMethods.clickObject(door[0], "Open", true);
+				} else {
+					if (new RSTile(3477, 9845, 0).distanceTo(Player
+							.getRSPlayer()) < 15
+							&& PathFinding.canReach(new RSTile(3477, 9845, 0),
+									false)) {
+						RSObject[] wall = Objects.getAt(new RSTile(3480, 9836,
+								0));
+						if (wall.length > 0) {
+							GeneralMethods.clickObject(wall[0], "Search", true);
+						}
+					} else {
+						Walking.walkPath(pathUnderground);
+					}
+				}
+			} else {
+				if (new RSTile(3505, 3437, 0).distanceTo(Player.getRSPlayer()) < 15
+						&& PathFinding.canReach(new RSTile(3505, 3437, 0),
+								false)) {
+					RSObject[] bridge = Objects
+							.getAt(new RSTile(3480, 9836, 0));
+					if (bridge.length > 0) {
+						GeneralMethods.clickObject(bridge[0], "Cross", true);
+						General.sleep(3000);
+						if (!PathFinding.canReach(new RSTile(3505, 3437, 0),
+								false)) {
+							for (int fail = 0; fail < 30
+									&& !Player.getPosition().equals(
+											new RSTile(3503, 3425, 0)); fail++) {
+								General.sleep(100, 200);
+							}
+						}
+					}
+				} else {
+					if (canEnterBoat())
+						enterBoat();
+					else
+						Walking.walkPath(pathToBoatFromShortcut);
+				}
+			}
+		}
+	}
+
+	static boolean isUnderground() {
+		for (RSTile r : pathUnderground) {
+			if (r.distanceTo(Player.getPosition()) < 15
+					|| new RSTile(3477, 9845, 0).distanceTo(Player
+							.getRSPlayer()) < 15)
+				return true;
+		}
+		return false;
+
+	}
+
+	static RSTile[] pathToBoatFromShortcut = { new RSTile(3495, 3416),
+			new RSTile(3493, 3407), new RSTile(3495, 3396),
+			new RSTile(3496, 3386) };
+
+	static boolean canWalkUnderground() {
+		for (RSTile r : pathToBoatFromShortcut) {
+			if (r.distanceTo(Player.getPosition()) < 15)
+				return true;
+		}
+		return false;
+	}
+
+	static RSTile[] pathUnderground = new RSTile[] { new RSTile(3483, 9826, 0),
+			new RSTile(3492, 9817, 0), new RSTile(3499, 9811, 0) };
+
+	static boolean isNearTrapDoor() {
+		return new RSTile(3505, 3468, 0).distanceTo(Player.getRSPlayer()) < 15
+				|| new RSTile(3495, 3464, 0).distanceTo(Player.getRSPlayer()) < 15;
 	}
 
 	private static void enterBoat() {
