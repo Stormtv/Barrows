@@ -25,6 +25,14 @@ public class TunnelTraversing {
 	}
 
 	public static void traverseTunnel() {
+		if (Var.startingRoom==null) {
+			Rooms.TunnelRoom room = Rooms.getRoom();
+			if (room!=null && room.getExitTile()!=null){
+				Var.startingRoom = room; 
+			} else {
+				return;
+			}
+		}
 		if (Rooms.getRoom() != null) {
 			if (TunnelPuzzle.isPuzzleScreenOpen()) {
 				TunnelPuzzle.solvePuzzle();
@@ -33,14 +41,14 @@ public class TunnelTraversing {
 					if (Rooms.getRoom() != null
 							&& Rooms.getRoom().equals(Var.startingRoom)) {
 						climbLadder();
-					} else {
+					} else if (Rooms.getRoom()!=null) {
 						walkToLadder();
 					}
 				} else {
 					if (Rooms.getRoom() != null
 							&& Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
 						openChest();
-					} else {
+					} else if (Rooms.getRoom()!=null) {
 						walkToChest();
 					}
 				}
@@ -54,12 +62,20 @@ public class TunnelTraversing {
 	// before looting / pickup loot on ground
 
 	private static void climbLadder() {
-		RSObject climbingTool = Objects.getAt(Var.startingRoom.getExitTile())[0];
-		GeneralMethods.clickObject(climbingTool, "Climb", false);
-		//TODO dynamic sleep
+		RSObject climbingTool=null;
+		if (Objects.getAt(Var.startingRoom.getExitTile()).length>0) {
+			 climbingTool = Objects.getAt(Var.startingRoom.getExitTile())[0];
+		}
+		if (climbingTool!=null) {
+			GeneralMethods.clickObject(climbingTool, "Climb", false);
+			for (int i=0; i < 75 && !BrotherKilling.isInCrypt(Tunnel.whosCrypt());i++) {
+				General.sleep(10,20);
+			}
+		}
 	}
 
 	private static void openChest() {
+		BrotherKilling.killBrotherInTunnel();
 		RSObject[] chest = Objects.find(10, 20973);
 		if (chest.length > 0) {
 			if (chest[0].getModel().getPoints().length == 606) {
@@ -102,6 +118,9 @@ public class TunnelTraversing {
 					} else {
 						RSTile[] t = Walking
 								.generateStraightScreenPath(nextDoor[0]);
+						if (t.length == 0) {
+							Camera.turnToTile(nextDoor[0]);
+						}
 						for (int i = 0; i < 10; i++) {
 							if (nextDoor.length > 0 && nextDoor[0] != null
 									&& !nextDoor[0].isOnScreen())
@@ -129,6 +148,7 @@ public class TunnelTraversing {
 			if (nextDoor.length > 0) {
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
+					General.println("Next door is on screen proceeding to click object");
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
 					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
@@ -139,6 +159,7 @@ public class TunnelTraversing {
 					}
 				} else {
 					if (Rooms.InTunnel()) {
+						Var.status = "In a tunnel walking to next door";
 						Camera.setCameraAngle(General.random(90, 99));
 						for (int i = 0; i < 50; i++) {
 							if (Rooms.InTunnel() && nextDoor.length > 0
@@ -147,8 +168,12 @@ public class TunnelTraversing {
 							}
 						}
 					} else {
+						Var.status="Next door not on screen, Screen walking";			
 						RSTile[] t = Walking
 								.generateStraightScreenPath(nextDoor[0]);
+						if (t.length == 0) {
+							Camera.turnToTile(nextDoor[0]);
+						}
 						for (int i = 0; i < 10; i++) {
 							if (nextDoor.length > 0 && nextDoor[0] != null
 									&& !nextDoor[0].isOnScreen())

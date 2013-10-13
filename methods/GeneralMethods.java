@@ -126,7 +126,7 @@ public class GeneralMethods {
 		clickObject(o, option, 0, minimapVisible);
 	}
 
-	static boolean turnTo(final Positionable o) {
+	public static boolean turnTo(final Positionable o) {
 		if (o == null) {
 			return false;
 		}
@@ -149,12 +149,13 @@ public class GeneralMethods {
 		}
 		return false;
 	}
-
+	
 	static void clickObject(RSObject o, String option, int fail, boolean minimap) {
 		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()
-				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o))
+				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o)
+				)
 			return;
-		if (!o.isOnScreen() || fail > 4) {
+		if (!o.isOnScreen() || fail > 2) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
 				Walking.control_click = true;
@@ -171,23 +172,23 @@ public class GeneralMethods {
 				fail = 0;
 			} else {
 				if (!o.isOnScreen()) {
-					while (!o.isOnScreen() && turnTo(o) != false) {
-						turnTo(o);
-						walkScreen(getFurthestTileOnScreen(
-								Walking.generateStraightScreenPath(tile), o));
+					RSTile[] t = Walking.generateStraightScreenPath(o);
+					for (int i = 0; i < 10; i++) {
+						if (!o.isOnScreen()) {
+							walkScreen(getFurthestTileOnScreen(t));
+							turnTo(o);
+						}
 					}
-					while (Player.isMoving())
-						General.sleep(25, 40);
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, minimap);
 				}
 			}
 		}
-		if (fail > 4) {
+		if (fail > 2) {
 			Camera.turnToTile(o);
 		}
-		if (fail > 10) {
+		if (fail > 4) {
 			General.println("Failed to click Object: "
 					+ o.getDefinition().getName() + "(" + o.getID() + ")");
 			return;
@@ -195,8 +196,8 @@ public class GeneralMethods {
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(),0);
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
+		General.println("Moving mouse to average point of model X:"+p.x+" Y:"+p.y);
 		Mouse.move(p);
-
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
 			General.sleep(10, 15);
 		if (Game.getUptext().contains(option)
@@ -375,7 +376,7 @@ public class GeneralMethods {
 						.getAllVisiblePoints(), 0));
 			for (int fSafe = 0; fSafe < 20
 					&& !Game.getUptext().contains(option + " " + m.getName()); fSafe++)
-				General.sleep(General.random(10, 15));
+				General.sleep(5, 10);
 			if (Game.getUptext().contains(option + " " + m.getName())) {
 				Mouse.click(1);
 				return true;

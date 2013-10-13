@@ -55,10 +55,11 @@ public class Tunnel {
 					for (int fail=0; fail<40 && Rooms.getRoom()==null;fail++){
 						General.sleep(10,21);
 					}
-					if (Rooms.getRoom()!=null){
-						Var.startingRoom = Rooms.getRoom(); 
-					}
 					General.sleep(450,650);
+					Rooms.TunnelRoom room = Rooms.getRoom();
+					if (room!=null && room.getExitTile()!=null){
+						Var.startingRoom = room; 
+					}
 				}
 			}
 		}

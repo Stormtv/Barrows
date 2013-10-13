@@ -307,6 +307,9 @@ public class BrotherKilling {
 	}
 	
 	public static boolean isInCrypt(Brothers b) {
+		if (b==null) {
+			return false;
+		}
 		return (Player.getPosition().getPlane() == 3 && Objects.find(15,
 				b.getCryptID()).length > 0);
 	}

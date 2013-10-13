@@ -49,6 +49,7 @@ public class Barrows extends Script implements Painting {
 			return;
 		}
 		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
+				&& !Var.lootedChest
 				|| !BrotherKilling.canKill() && Tunnel.inCrypt()
 				&& !Var.lootedChest) {
 			Tunnel.goToTunnel();
@@ -118,6 +119,9 @@ public class Barrows extends Script implements Painting {
 			}
 			if (Var.status != null) {
 				g.drawString(Var.status, 574, 376);
+			}
+			if (Var.startingRoom !=null) {
+				g.drawString("Starting Room: " + Var.startingRoom.toString(),574,396);
 			}
 			if (Var.debugObject != null && Var.debugObject.isOnScreen() 
 					|| Var.centerPoint !=null ) {
