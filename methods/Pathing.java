@@ -112,20 +112,27 @@ public class Pathing {
 		return false;
 	}
 
-	private static void goViaShortcut() {
+	public static void goViaShortcut() {
 		if (isNearTrapDoor()) {
+			General.println("I am near the trap door");
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
-			if (trapdoor.length > 0) {
-				GeneralMethods.clickObject(trapdoor[0], "Climb", true);
+			if (trapdoor.length > 0 && Player.getPosition().distanceTo(trapdoor[0])<15) {
+				General.println("Trapdoor length is > 0");
+				GeneralMethods.clickObject(trapdoor[0], "Open", true);
 			} else {
-				Walking.walkTo(new RSTile(3505, 3468, 0));
+				General.println("Trapdoor is far away walking closer");
+				Walking.walkTo(new RSTile(3506, 3469, 0));
 			}
 		} else {
 			if (isUnderground()) {
+				General.println("I am underground");
 				RSObject[] door = Objects.getAt(new RSTile(3500, 9812, 0));
 				if (door.length > 0
 						&& Player.getPosition().distanceTo(door[0]) < 20) {
 					GeneralMethods.clickObject(door[0], "Open", true);
+					for (int fail=0;fail<50 && !Player.getPosition().equals(new RSTile(3509,3449,0)); fail++) {
+						General.sleep(25,50);
+					}
 				} else {
 					if (new RSTile(3477, 9845, 0).distanceTo(Player
 							.getRSPlayer()) < 15
@@ -145,8 +152,9 @@ public class Pathing {
 						&& PathFinding.canReach(new RSTile(3505, 3437, 0),
 								false)) {
 					RSObject[] bridge = Objects
-							.getAt(new RSTile(3480, 9836, 0));
-					if (bridge.length > 0) {
+							.getAt(new RSTile(3502, 3431, 0));
+					if (bridge.length > 0 && Player.getPosition().distanceTo(bridge[0])<15) {
+						General.println("Bridge Length > 0");
 						GeneralMethods.clickObject(bridge[0], "Cross", true);
 						General.sleep(3000);
 						if (!PathFinding.canReach(new RSTile(3505, 3437, 0),
@@ -157,6 +165,9 @@ public class Pathing {
 								General.sleep(100, 200);
 							}
 						}
+					} else {
+						General.println("Bridge far away walking to it");
+						Walking.walkTo(new RSTile(3505,3437,0));
 					}
 				} else {
 					if (canEnterBoat())

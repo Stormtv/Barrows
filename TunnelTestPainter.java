@@ -1,66 +1,36 @@
 package scripts.Barrows;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
 
 import org.tribot.api.General;
-import org.tribot.api2007.Objects;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Painting;
 
-import scripts.Barrows.methods.tunnel.TunnelDoor;
-import scripts.Barrows.methods.tunnel.WTunnelTraverse;
+import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.types.Var;
 
 public class TunnelTestPainter extends Script implements Painting {
-	private Image i = getImage("http://i.imgur.com/TuV9Zmw.gif");
-	private final float alpha = (float) 0.75;
-	private TunnelDoor[] Pathway;
 	@Override
 	public void run() {
 		super.setLoginBotState(false);
-		/*while(true) {
-			try {
-			Pathway = WTunnelTraverse.pathToChest();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			General.sleep(500);
-		}*/
-		General.println(Integer.toString(Objects.find(15, 20973)[0].getModel().getPoints().length));
-		
-	}
-
-	private Image getImage(String url) {
-		try {
-			return ImageIO.read(new URL(url));
-		} catch (IOException e) {
-			return null;
+		while(true) {
+			Pathing.goViaShortcut();
+			General.sleep(100);
 		}
 	}
 	
+	private final Color tRed = new Color(255, 0, 0, 110);
+	private final Color tYellow = new Color(255, 255, 0, 110);
 	@Override
 	public void onPaint(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-		g2d.setComposite(ac);
-		g2d.drawImage(i,0,0,null);
-		g.setColor(Color.RED);
-		for (TunnelDoor d: TunnelDoor.values()) {
-			if (!d.isOpenable()) {
-				d.paint(g);
-			}
-		}
-		g.setColor(Color.WHITE);
-		if (Pathway !=null) {
-			for (TunnelDoor d: Pathway) {
-				d.paint(g);
+		if (Var.debug) {
+			if (Var.debugObject != null && Var.debugObject.isOnScreen() 
+					|| Var.centerPoint !=null ) {
+				g.setColor(tRed);
+				g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
+				g.setColor(tYellow);
+				g.drawRect(Var.centerPoint.x-7, Var.centerPoint.y-7, 14, 14);
 			}
 		}
 	}
