@@ -3,6 +3,7 @@ package scripts.Barrows.methods.tunnel;
 import org.tribot.api.General;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.main.BrotherKilling;
@@ -12,6 +13,21 @@ import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 
 public class Tunnel {
+	
+	public static void exitCrypt() {
+		for (Brothers b: Brothers.values()) {
+			if (b.isTunnel()) {
+				if (Objects.find(10, b.getStair()).length > 0) {
+					RSObject stair = Objects.find(10, b.getStair())[0];
+					GeneralMethods.clickObject(stair, "Climb", false);
+					for (int fSafe = 0; fSafe < 20
+							&& Player.getPosition().getPlane() == 3; fSafe++) {
+						General.sleep(75);
+					}
+				}
+			}
+		}
+	}
 
 	public static void goToTunnel() {
 		for (Brothers b:Brothers.values()) {
@@ -39,8 +55,10 @@ public class Tunnel {
 					for (int fail=0; fail<40 && Rooms.getRoom()==null;fail++){
 						General.sleep(10,21);
 					}
-					if (Rooms.getRoom()!=null){
-						Var.startingRoom = Rooms.getRoom(); 
+					General.sleep(450,650);
+					Rooms.TunnelRoom room = Rooms.getRoom();
+					if (room!=null && room.getExitTile()!=null){
+						Var.startingRoom = room; 
 					}
 				}
 			}

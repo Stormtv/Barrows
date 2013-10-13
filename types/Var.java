@@ -1,7 +1,9 @@
 package scripts.Barrows.types;
 
+import java.awt.Point;
 import java.util.HashMap;
 
+import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
@@ -13,9 +15,8 @@ import scripts.Barrows.util.RSArea;
 
 public class Var {
 
-	
 	public static HashMap<Integer, Integer> priceTable = new HashMap<Integer, Integer>();
-	
+
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
 			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
 			new RSTile(3559, 3296, 0), new RSTile(3555, 3296, 0) });
@@ -23,7 +24,7 @@ public class Var {
 	public static final RSArea dharokDig = new RSArea(new RSTile[] {
 			new RSTile(3574, 3301, 0), new RSTile(3578, 3301, 0),
 			new RSTile(3578, 3297, 0), new RSTile(3574, 3297, 0) });
-	
+
 	public final static int SPADE_ID = 952;
 
 	public static final RSArea ahrimDig = new RSArea(new RSTile[] {
@@ -57,6 +58,14 @@ public class Var {
 			new RSTile(3578, 3307, 0), new RSTile(3573, 3307, 0),
 			new RSTile(3568, 3308, 0) });
 
+	public static final RSArea bankArea = new RSArea(new RSTile[] {
+			new RSTile(3509, 3483, 0), new RSTile(3516, 3483, 0),
+			new RSTile(3516, 3478, 0), new RSTile(3514, 3476, 0),
+			new RSTile(3512, 3476, 0), new RSTile(3512, 3474, 0),
+			new RSTile(3509, 3474, 0), new RSTile(3507, 3480, 0) });
+
+	public static final boolean debug = true;
+
 	public static Brothers curBrother;
 
 	public static boolean running = true;
@@ -66,18 +75,26 @@ public class Var {
 	public static boolean guiWait = true;
 
 	public static Food.Edibles food;
-	
-	public static int superAttack,superStrength,superDefence,rangingPotion,prayerPotion,foodAmount;
-	
+
+	public static int superAttack, superStrength, superDefence, rangingPotion,
+			prayerPotion, foodAmount;
+
 	public static String status;
 	
+	public static boolean lootedChest = false;
+
+
 	public static Pathing.PathBank bankPath;
-	
+
 	public static Pathing.PathBarrows barrowsPath;
 
 	public static int[] tunnelEquipment;
 
 	public static TunnelRoom startingRoom;
-	
+
 	public static int arrowId;
+
+	public static RSObject debugObject;
+
+	public static Point centerPoint;
 }

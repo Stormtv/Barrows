@@ -2,7 +2,6 @@ package scripts.Barrows.methods;
 
 import java.util.ArrayList;
 
-import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;

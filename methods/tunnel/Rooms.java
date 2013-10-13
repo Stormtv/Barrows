@@ -3,59 +3,65 @@ package scripts.Barrows.methods.tunnel;
 import java.util.ArrayList;
 
 import org.tribot.api2007.PathFinding;
+import org.tribot.api2007.types.RSTile;
 
 public class Rooms {
 	public enum TunnelRoom {
 		// TOP ROW
 		NW(new TunnelDoor[] { TunnelDoor.NW_W_DOOR, TunnelDoor.NW_N_DOOR,
-				TunnelDoor.NW_E_DOOR, TunnelDoor.NW_S_DOOR }), NW_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.NW_E_DOOR, TunnelDoor.N_W_DOOR }), NC(
+				TunnelDoor.NW_E_DOOR, TunnelDoor.NW_S_DOOR }, new RSTile(3534,9712,0)), NW_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.NW_E_DOOR, TunnelDoor.N_W_DOOR },null), NC(
 				new TunnelDoor[] { TunnelDoor.N_W_DOOR, TunnelDoor.N_S_DOOR,
-						TunnelDoor.N_E_DOOR }), NE_CORRIDOR(new TunnelDoor[] {
-				TunnelDoor.N_E_DOOR, TunnelDoor.NE_W_DOOR }), NE(
+						TunnelDoor.N_E_DOOR }, null), NE_CORRIDOR(new TunnelDoor[] {
+				TunnelDoor.N_E_DOOR, TunnelDoor.NE_W_DOOR },null), NE(
 				new TunnelDoor[] { TunnelDoor.NE_E_DOOR, TunnelDoor.NE_N_DOOR,
-						TunnelDoor.NE_S_DOOR, TunnelDoor.NE_W_DOOR }), NW_S_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.NW_S_DOOR, TunnelDoor.W_N_DOOR }), NC_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.N_S_DOOR, TunnelDoor.C_N_DOOR }), NE_S_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.NE_S_DOOR, TunnelDoor.E_N_DOOR }),
+						TunnelDoor.NE_S_DOOR, TunnelDoor.NE_W_DOOR }, new RSTile(3568,9712,0)), NW_S_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.NW_S_DOOR, TunnelDoor.W_N_DOOR },null), NC_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.N_S_DOOR, TunnelDoor.C_N_DOOR },null), NE_S_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.NE_S_DOOR, TunnelDoor.E_N_DOOR },null),
 
 		// Center Row
 		CW(new TunnelDoor[] { TunnelDoor.W_N_DOOR, TunnelDoor.W_E_DOOR,
-				TunnelDoor.W_S_DOOR }), W_E_CORRIDOR(new TunnelDoor[] {
-				TunnelDoor.W_E_DOOR, TunnelDoor.C_W_DOOR }), W_S_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.W_S_DOOR, TunnelDoor.SW_N_DOOR }), CC(
+				TunnelDoor.W_S_DOOR }, null), W_E_CORRIDOR(new TunnelDoor[] {
+				TunnelDoor.W_E_DOOR, TunnelDoor.C_W_DOOR }, null), W_S_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.W_S_DOOR, TunnelDoor.SW_N_DOOR }, null), CC(
 				new TunnelDoor[] { TunnelDoor.C_E_DOOR, TunnelDoor.C_N_DOOR,
-						TunnelDoor.C_W_DOOR, TunnelDoor.C_S_DOOR }), C_E_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.C_E_DOOR, TunnelDoor.E_W_DOOR }), C_S_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.C_S_DOOR, TunnelDoor.S_N_DOOR }), CE(
+						TunnelDoor.C_W_DOOR, TunnelDoor.C_S_DOOR }, null), C_E_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.C_E_DOOR, TunnelDoor.E_W_DOOR }, null), C_S_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.C_S_DOOR, TunnelDoor.S_N_DOOR }, null), CE(
 				new TunnelDoor[] { TunnelDoor.E_N_DOOR, TunnelDoor.E_S_DOOR,
-						TunnelDoor.E_W_DOOR }), E_S_CORRIDOR(new TunnelDoor[] {
-				TunnelDoor.E_S_DOOR, TunnelDoor.SE_N_DOOR }),
+						TunnelDoor.E_W_DOOR }, null), E_S_CORRIDOR(new TunnelDoor[] {
+				TunnelDoor.E_S_DOOR, TunnelDoor.SE_N_DOOR }, null),
 
 		// Bottom Row
 		SW(new TunnelDoor[] { TunnelDoor.SW_E_DOOR, TunnelDoor.SW_N_DOOR,
-				TunnelDoor.SW_S_DOOR, TunnelDoor.SW_W_DOOR }), SW_E_CORRIDOR(
-				new TunnelDoor[] { TunnelDoor.SW_E_DOOR, TunnelDoor.S_W_DOOR }), SC(
+				TunnelDoor.SW_S_DOOR, TunnelDoor.SW_W_DOOR }, new RSTile(3534,9678,0)), SW_E_CORRIDOR(
+				new TunnelDoor[] { TunnelDoor.SW_E_DOOR, TunnelDoor.S_W_DOOR }, null), SC(
 				new TunnelDoor[] { TunnelDoor.S_E_DOOR, TunnelDoor.S_N_DOOR,
-						TunnelDoor.S_W_DOOR }), SE_W_CORRIDOR(new TunnelDoor[] {
-				TunnelDoor.S_E_DOOR, TunnelDoor.SE_W_DOOR }), SE(
+						TunnelDoor.S_W_DOOR }, null), SE_W_CORRIDOR(new TunnelDoor[] {
+				TunnelDoor.S_E_DOOR, TunnelDoor.SE_W_DOOR }, null), SE(
 				new TunnelDoor[] { TunnelDoor.SE_E_DOOR, TunnelDoor.SE_N_DOOR,
-						TunnelDoor.SE_S_DOOR, TunnelDoor.SE_W_DOOR }),
+						TunnelDoor.SE_S_DOOR, TunnelDoor.SE_W_DOOR }, new RSTile (3568,9678,0)),
 
 		// Tunnels
-		WTunnel(new TunnelDoor[] { TunnelDoor.NW_W_DOOR, TunnelDoor.SW_W_DOOR }), NTunnel(
-				new TunnelDoor[] { TunnelDoor.NW_N_DOOR, TunnelDoor.NE_N_DOOR }), STunnel(
-				new TunnelDoor[] { TunnelDoor.SW_S_DOOR, TunnelDoor.SE_S_DOOR }), ETunnel(
-				new TunnelDoor[] { TunnelDoor.NE_E_DOOR, TunnelDoor.SE_E_DOOR });
+		WTunnel(new TunnelDoor[] { TunnelDoor.NW_W_DOOR, TunnelDoor.SW_W_DOOR }, null), NTunnel(
+				new TunnelDoor[] { TunnelDoor.NW_N_DOOR, TunnelDoor.NE_N_DOOR }, null), STunnel(
+				new TunnelDoor[] { TunnelDoor.SW_S_DOOR, TunnelDoor.SE_S_DOOR }, null), ETunnel(
+				new TunnelDoor[] { TunnelDoor.NE_E_DOOR, TunnelDoor.SE_E_DOOR }, null);
 
 		private final TunnelDoor[] connectedDoors;
-
-		TunnelRoom(TunnelDoor[] connectedDoors) {
+		private final RSTile exitTile;
+		TunnelRoom(TunnelDoor[] connectedDoors, RSTile exitTile) {
 			this.connectedDoors = connectedDoors;
+			this.exitTile = exitTile;
 		}
 
 		public TunnelDoor[] getConnectedDoors() {
 			return connectedDoors;
+		}
+		
+		public RSTile getExitTile() {
+			return exitTile;
 		}
 
 		public TunnelDoor[] getOpenDoors() {

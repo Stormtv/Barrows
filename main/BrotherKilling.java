@@ -307,6 +307,9 @@ public class BrotherKilling {
 	}
 	
 	public static boolean isInCrypt(Brothers b) {
+		if (b==null) {
+			return false;
+		}
 		return (Player.getPosition().getPlane() == 3 && Objects.find(15,
 				b.getCryptID()).length > 0);
 	}
@@ -337,5 +340,14 @@ public class BrotherKilling {
 			}
 		}
 		return false;
+	}
+
+	public static void reset() {
+		Var.startingRoom=null;
+		Var.lootedChest=false;
+		for (Brothers b : Brothers.values()) {
+			b.setKilled(false);
+			b.setTunnel(false);
+		}
 	}
 }
