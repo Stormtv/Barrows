@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Projection;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Painting;
@@ -129,6 +130,10 @@ public class Barrows extends Script implements Painting {
 				g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
 				g.setColor(tYellow);
 				g.drawRect(Var.centerPoint.x-7, Var.centerPoint.y-7, 14, 14);
+			}
+			if (Var.furthestTile!=null) {
+				g.setColor(tRed);
+				g.drawPolygon(Projection.getTileBoundsPoly(Var.furthestTile, 0));
 			}
 		}
 	}

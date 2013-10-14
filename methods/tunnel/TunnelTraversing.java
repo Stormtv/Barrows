@@ -116,16 +116,23 @@ public class TunnelTraversing {
 							}
 						}
 					} else {
+						Var.status="Next door not on screen, Screen walking";			
 						RSTile[] t = Walking
 								.generateStraightScreenPath(nextDoor[0]);
 						if (t.length == 0) {
+							General.println("Tunnel Screen Path length == 0");
 							Camera.turnToTile(nextDoor[0]);
+							if (!nextDoor[0].isOnScreen()) {
+								Camera.setCameraAngle(100);
+							}
 						}
 						for (int i = 0; i < 10; i++) {
 							if (nextDoor.length > 0 && nextDoor[0] != null
-									&& !nextDoor[0].isOnScreen())
+									&& !nextDoor[0].isOnScreen()) {
+								General.println("Walking Screen");
 								GeneralMethods.walkScreen(GeneralMethods
 										.getFurthestTileOnScreen(t));
+							}
 						}
 					}
 				}
@@ -172,13 +179,19 @@ public class TunnelTraversing {
 						RSTile[] t = Walking
 								.generateStraightScreenPath(nextDoor[0]);
 						if (t.length == 0) {
+							General.println("Tunnel Screen Path length == 0");
 							Camera.turnToTile(nextDoor[0]);
+							if (!nextDoor[0].isOnScreen()) {
+								Camera.setCameraAngle(100);
+							}
 						}
 						for (int i = 0; i < 10; i++) {
 							if (nextDoor.length > 0 && nextDoor[0] != null
-									&& !nextDoor[0].isOnScreen())
+									&& !nextDoor[0].isOnScreen()) {
+								General.println("Walking Screen");
 								GeneralMethods.walkScreen(GeneralMethods
 										.getFurthestTileOnScreen(t));
+							}
 						}
 					}
 				}
@@ -207,7 +220,11 @@ public class TunnelTraversing {
 			tile = new RSTile(Player.getPosition().getX(), Player.getPosition()
 					.getY() - 5);
 		}
-		GeneralMethods.walkScreen(filter(tile, location));
+		try {
+			GeneralMethods.walkScreen(filter(tile, location));
+		} catch (Exception e) {
+			
+		}
 
 	}
 

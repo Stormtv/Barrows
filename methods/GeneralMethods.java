@@ -173,6 +173,13 @@ public class GeneralMethods {
 			} else {
 				if (!o.isOnScreen()) {
 					RSTile[] t = Walking.generateStraightScreenPath(o);
+					if (t.length == 0) {
+						General.println("Tunnel Screen Path length == 0");
+						Camera.turnToTile(o);
+						if (!o.isOnScreen()) {
+							Camera.setCameraAngle(100);
+						}
+					}
 					for (int i = 0; i < 10; i++) {
 						if (!o.isOnScreen()) {
 							walkScreen(getFurthestTileOnScreen(t));
@@ -196,7 +203,6 @@ public class GeneralMethods {
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(),0);
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
-		General.println("Moving mouse to average point of model X:"+p.x+" Y:"+p.y);
 		Mouse.move(p);
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
 			General.sleep(10, 15);
@@ -225,7 +231,6 @@ public class GeneralMethods {
 				while (Player.isMoving() && Player.getAnimation() == -1) {
 					General.sleep(20, 30);
 				}
-				General.println("Clicked Successfuly");
 				return;
 			} else if (ChooseOption.isOpen()) {
 				ChooseOption.close();
@@ -236,31 +241,27 @@ public class GeneralMethods {
 		}
 	}
 
-	private static final Rectangle screen = new Rectangle(0, 0, 515, 335);
-
 	static void clickPointOnScreen(RSTile r) {
 		if (r == null)
 			return;
 		Point p = getRandomPoint(Projection.getTileBoundsPoly(r, 0).getBounds());
-		if (screen != null && p != null && screen.contains(p)) {
-			Mouse.move(p);
-			for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains("Walk"); fSafe++)
-				General.sleep(10, 15);
-			if (Game.getUptext().contains("Walk")) {
+		Mouse.move(p);
+		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains("Walk"); fSafe++)
+			General.sleep(10, 15);
+		if (Game.getUptext().contains("Walk")) {
+			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+			leftClick(p);
+			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+		} else {
+			rightClick(p);
+			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+				General.sleep(20, 25);
+			if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-				leftClick(p);
+				ChooseOption.select("Walk");
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-			} else {
-				rightClick(p);
-				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
-					General.sleep(20, 25);
-				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
-					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-					ChooseOption.select("Walk");
-					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-				} else if (ChooseOption.isOpen()) {
-					ChooseOption.close();
-				}
+			} else if (ChooseOption.isOpen()) {
+				ChooseOption.close();
 			}
 		}
 	}
@@ -286,6 +287,7 @@ public class GeneralMethods {
 				}
 			}
 		}
+		Var.furthestTile = furthestVisibleTile;
 		return furthestVisibleTile;
 	}
 
@@ -341,19 +343,6 @@ public class GeneralMethods {
 		if (r == null)
 			return;
 		clickPointOnScreen(r);
-	}
-
-	public static Point getVisiblePoint(RSTile t) {
-		if (t != null) {
-			Point[] pd = Projection.getTileBounds(t, 0);
-			if (pd != null) {
-				for (Point c : pd) {
-					if (screen.contains(c))
-						return c;
-				}
-			}
-		}
-		return null;
 	}
 
 	public static RSArea getWithin(int distance, RSTile refe) {

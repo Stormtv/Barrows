@@ -97,4 +97,6 @@ public class Var {
 	public static RSObject debugObject;
 
 	public static Point centerPoint;
+
+	public static RSTile furthestTile;
 }
