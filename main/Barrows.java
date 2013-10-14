@@ -35,38 +35,48 @@ public class Barrows extends Script implements Painting {
 
 	private void loop() {
 		Mouse.setSpeed(General.random(250, 350));
-		
-		//TODO NEED TO PATHING CHECK eg. out of food / pots
-		
-		if (BankHandler.needToBank() 
+
+		// TODO NEED TO PATHING CHECK eg. out of food / pots
+
+		if (BankHandler.needToBank()
+				&& !Var.bankArea.contains(Player.getPosition())) {
+			Pathing.goToBank();
+			return;
+		}
+
+		if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
+				&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
+			Pathing.getToBarrows();
+			return;
+		}
+
+		if (BankHandler.needToBank()
 				&& Var.bankArea.contains(Player.getPosition())) {
 			BankHandler.bank();
 			return;
 		}
-		if (Pathing.isInBarrows() && BrotherKilling.canKill() 
+		if (Pathing.isInBarrows() && BrotherKilling.canKill()
 				&& !Var.lootedChest) {
 			BrotherKilling.StartFight();
 			return;
 		}
 		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-				&& !Var.lootedChest
-				|| !BrotherKilling.canKill() && Tunnel.inCrypt()
-				&& !Var.lootedChest) {
+				&& !Var.lootedChest || !BrotherKilling.canKill()
+				&& Tunnel.inCrypt() && !Var.lootedChest) {
 			Tunnel.goToTunnel();
 			return;
 		}
-		if (!BrotherKilling.canKill() && Tunnel.inCrypt()
-				&& Var.lootedChest) {
+		if (!BrotherKilling.canKill() && Tunnel.inCrypt() && Var.lootedChest) {
 			Tunnel.exitCrypt();
 			return;
 		}
 		if (Rooms.getRoom() != null && !BrotherKilling.canKill()
-				&& !Tunnel.inCrypt() 
+				&& !Tunnel.inCrypt()
 				&& !Var.bankArea.contains(Player.getPosition())) {
 			TunnelTraversing.traverseTunnel();
 			return;
 		}
-		if (Pathing.isInBarrows() && !BrotherKilling.canKill() 
+		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 				&& Var.lootedChest) {
 			BrotherKilling.reset();
 			return;
@@ -98,6 +108,7 @@ public class Barrows extends Script implements Painting {
 
 	private final Color tRed = new Color(255, 0, 0, 110);
 	private final Color tYellow = new Color(255, 255, 0, 110);
+
 	@Override
 	public void onPaint(Graphics g) {
 		if (Var.debug) {
@@ -120,15 +131,16 @@ public class Barrows extends Script implements Painting {
 			if (Var.status != null) {
 				g.drawString(Var.status, 574, 376);
 			}
-			if (Var.startingRoom !=null) {
-				g.drawString("Starting Room: " + Var.startingRoom.toString(),574,396);
+			if (Var.startingRoom != null) {
+				g.drawString("Starting Room: " + Var.startingRoom.toString(),
+						574, 396);
 			}
-			if (Var.debugObject != null && Var.debugObject.isOnScreen() 
-					|| Var.centerPoint !=null ) {
+			if (Var.debugObject != null && Var.debugObject.isOnScreen()
+					|| Var.centerPoint != null) {
 				g.setColor(tRed);
 				g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
 				g.setColor(tYellow);
-				g.drawRect(Var.centerPoint.x-7, Var.centerPoint.y-7, 14, 14);
+				g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
 			}
 		}
 	}

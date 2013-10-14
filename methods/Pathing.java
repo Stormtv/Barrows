@@ -1,20 +1,31 @@
 package scripts.Barrows.methods;
 
-import org.tribot.api2007.Game;
 import org.tribot.api.General;
+import org.tribot.api.Timing;
+import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
+import org.tribot.api.types.generic.Condition;
+import org.tribot.api2007.Banking;
+import org.tribot.api2007.Game;
+import org.tribot.api2007.GameTab;
 import org.tribot.api2007.Interfaces;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.types.Var;
+import scripts.Barrows.types.enums.Prayer;
 
 public class Pathing {
+
+	final static int[] ALTARS = {};
+	final static int[] PORTALS = {};
 
 	public enum PathBarrows {
 		SWAMP, SHORTCUT
@@ -24,7 +35,12 @@ public class Pathing {
 		HOUSE, ECTOPHIAL
 	}
 
-	static PathBarrows selectedPath = PathBarrows.SWAMP;
+	static boolean isInHouse() {
+		return Player.getPosition().getX() > 10000;
+	}
+
+	static PathBarrows barrowsPath = PathBarrows.SWAMP;
+	static PathBank bankPath = PathBank.ECTOPHIAL;
 
 	final static RSTile[] pathToGate = { new RSTile(3508, 3481, 0),
 			new RSTile(3503, 3481, 0), new RSTile(3498, 3481, 0),
@@ -60,6 +76,29 @@ public class Pathing {
 			new RSTile(3565, 3304, 0), new RSTile(3565, 3300, 0),
 			new RSTile(3565, 3296, 0), new RSTile(3565, 3292, 0), };
 
+	public static final RSTile[] pathFromEcto = { new RSTile(3660, 3522, 0),
+			new RSTile(3659, 3527, 0), new RSTile(3657, 3532, 0),
+			new RSTile(3652, 3534, 0), new RSTile(3647, 3534, 0),
+			new RSTile(3642, 3534, 0), new RSTile(3637, 3535, 0),
+			new RSTile(3632, 3535, 0), new RSTile(3627, 3535, 0),
+			new RSTile(3622, 3535, 0), new RSTile(3617, 3535, 0),
+			new RSTile(3612, 3536, 0), new RSTile(3607, 3536, 0),
+			new RSTile(3602, 3537, 0), new RSTile(3597, 3537, 0),
+			new RSTile(3592, 3537, 0), new RSTile(3587, 3535, 0),
+			new RSTile(3582, 3533, 0), new RSTile(3577, 3532, 0),
+			new RSTile(3572, 3530, 0), new RSTile(3567, 3528, 0),
+			new RSTile(3562, 3527, 0), new RSTile(3557, 3526, 0),
+			new RSTile(3552, 3526, 0), new RSTile(3547, 3526, 0),
+			new RSTile(3542, 3527, 0), new RSTile(3537, 3527, 0),
+			new RSTile(3532, 3526, 0), new RSTile(3527, 3526, 0),
+			new RSTile(3522, 3526, 0), new RSTile(3519, 3522, 0),
+			new RSTile(3516, 3518, 0), new RSTile(3513, 3513, 0),
+			new RSTile(3510, 3509, 0), new RSTile(3507, 3505, 0),
+			new RSTile(3504, 3501, 0), new RSTile(3501, 3497, 0),
+			new RSTile(3499, 3492, 0), new RSTile(3498, 3487, 0),
+			new RSTile(3503, 3485, 0), new RSTile(3506, 3481, 0),
+			new RSTile(3510, 3478, 0) };
+
 	public static boolean isInBarrows() {
 		return Var.barrowsArea.contains(Player.getPosition());
 	}
@@ -94,14 +133,111 @@ public class Pathing {
 		return false;
 	}
 
-	public static boolean getToBarrows() {
+	public static void goToBank() {
+		switch (bankPath) {
+		case ECTOPHIAL:
+			walkFromEcto();
+		case HOUSE:
+			useHouse();
+		}
+	}
+
+	static void useHouse() {
+		if (isInHouse()) {
+			if (buildingMode())
+				turnOnBuildingMode();
+			else {
+				if (Prayer.getPoints() < Prayer.getLevel()) {
+					// TODO CHANGE INTERACTION STRINGS
+					RSObject[] altar = Objects.findNearest(30, ALTARS);
+					if (altar.length > 0) {
+						GeneralMethods.clickObject(altar[0], "Pray", false);
+					}
+				} else {
+					RSObject[] portal = Objects.findNearest(30, PORTALS);
+					if (portal.length > 0) {
+						GeneralMethods.clickObject(portal[0], "", false);
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return !isInHouse();
+							}
+						}, 10000);
+					}
+				}
+			}
+		} else {
+			RSItem[] teletab = Inventory.find(8013);
+			if (teletab.length > 0) {
+				if (teletab[0].click("")) {
+					Timing.waitCondition(new Condition() {
+
+						@Override
+						public boolean active() {
+							return Player.getAnimation() != -1;
+						}
+					}, 3000);
+					General.sleep(200);
+					Timing.waitCondition(new Condition() {
+
+						@Override
+						public boolean active() {
+							return Player.getAnimation() == -1;
+						}
+					}, 7000);
+
+				}
+			}
+		}
+	}
+
+	static void walkFromEcto() {
+		if (isFromEctoToBank()) {
+			if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
+				General.sleep(1000);
+			else
+				Walking.walkPath(pathFromEcto);
+		} else {
+			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
+			if (ectophial.length > 0) {
+				if (ectophial[0].click("")) {
+					Timing.waitCondition(new Condition() {
+
+						@Override
+						public boolean active() {
+							return Player.getAnimation() != -1;
+						}
+					}, 3000);
+					General.sleep(200);
+					Timing.waitCondition(new Condition() {
+
+						@Override
+						public boolean active() {
+							return Player.getAnimation() == -1;
+						}
+					}, 7000);
+				}
+			}
+		}
+	}
+
+	static boolean isFromEctoToBank() {
+		for (RSTile t : pathFromEcto) {
+			if (t.distanceTo(Player.getRSPlayer()) < 15)
+				return true;
+		}
+		return false;
+	}
+
+	public static void getToBarrows() {
 		if (isInBarrows())
-			return true;
+			return;
 
 		if (isFromBoatToBarrows()) {
 			Walking.walkPath(pathToBarrows);
 		} else {
-			switch (selectedPath) {
+			switch (barrowsPath) {
 			case SWAMP:
 				goViaSwamp();
 			case SHORTCUT:
@@ -109,14 +245,14 @@ public class Pathing {
 			}
 		}
 
-		return false;
 	}
 
-	public static void goViaShortcut() {
+	static void goViaShortcut() {
 		if (isNearTrapDoor()) {
 			General.println("I am near the trap door");
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
-			if (trapdoor.length > 0 && Player.getPosition().distanceTo(trapdoor[0])<15) {
+			if (trapdoor.length > 0
+					&& Player.getPosition().distanceTo(trapdoor[0]) < 15) {
 				General.println("Trapdoor length is > 0");
 				GeneralMethods.clickObject(trapdoor[0], "Open", true);
 			} else {
@@ -130,8 +266,10 @@ public class Pathing {
 				if (door.length > 0
 						&& Player.getPosition().distanceTo(door[0]) < 20) {
 					GeneralMethods.clickObject(door[0], "Open", true);
-					for (int fail=0;fail<50 && !Player.getPosition().equals(new RSTile(3509,3449,0)); fail++) {
-						General.sleep(25,50);
+					for (int fail = 0; fail < 50
+							&& !Player.getPosition().equals(
+									new RSTile(3509, 3449, 0)); fail++) {
+						General.sleep(25, 50);
 					}
 				} else {
 					if (new RSTile(3477, 9845, 0).distanceTo(Player
@@ -153,7 +291,8 @@ public class Pathing {
 								false)) {
 					RSObject[] bridge = Objects
 							.getAt(new RSTile(3502, 3431, 0));
-					if (bridge.length > 0 && Player.getPosition().distanceTo(bridge[0])<15) {
+					if (bridge.length > 0
+							&& Player.getPosition().distanceTo(bridge[0]) < 15) {
 						General.println("Bridge Length > 0");
 						GeneralMethods.clickObject(bridge[0], "Cross", true);
 						General.sleep(3000);
@@ -167,7 +306,7 @@ public class Pathing {
 						}
 					} else {
 						General.println("Bridge far away walking to it");
-						Walking.walkTo(new RSTile(3505,3437,0));
+						Walking.walkTo(new RSTile(3505, 3437, 0));
 					}
 				} else {
 					if (canEnterBoat())
@@ -298,5 +437,45 @@ public class Pathing {
 				return true;
 		}
 		return false;
+	}
+
+	static boolean isBuildingInterfaceOpen() {
+		if (Game.getSetting(262) == 14)
+			return true;
+		return false;
+	}
+
+	 static void setBuildingMode() {
+		if (Interfaces.get(398, 19) == null) {
+			if (GameTab.getOpen() != GameTab.TABS.OPTIONS) {
+				Keyboard.pressFunctionKey(10);
+			}
+			Interfaces.get(261, 35).click("Open");
+			for (int fsafe = 0; fsafe < 20 && Interfaces.get(398, 19) == null; fsafe++) {
+				General.sleep(20, 30);
+			}
+		}
+		if (Interfaces.get(398, 19) != null) {
+			if (!Interfaces.get(398, 19).click("Ok")) {
+				setBuildingMode();
+			} else {
+				if (Banking.isPinScreenOpen()) {
+					Banking.inPin();
+				}
+			}
+		} else {
+			setBuildingMode();
+		}
+	}
+
+	static boolean buildingMode() {
+		return Game.getSetting(261) == 1;
+	}
+
+	 static void turnOnBuildingMode() {
+		if (buildingMode())
+			return;
+		if (isBuildingInterfaceOpen())
+			setBuildingMode();
 	}
 }

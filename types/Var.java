@@ -20,6 +20,9 @@ public class Var {
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
 			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
 			new RSTile(3559, 3296, 0), new RSTile(3555, 3296, 0) });
+	
+	public static final int ECTOPHIAL = 4251;
+	public static final int EMPTY_ECTOPHIAL = 4252;
 
 	public static final RSArea dharokDig = new RSArea(new RSTile[] {
 			new RSTile(3574, 3301, 0), new RSTile(3578, 3301, 0),

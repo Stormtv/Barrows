@@ -15,7 +15,6 @@ public class TunnelTestPainter extends Script implements Painting {
 	public void run() {
 		super.setLoginBotState(false);
 		while(true) {
-			Pathing.goViaShortcut();
 			General.sleep(100);
 		}
 	}
