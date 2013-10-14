@@ -7,7 +7,7 @@ import org.tribot.api2007.types.RSInterface;
 public class TunnelPuzzle {
 
 	public static boolean isPuzzleScreenOpen() {
-		return Interfaces.get(25) != null;
+		return Interfaces.get(25,1) != null;
 	}
 
 	private static int getPuzzle() {
@@ -38,7 +38,9 @@ public class TunnelPuzzle {
 			if (answer != null) {
 				if (answer.click("Ok")) {
 					General.println("Solved in: "+(System.currentTimeMillis()-time)+"ms");
-					// TODO dyanmic sleep
+					for (int fail=0;fail<20 && isPuzzleScreenOpen();fail++) {
+						General.sleep(40,50);
+					}
 					return true;
 				}
 			}

@@ -252,6 +252,7 @@ public class GeneralMethods {
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 			leftClick(p);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+			General.sleep(250,350);
 		} else {
 			rightClick(p);
 			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
@@ -260,6 +261,7 @@ public class GeneralMethods {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				ChooseOption.select("Walk");
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+				General.sleep(250,350);
 			} else if (ChooseOption.isOpen()) {
 				ChooseOption.close();
 			}
@@ -287,8 +289,17 @@ public class GeneralMethods {
 				}
 			}
 		}
-		Var.furthestTile = furthestVisibleTile;
-		return furthestVisibleTile;
+		if (Player.isMoving() && Player.getPosition().distanceTo(Var.furthestTile) > 2) {
+			return null;
+		} else {
+			if (furthestVisibleTile==null) {
+				General.println("OMG NULL TILE");
+				furthestVisibleTile=t[0];
+			}
+			Var.furthestTile = furthestVisibleTile;
+			return furthestVisibleTile;
+		}
+
 	}
 
 	public static RSTile getFurthestTileOnScreen(RSTile[] t, RSObject o) {

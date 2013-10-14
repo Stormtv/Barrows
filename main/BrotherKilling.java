@@ -252,6 +252,15 @@ public class BrotherKilling {
 				}
 			}
 		}
+		if (Inventory.getCount(2959) > 0) {
+			for (RSItem i: Inventory.find(2959)) {
+				int count = Inventory.getAll().length;
+				i.click("Drop");
+				for (int x = 0; x < 20 && count == Inventory.getAll().length;x++) {
+					General.sleep(25,30);
+				}
+			}
+		}
 	}
 
 	private static void getReadyForTunnels() {
