@@ -15,6 +15,7 @@ import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.util.RSArea;
 
 public class TunnelTraversing {
@@ -90,6 +91,7 @@ public class TunnelTraversing {
 	}
 
 	private static void walkToLadder() {
+		Food.eatInCombat();
 		Walking.walking_timeout = 500;
 		TunnelDoor[] path = WTunnelTraverse.pathToChest(Var.startingRoom);
 		TunnelRoom curRoom = null;
@@ -99,7 +101,7 @@ public class TunnelTraversing {
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
+					for (int i = 0; i < 100 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
 						General.sleep(10,15);
 					}
@@ -129,9 +131,8 @@ public class TunnelTraversing {
 						for (int i = 0; i < 10; i++) {
 							if (nextDoor.length > 0 && nextDoor[0] != null
 									&& !nextDoor[0].isOnScreen()) {
-								General.println("Walking Screen");
 								GeneralMethods.walkScreen(GeneralMethods
-										.getFurthestTileOnScreen(t));
+										.getFurthestTileOnScreen(t,nextDoor[0]));
 							}
 						}
 					}
@@ -147,6 +148,7 @@ public class TunnelTraversing {
 	}
 
 	public static void openNextDoor() {
+		Food.eatInCombat();
 		Walking.walking_timeout = 500;
 		TunnelDoor[] path = WTunnelTraverse.pathToChest();
 		TunnelRoom curRoom = null;
@@ -157,7 +159,7 @@ public class TunnelTraversing {
 					curRoom = Rooms.getRoom();
 					General.println("Next door is on screen proceeding to click object");
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
+					for (int i = 0; i < 100 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
 						General.sleep(10,15);
 					}
@@ -190,7 +192,7 @@ public class TunnelTraversing {
 									&& !nextDoor[0].isOnScreen()) {
 								General.println("Walking Screen");
 								GeneralMethods.walkScreen(GeneralMethods
-										.getFurthestTileOnScreen(t));
+										.getFurthestTileOnScreen(t,nextDoor[0]));
 							}
 						}
 					}

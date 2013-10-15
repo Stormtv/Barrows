@@ -36,51 +36,52 @@ public class Barrows extends Script implements Painting {
 
 	private void loop() {
 		Mouse.setSpeed(General.random(250, 350));
-
-		// TODO NEED TO PATHING CHECK eg. out of food / pots
-
-		if (BankHandler.needToBank()
-				&& !Var.bankArea.contains(Player.getPosition())) {
-			Pathing.goToBank();
-			return;
-		}
-
-		if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
-				&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
-			Pathing.getToBarrows();
-			return;
-		}
-
-		if (BankHandler.needToBank()
-				&& Var.bankArea.contains(Player.getPosition())) {
-			BankHandler.bank();
-			return;
-		}
-		if (Pathing.isInBarrows() && BrotherKilling.canKill()
-				&& !Var.lootedChest) {
-			BrotherKilling.StartFight();
-			return;
-		}
-		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-				&& !Var.lootedChest || !BrotherKilling.canKill()
-				&& Tunnel.inCrypt() && !Var.lootedChest) {
-			Tunnel.goToTunnel();
-			return;
-		}
-		if (!BrotherKilling.canKill() && Tunnel.inCrypt() && Var.lootedChest) {
-			Tunnel.exitCrypt();
-			return;
-		}
-		if (Rooms.getRoom() != null && !BrotherKilling.canKill()
-				&& !Tunnel.inCrypt()
-				&& !Var.bankArea.contains(Player.getPosition())) {
-			TunnelTraversing.traverseTunnel();
-			return;
-		}
-		if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-				&& Var.lootedChest) {
-			BrotherKilling.reset();
-			return;
+		try {
+			if (BankHandler.needToBank()
+					&& !Var.bankArea.contains(Player.getPosition())) {
+				Var.status = "Heading to the bank";
+				Pathing.goToBank();
+				return;
+			}
+	
+			if (BankHandler.needsMoreSupplies()
+					&& Var.bankArea.contains(Player.getPosition())) {
+				BankHandler.bank();
+				return;
+			}
+			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
+					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
+				Pathing.getToBarrows();
+				return;
+			}
+			if (Pathing.isInBarrows() && BrotherKilling.canKill()
+					&& !Var.lootedChest) {
+				BrotherKilling.StartFight();
+				return;
+			}
+			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
+					&& !Var.lootedChest || !BrotherKilling.canKill()
+					&& Tunnel.inCrypt() && !Var.lootedChest) {
+				Tunnel.goToTunnel();
+				return;
+			}
+			if (!BrotherKilling.canKill() && Tunnel.inCrypt() && Var.lootedChest) {
+				Tunnel.exitCrypt();
+				return;
+			}
+			if (Rooms.getRoom() != null && !BrotherKilling.canKill()
+					&& !Tunnel.inCrypt()
+					&& !Var.bankArea.contains(Player.getPosition())) {
+				TunnelTraversing.traverseTunnel();
+				return;
+			}
+			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
+					&& Var.lootedChest) {
+				BrotherKilling.reset();
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -91,6 +92,7 @@ public class Barrows extends Script implements Painting {
 		while (Var.guiWait) {
 			sleep(100);
 		}
+		Var.startTime = System.currentTimeMillis();
 	}
 
 	private void activateGUI() {
@@ -124,11 +126,16 @@ public class Barrows extends Script implements Painting {
 					if (b.isTunnel()) {
 						s = s + " Tunnel: " + b.isTunnel();
 					}
-					g.drawString(s, 287, 362 + 10 * i);
+					g.drawString(s, 287, 362 + 15 * i);
 					i++;
 				}
-				g.setColor(Color.GREEN);
 			}
+			g.drawString("We have completed "+ Var.runs + " runs!", 287, 362+15*i);
+			i++;
+			Var.runTime=System.currentTimeMillis()-Var.startTime;
+			g.drawString("Runtime: "+formatTime(Var.runTime), 287, 362+15*i);
+			
+			g.setColor(Color.GREEN);
 			if (Var.status != null) {
 				g.drawString(Var.status, 574, 376);
 			}
@@ -143,11 +150,43 @@ public class Barrows extends Script implements Painting {
 				g.setColor(tYellow);
 				g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
 			}
-			if (Var.furthestTile!=null) {
+			if (Var.furthestTile!=null && Var.furthestTile.isOnScreen()) {
 				g.setColor(tRed);
 				g.drawPolygon(Projection.getTileBoundsPoly(Var.furthestTile, 0));
 			}
 		}
+	}
+	
+	private static String formatTime(long runTime) {
+		long seconds = 0;
+		long minutes = 0;
+		long hours = 0;
+		String second,minute,hour;
+		seconds = runTime / 1000;
+		if (seconds >= 60) {
+			minutes = seconds / 60;
+			seconds -= (minutes * 60);
+		}
+		if (minutes >= 60) {
+			hours = minutes / 60;
+			minutes -= (hours * 60);
+		}
+		if (hours<10) {
+			hour = "0"+hours;
+		} else {
+			hour = ""+hours;
+		}
+		if (minutes<10) {
+			minute = "0"+minutes;
+		} else {
+			minute = ""+minutes;
+		}
+		if (seconds<10) {
+			second = "0"+seconds;
+		} else {
+			second = ""+seconds;
+		}
+		return (hour + ":" + minute + ":" + second);
 	}
 
 }

@@ -39,9 +39,6 @@ public class Pathing {
 		return Player.getPosition().getX() > 10000;
 	}
 
-	static PathBarrows barrowsPath = PathBarrows.SWAMP;
-	static PathBank bankPath = PathBank.ECTOPHIAL;
-
 	final static RSTile[] pathToGate = { new RSTile(3508, 3481, 0),
 			new RSTile(3503, 3481, 0), new RSTile(3498, 3481, 0),
 			new RSTile(3493, 3482, 0), new RSTile(3488, 3481, 0),
@@ -134,7 +131,7 @@ public class Pathing {
 	}
 
 	public static void goToBank() {
-		switch (bankPath) {
+		switch (Var.bankPath) {
 		case ECTOPHIAL:
 			walkFromEcto();
 		case HOUSE:
@@ -237,7 +234,7 @@ public class Pathing {
 		if (isFromBoatToBarrows()) {
 			Walking.walkPath(pathToBarrows);
 		} else {
-			switch (barrowsPath) {
+			switch (Var.barrowsPath) {
 			case SWAMP:
 				goViaSwamp();
 			case SHORTCUT:
@@ -248,6 +245,8 @@ public class Pathing {
 	}
 
 	static void goViaShortcut() {
+		Var.status = "Using shortcut to get to barrows";
+		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
 			General.println("I am near the trap door");
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));

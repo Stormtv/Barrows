@@ -52,7 +52,7 @@ public class BarrowGUI extends JFrame {
 	private static JComboBox<Food.Edibles> cbxFood;
 	private static JComboBox<Pathing.PathBarrows> cbxBarrows;
 	private static JComboBox<Pathing.PathBank> cbxBank;
-	private JTextField txtFood,txtSA,txtSS,txtSD,txtRP,txtPP;
+	private JTextField txtFood,txtSA,txtSS,txtSD,txtRP,txtPP,txtArrows,txtCasts;
 	public BarrowGUI() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -99,7 +99,9 @@ public class BarrowGUI extends JFrame {
 				txtSD.setText(Integer.toString(Var.superDefence));
 				txtRP.setText(Integer.toString(Var.rangingPotion));
 				txtPP.setText(Integer.toString(Var.prayerPotion));
-
+				txtArrows.setText(Integer.toString(Var.arrowCount));
+				txtCasts.setText(Integer.toString(Var.spellCount));
+				
 				cbxBarrows.setSelectedItem(Var.barrowsPath);
 				cbxBank.setSelectedItem(Var.bankPath);
 			}
@@ -114,7 +116,7 @@ public class BarrowGUI extends JFrame {
 			modelSelected.addElement("Ahrim");
 		}
 		setTitle("Barrows");
-		setBounds(100, 100, 779, 352);
+		setBounds(100, 100, 779, 446);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -180,7 +182,9 @@ public class BarrowGUI extends JFrame {
 				Var.superDefence = Integer.parseInt(txtSD.getText());
 				Var.rangingPotion = Integer.parseInt(txtRP.getText());
 				Var.prayerPotion = Integer.parseInt(txtPP.getText());
-
+				Var.arrowCount = Integer.parseInt(txtArrows.getText());
+				Var.spellCount = Integer.parseInt(txtCasts.getText());
+				
 				Var.bankPath = (Pathing.PathBank) cbxBank.getSelectedItem();
 				Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows.getSelectedItem();
 				
@@ -206,43 +210,97 @@ public class BarrowGUI extends JFrame {
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Potion Withdraw Amounts", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Arrows / Runes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(panel, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+									.addGap(18))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 405, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+								.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+							.addGap(13))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(595, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-							.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
-					.addGap(25))
+							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(20))
 		);
+		
+		JLabel lblArrows = new JLabel("Arrows:");
+		
+		txtArrows = new JTextField();
+		txtArrows.setText("0");
+		txtArrows.setColumns(10);
+		
+		JLabel lblOfCasts = new JLabel("# of Casts:");
+		
+		txtCasts = new JTextField();
+		txtCasts.setText("0");
+		txtCasts.setColumns(10);
+		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
+		gl_panel_5.setHorizontalGroup(
+			gl_panel_5.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_5.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_5.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblOfCasts, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblArrows, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_5.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtArrows, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtCasts, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(40, Short.MAX_VALUE))
+		);
+		gl_panel_5.setVerticalGroup(
+			gl_panel_5.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_5.createSequentialGroup()
+					.addGroup(gl_panel_5.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblArrows)
+						.addComponent(txtArrows, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_5.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtCasts, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_5.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblOfCasts)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		panel_5.setLayout(gl_panel_5);
 
 		JLabel lblSuperAttack = new JLabel("Super Attack:");
 

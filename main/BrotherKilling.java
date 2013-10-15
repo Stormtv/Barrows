@@ -18,6 +18,7 @@ import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 
+import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother;
@@ -121,6 +122,9 @@ public class BrotherKilling {
 	private static void CombatManager(Brothers b) {
 		while (Player.getRSPlayer().getInteractingCharacter() != null
 				|| aggressiveNPC() != null) {
+			if (BankHandler.needToBank()) {
+				return;
+			}
 			UpKeep();
 			RSNPC target = aggressiveNPC();
 			if (target == null || target.isInCombat() && target.getHealth() == 0) {
@@ -354,6 +358,7 @@ public class BrotherKilling {
 	public static void reset() {
 		Var.startingRoom=null;
 		Var.lootedChest=false;
+		Var.runs++;
 		for (Brothers b : Brothers.values()) {
 			b.setKilled(false);
 			b.setTunnel(false);

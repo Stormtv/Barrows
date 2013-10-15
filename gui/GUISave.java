@@ -36,6 +36,8 @@ public class GUISave {
 		prop.setProperty("superDefence", Integer.toString(Var.superDefence));
 		prop.setProperty("rangingPotion",Integer.toString(Var.rangingPotion));
 		prop.setProperty("prayerPotion", Integer.toString(Var.prayerPotion));
+		prop.setProperty("arrows", Integer.toString(Var.arrowCount));
+		prop.setProperty("casts", Integer.toString(Var.spellCount));
 		prop.setProperty("tunnelEquip", Arrays.toString(Var.tunnelEquipment));
 		prop.setProperty("bankPath",Var.bankPath.toString());
 		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
@@ -90,7 +92,8 @@ public class GUISave {
 			Var.superDefence = Integer.valueOf(prop.getProperty("superDefence"));
 			Var.rangingPotion = Integer.valueOf(prop.getProperty("rangingPotion"));
 			Var.prayerPotion = Integer.valueOf(prop.getProperty("prayerPotion"));
-			
+			Var.arrowCount = Integer.valueOf(prop.getProperty("arrows"));
+			Var.spellCount = Integer.valueOf(prop.getProperty("casts"));
 			for (Pathing.PathBank p : Pathing.PathBank.values()) {
 				if (prop.getProperty("bankPath").equals(p.toString())) {
 					Var.bankPath = p;

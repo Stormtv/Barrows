@@ -13,6 +13,7 @@ import org.tribot.api2007.Skills;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSModel;
 
+import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.types.Brother.Brothers;
 
 public class Magic {
@@ -139,13 +140,30 @@ public class Magic {
 		return false;
 	}
 	
+	private static ArrayList<Integer> getStaffRunes() {
+		ArrayList<Integer> staffRunes = new ArrayList<Integer>();
+		for (int i : BankHandler.getRequiredItems()) {
+			for (Staves.Staff s : Staves.Staff.values()) {
+				if (s.getId() == i) {
+					for (int b : s.getRunes()) {
+						if (!staffRunes.contains(b)) {
+							staffRunes.add(b);
+						}
+					}
+				}
+			}
+		}
+		return staffRunes;
+	}
+	
 	public static boolean hasCasts(int numOfCasts) {
 		for (Brothers b : Brothers.values()) {
 			if (!b.getSpell().equals(Magic.Spell.NONE)) {
 				int[][] req = b.getSpell().getRequiredRunes();
 				for (int i=0;i<req.length;i++) {
 					if (Inventory.getCount(req[i][0]) 
-							< numOfCasts*req[i][1]) {
+							< numOfCasts*req[i][1]
+							&& !getStaffRunes().contains(req[i][0])) {
 						return false;
 					}
 				}
@@ -162,8 +180,12 @@ public class Magic {
 					for (int i=0;i<req.length;i++) {
 						int need = numOfCasts*req[i][1]
 								- Inventory.getCount(req[i][0]);
-						if (need > 0) {
+						int count = Inventory.getAll().length;
+						if (need > 0 && !getStaffRunes().contains(req[i][0])) {
 							Banking.withdraw(need, req[i][0]);
+							for (int fail = 0;fail < 20 && Inventory.getAll().length == count;fail++){
+								General.sleep(50,100);
+							}
 						}
 					}
 				}

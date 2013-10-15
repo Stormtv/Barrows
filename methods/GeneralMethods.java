@@ -182,7 +182,7 @@ public class GeneralMethods {
 					}
 					for (int i = 0; i < 10; i++) {
 						if (!o.isOnScreen()) {
-							walkScreen(getFurthestTileOnScreen(t));
+							walkScreen(getFurthestTileOnScreen(t,o));
 							turnTo(o);
 						}
 					}
@@ -200,6 +200,9 @@ public class GeneralMethods {
 					+ o.getDefinition().getName() + "(" + o.getID() + ")");
 			return;
 		}
+		while(Player.isMoving()) {
+			General.sleep(15,30);
+		}
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(),0);
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
@@ -208,6 +211,7 @@ public class GeneralMethods {
 			General.sleep(10, 15);
 		if (Game.getUptext().contains(option)
 				|| Game.getUptext().contains("Use")) {
+
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 			leftClick(p);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
@@ -268,40 +272,6 @@ public class GeneralMethods {
 		}
 	}
 
-	public static RSTile getFurthestTileOnScreen(RSTile[] t) {
-		RSTile furthestVisibleTile = null;
-		RSTile home = Player.getPosition();
-		for (RSTile tile : t) {
-			if (tile != null && tile.isOnScreen()) {
-				if (furthestVisibleTile != null) {
-					if (home.distanceTo(furthestVisibleTile) < home
-							.distanceTo(tile)
-							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile)
-							&& !tile.equals(Player.getPosition())) {
-						furthestVisibleTile = tile;
-					}
-
-				} else {
-					if (PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile))
-						furthestVisibleTile = tile;
-				}
-			}
-		}
-		if (Player.isMoving() && Player.getPosition().distanceTo(Var.furthestTile) > 2) {
-			return null;
-		} else {
-			if (furthestVisibleTile==null) {
-				General.println("OMG NULL TILE");
-				furthestVisibleTile=t[0];
-			}
-			Var.furthestTile = furthestVisibleTile;
-			return furthestVisibleTile;
-		}
-
-	}
-
 	public static RSTile getFurthestTileOnScreen(RSTile[] t, RSObject o) {
 		RSTile furthestVisibleTile = null;
 		RSTile home = Player.getPosition();
@@ -311,20 +281,33 @@ public class GeneralMethods {
 					if (home.distanceTo(furthestVisibleTile) < home
 							.distanceTo(tile)
 							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile)
-							&& !tile.equals(Player.getPosition())
-							&& o.getPosition().distanceTo(tile) < home
-									.distanceTo(o)) {
+							&& !tile.equals(home)
+							&& o.getPosition().distanceTo(home) >
+							o.getPosition().distanceTo(tile)) {
 						furthestVisibleTile = tile;
 					}
+
 				} else {
 					if (PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile))
+							&& o.getPosition().distanceTo(home) >
+							o.getPosition().distanceTo(tile)
+							&& !tile.equals(home))
 						furthestVisibleTile = tile;
 				}
 			}
 		}
-		return furthestVisibleTile;
+		if (Player.isMoving() && Player.getPosition().distanceTo(Var.furthestTile) > 2) {
+			return null;
+		} else {
+			if (furthestVisibleTile==null) {
+				General.println("OMG NULL TILE");
+				Camera.turnToTile(o);
+				furthestVisibleTile=t[0];
+			}
+			Var.furthestTile = furthestVisibleTile;
+			return furthestVisibleTile;
+		}
+
 	}
 
 	public static RSTile getFurthestTileOnScreen(ArrayList<RSTile> t) {
