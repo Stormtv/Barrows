@@ -19,6 +19,7 @@ import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Magic;
+import scripts.Barrows.util.BankClass;
 
 public class BankHandler {
 
@@ -72,7 +73,7 @@ public class BankHandler {
 					final int count = Inventory.getAll().length;
 					if (Inventory.getCount(Var.SPADE_ID) < 1) {
 						Var.status = "Withdrawing Spade";
-						Banking.withdraw(1, Var.SPADE_ID);
+						BankClass.withdraw(1, Var.SPADE_ID);
 						Timing.waitCondition(new Condition() {
 
 							@Override
@@ -92,7 +93,7 @@ public class BankHandler {
 					if (Var.bankPath.equals(Pathing.PathBank.ECTOPHIAL) 
 							&& Inventory.getCount(Var.ECTOPHIAL)==0) {
 						Var.status = "Withdrawing Ectophial";
-						Banking.withdraw(1, Var.ECTOPHIAL);
+						BankClass.withdraw(1, Var.ECTOPHIAL);
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
@@ -104,7 +105,7 @@ public class BankHandler {
 					if (Var.bankPath.equals(Pathing.PathBank.HOUSE) 
 							&& Inventory.getCount(8013)==0) {
 						Var.status = "Withdrawing House Teleport";
-						Banking.withdraw(1, 8013);
+						BankClass.withdraw(1, 8013);
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
@@ -117,7 +118,7 @@ public class BankHandler {
 							&& (org.tribot.api2007.Equipment
 									.getCount(Var.arrowId)+Inventory.getCount(Var.arrowId)) < Var.arrowCount) {
 						Var.status = "Withdrawing Arrows";
-						Banking.withdraw((Var.arrowCount - org.tribot.api2007.Equipment
+						BankClass.withdraw((Var.arrowCount - org.tribot.api2007.Equipment
 								.getCount(Var.arrowId)), Var.arrowId);
 						Timing.waitCondition(new Condition() {
 							@Override
@@ -137,7 +138,7 @@ public class BankHandler {
 					}
 					if (Var.superAttack > 0
 							&& Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
-						Banking.withdraw(
+						BankClass.withdraw(
 								Var.superAttack
 										- Inventory
 												.getCount(Potions.SUPER_ATTACK),
@@ -153,7 +154,7 @@ public class BankHandler {
 					}
 					if (Var.superStrength > 0
 							&& Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
-						Banking.withdraw(
+						BankClass.withdraw(
 								Var.superStrength
 										- Inventory
 												.getCount(Potions.SUPER_STRENGTH),
@@ -170,7 +171,7 @@ public class BankHandler {
 					if (Var.superDefence > 0
 							&& Inventory.getCount(Potions.SUPER_DEFENCE) < Var.superDefence) {
 						Var.status = "Withdrawing Super Defence";
-						Banking.withdraw(
+						BankClass.withdraw(
 								Var.superDefence
 										- Inventory
 												.getCount(Potions.SUPER_DEFENCE),
@@ -188,7 +189,7 @@ public class BankHandler {
 							.getCount(Potions.PRAYER_POTIONS)) {
 						if (Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion) {
 							Var.status = "Withdrawing Prayer Potions";
-							Banking.withdraw((Var.prayerPotion - Inventory
+							BankClass.withdraw((Var.prayerPotion - Inventory
 									.getCount(Potions.PRAYER_POTIONS)),
 									Potions.PRAYER_POTIONS);
 						} else {
@@ -208,7 +209,7 @@ public class BankHandler {
 					for (int i : Equipment.requiedEquipment()) {
 						if (!has(i) && i > 0) {
 							Var.status = "Withdrawing Equipment";
-							Banking.withdraw(1, i);
+							BankClass.withdraw(1, i);
 							Timing.waitCondition(new Condition() {
 
 								@Override
@@ -222,7 +223,7 @@ public class BankHandler {
 					}
 					if (getSpaceLeft() > 0) {
 						Var.status = "Withdrawing Food";
-						Banking.withdraw(0, Var.food.getId());
+						BankClass.withdraw(0, Var.food.getId());
 						Timing.waitCondition(new Condition() {
 
 							@Override
@@ -263,7 +264,7 @@ public class BankHandler {
 	}
 
 	public static boolean needToBank() {
-		return Inventory.getCount(Var.food.getId())==0
+		return Inventory.getCount(Var.food.getId()) == 0
 				|| !Magic.hasCasts(1)
 				|| Var.arrowId != -1
 				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1

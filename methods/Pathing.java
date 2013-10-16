@@ -103,7 +103,7 @@ public class Pathing {
 	private static boolean goViaSwamp() {
 		Walking.control_click = true;
 		Walking.walking_timeout = 5500;
-		if (Game.getRunEnergy() > 10 && !Game.isRunOn())
+		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
 		Mouse.setSpeed(130);
 		if (!warning()) {
@@ -140,6 +140,8 @@ public class Pathing {
 	}
 
 	static void useHouse() {
+		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
+			Options.setRunOn(true);
 		if (isInHouse()) {
 			if (buildingMode())
 				turnOnBuildingMode();
@@ -190,6 +192,8 @@ public class Pathing {
 	}
 
 	static void walkFromEcto() {
+		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
+			Options.setRunOn(true);
 		if (isFromEctoToBank()) {
 			if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
 				General.sleep(1000);
@@ -228,10 +232,13 @@ public class Pathing {
 	}
 
 	public static void getToBarrows() {
-		if (isInBarrows())
+		if (isInBarrows()) {
+			System.out.println("Return");
 			return;
+		}
 
 		if (isFromBoatToBarrows()) {
+			System.out.println("Going to barrows");
 			Walking.walkPath(pathToBarrows);
 		} else {
 			switch (Var.barrowsPath) {
@@ -444,7 +451,7 @@ public class Pathing {
 		return false;
 	}
 
-	 static void setBuildingMode() {
+	static void setBuildingMode() {
 		if (Interfaces.get(398, 19) == null) {
 			if (GameTab.getOpen() != GameTab.TABS.OPTIONS) {
 				Keyboard.pressFunctionKey(10);
@@ -471,7 +478,7 @@ public class Pathing {
 		return Game.getSetting(261) == 1;
 	}
 
-	 static void turnOnBuildingMode() {
+	static void turnOnBuildingMode() {
 		if (buildingMode())
 			return;
 		if (isBuildingInterfaceOpen())

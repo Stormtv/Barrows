@@ -27,24 +27,23 @@ import scripts.Barrows.types.Var;
 
 @ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
 public class Barrows extends Script implements Painting {
-	String[] auths = {"E12MLDqNWpQAPcw","RH585Khpd7MZkvD",
-			"8634L4234Hn0PaL","T26281g87514W7y",
-			"TxN63P3898Pw512","m3165u7i4eZW5rd",
-			"131Zpzz15Kd5bGI","424sAkN7rRYc32j",
-			"KL4x044qQ2pr813","74M6T36MtK406Qe",
-			"74M6T36MtK406Qe","dZyv87g38A8Y8MC",
-			"F8uWE3LlzY0bW22","3Oa6C4x0J85iI51",
-			"cM4dfP7AnOC2fDA","n1M0zJ01g498U67",
-			"LYi3dheq91jVvjn","a1dCG1e68epU659",
-			"aF6t55x89206V4K","qPDkkdGd3Ay3f3x"};
+	String[] auths = { "E12MLDqNWpQAPcw", "RH585Khpd7MZkvD", "8634L4234Hn0PaL",
+			"T26281g87514W7y", "TxN63P3898Pw512", "m3165u7i4eZW5rd",
+			"131Zpzz15Kd5bGI", "424sAkN7rRYc32j", "KL4x044qQ2pr813",
+			"74M6T36MtK406Qe", "74M6T36MtK406Qe", "dZyv87g38A8Y8MC",
+			"F8uWE3LlzY0bW22", "3Oa6C4x0J85iI51", "cM4dfP7AnOC2fDA",
+			"n1M0zJ01g498U67", "LYi3dheq91jVvjn", "a1dCG1e68epU659",
+			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x" };
 	String response;
+
 	@Override
 	public void run() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					response = JOptionPane.showInputDialog(null,"Please enter the wBarrows Beta password");
+					response = JOptionPane.showInputDialog(null,
+							"Please enter the wBarrows Beta password");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -62,23 +61,24 @@ public class Barrows extends Script implements Painting {
 			}
 		}
 	}
-	
 
 	private void loop() {
 		Mouse.setSpeed(General.random(250, 350));
 		try {
+
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())) {
 				Var.status = "Heading to the bank";
 				Pathing.goToBank();
 				return;
 			}
-	
+
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
 				BankHandler.bank();
 				return;
 			}
+
 			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
 				Pathing.getToBarrows();
@@ -95,7 +95,8 @@ public class Barrows extends Script implements Painting {
 				Tunnel.goToTunnel();
 				return;
 			}
-			if (!BrotherKilling.canKill() && Tunnel.inCrypt() && Var.lootedChest) {
+			if (!BrotherKilling.canKill() && Tunnel.inCrypt()
+					&& Var.lootedChest) {
 				Tunnel.exitCrypt();
 				return;
 			}
@@ -141,7 +142,8 @@ public class Barrows extends Script implements Painting {
 
 	private final Color tRed = new Color(255, 0, 0, 100);
 	private final Color tYellow = new Color(255, 255, 0, 100);
-	private final Color tBlue = new Color(0,0,255,100);
+	private final Color tBlue = new Color(0, 0, 255, 100);
+
 	@Override
 	public void onPaint(Graphics g) {
 		if (Var.debug) {
@@ -160,11 +162,13 @@ public class Barrows extends Script implements Painting {
 					i++;
 				}
 			}
-			g.drawString("We have completed "+ Var.runs + " runs!", 287, 362+15*i);
+			g.drawString("We have completed " + Var.runs + " runs!", 287,
+					362 + 15 * i);
 			i++;
-			Var.runTime=System.currentTimeMillis()-Var.startTime;
-			g.drawString("Runtime: "+formatTime(Var.runTime), 287, 362+15*i);
-			
+			Var.runTime = System.currentTimeMillis() - Var.startTime;
+			g.drawString("Runtime: " + formatTime(Var.runTime), 287,
+					362 + 15 * i);
+
 			g.setColor(Color.GREEN);
 			if (Var.status != null) {
 				g.drawString(Var.status, 574, 376);
@@ -180,19 +184,19 @@ public class Barrows extends Script implements Painting {
 				g.setColor(tYellow);
 				g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
 			}
-			if (Var.targetTile!=null && Var.targetTile.isOnScreen()) {
+			if (Var.targetTile != null && Var.targetTile.isOnScreen()) {
 				g.setColor(Color.BLACK);
 				g.drawPolygon(Projection.getTileBoundsPoly(Var.targetTile, 0));
 				g.setColor(tRed);
 				g.fillPolygon(Projection.getTileBoundsPoly(Var.targetTile, 0));
 			}
-			if (Var.viableTiles!=null) {
+			if (Var.viableTiles != null) {
 				for (RSTile t : Var.viableTiles) {
 					if (t.isOnScreen()) {
 						g.setColor(Color.BLACK);
-						g.drawPolygon(Projection.getTileBoundsPoly(t,0));
+						g.drawPolygon(Projection.getTileBoundsPoly(t, 0));
 						g.setColor(tBlue);
-						g.fillPolygon(Projection.getTileBoundsPoly(t,0));
+						g.fillPolygon(Projection.getTileBoundsPoly(t, 0));
 					}
 				}
 			}
@@ -200,12 +204,12 @@ public class Barrows extends Script implements Painting {
 			g.drawString("wBarrows Beta", 2, 20);
 		}
 	}
-	
+
 	private static String formatTime(long runTime) {
 		long seconds = 0;
 		long minutes = 0;
 		long hours = 0;
-		String second,minute,hour;
+		String second, minute, hour;
 		seconds = runTime / 1000;
 		if (seconds >= 60) {
 			minutes = seconds / 60;
@@ -215,20 +219,20 @@ public class Barrows extends Script implements Painting {
 			hours = minutes / 60;
 			minutes -= (hours * 60);
 		}
-		if (hours<10) {
-			hour = "0"+hours;
+		if (hours < 10) {
+			hour = "0" + hours;
 		} else {
-			hour = ""+hours;
+			hour = "" + hours;
 		}
-		if (minutes<10) {
-			minute = "0"+minutes;
+		if (minutes < 10) {
+			minute = "0" + minutes;
 		} else {
-			minute = ""+minutes;
+			minute = "" + minutes;
 		}
-		if (seconds<10) {
-			second = "0"+seconds;
+		if (seconds < 10) {
+			second = "0" + seconds;
 		} else {
-			second = ""+seconds;
+			second = "" + seconds;
 		}
 		return (hour + ":" + minute + ":" + second);
 	}
