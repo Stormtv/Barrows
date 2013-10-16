@@ -1,22 +1,16 @@
 package scripts.Barrows.methods.tunnel;
 
-import java.util.ArrayList;
-
 import org.tribot.api.General;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Objects;
-import org.tribot.api2007.PathFinding;
-import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
-import org.tribot.api2007.types.RSTile;
-
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Food;
-import scripts.Barrows.util.RSArea;
 
 public class TunnelTraversing {
 
@@ -86,6 +80,7 @@ public class TunnelTraversing {
 				GeneralMethods.clickObject(chest[0], "Search", false);
 				BrotherKilling.killBrotherInTunnel();
 				Var.lootedChest = true;
+				Looting.loot(Var.lootIDs);
 			}
 		}
 	}
@@ -109,31 +104,23 @@ public class TunnelTraversing {
 						TunnelPuzzle.solvePuzzle();
 					}
 				} else {
+					curRoom = Rooms.getRoom();
 					if (Rooms.InTunnel()) {
+						Var.status = "In a tunnel walking to next door";
 						Camera.setCameraAngle(General.random(90, 99));
-						for (int i = 0; i < 50; i++) {
-							if (Rooms.InTunnel() && nextDoor.length > 0
-									&& !nextDoor[0].isOnScreen()) {
-								walkInsideTunnel(path[0].getLocation());
-							}
+						for (int i = 0; i < 50 
+								&& nextDoor.length > 0
+								&& (Rooms.getRoom()==null  || curRoom.equals(Rooms.getRoom()))
+								&& !nextDoor[0].isOnScreen(); i++) {
+							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					} else {
 						Var.status="Next door not on screen, Screen walking";			
-						RSTile[] t = Walking
-								.generateStraightScreenPath(nextDoor[0]);
-						if (t.length == 0) {
-							General.println("Tunnel Screen Path length == 0");
-							Camera.turnToTile(nextDoor[0]);
-							if (!nextDoor[0].isOnScreen()) {
-								Camera.setCameraAngle(100);
-							}
-						}
-						for (int i = 0; i < 10; i++) {
-							if (nextDoor.length > 0 && nextDoor[0] != null
-									&& !nextDoor[0].isOnScreen()) {
-								GeneralMethods.walkScreen(GeneralMethods
-										.getFurthestTileOnScreen(t,nextDoor[0]));
-							}
+						for (int i = 0; i < 10 
+								&& nextDoor.length > 0
+								&& (Rooms.getRoom()==null  || curRoom.equals(Rooms.getRoom()))
+								&& !nextDoor[0].isOnScreen(); i++) {
+							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					}
 				}
@@ -167,33 +154,20 @@ public class TunnelTraversing {
 						TunnelPuzzle.solvePuzzle();
 					}
 				} else {
+					curRoom = Rooms.getRoom();
 					if (Rooms.InTunnel()) {
 						Var.status = "In a tunnel walking to next door";
 						Camera.setCameraAngle(General.random(90, 99));
-						for (int i = 0; i < 50; i++) {
-							if (Rooms.InTunnel() && nextDoor.length > 0
-									&& !nextDoor[0].isOnScreen()) {
-								walkInsideTunnel(path[0].getLocation());
-							}
+						for (int i = 0; i < 50 
+								&& nextDoor.length > 0
+								&& curRoom.equals(Rooms.getRoom())
+								&& !nextDoor[0].isOnScreen(); i++) {
+							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					} else {
 						Var.status="Next door not on screen, Screen walking";			
-						RSTile[] t = Walking
-								.generateStraightScreenPath(nextDoor[0]);
-						if (t.length == 0) {
-							General.println("Tunnel Screen Path length == 0");
-							Camera.turnToTile(nextDoor[0]);
-							if (!nextDoor[0].isOnScreen()) {
-								Camera.setCameraAngle(100);
-							}
-						}
-						for (int i = 0; i < 10; i++) {
-							if (nextDoor.length > 0 && nextDoor[0] != null
-									&& !nextDoor[0].isOnScreen()) {
-								General.println("Walking Screen");
-								GeneralMethods.walkScreen(GeneralMethods
-										.getFurthestTileOnScreen(t,nextDoor[0]));
-							}
+						for (int i = 0; i < 10 && !nextDoor[0].isOnScreen(); i++) {
+							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					}
 				}
@@ -201,7 +175,7 @@ public class TunnelTraversing {
 		}
 	}
 
-	private static void walkInsideTunnel(RSTile location) {
+	/*private static void walkInsideTunnel(RSTile location) {
 		RSTile tile = Player.getPosition();
 		if (location.getX() > (Player.getPosition().getX() + 5)) {
 			System.out.println("ta mais a direita");
@@ -225,12 +199,12 @@ public class TunnelTraversing {
 		try {
 			GeneralMethods.walkScreen(filter(tile, location));
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 
-	}
+	}*/
 
-	public static RSTile filter(RSTile tile, RSTile end) {
+	/*public static RSTile filter(RSTile tile, RSTile end) {
 		RSArea aroundit = GeneralMethods.getWithin(5, tile);
 		ArrayList<RSTile> h = new ArrayList<RSTile>();
 
@@ -250,7 +224,7 @@ public class TunnelTraversing {
 		if (h.size() > 0)
 			return GeneralMethods.getFurthestTileOnScreen(h);
 		return null;
-	}
+	}*/
 
 	static boolean isBeingAttackedByBrother() {
 		return BrotherKilling.aggressiveNPC() != null;

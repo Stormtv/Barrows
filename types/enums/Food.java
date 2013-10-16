@@ -1,6 +1,7 @@
 package scripts.Barrows.types.enums;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
@@ -8,6 +9,7 @@ import org.tribot.api.input.Keyboard;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
+import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
 
@@ -76,5 +78,43 @@ public class Food {
 	
 	public static boolean canEatWithoutWaste() {
 		return ((Skills.getActualLevel(Skills.SKILLS.HITPOINTS) - Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)) >= Var.food.getHealAmount());
+	}
+
+	public static int getFoodAmount() {
+		int total = 0;
+		for (RSItem i : Inventory.getAll()) {
+			if (i.getDefinition() != null) {
+				for (String s : i.getDefinition().getActions()) {
+					if (s.contains("Eat")) {
+						total+=1;
+					}
+				}
+			}
+		}
+		return total;
+	}
+	
+	public static int[] getFoodIDs() {
+		ArrayList<Integer> foodIDs = new ArrayList<Integer>();
+		for (RSItem i : Inventory.getAll()) {
+			if (i.getDefinition() != null) {
+				for (String s : i.getDefinition().getActions()) {
+					if (s.contains("Eat")) {
+						if (!foodIDs.contains(i.getID())) {
+							foodIDs.add(i.getID());
+						}
+					}
+				}
+			} 
+		}
+		return convertIntegers(foodIDs);
+	}
+	
+	private static int[] convertIntegers(ArrayList<Integer> integers) {
+	    int[] ret = new int[integers.size()];
+	    for (int i=0; i < ret.length; i++) {
+	        ret[i] = integers.get(i).intValue();
+	    }
+	    return ret;
 	}
 }

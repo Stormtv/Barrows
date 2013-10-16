@@ -3,12 +3,14 @@ package scripts.Barrows.main;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
+import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Painting;
@@ -25,14 +27,42 @@ import scripts.Barrows.types.Var;
 
 @ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
 public class Barrows extends Script implements Painting {
-
+	String[] auths = {"E12MLDqNWpQAPcw","RH585Khpd7MZkvD",
+			"8634L4234Hn0PaL","T26281g87514W7y",
+			"TxN63P3898Pw512","m3165u7i4eZW5rd",
+			"131Zpzz15Kd5bGI","424sAkN7rRYc32j",
+			"KL4x044qQ2pr813","74M6T36MtK406Qe",
+			"74M6T36MtK406Qe","dZyv87g38A8Y8MC",
+			"F8uWE3LlzY0bW22","3Oa6C4x0J85iI51",
+			"cM4dfP7AnOC2fDA","n1M0zJ01g498U67",
+			"LYi3dheq91jVvjn","a1dCG1e68epU659",
+			"aF6t55x89206V4K","qPDkkdGd3Ay3f3x"};
+	String response;
 	@Override
 	public void run() {
-		onStart();
-		while (Var.running) {
-			loop();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					response = JOptionPane.showInputDialog(null,"Please enter the wBarrows Beta password");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		while (response == null) {
+			sleep(100);
+		}
+		for (String s : auths) {
+			if (s.equalsIgnoreCase(response)) {
+				onStart();
+				while (Var.running) {
+					loop();
+				}
+			}
 		}
 	}
+	
 
 	private void loop() {
 		Mouse.setSpeed(General.random(250, 350));
@@ -109,9 +139,9 @@ public class Barrows extends Script implements Painting {
 		});
 	}
 
-	private final Color tRed = new Color(255, 0, 0, 110);
-	private final Color tYellow = new Color(255, 255, 0, 110);
-
+	private final Color tRed = new Color(255, 0, 0, 100);
+	private final Color tYellow = new Color(255, 255, 0, 100);
+	private final Color tBlue = new Color(0,0,255,100);
 	@Override
 	public void onPaint(Graphics g) {
 		if (Var.debug) {
@@ -150,10 +180,24 @@ public class Barrows extends Script implements Painting {
 				g.setColor(tYellow);
 				g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
 			}
-			if (Var.furthestTile!=null && Var.furthestTile.isOnScreen()) {
+			if (Var.targetTile!=null && Var.targetTile.isOnScreen()) {
+				g.setColor(Color.BLACK);
+				g.drawPolygon(Projection.getTileBoundsPoly(Var.targetTile, 0));
 				g.setColor(tRed);
-				g.drawPolygon(Projection.getTileBoundsPoly(Var.furthestTile, 0));
+				g.fillPolygon(Projection.getTileBoundsPoly(Var.targetTile, 0));
 			}
+			if (Var.viableTiles!=null) {
+				for (RSTile t : Var.viableTiles) {
+					if (t.isOnScreen()) {
+						g.setColor(Color.BLACK);
+						g.drawPolygon(Projection.getTileBoundsPoly(t,0));
+						g.setColor(tBlue);
+						g.fillPolygon(Projection.getTileBoundsPoly(t,0));
+					}
+				}
+			}
+			g.setColor(Color.RED);
+			g.drawString("wBarrows Beta", 2, 20);
 		}
 	}
 	

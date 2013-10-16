@@ -1,6 +1,7 @@
 package scripts.Barrows.types;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.tribot.api2007.types.RSObject;
@@ -101,8 +102,6 @@ public class Var {
 
 	public static Point centerPoint;
 
-	public static RSTile furthestTile;
-
 	public static int runs=0;
 
 	public static long startTime;
@@ -112,4 +111,10 @@ public class Var {
 	public static int arrowCount;
 
 	public static int spellCount;
+
+	public static RSTile targetTile;
+
+	public static ArrayList<RSTile> viableTiles;
+
+	public static int[] lootIDs;
 }

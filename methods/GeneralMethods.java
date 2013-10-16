@@ -15,6 +15,7 @@ import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
 import org.tribot.api2007.Game;
+import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
@@ -22,6 +23,7 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
@@ -171,21 +173,8 @@ public class GeneralMethods {
 				}
 				fail = 0;
 			} else {
-				if (!o.isOnScreen()) {
-					RSTile[] t = Walking.generateStraightScreenPath(o);
-					if (t.length == 0) {
-						General.println("Tunnel Screen Path length == 0");
-						Camera.turnToTile(o);
-						if (!o.isOnScreen()) {
-							Camera.setCameraAngle(100);
-						}
-					}
-					for (int i = 0; i < 10; i++) {
-						if (!o.isOnScreen()) {
-							walkScreen(getFurthestTileOnScreen(t,o));
-							turnTo(o);
-						}
-					}
+				for (int i=0;i<5 && !o.isOnScreen();i++) {
+					screenWalkTo(o);
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, minimap);
@@ -245,98 +234,76 @@ public class GeneralMethods {
 		}
 	}
 
-	static void clickPointOnScreen(RSTile r) {
-		if (r == null)
-			return;
-		Point p = getRandomPoint(Projection.getTileBoundsPoly(r, 0).getBounds());
-		Mouse.move(p);
-		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains("Walk"); fSafe++)
-			General.sleep(10, 15);
-		if (Game.getUptext().contains("Walk")) {
-			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-			leftClick(p);
-			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-			General.sleep(250,350);
-		} else {
-			rightClick(p);
-			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
-				General.sleep(20, 25);
-			if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
+	public static void screenWalkTo(Positionable p) {
+		if (!Player.getPosition().equals(p)) {
+			Positionable target = getClosestVisibleTile(p);
+			Var.targetTile = (RSTile) target;
+			Point i = Projection.tileToScreen(target, 0);
+			for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains("Walk"); fSafe++)
+				General.sleep(10, 15);
+			if (Game.getUptext().contains("Walk")) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-				ChooseOption.select("Walk");
+				leftClick(i);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				General.sleep(250,350);
-			} else if (ChooseOption.isOpen()) {
-				ChooseOption.close();
+			} else {
+				rightClick(i);
+				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+					General.sleep(20, 25);
+				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
+					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+					ChooseOption.select("Walk");
+					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+					General.sleep(250,350);
+				} else if (ChooseOption.isOpen()) {
+					ChooseOption.close();
+				}
+			}
+			while (Player.isMoving() 
+					&& !Player.getPosition().equals(target)
+					&& Player.getPosition().distanceTo(target) > 2
+					&& Player.getPosition().distanceTo(p) > target.getPosition().distanceTo(p)) {
+				General.sleep(25, 50);
 			}
 		}
 	}
-
-	public static RSTile getFurthestTileOnScreen(RSTile[] t, RSObject o) {
-		RSTile furthestVisibleTile = null;
+	
+	private static Positionable getClosestVisibleTile(Positionable p) {
+		RSTile closestTile = null;
 		RSTile home = Player.getPosition();
-		for (RSTile tile : t) {
-			if (tile != null && tile.isOnScreen()) {
-				if (furthestVisibleTile != null) {
-					if (home.distanceTo(furthestVisibleTile) < home
-							.distanceTo(tile)
-							&& PathFinding.canReach(tile, false)
-							&& !tile.equals(home)
-							&& o.getPosition().distanceTo(home) >
-							o.getPosition().distanceTo(tile)) {
-						furthestVisibleTile = tile;
-					}
-
-				} else {
-					if (PathFinding.canReach(tile, false)
-							&& o.getPosition().distanceTo(home) >
-							o.getPosition().distanceTo(tile)
-							&& !tile.equals(home))
-						furthestVisibleTile = tile;
+		for (RSTile t : getViableTiles()) {
+			if (closestTile==null) {
+				if (!t.equals(home)
+						&& t.distanceTo(p) < home.distanceTo(p)) {
+					closestTile = t;
+				}
+			} else {
+				if (!t.equals(home)
+						&& t.distanceTo(p) < home.distanceTo(p)
+						&& closestTile.distanceTo(p) > t.distanceTo(p)) {
+					closestTile = t;
 				}
 			}
 		}
-		if (Player.isMoving() && Player.getPosition().distanceTo(Var.furthestTile) > 2) {
-			return null;
-		} else {
-			if (furthestVisibleTile==null) {
-				General.println("OMG NULL TILE");
-				Camera.turnToTile(o);
-				furthestVisibleTile=t[0];
-			}
-			Var.furthestTile = furthestVisibleTile;
-			return furthestVisibleTile;
-		}
-
+		return closestTile;
 	}
 
-	public static RSTile getFurthestTileOnScreen(ArrayList<RSTile> t) {
-		RSTile furthestVisibleTile = null;
+	private static ArrayList<RSTile> getViableTiles() {
+		ArrayList<RSTile> tiles = new ArrayList<RSTile>();
 		RSTile home = Player.getPosition();
-		for (RSTile tile : t) {
-			if (tile != null && tile.isOnScreen()) {
-				if (furthestVisibleTile != null) {
-					if (home.distanceTo(furthestVisibleTile) < home
-							.distanceTo(tile)
-							&& PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile)) {
-						furthestVisibleTile = tile;
-					}
-
-				} else {
-					if (PathFinding.canReach(tile, false)
-							&& PathFinding.isTileWalkable(tile))
-						furthestVisibleTile = tile;
+		for (int x = home.getX()-20; x <= home.getX()+20;x++) {
+			for (int y = home.getY()-20; y<=home.getY()+20;y++) {
+				RSTile testTile = new RSTile(x,y);
+				if (testTile.isOnScreen()
+						&& PathFinding.canReach(testTile, false)
+						&& PathFinding.isTileWalkable(testTile)
+						&& !tiles.contains(testTile)) {
+					tiles.add(testTile);
 				}
 			}
 		}
-		return furthestVisibleTile;
-	}
-
-	public static void walkScreen(RSTile r) {
-		if (r == null)
-			return;
-		clickPointOnScreen(r);
+		Var.viableTiles = tiles;
+		return tiles;
 	}
 
 	public static RSArea getWithin(int distance, RSTile refe) {
@@ -399,6 +366,7 @@ public class GeneralMethods {
 				4718, 4720, 4722, 4732, 4734, 4736, 4738, 4740, 4745, 4747,
 				4749, 4751, 4753, 4755, 4757, 4759, 565, 560, 562, 588, 1149,
 				985, 987 };
+		Var.lootIDs = ids;
 		for (int i = 0; i < names.length; i++) {
 			int price = 0;
 			try {
@@ -417,5 +385,69 @@ public class GeneralMethods {
 	
 	public static int getPrice(int id){
 		return Var.priceTable.get(id);
+	}
+
+	private static boolean groundItemCheck(RSGroundItem g)
+	{
+		for (RSGroundItem a : GroundItems.getAt(g))
+		{
+			if (a.getID() == g.getID())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void enableRun()
+	{
+		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+	}
+
+	public static void disableRun()
+	{
+		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+	}
+	
+	public static void leftClick(RSGroundItem n)
+	{
+		try
+		{
+			if (!groundItemCheck(n))
+				return;
+			Var.status = "Looting: " + n.getDefinition().getName();
+			Mouse.setSpeed(General.random(110, 120));
+			if (!n.isOnScreen())
+			{
+				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+				Walking.blindWalkTo(n);
+				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+				General.sleep(250, 350);
+				while (Player.isMoving())
+				{
+					General.sleep(20, 30);
+				}
+			}
+			if (n.getPosition().distanceTo(Player.getPosition()) > 8)
+			{
+				
+				enableRun();
+				Walking.blindWalkTo(n.getPosition());
+				disableRun();
+			}
+			if (!groundItemCheck(n))
+				return;
+			Mouse.setSpeed(General.random(220, 300));
+			enableRun();
+			n.click("Take " + n.getDefinition().getName());
+			disableRun();
+			General.sleep(250, 350);
+			while (Player.isMoving())
+				General.sleep(40);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
