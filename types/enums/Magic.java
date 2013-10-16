@@ -29,7 +29,7 @@ public class Magic {
 		WATER_WAVE(65, 48, 29, "Water Wave", 14, new int[][] {{553,7},{556,5},{565,1}}),
 		EARTH_WAVE(70, 52, 31,"Earth Wave", 15, new int[][] {{557,7},{556,5},{565,1}}),
 		FIRE_WAVE(75, 55, 33, "Fire Wave", 16, new int[][] {{554,7},{556,5},{565,1}}),
-		MAGIC_DART(50, 31, 37, "Magic Dart", 18, new int[][] {{560,1},{554,4}}),
+		MAGIC_DART(50, 31, 37, "Magic Dart", 18, new int[][] {{560,1},{558,4}}),
 		SMOKE_RUSH(50, 8, 63, "Smoke Rush", 31, new int[][] {{562,2},{560,2},{554,1},{556,1}}),
 		SHADOW_RUSH(52, 12, 65, "Shadow Rush", 32, new int[][] {{562,2},{560,2},{556,1},{566,1}}),
 		BLOOD_RUSH(56, 4, 67, "Blood Rush", 33, new int[][] {{562,2},{560,2},{565,1}}),

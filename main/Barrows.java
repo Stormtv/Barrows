@@ -202,6 +202,7 @@ public class Barrows extends Script implements Painting {
 			}
 			g.setColor(Color.RED);
 			g.drawString("wBarrows Beta", 2, 20);
+			g.drawString("Profit: " + Var.profit, 2, 40);
 		}
 	}
 
