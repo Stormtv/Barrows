@@ -18,8 +18,6 @@ import scripts.Barrows.util.RSArea;
 
 public class Var {
 
-	public static HashMap<Integer, Integer> priceTable = new HashMap<Integer, Integer>();
-
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
 			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
 			new RSTile(3559, 3296, 0), new RSTile(3555, 3296, 0) });
@@ -119,4 +117,10 @@ public class Var {
 	public static ArrayList<RSTile> viableTiles;
 
 	public static int[] lootIDs;
+	
+	public static HashMap<Integer, Integer> priceTable = new HashMap<Integer, Integer>();
+
+	public static HashMap<Integer, Integer> lootCount = new HashMap<Integer, Integer>();
+	
+	public static int profit;
 }

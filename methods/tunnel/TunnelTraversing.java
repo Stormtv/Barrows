@@ -1,9 +1,13 @@
 package scripts.Barrows.methods.tunnel;
 
+import java.util.HashMap;
+
 import org.tribot.api.General;
 import org.tribot.api2007.Camera;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
@@ -77,10 +81,27 @@ public class TunnelTraversing {
 				GeneralMethods.clickObject(chest[0], "Open", false);
 				BrotherKilling.killBrotherInTunnel();
 			} else {
+				HashMap<Integer, Integer> itemCount = new HashMap<Integer, Integer>();
+				for (RSItem i : Inventory.getAll()) {
+					itemCount.put(i.getID(), i.getStack());
+				}
 				GeneralMethods.clickObject(chest[0], "Search", false);
 				BrotherKilling.killBrotherInTunnel();
 				Var.lootedChest = true;
 				Looting.loot(Var.lootIDs);
+				for (RSItem i : Inventory.getAll()) {
+					if (!itemCount.containsKey(i.getID())) {
+						Var.profit += GeneralMethods.getPrice(i.getID())
+								*i.getStack();
+						Var.lootCount.put(i.getID(), i.getStack());
+					} else {
+						if (itemCount.get(i.getID()) != i.getStack()) {
+							Var.profit += GeneralMethods.getPrice(i.getID())
+									* (i.getStack() - itemCount.get(i.getID()));  
+							Var.lootCount.put(i.getID(), (i.getStack() - itemCount.get(i.getID())));
+						}
+					}
+				}
 			}
 		}
 	}
