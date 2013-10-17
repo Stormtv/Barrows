@@ -1,7 +1,5 @@
 package scripts.Barrows.methods.tunnel;
 
-import java.util.HashMap;
-
 import org.tribot.api.General;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Inventory;
@@ -26,7 +24,9 @@ public class TunnelTraversing {
 	public static void traverseTunnel() {
 		if (Var.startingRoom==null) {
 			Rooms.TunnelRoom room = Rooms.getRoom();
-			if (room!=null && room.getExitTile()!=null){
+			if (room!=null && room.getExitTile()!=null
+					&& Objects.getAt(room.getExitTile())[0]
+							.getModel().getPoints().length > 0){
 				Var.startingRoom = room; 
 			} else {
 				return;
@@ -67,7 +67,7 @@ public class TunnelTraversing {
 		}
 		if (climbingTool!=null) {
 			GeneralMethods.clickObject(climbingTool, "Climb", false);
-			for (int i=0; i < 75 && !BrotherKilling.isInCrypt(Tunnel.whosCrypt());i++) {
+			for (int i=0; i < 40 && !BrotherKilling.isInCrypt(Tunnel.whosCrypt());i++) {
 				General.sleep(10,20);
 			}
 		}
@@ -81,27 +81,20 @@ public class TunnelTraversing {
 				GeneralMethods.clickObject(chest[0], "Open", false);
 				BrotherKilling.killBrotherInTunnel();
 			} else {
-				HashMap<Integer, Integer> itemCount = new HashMap<Integer, Integer>();
+				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
-					itemCount.put(i.getID(), i.getStack());
+					price += GeneralMethods.getPrice(i.getID()) * i.getStack();
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false);
 				BrotherKilling.killBrotherInTunnel();
 				Var.lootedChest = true;
 				Looting.loot(Var.lootIDs);
+				int finalPrice = 0;
 				for (RSItem i : Inventory.getAll()) {
-					if (!itemCount.containsKey(i.getID())) {
-						Var.profit += GeneralMethods.getPrice(i.getID())
-								*i.getStack();
-						Var.lootCount.put(i.getID(), i.getStack());
-					} else {
-						if (itemCount.get(i.getID()) != i.getStack()) {
-							Var.profit += GeneralMethods.getPrice(i.getID())
-									* (i.getStack() - itemCount.get(i.getID()));  
-							Var.lootCount.put(i.getID(), (i.getStack() - itemCount.get(i.getID())));
-						}
-					}
+					finalPrice += GeneralMethods.getPrice(i.getID()) * i.getStack();
 				}
+				Var.profit += finalPrice-price;
+				Var.chests += 1;
 			}
 		}
 	}
@@ -127,16 +120,16 @@ public class TunnelTraversing {
 				} else {
 					curRoom = Rooms.getRoom();
 					if (Rooms.InTunnel()) {
-						Var.status = "In a tunnel walking to next door";
+						Var.status = "Tunnel Walking";
 						Camera.setCameraAngle(General.random(90, 99));
-						for (int i = 0; i < 50 
+						for (int i = 0; i < 10 
 								&& nextDoor.length > 0
 								&& (Rooms.getRoom()==null  || curRoom.equals(Rooms.getRoom()))
 								&& !nextDoor[0].isOnScreen(); i++) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					} else {
-						Var.status="Next door not on screen, Screen walking";			
+						Var.status="Screen walking";			
 						for (int i = 0; i < 10 
 								&& nextDoor.length > 0
 								&& (Rooms.getRoom()==null  || curRoom.equals(Rooms.getRoom()))
@@ -177,7 +170,7 @@ public class TunnelTraversing {
 				} else {
 					curRoom = Rooms.getRoom();
 					if (Rooms.InTunnel()) {
-						Var.status = "In a tunnel walking to next door";
+						Var.status = "Tunnel Walking";
 						Camera.setCameraAngle(General.random(90, 99));
 						for (int i = 0; i < 50 
 								&& nextDoor.length > 0
@@ -186,7 +179,7 @@ public class TunnelTraversing {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					} else {
-						Var.status="Next door not on screen, Screen walking";			
+						Var.status="Screen walking";			
 						for (int i = 0; i < 10 && !nextDoor[0].isOnScreen(); i++) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}

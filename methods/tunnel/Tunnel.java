@@ -57,7 +57,9 @@ public class Tunnel {
 					}
 					General.sleep(450,650);
 					Rooms.TunnelRoom room = Rooms.getRoom();
-					if (room!=null && room.getExitTile()!=null){
+					if (room!=null && room.getExitTile()!=null
+							&& Objects.getAt(room.getExitTile())[0]
+									.getModel().getPoints().length > 0){
 						Var.startingRoom = room; 
 					}
 				}

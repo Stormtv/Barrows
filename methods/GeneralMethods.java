@@ -173,18 +173,21 @@ public class GeneralMethods {
 				}
 				fail = 0;
 			} else {
-				for (int i=0;i<5 && !o.isOnScreen();i++) {
-					screenWalkTo(o);
+				Camera.turnToTile(o);
+				if (!o.isOnScreen()) {
+					for (int i=0;i<5 && !o.isOnScreen();i++) {
+						screenWalkTo(o);
+					}
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, minimap);
 				}
 			}
 		}
-		if (fail > 2) {
+		if (fail > 1) {
 			Camera.turnToTile(o);
 		}
-		if (fail > 4) {
+		if (fail > 3) {
 			General.println("Failed to click Object: "
 					+ o.getDefinition().getName() + "(" + o.getID() + ")");
 			return;
@@ -239,31 +242,36 @@ public class GeneralMethods {
 			Positionable target = getClosestVisibleTile(p);
 			Var.targetTile = (RSTile) target;
 			Point i = Projection.tileToScreen(target, 0);
-			for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains("Walk"); fSafe++)
-				General.sleep(10, 15);
+			for (int fSafe = 0; fSafe < 15 && !Game.getUptext().contains("Walk"); fSafe++)
+				General.sleep(5, 10);
 			if (Game.getUptext().contains("Walk")) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				leftClick(i);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-				General.sleep(250,350);
+				for (int fail=0;fail<20 && !Player.isMoving();fail++) {
+					General.sleep(12, 18);
+				}
 			} else {
 				rightClick(i);
-				for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
-					General.sleep(20, 25);
+				for (int fSafe = 0; fSafe < 15 && !ChooseOption.isOpen(); fSafe++)
+					General.sleep(5, 10);
 				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
 					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 					ChooseOption.select("Walk");
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-					General.sleep(250,350);
+					for (int fail=0;fail<20 && !Player.isMoving();fail++) {
+						General.sleep(12, 18);
+					}
 				} else if (ChooseOption.isOpen()) {
 					ChooseOption.close();
 				}
 			}
 			while (Player.isMoving() 
+					&& !p.getPosition().isOnScreen()
 					&& !Player.getPosition().equals(target)
 					&& Player.getPosition().distanceTo(target) > 2
 					&& Player.getPosition().distanceTo(p) > target.getPosition().distanceTo(p)) {
-				General.sleep(25, 50);
+				General.sleep(15, 25);
 			}
 		}
 	}
@@ -340,6 +348,9 @@ public class GeneralMethods {
 					if (ChooseOption.isOptionValid(option + " " + m.getName())) {
 						return ChooseOption.select(option + " " + m.getName());
 					} else {
+						ChooseOption.close();
+						for (int fSafe = 0; fSafe < 20 && ChooseOption.isOpen(); fSafe++)
+							General.sleep(General.random(10, 15));
 						General.println("Misclicked");
 						click(m, option);
 					}
@@ -384,7 +395,11 @@ public class GeneralMethods {
 	}
 	
 	public static int getPrice(int id){
-		return Var.priceTable.get(id);
+		if (Var.priceTable.containsKey(id)) {
+			return Var.priceTable.get(id);
+		} else {
+			return 0;
+		}
 	}
 
 	private static boolean groundItemCheck(RSGroundItem g)

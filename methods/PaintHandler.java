@@ -2,6 +2,7 @@ package scripts.Barrows.methods;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
@@ -9,6 +10,9 @@ import java.net.URL;
 import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
+
+import org.tribot.api2007.Projection;
+import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.main.Barrows;
 import scripts.Barrows.types.Var;
@@ -24,31 +28,69 @@ public class PaintHandler {
 	private final static Font font2 = new Font("Arial", 0, 13);
 
 	public static void drawPaint(Graphics2D g) {
+		if (Var.debug) {
+			debugPaint(g);
+		}
 		g.drawImage(paint, -14, 262, null);
 		g.setColor(Color.WHITE);
 		g.setFont(font1);
-		g.drawString("" + Barrows.runTime.toElapsedString(), 90, 385);
+		g.drawString(Barrows.runTime.toElapsedString(), 90, 385);
 
-		g.drawString("" + formatNumber(Var.profit) + " ("
+		g.drawString(formatNumber(Var.profit) + " ("
 				+ formatNumber(getPerHour(Var.profit, Barrows.runTime)) + " /hr)",
 				67, 409);
-		g.drawString("add later", 65, 432);
-		g.drawString("add later", 75, 456);
-		g.drawString(""+getRoom(Rooms.getRoom()), 290, 385);
-		g.drawString(""+getRoom(Var.startingRoom), 290, 407);
+		g.drawString("WIP", 65, 432);
+		g.drawString(Integer.toString(Var.chests)+" ("
+				+ formatNumber(getPerHour(Var.chests, Barrows.runTime))+" /hr)", 75, 456);
+		g.drawString(getRoom(Rooms.getRoom()), 290, 385);
+		g.drawString(getRoom(Var.startingRoom), 290, 407);
 		g.setFont(font2);
-		g.drawString(""+ Var.status, 235, 432);
-
+		if (Var.status!=null) {
+			g.drawString(Var.status, 235, 432);
+		}
 	}
 	
-	static String getRoom(Rooms.TunnelRoom r){
+	
+
+	private static void debugPaint(Graphics g) {
+		final Color tRed = new Color(255, 0, 0, 100);
+		final Color tYellow = new Color(255, 255, 0, 100);
+		final Color tBlue = new Color(0, 0, 255, 100);
+
+		if (Var.debugObject != null && Var.debugObject.isOnScreen()
+				&& Var.centerPoint != null) {
+			g.setColor(tRed);
+			g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
+			g.setColor(tYellow);
+			g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
+		}
+		if (Var.targetTile != null && Var.targetTile.isOnScreen()) {
+			g.setColor(Color.BLACK);
+			g.drawPolygon(Projection.getTileBoundsPoly(Var.targetTile, 0));
+			g.setColor(tRed);
+			g.fillPolygon(Projection.getTileBoundsPoly(Var.targetTile, 0));
+		}
+		if (Var.viableTiles != null) {
+			for (RSTile t : Var.viableTiles) {
+				if (t.isOnScreen()) {
+					g.setColor(Color.BLACK);
+					g.drawPolygon(Projection.getTileBoundsPoly(t, 0));
+					g.setColor(tBlue);
+					g.fillPolygon(Projection.getTileBoundsPoly(t, 0));
+				}
+			}
+		}
+		g.setColor(Color.RED);
+		g.drawString("wBarrows Beta", 5, 40);
+	}
+	
+	private static String getRoom(Rooms.TunnelRoom r){
 		if(r == null)
 			return "None";
 		else
 			return r.toString();
 	}
 	
-
 
 	public static int getPerHour(int done, final Timer t) {
 		if (done == 0)

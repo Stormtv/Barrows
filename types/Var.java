@@ -101,7 +101,7 @@ public class Var {
 
 	public static Point centerPoint;
 
-	public static int runs=0;
+	public static int trips=0;
 
 	public static long startTime;
 	
@@ -122,4 +122,6 @@ public class Var {
 	public static HashMap<Integer, Integer> lootCount = new HashMap<Integer, Integer>();
 	
 	public static int profit = 0;
+
+	public static int chests;
 }
