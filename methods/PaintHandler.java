@@ -15,14 +15,17 @@ import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.main.Barrows;
-import scripts.Barrows.types.Var;
-
-import scripts.Barrows.util.Timer;
 import scripts.Barrows.methods.tunnel.Rooms;
+import scripts.Barrows.types.Brother;
+import scripts.Barrows.types.Brother.Brothers;
+import scripts.Barrows.types.Var;
+import scripts.Barrows.util.Timer;
 
 public class PaintHandler {
 
-	static Image paint = getImage("http://i.imgur.com/j4Evq7u.png");
+	static Image paint = getImage("http://i.imgur.com/L78CUru.png");
+	static Image skull = getImage("http://i.imgur.com/cT9vKDD.png");
+	static Image tunnel = getImage("http://i.imgur.com/OmCBk5T.png");
 
 	private final static Font font1 = new Font("Arial", 0, 14);
 	private final static Font font2 = new Font("Arial", 0, 13);
@@ -47,6 +50,14 @@ public class PaintHandler {
 		g.setFont(font2);
 		if (Var.status!=null) {
 			g.drawString(Var.status, 235, 432);
+		}
+		for(Brothers b : Brother.Brothers.values()){
+			if(b.isKilled()){
+				g.drawImage(skull, b.getX(), b.getY(), null);
+			}
+			if(b.isTunnel()){
+				g.drawImage(tunnel, b.getX() + 30, b.getY(), null);
+			}
 		}
 	}
 	

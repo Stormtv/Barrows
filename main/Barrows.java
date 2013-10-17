@@ -21,6 +21,7 @@ import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
+import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.util.Timer;
 
