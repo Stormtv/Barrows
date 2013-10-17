@@ -58,7 +58,7 @@ public class PaintHandler {
 		final Color tBlue = new Color(0, 0, 255, 100);
 
 		if (Var.debugObject != null && Var.debugObject.isOnScreen()
-				&& Var.centerPoint != null) {
+				&& Var.centerPoint != null  && Var.debugObject.getModel() != null) {
 			g.setColor(tRed);
 			g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
 			g.setColor(tYellow);
