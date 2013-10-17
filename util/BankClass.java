@@ -9,8 +9,8 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api.types.colour.Tolerance;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.ChooseOption;
+import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
-import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.types.RSInterfaceChild;
 
@@ -18,12 +18,10 @@ public class BankClass {
 
 	public static void withdraw(int count, int[] id) {
 		int best = 0;
-		int counter = 0;
 		for (int i : id) {
 			if (Banking.find(i).length > 0
 					&& Banking.find(i)[0].getStack() > count) {
 				best = i;
-				counter = Banking.find(i)[0].getStack();
 			}
 		}
 		withdraw(count, best);
@@ -32,78 +30,105 @@ public class BankClass {
 	public static void withdraw(int count, int id) {
 		if (getScrollY() > 235)
 			Mouse.click(490, 80, 1);
-		int itemCount = Inventory.getCount(id);
-
 		if (Banking.find(id).length > 0) {
 			int index = -1;
 			index = Banking.find(id)[0].getIndex();
-			while (itemCount == Inventory.getCount(id)
-					&& Banking.find(id).length > 0) {
-				int section = (int) Math.floor((index) / 8.0 / 6.0);
-				General.println("index = " + index + "  " + "section = "
-						+ section + "   " + "name = "
-						+ Banking.find(id)[0].getDefinition().getName());
+			int section = (int) Math.floor((index) / 8.0 / 6.0);
+			General.println("index = " + index + "  " + "section = " + section
+					+ "   " + "name = "
+					+ Banking.find(id)[0].getDefinition().getName());
+			scroll(section);
 
-				scroll(section);
+			int x = (int) Banking.getAll()[index].getArea().getCenterX();
+			int y = (int) Banking.getAll()[index].getArea().getCenterY();
+			if (count == 1) {
+				Mouse.click(getCenter(x, y), 1);
+			} else if (count == 5) {
+				if (!ChooseOption.isOpen()) {
+					Mouse.move(getCenter(x, y));
+					for (int fSafe = 0; fSafe < 20
+							&& !Game.getUptext().contains(
+									Banking.find(id)[0].getDefinition()
+											.getName()); fSafe++)
+						General.sleep(20, 25);
+					Mouse.click(3);
+					for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+						General.sleep(20, 25);
+				}
 
-				int x = (int) Banking.getAll()[index].getArea().getCenterX();
-				int y = (int) Banking.getAll()[index].getArea().getCenterY();
-				if (count == 1) {
-					Mouse.click(getCenter(x, y), 1);
-				} else if (count == 5) {
+				if (ChooseOption.isOpen()
+						&& ChooseOption.isOptionValid(""
+								+ Banking.getAll()[index].getDefinition()
+										.getName())) {
+					ChooseOption.select("-5");
+				}
+			} else if (count == 10) {
+				if (!ChooseOption.isOpen()) {
+					Mouse.move(getCenter(x, y));
+					for (int fSafe = 0; fSafe < 20
+							&& !Game.getUptext().contains(
+									Banking.find(id)[0].getDefinition()
+											.getName()); fSafe++)
+						General.sleep(20, 25);
+					Mouse.click(3);
+					for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+						General.sleep(20, 25);
+				}
+
+				if (ChooseOption.isOpen()
+						&& ChooseOption.isOptionValid(""
+								+ Banking.getAll()[index].getDefinition()
+										.getName())) {
+					ChooseOption.select("-10");
+				}
+			} else if (count == 0) {
+				if (!ChooseOption.isOpen()) {
+					Mouse.move(getCenter(x, y));
+					for (int fSafe = 0; fSafe < 20
+							&& !Game.getUptext().contains(
+									Banking.find(id)[0].getDefinition()
+											.getName()); fSafe++)
+						General.sleep(20, 25);
+					Mouse.click(3);
+					for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
+						General.sleep(20, 25);
+				}
+				if (ChooseOption.isOpen()
+						&& ChooseOption.isOptionValid(""
+								+ Banking.getAll()[index].getDefinition()
+										.getName())) {
+					ChooseOption.select("-All");
+				}
+			} else {
+				if (!isAmountInterfaceUp()) {
+					if (!ChooseOption.isOpen()) {
+						Mouse.move(getCenter(x, y));
+						for (int fSafe = 0; fSafe < 20
+								&& !Game.getUptext().contains(
+										Banking.find(id)[0].getDefinition()
+												.getName()); fSafe++)
+							General.sleep(20, 25);
+						Mouse.click(3);
+						for (int fSafe = 0; fSafe < 20
+								&& !ChooseOption.isOpen(); fSafe++)
+							General.sleep(20, 25);
+					}
+
 					if (ChooseOption.isOpen()
 							&& ChooseOption.isOptionValid(""
 									+ Banking.getAll()[index].getDefinition()
 											.getName())) {
-						ChooseOption.select("-5");
-					} else {
-						Mouse.move(getCenter(x, y));
-						General.sleep(1000);
-						Mouse.click(3);
-					}
-				} else if (count == 10) {
-					if (ChooseOption.isOpen()
-							&& ChooseOption.isOptionValid(""
-									+ Banking.getAll()[index].getDefinition()
-											.getName())) {
-						ChooseOption.select("-10");
-						General.sleep(1000);
-					} else {
-						Mouse.move(getCenter(x, y));
-						General.sleep(1000);
-						Mouse.click(3);
-					}
-				} else if (count == 0) {
-					if (ChooseOption.isOpen()
-							&& ChooseOption.isOptionValid(""
-									+ Banking.getAll()[index].getDefinition()
-											.getName())) {
-						ChooseOption.select("-All");
-						General.sleep(1000);
-					} else {
-						Mouse.move(getCenter(x, y));
-						General.sleep(1000);
-						Mouse.click(3);
-					}
-				} else {
-					if (isAmountInterfaceUp()) {
-						Keyboard.typeSend("" + count);
-						General.sleep(1000);
-					} else {
-						if (ChooseOption.isOpen()
-								&& ChooseOption.isOptionValid(""
-										+ Banking.getAll()[index]
-												.getDefinition().getName())) {
-							ChooseOption.select("-X");
-							General.sleep(1000);
-						} else {
-							Mouse.move(getCenter(x, y));
-							General.sleep(1000);
-							Mouse.click(3);
-						}
+						ChooseOption.select("-X");
+						for (int fSafe = 0; fSafe < 50
+								&& !isAmountInterfaceUp(); fSafe++)
+							General.sleep(20, 25);
 					}
 				}
-				General.sleep(1500, 2000);
+				if (isAmountInterfaceUp()) {
+					Keyboard.typeSend(Integer.toString(count));
+					for (int fSafe = 0; fSafe < 50 && isAmountInterfaceUp(); fSafe++)
+						General.sleep(20, 25);
+				}
 			}
 		}
 	}

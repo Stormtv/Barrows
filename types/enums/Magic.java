@@ -3,7 +3,6 @@ package scripts.Barrows.types.enums;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
-import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -15,6 +14,7 @@ import org.tribot.api2007.types.RSModel;
 
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.types.Brother.Brothers;
+import scripts.Barrows.util.BankClass;
 
 public class Magic {
 
@@ -191,7 +191,7 @@ public class Magic {
 								- Inventory.getCount(req[i][0]);
 						int count = Inventory.getAll().length;
 						if (need > 0 && !getStaffRunes().contains(req[i][0])) {
-							Banking.withdraw(need, req[i][0]);
+							BankClass.withdraw(need, req[i][0]);
 							for (int fail = 0;fail < 20 && Inventory.getAll().length == count;fail++){
 								General.sleep(50,100);
 							}
