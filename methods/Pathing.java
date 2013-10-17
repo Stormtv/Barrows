@@ -232,15 +232,12 @@ public class Pathing {
 	}
 
 	public static void getToBarrows() {
+		Walking.walking_timeout = 1000;
 		if (isInBarrows()) {
 			System.out.println("Return");
 			return;
 		}
-
-		if (isFromBoatToBarrows()) {
-			System.out.println("Going to barrows");
-			Walking.walkPath(pathToBarrows);
-		} else {
+		if (!isFromBoatToBarrows()) {
 			switch (Var.barrowsPath) {
 			case SWAMP:
 				goViaSwamp();
@@ -248,10 +245,14 @@ public class Pathing {
 				goViaShortcut();
 			}
 		}
-
+		if (isFromBoatToBarrows()) {
+			System.out.println("Going to barrows");
+			Walking.walkPath(pathToBarrows);
+		}
 	}
 
 	static void goViaShortcut() {
+		Walking.walking_timeout=2500;
 		Var.status = "Using shortcut to get to barrows";
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
@@ -292,6 +293,7 @@ public class Pathing {
 					}
 				}
 			} else {
+				General.println("After Shortcut Before Boat");
 				if (new RSTile(3505, 3437, 0).distanceTo(Player.getRSPlayer()) < 15
 						&& PathFinding.canReach(new RSTile(3505, 3437, 0),
 								false)) {
@@ -315,10 +317,14 @@ public class Pathing {
 						Walking.walkTo(new RSTile(3505, 3437, 0));
 					}
 				} else {
-					if (canEnterBoat())
+					General.println("After Bridge area");
+					if (canEnterBoat()) {
+						General.println("Entering a boat");
 						enterBoat();
-					else
+					} else {
+						General.println("Walking path to boat from shortcut");
 						Walking.walkPath(pathToBoatFromShortcut);
+					}
 				}
 			}
 		}
@@ -429,8 +435,7 @@ public class Pathing {
 
 	static boolean isFromBoatToBarrows() {
 		for (RSTile t : pathToBarrows) {
-			if (t.distanceTo(Player.getPosition()) < 5
-					&& PathFinding.canReach(t, false))
+			if (t.distanceTo(Player.getPosition()) < 10)
 				return true;
 		}
 		return false;
