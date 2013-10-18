@@ -180,16 +180,13 @@ public class BrotherKilling {
 				Var.status = "Getting Ready to fight";
 				getReadyToFight(b);
 				Var.status = "Digging";
-				if (!BankHandler.needToBank()) {
-					dig(b, false);
-				}
+				dig(b, false);
+				
 			} else {
 				Var.status = "Getting Ready for tunnels";
 				getReadyForTunnels();
 				Var.status = "Digging";
-				if (!BankHandler.needToBank()) {
-					dig(b, true);
-				}
+				dig(b, true);
 			}
 		}
 	}
