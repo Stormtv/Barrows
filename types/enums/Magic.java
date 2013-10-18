@@ -139,7 +139,7 @@ public class Magic {
 			if (Interfaces.get(201, 2).getChild(s.getSecondInterfaceID())
 					.click(s.name)) {
 				for (int fail=0; fail<20
-						&& Interfaces.get(201, 2).getChild(s.getSecondInterfaceID())!=null;fail++) {
+						&& Interfaces.get(201, 2)!=null;fail++) {
 					General.sleep(50,75);
 				}
 				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
