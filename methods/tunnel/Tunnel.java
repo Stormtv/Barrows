@@ -16,6 +16,7 @@ import scripts.Barrows.types.Var;
 public class Tunnel {
 	
 	public static void exitCrypt() {
+		Var.status = "Exiting Crypt";
 		for (Brothers b: Brothers.values()) {
 			if (b.isTunnel()) {
 				if (Objects.find(10, b.getStair()).length > 0) {

@@ -249,7 +249,7 @@ public class BankHandler {
 				}
 			} else {
 				RSNPC[] banker = NPCs.findNearest("Banker");
-				if (banker.length > 0) {
+				if (banker.length > 0 && !Banking.isBankScreenOpen() && !Banking.isPinScreenOpen()) {
 					Var.status = "Opening the bank";
 					if (!banker[0].isOnScreen()) {
 						Camera.turnToTile(banker[0]);

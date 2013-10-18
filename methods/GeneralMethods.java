@@ -317,6 +317,9 @@ public class GeneralMethods {
 	public static boolean click(RSNPC m, String option) {
 		Mouse.setSpeed(500);
 		if (m.isValid() && m.getModel()!=null) {
+			if (!m.isOnScreen()) {
+				Camera.turnToTile(m);
+			}
 			if (m.getModel() != null)
 				Mouse.move(GeneralMethods.getAverage(m.getModel()
 						.getAllVisiblePoints(), 0));
