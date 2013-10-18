@@ -102,10 +102,10 @@ public class Pathing {
 
 	private static boolean goViaSwamp() {
 		Walking.control_click = true;
-		Walking.walking_timeout = 5500;
+		Walking.walking_timeout = 500;
+		Mouse.setSpeed(General.random(100,130));
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
-		Mouse.setSpeed(130);
 		if (!warning()) {
 			if (isInBarrows())
 				return true;
@@ -124,13 +124,13 @@ public class Pathing {
 					openGate();
 				else
 					Walking.walkPath(pathToGate);
-
 			}
 		}
 		return false;
 	}
 
 	public static void goToBank() {
+		Mouse.setSpeed(General.random(100,130));
 		switch (Var.bankPath) {
 		case ECTOPHIAL:
 			walkFromEcto();
@@ -232,6 +232,7 @@ public class Pathing {
 	}
 
 	public static void getToBarrows() {
+		Mouse.setSpeed(General.random(100,130));
 		Walking.walking_timeout = 1000;
 		if (isInBarrows()) {
 			System.out.println("Return");
@@ -253,6 +254,7 @@ public class Pathing {
 
 	static void goViaShortcut() {
 		Walking.walking_timeout=2500;
+		Mouse.setSpeed(General.random(100,130));
 		Var.status = "Using shortcut to get to barrows";
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
@@ -314,7 +316,9 @@ public class Pathing {
 						}
 					} else {
 						General.println("Bridge far away walking to it");
+						GeneralMethods.enableRun();
 						Walking.walkTo(new RSTile(3505, 3437, 0));
+						GeneralMethods.disableRun();
 					}
 				} else {
 					General.println("After Bridge area");
@@ -323,7 +327,9 @@ public class Pathing {
 						enterBoat();
 					} else {
 						General.println("Walking path to boat from shortcut");
+						GeneralMethods.enableRun();
 						Walking.walkPath(pathToBoatFromShortcut);
+						GeneralMethods.disableRun();
 					}
 				}
 			}
@@ -435,7 +441,8 @@ public class Pathing {
 
 	static boolean isFromBoatToBarrows() {
 		for (RSTile t : pathToBarrows) {
-			if (t.distanceTo(Player.getPosition()) < 10)
+			if (t.distanceTo(Player.getPosition()) < 5
+					&& PathFinding.canReach(t, false))
 				return true;
 		}
 		return false;

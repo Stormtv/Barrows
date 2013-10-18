@@ -1,6 +1,7 @@
 package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api.General;
+import org.tribot.api2007.Camera;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Player;
@@ -62,6 +63,7 @@ public class Tunnel {
 									.getModel().getPoints().length > 0){
 						Var.startingRoom = room; 
 					}
+					Camera.setCameraAngle(General.random(80, 100));
 				}
 			}
 		}

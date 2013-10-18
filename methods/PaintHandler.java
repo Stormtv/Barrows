@@ -44,12 +44,12 @@ public class PaintHandler {
 				67, 409);
 		g.drawString("WIP", 65, 432);
 		g.drawString(Integer.toString(Var.chests)+" ("
-				+ formatNumber(getPerHour(Var.chests, Barrows.runTime))+" /hr)", 75, 456);
+				+ formatNumber(getPerHour(Var.chests, Barrows.runTime))+" /hr)", 235, 432);
 		g.drawString(getRoom(Rooms.getRoom()), 290, 385);
 		g.drawString(getRoom(Var.startingRoom), 290, 407);
 		g.setFont(font2);
 		if (Var.status!=null) {
-			g.drawString(Var.status, 235, 432);
+			g.drawString(Var.status, 75, 456);
 		}
 		for(Brothers b : Brother.Brothers.values()){
 			if(b.isKilled()){
@@ -69,7 +69,8 @@ public class PaintHandler {
 		final Color tBlue = new Color(0, 0, 255, 100);
 
 		if (Var.debugObject != null && Var.debugObject.isOnScreen()
-				&& Var.centerPoint != null  && Var.debugObject.getModel() != null) {
+				&& Var.centerPoint != null  && Var.debugObject.getModel() != null
+				) {
 			g.setColor(tRed);
 			g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
 			g.setColor(tYellow);

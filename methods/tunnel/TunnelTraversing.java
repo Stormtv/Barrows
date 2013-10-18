@@ -25,6 +25,8 @@ public class TunnelTraversing {
 		if (Var.startingRoom==null) {
 			Rooms.TunnelRoom room = Rooms.getRoom();
 			if (room!=null && room.getExitTile()!=null
+					&& Objects.getAt(room.getExitTile()) != null
+					&& Objects.getAt(room.getExitTile()).length > 0
 					&& Objects.getAt(room.getExitTile())[0]
 							.getModel().getPoints().length > 0){
 				Var.startingRoom = room; 
@@ -52,13 +54,8 @@ public class TunnelTraversing {
 					}
 				}
 			}
-		} else {
-			General.sleep(200);
 		}
 	}
-
-	// TODO add inventory space checkup
-	// before looting / pickup loot on ground
 
 	private static void climbLadder() {
 		RSObject climbingTool=null;
@@ -110,7 +107,7 @@ public class TunnelTraversing {
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					for (int i = 0; i < 100 && !TunnelPuzzle.isPuzzleScreenOpen()
+					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
 						General.sleep(10,15);
 					}
@@ -160,7 +157,7 @@ public class TunnelTraversing {
 					curRoom = Rooms.getRoom();
 					General.println("Next door is on screen proceeding to click object");
 					GeneralMethods.clickObject(nextDoor[0], "Open", false);
-					for (int i = 0; i < 100 && !TunnelPuzzle.isPuzzleScreenOpen()
+					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
 						General.sleep(10,15);
 					}
@@ -173,6 +170,7 @@ public class TunnelTraversing {
 						Var.status = "Tunnel Walking";
 						Camera.setCameraAngle(General.random(90, 99));
 						for (int i = 0; i < 50 
+								&& nextDoor != null
 								&& nextDoor.length > 0
 								&& curRoom.equals(Rooms.getRoom())
 								&& !nextDoor[0].isOnScreen(); i++) {
@@ -180,7 +178,11 @@ public class TunnelTraversing {
 						}
 					} else {
 						Var.status="Screen walking";			
-						for (int i = 0; i < 10 && !nextDoor[0].isOnScreen(); i++) {
+						for (int i = 0; i < 10
+								&& nextDoor != null
+								&& nextDoor.length > 0
+								&& !nextDoor[0].isOnScreen()
+								&& !nextDoor[0].isOnScreen(); i++) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 					}
@@ -188,57 +190,6 @@ public class TunnelTraversing {
 			}
 		}
 	}
-
-	/*private static void walkInsideTunnel(RSTile location) {
-		RSTile tile = Player.getPosition();
-		if (location.getX() > (Player.getPosition().getX() + 5)) {
-			System.out.println("ta mais a direita");
-			tile = new RSTile(Player.getPosition().getX() + 5, Player
-					.getPosition().getY());
-		} else if (location.getX() < (Player.getPosition().getX() - 5)) {
-			System.out.println("ta mais a esquerda");
-			tile = new RSTile(Player.getPosition().getX() - 5, Player
-					.getPosition().getY());
-		}
-
-		if (location.getY() > (Player.getPosition().getY() + 5)) {
-			System.out.println("ta mais pa cima");
-			tile = new RSTile(Player.getPosition().getX(), Player.getPosition()
-					.getY() + 5);
-		} else if (location.getY() < (Player.getPosition().getY() - 5)) {
-			System.out.println("ta mais pa baixo");
-			tile = new RSTile(Player.getPosition().getX(), Player.getPosition()
-					.getY() - 5);
-		}
-		try {
-			GeneralMethods.walkScreen(filter(tile, location));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}*/
-
-	/*public static RSTile filter(RSTile tile, RSTile end) {
-		RSArea aroundit = GeneralMethods.getWithin(5, tile);
-		ArrayList<RSTile> h = new ArrayList<RSTile>();
-
-		for (RSTile t : aroundit.getTiles()) {
-			if (t != null
-					&& PathFinding.canReach(t, false)
-					&& PathFinding.isTileWalkable(t)
-					&& Objects.getAt(t).length > 0
-					&& Objects.getAt(t)[0].getModel().getPoints().length != 6
-					&& Objects.getAt(t)[0].getModel().getPoints().length < 200
-					&& !t.equals(Player.getPosition())
-					&& (tile.distanceTo(end) < Player.getPosition().distanceTo(
-							end))) {
-				h.add(t);
-			}
-		}
-		if (h.size() > 0)
-			return GeneralMethods.getFurthestTileOnScreen(h);
-		return null;
-	}*/
 
 	static boolean isBeingAttackedByBrother() {
 		return BrotherKilling.aggressiveNPC() != null;

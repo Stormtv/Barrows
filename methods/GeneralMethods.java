@@ -5,12 +5,10 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.interfaces.Positionable;
-import org.tribot.api.types.generic.CustomRet_0P;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
@@ -28,6 +26,7 @@ import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.util.PriceItem;
@@ -70,24 +69,6 @@ public class GeneralMethods {
 		return false;
 	}
 
-	// Fastest point clicking method (built for sudoku)
-	public static void leftClick(final Point point) {
-		DynamicClicking.clickPoint(new CustomRet_0P<Point>() {
-			@Override
-			public Point ret() {
-				return point;
-			}
-		}, 1);
-	}
-
-	public static void rightClick(final Point point) {
-		DynamicClicking.clickPoint(new CustomRet_0P<Point>() {
-			@Override
-			public Point ret() {
-				return point;
-			}
-		}, 3);
-	}
 
 	// Finds average points in a Point[] use offset to make it random
 	static Point getAverage(Point[] pointArray, int offset) {
@@ -107,10 +88,6 @@ public class GeneralMethods {
 				+ General.random(-offset, offset));
 	}
 
-	static void leftClick(int x, int y) {
-		leftClick(new Point(x, y));
-	}
-
 	public void assignNewBrother() {
 		for (Brother.Brothers b : Brother.Brothers.values()) {
 			if (!b.isKilled() && !b.isTunnel()) {
@@ -128,20 +105,23 @@ public class GeneralMethods {
 		clickObject(o, option, 0, minimapVisible);
 	}
 
-	public static boolean turnTo(final Positionable o) {
-		if (o == null) {
+	public static boolean turnTilOnScreen(Positionable p) {
+		if (p == null) {
 			return false;
+		} else if (p.getPosition().isOnScreen()) {
+			return true;
 		}
-		final int cAngle = Camera.getCameraRotation();
-		final int angle = 180 + Camera.getTileAngle(o);
-		final int dir = cAngle - angle;
+		int cAngle = Camera.getCameraRotation();
+		int angle = 180 + Camera.getTileAngle((Positionable)p.getPosition());
+		int dir = cAngle - angle;
 		if (Math.abs(dir) <= 190 && Math.abs(dir) >= 180) {
-			return false;
+			return true;
 		}
 		Camera.setCameraRotation(Camera.getCameraRotation()
 				+ ((dir > 0 ^ Math.abs(dir) > 180) ? 10 : -10));
-		return true;
+		return false;
 	}
+	
 
 	private static boolean isObjectValid(RSObject o) {
 		for (RSObject a : Objects.getAt((Positionable) o.getPosition())) {
@@ -164,7 +144,7 @@ public class GeneralMethods {
 				Walking.walkTo(tile);
 				General.sleep(250, 350);
 				while (Player.isMoving() && !o.isOnScreen()) {
-					turnTo(tile);
+					turnTilOnScreen(tile);
 				}
 				while (Player.isMoving())
 					General.sleep(30, 50);
@@ -190,6 +170,11 @@ public class GeneralMethods {
 		if (fail > 3) {
 			General.println("Failed to click Object: "
 					+ o.getDefinition().getName() + "(" + o.getID() + ")");
+			if (minimap) {
+				Walking.walkTo(o);
+			} else {
+				screenWalkTo(o);
+			}
 			return;
 		}
 		while(Player.isMoving()) {
@@ -205,7 +190,7 @@ public class GeneralMethods {
 				|| Game.getUptext().contains("Use")) {
 
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-			leftClick(p);
+			Mouse.click(1);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 			Var.debugObject = null;
 			Var.centerPoint = null;
@@ -214,7 +199,7 @@ public class GeneralMethods {
 				General.sleep(20, 30);
 			}
 		} else {
-			rightClick(p);
+			Mouse.click(3);
 			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
 				General.sleep(20, 25);
 			if (ChooseOption.isOpen() && ChooseOption.isOptionValid(option)) {
@@ -242,17 +227,18 @@ public class GeneralMethods {
 			Positionable target = getClosestVisibleTile(p);
 			Var.targetTile = (RSTile) target;
 			Point i = Projection.tileToScreen(target, 0);
+			Mouse.move(i);
 			for (int fSafe = 0; fSafe < 15 && !Game.getUptext().contains("Walk"); fSafe++)
 				General.sleep(5, 10);
 			if (Game.getUptext().contains("Walk")) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-				leftClick(i);
+				Mouse.click(1);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				for (int fail=0;fail<20 && !Player.isMoving();fail++) {
 					General.sleep(12, 18);
 				}
 			} else {
-				rightClick(i);
+				Mouse.click(3);
 				for (int fSafe = 0; fSafe < 15 && !ChooseOption.isOpen(); fSafe++)
 					General.sleep(5, 10);
 				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
@@ -271,7 +257,11 @@ public class GeneralMethods {
 					&& !Player.getPosition().equals(target)
 					&& Player.getPosition().distanceTo(target) > 2
 					&& Player.getPosition().distanceTo(p) > target.getPosition().distanceTo(p)) {
-				General.sleep(15, 25);
+				if (Rooms.InTunnel()) {
+					General.sleep(20,50);
+				} else {
+					turnTilOnScreen(p);
+				}
 			}
 		}
 	}

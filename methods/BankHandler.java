@@ -1,15 +1,20 @@
 package scripts.Barrows.methods;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api.input.Keyboard;
+import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
+import org.tribot.api2007.GameTab;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSTile;
@@ -19,7 +24,6 @@ import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Magic;
-import scripts.Barrows.util.BankClass;
 
 public class BankHandler {
 
@@ -63,6 +67,7 @@ public class BankHandler {
 	}
 
 	public static void bank() {
+		Mouse.setSpeed(General.random(100, 130));
 		if (Banking.isPinScreenOpen()) {
 			Banking.inPin();
 		} else {
@@ -73,7 +78,7 @@ public class BankHandler {
 					final int count = Inventory.getAll().length;
 					if (Inventory.getCount(Var.SPADE_ID) < 1) {
 						Var.status = "Withdrawing Spade";
-						BankClass.withdraw(1, Var.SPADE_ID);
+						Banking.withdraw(1, Var.SPADE_ID);
 						Timing.waitCondition(new Condition() {
 
 							@Override
@@ -93,7 +98,7 @@ public class BankHandler {
 					if (Var.bankPath.equals(Pathing.PathBank.ECTOPHIAL) 
 							&& Inventory.getCount(Var.ECTOPHIAL)==0) {
 						Var.status = "Withdrawing Ectophial";
-						BankClass.withdraw(1, Var.ECTOPHIAL);
+						Banking.withdraw(1, Var.ECTOPHIAL);
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
@@ -105,7 +110,7 @@ public class BankHandler {
 					if (Var.bankPath.equals(Pathing.PathBank.HOUSE) 
 							&& Inventory.getCount(8013)==0) {
 						Var.status = "Withdrawing House Teleport";
-						BankClass.withdraw(1, 8013);
+						Banking.withdraw(1, 8013);
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
@@ -118,7 +123,7 @@ public class BankHandler {
 							&& (org.tribot.api2007.Equipment
 									.getCount(Var.arrowId)+Inventory.getCount(Var.arrowId)) < Var.arrowCount) {
 						Var.status = "Withdrawing Arrows";
-						BankClass.withdraw((Var.arrowCount - org.tribot.api2007.Equipment
+						Banking.withdraw((Var.arrowCount - org.tribot.api2007.Equipment
 								.getCount(Var.arrowId)), Var.arrowId);
 						Timing.waitCondition(new Condition() {
 							@Override
@@ -130,15 +135,21 @@ public class BankHandler {
 						for (int fail=0;fail<20 && Banking.isBankScreenOpen();fail++){
 							General.sleep(50,75);
 						}
-						General.sleep(250,350);
-						if (Inventory.find(Var.arrowId).length > 0) {
-							Equipment.equip(Var.arrowId);
-						} 
+						if (!Banking.isBankScreenOpen()) {
+							Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+							for (int fail=0; fail<20 
+									&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
+								General.sleep(15,50);
+							}
+							while (Inventory.find(Var.arrowId).length > 0) {
+								Equipment.equip(Var.arrowId);
+							} 
+						}
 						return;
 					}
 					if (Var.superAttack > 0
 							&& Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
-						BankClass.withdraw(
+						Banking.withdraw(
 								Var.superAttack
 										- Inventory
 												.getCount(Potions.SUPER_ATTACK),
@@ -154,7 +165,7 @@ public class BankHandler {
 					}
 					if (Var.superStrength > 0
 							&& Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
-						BankClass.withdraw(
+						Banking.withdraw(
 								Var.superStrength
 										- Inventory
 												.getCount(Potions.SUPER_STRENGTH),
@@ -171,7 +182,7 @@ public class BankHandler {
 					if (Var.superDefence > 0
 							&& Inventory.getCount(Potions.SUPER_DEFENCE) < Var.superDefence) {
 						Var.status = "Withdrawing Super Defence";
-						BankClass.withdraw(
+						Banking.withdraw(
 								Var.superDefence
 										- Inventory
 												.getCount(Potions.SUPER_DEFENCE),
@@ -189,7 +200,7 @@ public class BankHandler {
 							.getCount(Potions.PRAYER_POTIONS)) {
 						if (Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion) {
 							Var.status = "Withdrawing Prayer Potions";
-							BankClass.withdraw((Var.prayerPotion - Inventory
+							Banking.withdraw((Var.prayerPotion - Inventory
 									.getCount(Potions.PRAYER_POTIONS)),
 									Potions.PRAYER_POTIONS);
 						} else {
@@ -209,7 +220,7 @@ public class BankHandler {
 					for (int i : Equipment.requiedEquipment()) {
 						if (!has(i) && i > 0) {
 							Var.status = "Withdrawing Equipment";
-							BankClass.withdraw(1, i);
+							Banking.withdraw(1, i);
 							Timing.waitCondition(new Condition() {
 
 								@Override
@@ -223,7 +234,7 @@ public class BankHandler {
 					}
 					if (getSpaceLeft() > 0) {
 						Var.status = "Withdrawing Food";
-						BankClass.withdraw(0, Var.food.getId());
+						Banking.withdraw(0, Var.food.getId());
 						Timing.waitCondition(new Condition() {
 
 							@Override

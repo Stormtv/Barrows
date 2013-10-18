@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Walking;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Painting;
@@ -21,7 +22,6 @@ import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
-import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.util.Timer;
 
@@ -65,6 +65,7 @@ public class Barrows extends Script implements Painting {
 	}
 
 	private void loop() {
+		Walking.walking_timeout = 500;
 		Mouse.setSpeed(General.random(250, 350));
 		try {
 
@@ -83,8 +84,10 @@ public class Barrows extends Script implements Painting {
 
 			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
-				Pathing.getToBarrows();
-				return;
+				if (Rooms.getRoom() == null) {
+					Pathing.getToBarrows();
+					return;
+				}
 			}
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()
 					&& !Var.lootedChest) {

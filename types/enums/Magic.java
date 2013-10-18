@@ -1,8 +1,11 @@
 package scripts.Barrows.types.enums;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
+import org.tribot.api.input.Keyboard;
+import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -14,7 +17,6 @@ import org.tribot.api2007.types.RSModel;
 
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.types.Brother.Brothers;
-import scripts.Barrows.util.BankClass;
 
 public class Magic {
 
@@ -118,22 +120,33 @@ public class Magic {
 			return false;
 		if (isAutocasting(s))
 			return true;
-
 		if (!GameTab.getOpen().equals(TABS.COMBAT)) {
-			GameTab.open(TABS.COMBAT);
-			General.sleep(500, 700);
-		}
-
-		if (Interfaces.get(90, 5) != null) {
-			if (Interfaces.get(90, 5).click("Spell")) {
-				General.sleep(700, 800);
+			Keyboard.pressFunctionKey(1);
+			for (int fail=0; fail<20 
+					&& !GameTab.getOpen().equals(TABS.COMBAT);fail++) {
+				General.sleep(15,50);
 			}
 		}
-		if (Interfaces.get(201, 2) != null) {
+		if (Interfaces.get(310, 16) != null) {
+			if (Interfaces.get(310, 16).click("Choose spell")) {
+				for (int fail=0; fail<20 
+						&& Interfaces.get(201,2)==null;fail++) {
+					General.sleep(50,75);
+				}
+			}
+		}
+		if (Interfaces.get(201, 2).getChild(s.getSecondInterfaceID()) != null) {
 			if (Interfaces.get(201, 2).getChild(s.getSecondInterfaceID())
 					.click(s.name)) {
-				General.sleep(700, 800);
-				GameTab.open(TABS.INVENTORY);
+				for (int fail=0; fail<20
+						&& Interfaces.get(201, 2).getChild(s.getSecondInterfaceID())!=null;fail++) {
+					General.sleep(50,75);
+				}
+				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+				for (int fail=0; fail<20 
+						&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
+					General.sleep(15,50);
+				}
 			}
 		}
 
@@ -191,7 +204,7 @@ public class Magic {
 								- Inventory.getCount(req[i][0]);
 						int count = Inventory.getAll().length;
 						if (need > 0 && !getStaffRunes().contains(req[i][0])) {
-							BankClass.withdraw(need, req[i][0]);
+							Banking.withdraw(need, req[i][0]);
 							for (int fail = 0;fail < 20 && Inventory.getAll().length == count;fail++){
 								General.sleep(50,100);
 							}

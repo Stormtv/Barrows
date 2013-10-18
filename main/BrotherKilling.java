@@ -20,6 +20,7 @@ import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
@@ -135,6 +136,7 @@ public class BrotherKilling {
 				GeneralMethods.click(target, "Attack");
 			}
 		}
+		Looting.loot(Var.arrowId);
 	}
 
 	private static void UpKeep() {
@@ -178,12 +180,16 @@ public class BrotherKilling {
 				Var.status = "Getting Ready to fight";
 				getReadyToFight(b);
 				Var.status = "Digging";
-				dig(b, false);
+				if (!BankHandler.needToBank()) {
+					dig(b, false);
+				}
 			} else {
 				Var.status = "Getting Ready for tunnels";
 				getReadyForTunnels();
 				Var.status = "Digging";
-				dig(b, true);
+				if (!BankHandler.needToBank()) {
+					dig(b, true);
+				}
 			}
 		}
 	}
@@ -282,6 +288,9 @@ public class BrotherKilling {
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();
 		}
+		while (Inventory.find(Var.arrowId).length > 0) {
+			Equipment.equip(Var.arrowId);
+		}
 	}
 	
 	private static void getReadyToFight(Brothers b) {
@@ -299,13 +308,16 @@ public class BrotherKilling {
 				General.sleep(50);
 			}
 		}
+		while (Inventory.find(Var.arrowId).length > 0) {
+			Equipment.equip(Var.arrowId);
+		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();
 		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
 			if (!Magic.isAutocasting(b.getSpell())) {
 				Var.status = "Activating auto casting";
-				for(int fsafe = 0; fsafe<3 && !Magic.isAutocasting(b.getSpell()); fsafe++) {
+				for(int fsafe = 0; fsafe<10 && !Magic.isAutocasting(b.getSpell()); fsafe++) {
 					Magic.autoCast(b.getSpell());
 				}
 			}

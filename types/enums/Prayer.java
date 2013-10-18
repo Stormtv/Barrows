@@ -83,6 +83,7 @@ public class Prayer {
 	}
 
 	public static void disable(Prayers b) {
+		Mouse.setSpeed(General.random(100,130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
 			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
@@ -100,7 +101,7 @@ public class Prayer {
 		}
 		if (Game.getUptext().contains(
 				"Deactivate " + b.getName())) {
-			GeneralMethods.leftClick(p);
+			Mouse.click(1);
 		}
 		for (int fsafe = 0; fsafe<20 && b.isActivated(); fsafe++){
 			General.sleep(40);
@@ -119,6 +120,7 @@ public class Prayer {
 	}
 
 	public static void activate(Prayers p) {
+		Mouse.setSpeed(General.random(100,130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
 			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
@@ -136,7 +138,7 @@ public class Prayer {
 		}
 		if (Game.getUptext().contains(
 				"Activate " + p.getName())) {
-			GeneralMethods.leftClick(a);
+			Mouse.click(1);
 		}
 		for (int fsafe = 0; fsafe<20 && !p.isActivated(); fsafe++){
 			General.sleep(40);
