@@ -130,13 +130,13 @@ public class BrotherKilling {
 			RSNPC target = aggressiveNPC();
 			if (target == null || target.isInCombat() && target.getHealth() == 0) {
 				b.setKilled(true);
+				Looting.loot(Var.arrowId);
 				return;
 			}
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {
 				GeneralMethods.click(target, "Attack");
 			}
-		}
-		Looting.loot(Var.arrowId);
+		}	
 	}
 
 	private static void UpKeep() {
@@ -287,6 +287,9 @@ public class BrotherKilling {
 		}
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
+			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+				General.sleep(50);
+			}
 		}
 	}
 	
@@ -307,6 +310,9 @@ public class BrotherKilling {
 		}
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
+			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+				General.sleep(50);
+			}
 		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();

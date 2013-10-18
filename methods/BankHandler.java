@@ -131,9 +131,11 @@ public class BankHandler {
 								return Inventory.getAll().length != count;
 							}
 						}, 3000);
-						Banking.close();
-						for (int fail=0;fail<20 && Banking.isBankScreenOpen();fail++){
-							General.sleep(50,75);
+						while (Inventory.getCount(Var.arrowId) > 0 && Banking.isBankScreenOpen()) {
+							Banking.close();
+							for (int fail=0;fail<20 && Banking.isBankScreenOpen();fail++){
+								General.sleep(50,75);
+							}
 						}
 						if (!Banking.isBankScreenOpen()) {
 							Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
