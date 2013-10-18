@@ -164,9 +164,10 @@ public class BrotherKilling {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea() != null) {
 					Var.status = "Walking to mound";
-					Mouse.setSpeed(General.random(100,150));
+					Mouse.setSpeed(General.random(100,130));
 					Walking.control_click = true;
-					Walking.walking_timeout = 20000;
+					Walking.walking_timeout = 1500;
+					General.sleep(200,350);
 					Walking.blindWalkTo(b.getDigArea().getRandomTile());
 					General.sleep(350, 500);
 					while (Player.isMoving()) {

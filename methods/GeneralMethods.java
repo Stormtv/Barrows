@@ -139,6 +139,7 @@ public class GeneralMethods {
 		if (!o.isOnScreen() || fail > 2) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
+				Var.status = "Walking to object";
 				Walking.control_click = true;
 				Walking.walkTo(tile);
 				General.sleep(250, 350);
@@ -152,6 +153,7 @@ public class GeneralMethods {
 				}
 				fail = 0;
 			} else {
+				Var.status = "ScreenWalking to object";
 				Camera.turnToTile(o);
 				if (!o.isOnScreen()) {
 					for (int i=0;i<5 && !o.isOnScreen();i++) {
@@ -167,11 +169,11 @@ public class GeneralMethods {
 			Camera.turnToTile(o);
 		}
 		if (fail > 3) {
-			General.println("Failed to click Object: "
-					+ o.getDefinition().getName() + "(" + o.getID() + ")");
 			if (minimap) {
+				Var.status = "Failed to Click: Walking to Object";
 				Walking.walkTo(o);
 			} else {
+				Var.status = "Failed to Click: Screenwalking to Object";
 				screenWalkTo(o);
 			}
 			return;
@@ -224,6 +226,9 @@ public class GeneralMethods {
 	public static void screenWalkTo(Positionable p) {
 		if (!Player.getPosition().equals(p)) {
 			Positionable target = getClosestVisibleTile(p);
+			if (target == null) {
+				return;
+			}
 			Var.targetTile = (RSTile) target;
 			Point i = Projection.tileToScreen(target, 0);
 			Mouse.move(i);
@@ -277,9 +282,6 @@ public class GeneralMethods {
 					closestTile = t;
 				}
 			}
-		}
-		if (closestTile == null) {
-			General.println("I AM A FUCKING IDIOT");
 		}
 		return closestTile;
 	}

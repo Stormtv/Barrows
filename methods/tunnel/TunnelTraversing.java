@@ -135,16 +135,22 @@ public class TunnelTraversing {
 				}
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
-					Var.status = "Clicking next door!";
-					GeneralMethods.clickObject(nextDoor[0], "Open", false, false);
-					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
-							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
-						General.sleep(10,15);
+					try {
+						Var.status = "Clicking next door!";
+						GeneralMethods.clickObject(nextDoor[0], "Open", false, false);
+						for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
+								&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
+							General.sleep(10,15);
+						}
+						Var.status = "Checking for puzzle";
+						if (TunnelPuzzle.isPuzzleScreenOpen()) {
+							TunnelPuzzle.solvePuzzle();
+						}
+						Var.status = "Checking for brother";
+						BrotherKilling.killBrotherInTunnel();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					if (TunnelPuzzle.isPuzzleScreenOpen()) {
-						TunnelPuzzle.solvePuzzle();
-					}
-					BrotherKilling.killBrotherInTunnel();
 				}
 			}
 		}
