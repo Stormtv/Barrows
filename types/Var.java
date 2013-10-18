@@ -28,6 +28,8 @@ public class Var {
 			new RSTile(3574, 3301, 0), new RSTile(3578, 3301, 0),
 			new RSTile(3578, 3297, 0), new RSTile(3574, 3297, 0) });
 
+	public static int trips = 0;
+	
 	public final static int SPADE_ID = 952;
 
 	public static final RSArea ahrimDig = new RSArea(new RSTile[] {
@@ -101,7 +103,6 @@ public class Var {
 
 	public static Point centerPoint;
 
-	public static int trips=0;
 
 	public static long startTime;
 	

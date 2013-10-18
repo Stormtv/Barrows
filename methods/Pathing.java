@@ -103,7 +103,7 @@ public class Pathing {
 	private static boolean goViaSwamp() {
 		Walking.control_click = true;
 		Walking.walking_timeout = 500;
-		Mouse.setSpeed(General.random(100,130));
+		Mouse.setSpeed(General.random(100, 130));
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
 		if (!warning()) {
@@ -130,7 +130,7 @@ public class Pathing {
 	}
 
 	public static void goToBank() {
-		Mouse.setSpeed(General.random(100,130));
+		Mouse.setSpeed(General.random(100, 130));
 		switch (Var.bankPath) {
 		case ECTOPHIAL:
 			walkFromEcto();
@@ -150,7 +150,8 @@ public class Pathing {
 					// TODO CHANGE INTERACTION STRINGS
 					RSObject[] altar = Objects.findNearest(30, ALTARS);
 					if (altar.length > 0) {
-						GeneralMethods.clickObject(altar[0], "Pray", false, false);
+						GeneralMethods.clickObject(altar[0], "Pray", false,
+								false);
 					}
 				} else {
 					RSObject[] portal = Objects.findNearest(30, PORTALS);
@@ -170,6 +171,7 @@ public class Pathing {
 			RSItem[] teletab = Inventory.find(8013);
 			if (teletab.length > 0) {
 				if (teletab[0].click("")) {
+					RSTile here = Player.getPosition();
 					Timing.waitCondition(new Condition() {
 
 						@Override
@@ -185,7 +187,8 @@ public class Pathing {
 							return Player.getAnimation() == -1;
 						}
 					}, 7000);
-
+					if (Player.getPosition() != here)
+						Var.trips++;
 				}
 			}
 		}
@@ -203,6 +206,7 @@ public class Pathing {
 			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
 			if (ectophial.length > 0) {
 				if (ectophial[0].click("")) {
+					RSTile here = Player.getPosition();
 					Timing.waitCondition(new Condition() {
 
 						@Override
@@ -218,6 +222,8 @@ public class Pathing {
 							return Player.getAnimation() == -1;
 						}
 					}, 7000);
+					if (Player.getPosition() != here)
+						Var.trips++;
 				}
 			}
 		}
@@ -232,7 +238,7 @@ public class Pathing {
 	}
 
 	public static void getToBarrows() {
-		Mouse.setSpeed(General.random(100,130));
+		Mouse.setSpeed(General.random(100, 130));
 		Walking.walking_timeout = 1000;
 		if (isInBarrows()) {
 			System.out.println("Return");
@@ -242,8 +248,10 @@ public class Pathing {
 			switch (Var.barrowsPath) {
 			case SWAMP:
 				goViaSwamp();
+				break;
 			case SHORTCUT:
 				goViaShortcut();
+				break;
 			}
 		}
 		if (isFromBoatToBarrows()) {
@@ -253,8 +261,8 @@ public class Pathing {
 	}
 
 	static void goViaShortcut() {
-		Walking.walking_timeout=2500;
-		Mouse.setSpeed(General.random(100,130));
+		Walking.walking_timeout = 2500;
+		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
@@ -284,7 +292,8 @@ public class Pathing {
 						RSObject[] wall = Objects.getAt(new RSTile(3480, 9836,
 								0));
 						if (wall.length > 0) {
-							GeneralMethods.clickObject(wall[0], "Search", true, false);
+							GeneralMethods.clickObject(wall[0], "Search", true,
+									false);
 						}
 					} else {
 						Walking.walkPath(pathUnderground);
@@ -298,7 +307,8 @@ public class Pathing {
 							.getAt(new RSTile(3502, 3431, 0));
 					if (bridge.length > 0
 							&& Player.getPosition().distanceTo(bridge[0]) < 15) {
-						GeneralMethods.clickObject(bridge[0], "Cross-bridge", true, false);
+						GeneralMethods.clickObject(bridge[0], "Cross-bridge",
+								true, false);
 						General.sleep(3000);
 						if (!PathFinding.canReach(new RSTile(3505, 3437, 0),
 								false)) {

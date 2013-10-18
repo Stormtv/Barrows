@@ -1,13 +1,22 @@
 package scripts.Barrows.methods.tunnel;
 
+import java.awt.Color;
+
 import org.tribot.api.General;
+import org.tribot.api.types.colour.Tolerance;
 import org.tribot.api2007.Interfaces;
+import org.tribot.api2007.Screen;
 import org.tribot.api2007.types.RSInterface;
 
 public class TunnelPuzzle {
 
 	public static boolean isPuzzleScreenOpen() {
-		return Interfaces.get(25,1) != null;
+		Color c = Screen.getColorAt(392, 86);
+		Color b = new Color(163, 157, 150);
+		return Interfaces.get(25, 1) != null
+				&& !Interfaces.get(25, 1).isHidden()
+				&& org.tribot.api.Screen.coloursMatch(b, c, new Tolerance(10));
+
 	}
 
 	private static int getPuzzle() {
@@ -36,8 +45,8 @@ public class TunnelPuzzle {
 			RSInterface answer = getAnswer();
 			if (answer != null) {
 				if (answer.click("Ok")) {
-					for (int fail=0;fail<20 && isPuzzleScreenOpen();fail++) {
-						General.sleep(40,50);
+					for (int fail = 0; fail < 20 && isPuzzleScreenOpen(); fail++) {
+						General.sleep(40, 50);
 					}
 					return true;
 				}

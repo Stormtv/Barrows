@@ -34,9 +34,11 @@ public class Barrows extends Script implements Painting {
 			"74M6T36MtK406Qe", "74M6T36MtK406Qe", "dZyv87g38A8Y8MC",
 			"F8uWE3LlzY0bW22", "3Oa6C4x0J85iI51", "cM4dfP7AnOC2fDA",
 			"n1M0zJ01g498U67", "LYi3dheq91jVvjn", "a1dCG1e68epU659",
-			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x" };
+			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x", "cba" };
 	String response;
 
+	public static double version = 0.3;
+	
 	public static Timer runTime = new Timer(0);
 
 	@Override

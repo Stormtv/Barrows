@@ -38,30 +38,31 @@ public class PaintHandler {
 		g.setColor(Color.WHITE);
 		g.setFont(font1);
 		g.drawString(Barrows.runTime.toElapsedString(), 90, 385);
-
-		g.drawString(formatNumber(Var.profit) + " ("
-				+ formatNumber(getPerHour(Var.profit, Barrows.runTime)) + " /hr)",
-				67, 409);
-		g.drawString("WIP", 65, 432);
-		g.drawString(Integer.toString(Var.chests)+" ("
-				+ formatNumber(getPerHour(Var.chests, Barrows.runTime))+" /hr)", 235, 432);
+		g.drawString(
+				formatNumber(Var.profit) + " ("
+						+ formatNumber(getPerHour(Var.profit, Barrows.runTime))
+						+ " /hr)", 67, 409);
+		g.drawString("" + Var.trips, 65, 432);
+		g.drawString(Integer.toString(Var.chests) + " ("
+				+ formatNumber(getPerHour(Var.chests, Barrows.runTime))
+				+ " /hr)", 235, 432);
 		g.drawString(getRoom(Rooms.getRoom()), 290, 385);
 		g.drawString(getRoom(Var.startingRoom), 290, 407);
 		g.setFont(font2);
-		if (Var.status!=null) {
+		if (Var.status != null) {
 			g.drawString(Var.status, 75, 456);
 		}
-		for(Brothers b : Brother.Brothers.values()){
-			if(b.isKilled()){
+		for (Brothers b : Brother.Brothers.values()) {
+			if (b.isKilled()) {
 				g.drawImage(skull, b.getX(), b.getY(), null);
 			}
-			if(b.isTunnel()){
+			if (b.isTunnel()) {
 				g.drawImage(tunnel, b.getX() + 30, b.getY(), null);
 			}
 		}
+		g.setFont(new Font("Arial", 0, 11));
+		g.drawString("v" + Barrows.version, 360, 337);
 	}
-	
-	
 
 	private static void debugPaint(Graphics g) {
 		final Color tRed = new Color(255, 0, 0, 100);
@@ -69,8 +70,8 @@ public class PaintHandler {
 		final Color tBlue = new Color(0, 0, 255, 100);
 
 		if (Var.debugObject != null && Var.debugObject.isOnScreen()
-				&& Var.centerPoint != null  && Var.debugObject.getModel() != null
-				) {
+				&& Var.centerPoint != null
+				&& Var.debugObject.getModel() != null) {
 			g.setColor(tRed);
 			g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
 			g.setColor(tYellow);
@@ -95,14 +96,13 @@ public class PaintHandler {
 		g.setColor(Color.RED);
 		g.drawString("wBarrows Beta", 5, 40);
 	}
-	
-	private static String getRoom(Rooms.TunnelRoom r){
-		if(r == null)
+
+	private static String getRoom(Rooms.TunnelRoom r) {
+		if (r == null)
 			return "None";
 		else
 			return r.toString();
 	}
-	
 
 	public static int getPerHour(int done, final Timer t) {
 		if (done == 0)
