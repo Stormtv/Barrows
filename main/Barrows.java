@@ -10,6 +10,7 @@ import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.Painting;
@@ -70,7 +71,8 @@ public class Barrows extends Script implements Painting {
 		try {
 
 			if (BankHandler.needToBank()
-					&& !Var.bankArea.contains(Player.getPosition())) {
+					&& !Var.bankArea.contains(Player.getPosition())
+					&& Player.getPosition().equals(new RSTile(3498,3380,1))) {
 				Var.status = "Heading to the bank";
 				Pathing.goToBank();
 				return;

@@ -26,7 +26,6 @@ import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.util.PriceItem;
@@ -101,8 +100,8 @@ public class GeneralMethods {
 	}
 
 	public static void clickObject(RSObject o, String option,
-			boolean minimapVisible) {
-		clickObject(o, option, 0, minimapVisible);
+			boolean minimapVisible, boolean safeClick) {
+		clickObject(o, option, 0, minimapVisible, safeClick);
 	}
 
 	public static boolean turnTilOnScreen(Positionable p) {
@@ -132,7 +131,7 @@ public class GeneralMethods {
 		return false;
 	}
 	
-	static void clickObject(RSObject o, String option, int fail, boolean minimap) {
+	static void clickObject(RSObject o, String option, int fail, boolean minimap, boolean safeClick) {
 		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()
 				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o)
 				)
@@ -144,12 +143,12 @@ public class GeneralMethods {
 				Walking.walkTo(tile);
 				General.sleep(250, 350);
 				while (Player.isMoving() && !o.isOnScreen()) {
-					turnTilOnScreen(tile);
+					General.sleep(15, 30);
 				}
-				while (Player.isMoving())
+				while (safeClick && Player.isMoving())
 					General.sleep(30, 50);
 				if (!o.isOnScreen()) {
-					clickObject(o, option, fail + 1, minimap);
+					clickObject(o, option, fail + 1, minimap, safeClick);
 				}
 				fail = 0;
 			} else {
@@ -160,7 +159,7 @@ public class GeneralMethods {
 					}
 				}
 				if (!o.isOnScreen()) {
-					clickObject(o, option, fail + 1, minimap);
+					clickObject(o, option, fail + 1, minimap, safeClick);
 				}
 			}
 		}
@@ -177,7 +176,7 @@ public class GeneralMethods {
 			}
 			return;
 		}
-		while(Player.isMoving()) {
+		while(safeClick && Player.isMoving()) {
 			General.sleep(15,30);
 		}
 		Var.debugObject = o;
@@ -215,9 +214,9 @@ public class GeneralMethods {
 				return;
 			} else if (ChooseOption.isOpen()) {
 				ChooseOption.close();
-				clickObject(o, option, fail + 1, minimap);
+				clickObject(o, option, fail + 1, minimap, safeClick);
 			} else {
-				clickObject(o, option, fail + 1, minimap);
+				clickObject(o, option, fail + 1, minimap, safeClick);
 			}
 		}
 	}
@@ -257,11 +256,7 @@ public class GeneralMethods {
 					&& !Player.getPosition().equals(target)
 					&& Player.getPosition().distanceTo(target) > 2
 					&& Player.getPosition().distanceTo(p) > target.getPosition().distanceTo(p)) {
-				if (Rooms.InTunnel()) {
-					General.sleep(20,50);
-				} else {
-					turnTilOnScreen(p);
-				}
+				General.sleep(20,50);
 			}
 		}
 	}
@@ -283,14 +278,17 @@ public class GeneralMethods {
 				}
 			}
 		}
+		if (closestTile == null) {
+			General.println("I AM A FUCKING IDIOT");
+		}
 		return closestTile;
 	}
 
 	private static ArrayList<RSTile> getViableTiles() {
 		ArrayList<RSTile> tiles = new ArrayList<RSTile>();
 		RSTile home = Player.getPosition();
-		for (int x = home.getX()-20; x <= home.getX()+20;x++) {
-			for (int y = home.getY()-20; y<=home.getY()+20;y++) {
+		for (int x = home.getX()-10; x <= home.getX()+10;x++) {
+			for (int y = home.getY()-10; y<=home.getY()+10;y++) {
 				RSTile testTile = new RSTile(x,y);
 				if (testTile.isOnScreen()
 						&& PathFinding.canReach(testTile, false)

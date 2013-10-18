@@ -63,7 +63,7 @@ public class TunnelTraversing {
 			 climbingTool = Objects.getAt(Var.startingRoom.getExitTile())[0];
 		}
 		if (climbingTool!=null) {
-			GeneralMethods.clickObject(climbingTool, "Climb", false);
+			GeneralMethods.clickObject(climbingTool, "Climb", false, false);
 			for (int i=0; i < 40 && !BrotherKilling.isInCrypt(Tunnel.whosCrypt());i++) {
 				General.sleep(10,20);
 			}
@@ -75,14 +75,14 @@ public class TunnelTraversing {
 		RSObject[] chest = Objects.find(10, 20973);
 		if (chest.length > 0) {
 			if (chest[0].getModel().getPoints().length == 606) {
-				GeneralMethods.clickObject(chest[0], "Open", false);
+				GeneralMethods.clickObject(chest[0], "Open", false, true);
 				BrotherKilling.killBrotherInTunnel();
 			} else {
 				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
 					price += GeneralMethods.getPrice(i.getID()) * i.getStack();
 				}
-				GeneralMethods.clickObject(chest[0], "Search", false);
+				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
 				Var.lootedChest = true;
 				Looting.loot(Var.lootIDs);
@@ -106,7 +106,7 @@ public class TunnelTraversing {
 			if (nextDoor.length > 0) {
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
-					GeneralMethods.clickObject(nextDoor[0], "Open", false);
+					GeneralMethods.clickObject(nextDoor[0], "Open", false, false);
 					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
 						General.sleep(10,15);
@@ -156,7 +156,7 @@ public class TunnelTraversing {
 				if (nextDoor[0].isOnScreen()) {
 					curRoom = Rooms.getRoom();
 					General.println("Next door is on screen proceeding to click object");
-					GeneralMethods.clickObject(nextDoor[0], "Open", false);
+					GeneralMethods.clickObject(nextDoor[0], "Open", false, false);
 					for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
 						General.sleep(10,15);

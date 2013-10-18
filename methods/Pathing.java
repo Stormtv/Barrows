@@ -150,12 +150,12 @@ public class Pathing {
 					// TODO CHANGE INTERACTION STRINGS
 					RSObject[] altar = Objects.findNearest(30, ALTARS);
 					if (altar.length > 0) {
-						GeneralMethods.clickObject(altar[0], "Pray", false);
+						GeneralMethods.clickObject(altar[0], "Pray", false, false);
 					}
 				} else {
 					RSObject[] portal = Objects.findNearest(30, PORTALS);
 					if (portal.length > 0) {
-						GeneralMethods.clickObject(portal[0], "", false);
+						GeneralMethods.clickObject(portal[0], "", false, false);
 						Timing.waitCondition(new Condition() {
 
 							@Override
@@ -263,7 +263,7 @@ public class Pathing {
 			if (trapdoor.length > 0
 					&& Player.getPosition().distanceTo(trapdoor[0]) < 15) {
 				General.println("Trapdoor length is > 0");
-				GeneralMethods.clickObject(trapdoor[0], "Open", true);
+				GeneralMethods.clickObject(trapdoor[0], "Open", true, false);
 			} else {
 				General.println("Trapdoor is far away walking closer");
 				Walking.walkTo(new RSTile(3506, 3469, 0));
@@ -274,7 +274,7 @@ public class Pathing {
 				RSObject[] door = Objects.getAt(new RSTile(3500, 9812, 0));
 				if (door.length > 0
 						&& Player.getPosition().distanceTo(door[0]) < 20) {
-					GeneralMethods.clickObject(door[0], "Open", true);
+					GeneralMethods.clickObject(door[0], "Open", true, false);
 					for (int fail = 0; fail < 50
 							&& !Player.getPosition().equals(
 									new RSTile(3509, 3449, 0)); fail++) {
@@ -288,7 +288,7 @@ public class Pathing {
 						RSObject[] wall = Objects.getAt(new RSTile(3480, 9836,
 								0));
 						if (wall.length > 0) {
-							GeneralMethods.clickObject(wall[0], "Search", true);
+							GeneralMethods.clickObject(wall[0], "Search", true, false);
 						}
 					} else {
 						Walking.walkPath(pathUnderground);
@@ -304,7 +304,7 @@ public class Pathing {
 					if (bridge.length > 0
 							&& Player.getPosition().distanceTo(bridge[0]) < 15) {
 						General.println("Bridge Length > 0");
-						GeneralMethods.clickObject(bridge[0], "Cross", true);
+						GeneralMethods.clickObject(bridge[0], "Cross", true, false);
 						General.sleep(3000);
 						if (!PathFinding.canReach(new RSTile(3505, 3437, 0),
 								false)) {

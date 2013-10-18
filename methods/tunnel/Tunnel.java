@@ -20,7 +20,7 @@ public class Tunnel {
 			if (b.isTunnel()) {
 				if (Objects.find(10, b.getStair()).length > 0) {
 					RSObject stair = Objects.find(10, b.getStair())[0];
-					GeneralMethods.clickObject(stair, "Climb", false);
+					GeneralMethods.clickObject(stair, "Climb", false, false);
 					for (int fSafe = 0; fSafe < 20
 							&& Player.getPosition().getPlane() == 3; fSafe++) {
 						General.sleep(75);
@@ -39,7 +39,7 @@ public class Tunnel {
 				if (BrotherKilling.isInCrypt(b)) {
 					RSObject[] sarco = Objects.find(20, b.getCryptID());
 					if (Interfaces.get(210)==null && Interfaces.get(228)==null) {
-						GeneralMethods.clickObject(sarco[0], "Search", false);
+						GeneralMethods.clickObject(sarco[0], "Search", false, false);
 					}
 					for (int fail=0; fail < 20 && Interfaces.get(210, 1) ==null;fail++) {
 						General.sleep(10,21);
