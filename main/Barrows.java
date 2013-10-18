@@ -121,6 +121,10 @@ public class Barrows extends Script implements Painting {
 				BrotherKilling.reset();
 				return;
 			}
+			if (!Pathing.isInBarrows() && Pathing.isCloseToBarrows()) {
+				Pathing.walkToCenterOfBarrows();
+				return;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

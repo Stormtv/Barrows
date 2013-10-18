@@ -496,4 +496,17 @@ public class Pathing {
 		if (isBuildingInterfaceOpen())
 			setBuildingMode();
 	}
+
+	public static boolean isCloseToBarrows() {
+		for (RSTile r : Var.barrowsArea.getTiles()) {
+			if (Player.getPosition().distanceTo(r) < 5) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void walkToCenterOfBarrows() {
+		Walking.blindWalkTo(new RSTile(3563,3288,0));
+	}
 }
