@@ -72,7 +72,8 @@ public class Barrows extends Script implements Painting {
 
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
-					&& !Player.getPosition().equals(new RSTile(3498,3380,1))) {
+					&& !Player.getPosition().equals(new RSTile(3498,3380,1))
+					&& !Player.getPosition().equals(new RSTile(3522,3285,0))) {
 				Var.status = "Heading to the bank";
 				Pathing.goToBank();
 				return;

@@ -87,7 +87,7 @@ public class BrotherKilling {
 		RSObject[] coffin = Objects.find(10, bro.getCryptID());
 		if (coffin.length > 0) {
 			Var.status = "Searching the coffin";
-			GeneralMethods.clickObject(coffin[0], "Search", false, false);
+			GeneralMethods.clickObject(coffin[0], "Search", false, true);
 			Var.status = "Searched the coffin";
 			General.sleep(350,500);
 			while(Player.isMoving()) {
@@ -147,7 +147,7 @@ public class BrotherKilling {
 	private static void exitCrypt(Brothers b) {
 		if (Objects.find(10, b.getStair()).length > 0) {
 			RSObject stair = Objects.find(10, b.getStair())[0];
-			GeneralMethods.clickObject(stair, "Climb", false, false);
+			GeneralMethods.clickObject(stair, "Climb", false, true);
 			for (int fSafe = 0; fSafe < 20
 					&& Player.getPosition().getPlane() == 3; fSafe++) {
 				General.sleep(75);
@@ -180,13 +180,16 @@ public class BrotherKilling {
 				Var.status = "Getting Ready to fight";
 				getReadyToFight(b);
 				Var.status = "Digging";
-				dig(b, false);
-				
+				if (!BankHandler.needToBank()) {
+					dig(b, false);
+				}	
 			} else {
 				Var.status = "Getting Ready for tunnels";
 				getReadyForTunnels();
 				Var.status = "Digging";
-				dig(b, true);
+				if (!BankHandler.needToBank()) {
+					dig(b, true);
+				}
 			}
 		}
 	}

@@ -258,19 +258,15 @@ public class Pathing {
 		Var.status = "Using shortcut to get to barrows";
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
-			General.println("I am near the trap door");
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
 			if (trapdoor.length > 0
 					&& Player.getPosition().distanceTo(trapdoor[0]) < 15) {
-				General.println("Trapdoor length is > 0");
 				GeneralMethods.clickObject(trapdoor[0], "Open", true, false);
 			} else {
-				General.println("Trapdoor is far away walking closer");
 				Walking.walkTo(new RSTile(3506, 3469, 0));
 			}
 		} else {
 			if (isUnderground()) {
-				General.println("I am underground");
 				RSObject[] door = Objects.getAt(new RSTile(3500, 9812, 0));
 				if (door.length > 0
 						&& Player.getPosition().distanceTo(door[0]) < 20) {
@@ -295,7 +291,6 @@ public class Pathing {
 					}
 				}
 			} else {
-				General.println("After Shortcut Before Boat");
 				if (new RSTile(3505, 3437, 0).distanceTo(Player.getRSPlayer()) < 15
 						&& PathFinding.canReach(new RSTile(3505, 3437, 0),
 								false)) {
@@ -303,8 +298,7 @@ public class Pathing {
 							.getAt(new RSTile(3502, 3431, 0));
 					if (bridge.length > 0
 							&& Player.getPosition().distanceTo(bridge[0]) < 15) {
-						General.println("Bridge Length > 0");
-						GeneralMethods.clickObject(bridge[0], "Cross", true, false);
+						GeneralMethods.clickObject(bridge[0], "Cross-bridge", true, false);
 						General.sleep(3000);
 						if (!PathFinding.canReach(new RSTile(3505, 3437, 0),
 								false)) {
@@ -315,18 +309,14 @@ public class Pathing {
 							}
 						}
 					} else {
-						General.println("Bridge far away walking to it");
 						GeneralMethods.enableRun();
 						Walking.walkTo(new RSTile(3505, 3437, 0));
 						GeneralMethods.disableRun();
 					}
 				} else {
-					General.println("After Bridge area");
 					if (canEnterBoat()) {
-						General.println("Entering a boat");
 						enterBoat();
 					} else {
-						General.println("Walking path to boat from shortcut");
 						GeneralMethods.enableRun();
 						Walking.walkPath(pathToBoatFromShortcut);
 						GeneralMethods.disableRun();

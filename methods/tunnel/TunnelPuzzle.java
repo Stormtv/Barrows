@@ -31,13 +31,11 @@ public class TunnelPuzzle {
 	}
 
 	public static boolean solvePuzzle() {
-		long time = System.currentTimeMillis();
 		General.println("solving puzzle");
 		if (isPuzzleScreenOpen()) {
 			RSInterface answer = getAnswer();
 			if (answer != null) {
 				if (answer.click("Ok")) {
-					General.println("Solved in: "+(System.currentTimeMillis()-time)+"ms");
 					for (int fail=0;fail<20 && isPuzzleScreenOpen();fail++) {
 						General.sleep(40,50);
 					}

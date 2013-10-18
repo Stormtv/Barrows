@@ -46,7 +46,7 @@ public class Food {
 
 	public static void eat() {
 		if((Skills.getActualLevel(Skills.SKILLS.HITPOINTS) - Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)) >= Var.food.getHealAmount()) {
-			if (!(GameTab.getOpen() == TABS.INVENTORY)) {
+			if (GameTab.getOpen() != TABS.INVENTORY) {
 				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
 				for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 					General.sleep(15);
