@@ -174,6 +174,7 @@ public class GeneralMethods {
 				Var.status = "Failed to Click: Screenwalking to Object";
 				screenWalkTo(o);
 			}
+			Var.status = "Failed to Click";
 			return;
 		}
 		while (safeClick && Player.isMoving()) {

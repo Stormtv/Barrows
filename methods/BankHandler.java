@@ -151,6 +151,7 @@ public class BankHandler {
 					}
 					if (Var.superAttack > 0
 							&& Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
+						Var.status = "Withdrawing Super Attack";
 						Banking.withdraw(
 								Var.superAttack
 										- Inventory
@@ -167,6 +168,7 @@ public class BankHandler {
 					}
 					if (Var.superStrength > 0
 							&& Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
+						Var.status = "Withdrawing Super Strength";
 						Banking.withdraw(
 								Var.superStrength
 										- Inventory
