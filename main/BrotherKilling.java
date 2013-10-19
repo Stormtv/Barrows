@@ -209,11 +209,13 @@ public class BrotherKilling {
 			Var.status = "Found Brother in Tunnel";
 			attackMob(target);
 			CombatManager(bro);
-			Var.status = "Disabling Prayer";
-			Prayer.disableAllPrayers();
-			Var.status = "Switching back to tunnel gear";
-			bro.setKilled(true);
-			getReadyForTunnels();
+			if (!BankHandler.needToBank()) {
+				Var.status = "Disabling Prayer";
+				Prayer.disableAllPrayers();
+				Var.status = "Switching back to tunnel gear";
+				bro.setKilled(true);
+				getReadyForTunnels();
+			}
 			return true;
 		} else {
 			Var.status = "No Brother spawned";
@@ -286,6 +288,8 @@ public class BrotherKilling {
 			for (int i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
+				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
+					Var.status = "Unable to find Equipment ("+i+")";
 				}
 			}
 			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
@@ -317,6 +321,8 @@ public class BrotherKilling {
 			for (int i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
+				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
+					Var.status = "Unable to find Equipment ("+i+")";
 				}
 			}
 			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
