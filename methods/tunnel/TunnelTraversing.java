@@ -17,14 +17,15 @@ import scripts.Barrows.types.enums.Food;
 public class TunnelTraversing {
 
 	public static void traverseTunnel() {
-		if (Var.startingRoom==null) {
+		if (Var.startingRoom == null) {
 			Rooms.TunnelRoom room = Rooms.getRoom();
-			if (room!=null && room.getExitTile()!=null
+			if (room != null
+					&& room.getExitTile() != null
 					&& Objects.getAt(room.getExitTile()) != null
 					&& Objects.getAt(room.getExitTile()).length > 0
-					&& Objects.getAt(room.getExitTile())[0]
-							.getModel().getPoints().length > 0){
-				Var.startingRoom = room; 
+					&& Objects.getAt(room.getExitTile())[0].getModel()
+							.getPoints().length > 0) {
+				Var.startingRoom = room;
 			} else {
 				return;
 			}
@@ -37,14 +38,14 @@ public class TunnelTraversing {
 					if (Rooms.getRoom() != null
 							&& Rooms.getRoom().equals(Var.startingRoom)) {
 						climbLadder();
-					} else if (Rooms.getRoom()!=null) {
+					} else if (Rooms.getRoom() != null) {
 						tunnelWalkTo(Var.startingRoom);
 					}
 				} else {
 					if (Rooms.getRoom() != null
 							&& Rooms.getRoom().equals(Rooms.TunnelRoom.CC)) {
 						openChest();
-					} else if (Rooms.getRoom()!=null) {
+					} else if (Rooms.getRoom() != null) {
 						tunnelWalkTo(Rooms.TunnelRoom.CC);
 					}
 				}
@@ -53,14 +54,15 @@ public class TunnelTraversing {
 	}
 
 	private static void climbLadder() {
-		RSObject climbingTool=null;
-		if (Objects.getAt(Var.startingRoom.getExitTile()).length>0) {
-			 climbingTool = Objects.getAt(Var.startingRoom.getExitTile())[0];
+		RSObject climbingTool = null;
+		if (Objects.getAt(Var.startingRoom.getExitTile()).length > 0) {
+			climbingTool = Objects.getAt(Var.startingRoom.getExitTile())[0];
 		}
-		if (climbingTool!=null) {
+		if (climbingTool != null) {
 			GeneralMethods.clickObject(climbingTool, "Climb", false, false);
-			for (int i=0; i < 40 && !BrotherKilling.isInCrypt(Tunnel.whosCrypt());i++) {
-				General.sleep(10,20);
+			for (int i = 0; i < 40
+					&& !BrotherKilling.isInCrypt(Tunnel.whosCrypt()); i++) {
+				General.sleep(10, 20);
 			}
 		}
 	}
@@ -83,9 +85,12 @@ public class TunnelTraversing {
 				Looting.loot(Var.lootIDs);
 				int finalPrice = 0;
 				for (RSItem i : Inventory.getAll()) {
-					finalPrice += GeneralMethods.getPrice(i.getID()) * i.getStack();
+					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
+						Var.pieces++;
+					finalPrice += GeneralMethods.getPrice(i.getID())
+							* i.getStack();
 				}
-				Var.profit += finalPrice-price;
+				Var.profit += finalPrice - price;
 				Var.chests += 1;
 			}
 		}
@@ -93,8 +98,7 @@ public class TunnelTraversing {
 
 	static boolean isAtRoom(TunnelRoom t) {
 		TunnelRoom mine = Rooms.getRoom();
-		return mine != null && t != null
-				&& t.equals(mine);
+		return mine != null && t != null && t.equals(mine);
 	}
 
 	public static void tunnelWalkTo(TunnelRoom r) {
@@ -113,21 +117,19 @@ public class TunnelTraversing {
 					if (Rooms.InTunnel()) {
 						Var.status = "Tunnel Walking";
 						Camera.setCameraAngle(General.random(90, 99));
-						for (int i =0; i<10
-								&& nextDoor != null
+						for (int i = 0; i < 10 && nextDoor != null
 								&& nextDoor.length > 0
 								&& curRoom.equals(Rooms.getRoom())
-								&& !nextDoor[0].isOnScreen();i++) {
+								&& !nextDoor[0].isOnScreen(); i++) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 						Var.status = "Finished Walking";
 					} else {
-						Var.status="Screen walking";			
-						for (int i=0; i< 10
-								&& nextDoor != null
+						Var.status = "Screen walking";
+						for (int i = 0; i < 10 && nextDoor != null
 								&& nextDoor.length > 0
 								&& curRoom.equals(Rooms.getRoom())
-								&& !nextDoor[0].isOnScreen();i++) {
+								&& !nextDoor[0].isOnScreen(); i++) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 						Var.status = "Finished Walking";
@@ -137,10 +139,13 @@ public class TunnelTraversing {
 					curRoom = Rooms.getRoom();
 					try {
 						Var.status = "Clicking next door!";
-						GeneralMethods.clickObject(nextDoor[0], "Open", false, false);
-						for (int i = 0; i < 200 && !TunnelPuzzle.isPuzzleScreenOpen()
-								&& (curRoom==null || curRoom.equals(Rooms.getRoom()));i++) {
-							General.sleep(10,15);
+						GeneralMethods.clickObject(nextDoor[0], "Open", false,
+								false);
+						for (int i = 0; i < 200
+								&& !TunnelPuzzle.isPuzzleScreenOpen()
+								&& (curRoom == null || curRoom.equals(Rooms
+										.getRoom())); i++) {
+							General.sleep(10, 15);
 						}
 						Var.status = "Checking for puzzle";
 						if (TunnelPuzzle.isPuzzleScreenOpen()) {

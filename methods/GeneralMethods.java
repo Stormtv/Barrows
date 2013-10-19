@@ -68,7 +68,6 @@ public class GeneralMethods {
 		return false;
 	}
 
-
 	// Finds average points in a Point[] use offset to make it random
 	static Point getAverage(Point[] pointArray, int offset) {
 		int averagex = 0;
@@ -111,7 +110,7 @@ public class GeneralMethods {
 			return true;
 		}
 		int cAngle = Camera.getCameraRotation();
-		int angle = 180 + Camera.getTileAngle((Positionable)p.getPosition());
+		int angle = 180 + Camera.getTileAngle((Positionable) p.getPosition());
 		int dir = cAngle - angle;
 		if (Math.abs(dir) <= 190 && Math.abs(dir) >= 180) {
 			return true;
@@ -120,7 +119,6 @@ public class GeneralMethods {
 				+ ((dir > 0 ^ Math.abs(dir) > 180) ? 10 : -10));
 		return false;
 	}
-	
 
 	private static boolean isObjectValid(RSObject o) {
 		for (RSObject a : Objects.getAt((Positionable) o.getPosition())) {
@@ -130,11 +128,11 @@ public class GeneralMethods {
 		}
 		return false;
 	}
-	
-	static void clickObject(RSObject o, String option, int fail, boolean minimap, boolean safeClick) {
+
+	static void clickObject(RSObject o, String option, int fail,
+			boolean minimap, boolean safeClick) {
 		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()
-				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o)
-				)
+				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o))
 			return;
 		if (!o.isOnScreen() || fail > 2) {
 			RSTile tile = o.getPosition();
@@ -156,7 +154,7 @@ public class GeneralMethods {
 				Var.status = "ScreenWalking to object";
 				Camera.turnToTile(o);
 				if (!o.isOnScreen()) {
-					for (int i=0;i<5 && !o.isOnScreen();i++) {
+					for (int i = 0; i < 5 && !o.isOnScreen(); i++) {
 						screenWalkTo(o);
 					}
 				}
@@ -178,11 +176,11 @@ public class GeneralMethods {
 			}
 			return;
 		}
-		while(safeClick && Player.isMoving()) {
-			General.sleep(15,30);
+		while (safeClick && Player.isMoving()) {
+			General.sleep(15, 30);
 		}
 		Var.debugObject = o;
-		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(),0);
+		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
 		Mouse.move(p);
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
@@ -232,13 +230,14 @@ public class GeneralMethods {
 			Var.targetTile = (RSTile) target;
 			Point i = Projection.tileToScreen(target, 0);
 			Mouse.move(i);
-			for (int fSafe = 0; fSafe < 15 && !Game.getUptext().contains("Walk"); fSafe++)
+			for (int fSafe = 0; fSafe < 15
+					&& !Game.getUptext().contains("Walk"); fSafe++)
 				General.sleep(5, 10);
 			if (Game.getUptext().contains("Walk")) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				Mouse.click(1);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-				for (int fail=0;fail<20 && !Player.isMoving();fail++) {
+				for (int fail = 0; fail < 20 && !Player.isMoving(); fail++) {
 					General.sleep(12, 18);
 				}
 			} else {
@@ -249,35 +248,34 @@ public class GeneralMethods {
 					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 					ChooseOption.select("Walk");
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-					for (int fail=0;fail<20 && !Player.isMoving();fail++) {
+					for (int fail = 0; fail < 20 && !Player.isMoving(); fail++) {
 						General.sleep(12, 18);
 					}
 				} else if (ChooseOption.isOpen()) {
 					ChooseOption.close();
 				}
 			}
-			while (Player.isMoving() 
+			while (Player.isMoving()
 					&& !p.getPosition().isOnScreen()
 					&& !Player.getPosition().equals(target)
 					&& Player.getPosition().distanceTo(target) > 2
-					&& Player.getPosition().distanceTo(p) > target.getPosition().distanceTo(p)) {
-				General.sleep(20,50);
+					&& Player.getPosition().distanceTo(p) > target
+							.getPosition().distanceTo(p)) {
+				General.sleep(20, 50);
 			}
 		}
 	}
-	
+
 	private static Positionable getClosestVisibleTile(Positionable p) {
 		RSTile closestTile = null;
 		RSTile home = Player.getPosition();
 		for (RSTile t : getViableTiles()) {
-			if (closestTile==null) {
-				if (!t.equals(home)
-						&& t.distanceTo(p) < home.distanceTo(p)) {
+			if (closestTile == null) {
+				if (!t.equals(home) && t.distanceTo(p) < home.distanceTo(p)) {
 					closestTile = t;
 				}
 			} else {
-				if (!t.equals(home)
-						&& t.distanceTo(p) < home.distanceTo(p)
+				if (!t.equals(home) && t.distanceTo(p) < home.distanceTo(p)
 						&& closestTile.distanceTo(p) > t.distanceTo(p)) {
 					closestTile = t;
 				}
@@ -289,9 +287,9 @@ public class GeneralMethods {
 	private static ArrayList<RSTile> getViableTiles() {
 		ArrayList<RSTile> tiles = new ArrayList<RSTile>();
 		RSTile home = Player.getPosition();
-		for (int x = home.getX()-10; x <= home.getX()+10;x++) {
-			for (int y = home.getY()-10; y<=home.getY()+10;y++) {
-				RSTile testTile = new RSTile(x,y);
+		for (int x = home.getX() - 10; x <= home.getX() + 10; x++) {
+			for (int y = home.getY() - 10; y <= home.getY() + 10; y++) {
+				RSTile testTile = new RSTile(x, y);
 				if (testTile.isOnScreen()
 						&& PathFinding.canReach(testTile, false)
 						&& PathFinding.isTileWalkable(testTile)
@@ -318,7 +316,7 @@ public class GeneralMethods {
 
 	public static boolean click(RSNPC m, String option) {
 		Mouse.setSpeed(500);
-		if (m.isValid() && m.getModel()!=null) {
+		if (m.isValid() && m.getModel() != null) {
 			if (!m.isOnScreen()) {
 				Camera.turnToTile(m);
 			}
@@ -386,8 +384,8 @@ public class GeneralMethods {
 			}
 		}
 	}
-	
-	public static int getPrice(int id){
+
+	public static int getPrice(int id) {
 		if (Var.priceTable.containsKey(id)) {
 			return Var.priceTable.get(id);
 		} else {
@@ -395,50 +393,48 @@ public class GeneralMethods {
 		}
 	}
 
-	private static boolean groundItemCheck(RSGroundItem g)
-	{
-		for (RSGroundItem a : GroundItems.getAt(g))
-		{
-			if (a.getID() == g.getID())
-			{
+	private static boolean groundItemCheck(RSGroundItem g) {
+		for (RSGroundItem a : GroundItems.getAt(g)) {
+			if (a.getID() == g.getID()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public static void enableRun()
-	{
+
+	public static void enableRun() {
 		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 	}
 
-	public static void disableRun()
-	{
+	public static void disableRun() {
 		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 	}
-	
-	public static void leftClick(RSGroundItem n)
-	{
-		try
-		{
+
+	public static boolean arrayContains(int array[], int id) {
+		for (int i : array) {
+			if (i == id)
+				return true;
+		}
+		return false;
+	}
+
+	public static void leftClick(RSGroundItem n) {
+		try {
 			if (!groundItemCheck(n))
 				return;
 			Var.status = "Looting: " + n.getDefinition().getName();
 			Mouse.setSpeed(General.random(110, 120));
-			if (!n.isOnScreen())
-			{
+			if (!n.isOnScreen()) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				Walking.blindWalkTo(n);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				General.sleep(250, 350);
-				while (Player.isMoving())
-				{
+				while (Player.isMoving()) {
 					General.sleep(20, 30);
 				}
 			}
-			if (n.getPosition().distanceTo(Player.getPosition()) > 8)
-			{
-				
+			if (n.getPosition().distanceTo(Player.getPosition()) > 8) {
+
 				enableRun();
 				Walking.blindWalkTo(n.getPosition());
 				disableRun();
@@ -452,20 +448,17 @@ public class GeneralMethods {
 			General.sleep(250, 350);
 			while (Player.isMoving())
 				General.sleep(40);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public static String lastMessage() {
 		try {
 			if (Interfaces.get(137) != null) {
-				for (int i = Interfaces.get(137,2).getChildren().length - 1; i > 0; i--) {
-					if (Interfaces.get(137,2).getChildren()[i].getText() != "") {
-						return Interfaces.get(137,2).getChildren()[i]
+				for (int i = Interfaces.get(137, 2).getChildren().length - 1; i > 0; i--) {
+					if (Interfaces.get(137, 2).getChildren()[i].getText() != "") {
+						return Interfaces.get(137, 2).getChildren()[i]
 								.getText();
 					}
 				}
@@ -474,5 +467,5 @@ public class GeneralMethods {
 		}
 		return "";
 	}
-	
+
 }
