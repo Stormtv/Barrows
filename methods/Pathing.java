@@ -294,6 +294,7 @@ public class Pathing {
 						if (wall.length > 0) {
 							GeneralMethods.clickObject(wall[0], "Search", true,
 									false);
+							General.sleep(1500,2500);//TODO Dynamic Sleep
 						}
 					} else {
 						Walking.walkPath(pathUnderground);

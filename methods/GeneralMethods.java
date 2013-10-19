@@ -458,4 +458,21 @@ public class GeneralMethods {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public static String lastMessage() {
+		try {
+			if (Interfaces.get(137) != null) {
+				for (int i = Interfaces.get(137,2).getChildren().length - 1; i > 0; i--) {
+					if (Interfaces.get(137,2).getChildren()[i].getText() != "") {
+						return Interfaces.get(137,2).getChildren()[i]
+								.getText();
+					}
+				}
+			}
+		} catch (Exception e) {
+		}
+		return "";
+	}
+	
 }

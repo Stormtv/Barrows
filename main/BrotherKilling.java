@@ -276,6 +276,12 @@ public class BrotherKilling {
 
 	private static void getReadyForTunnels() {
 		dropVials();
+		while (Inventory.find(Var.arrowId).length > 0) {
+			Equipment.equip(Var.arrowId);
+			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+				General.sleep(50);
+			}
+		}
 		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
 			for (int i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
@@ -285,37 +291,42 @@ public class BrotherKilling {
 			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
 				General.sleep(50);
 			}
+			if (!Equipment.isAllEquiped(Var.tunnelEquipment) && GeneralMethods.lastMessage().equalsIgnoreCase("you don't have enough free inventory space to do that.")) {
+				if (Inventory.getCount(Var.food.getId()) > 0 && Inventory.isFull()) {
+					Food.eat();
+				}
+			}
 		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();
 		}
+	}
+	
+	private static void getReadyToFight(Brothers b) {
+		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
+			Potions.fillPrayer();
+		}
+		dropVials();
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
 			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
 				General.sleep(50);
 			}
 		}
-	}
-	
-	private static void getReadyToFight(Brothers b) {
-		dropVials();
-		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
-			Potions.fillPrayer();
-		}
-		while (!Equipment.isAllEquiped(b.getEquipment())) {
-			for (int i : b.getEquipment()) {
+		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
+			for (int i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				}
 			}
-			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(b.getEquipment()); fsafe++) {
+			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
 				General.sleep(50);
 			}
-		}
-		while (Inventory.find(Var.arrowId).length > 0) {
-			Equipment.equip(Var.arrowId);
-			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
-				General.sleep(50);
+			if (!Equipment.isAllEquiped(Var.tunnelEquipment) 
+					&& GeneralMethods.lastMessage().equalsIgnoreCase("you don't have enough free inventory space to do that.")) {
+				if (Inventory.getCount(Var.food.getId()) > 0 && Inventory.isFull()) {
+					Food.eat();
+				}
 			}
 		}
 		if (Food.canEatWithoutWaste()) {

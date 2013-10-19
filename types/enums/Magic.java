@@ -89,7 +89,7 @@ public class Magic {
 	}
 
 	public static boolean isAutocasting(Spell s) {
-		return Game.getSetting(108) == s.getSettingID();
+		return Game.getSetting(108) == s.getSettingID() && Interfaces.get(201,2)==null;
 	}
 
 	public static boolean castOn(Spell s, RSModel m) {
@@ -118,7 +118,7 @@ public class Magic {
 	public static boolean autoCast(Spell s) {
 		if (!canCast(s))
 			return false;
-		if (isAutocasting(s))
+		if (isAutocasting(s) && Interfaces.get(201,2)==null)
 			return true;
 		if (!GameTab.getOpen().equals(TABS.COMBAT)) {
 			Keyboard.pressFunctionKey(1);
@@ -147,9 +147,10 @@ public class Magic {
 						&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
 					General.sleep(15,50);
 				}
+				if (isAutocasting(s) && Interfaces.get(201,2)==null)
+					return true;
 			}
 		}
-
 		return false;
 	}
 
