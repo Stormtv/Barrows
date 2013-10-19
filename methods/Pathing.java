@@ -293,8 +293,7 @@ public class Pathing {
 								0));
 						if (wall.length > 0) {
 							GeneralMethods.clickObject(wall[0], "Search", true,
-									false);
-							General.sleep(1500,2500);//TODO Dynamic Sleep
+									true);
 						}
 					} else {
 						Walking.walkPath(pathUnderground);
