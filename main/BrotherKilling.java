@@ -178,7 +178,7 @@ public class BrotherKilling {
 		}
 		if (b.getDigArea().contains(Player.getPosition())) {
 			if (!b.isTunnel()) {
-				Var.status = "Getting Ready to fight";
+				Var.status = "Getting Ready to fight " + b.toString();
 				getReadyToFight(b);
 				Var.status = "Digging";
 				if (!BankHandler.needToBank()) {
@@ -317,18 +317,18 @@ public class BrotherKilling {
 				General.sleep(50);
 			}
 		}
-		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
-			for (int i : Var.tunnelEquipment) {
+		while (!Equipment.isAllEquiped(b.getEquipment())) {
+			for (int i : b.getEquipment()) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
 					Var.status = "Unable to find Equipment ("+i+")";
 				}
 			}
-			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
+			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(b.getEquipment()); fsafe++) {
 				General.sleep(50);
 			}
-			if (!Equipment.isAllEquiped(Var.tunnelEquipment) 
+			if (!Equipment.isAllEquiped(b.getEquipment()) 
 					&& GeneralMethods.lastMessage().equalsIgnoreCase("you don't have enough free inventory space to do that.")) {
 				if (Inventory.getCount(Var.food.getId()) > 0 && Inventory.isFull()) {
 					Food.eat();
