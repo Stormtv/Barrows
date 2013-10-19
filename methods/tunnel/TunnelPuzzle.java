@@ -12,7 +12,7 @@ public class TunnelPuzzle {
 
 	public static boolean isPuzzleScreenOpen() {
 		Color c = Screen.getColorAt(392, 86);
-		Color b = new Color(163, 157, 150);
+		Color b = new Color(174, 169, 162);
 		return Interfaces.get(25, 1) != null
 				&& !Interfaces.get(25, 1).isHidden()
 				&& org.tribot.api.Screen.coloursMatch(b, c, new Tolerance(10));

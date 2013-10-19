@@ -8,6 +8,9 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Game;
+import org.tribot.api2007.GameTab;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSTile;
@@ -38,7 +41,7 @@ public class Barrows extends Script implements Painting {
 	String response;
 
 	public static double version = 0.3;
-	
+
 	public static Timer runTime = new Timer(0);
 
 	@Override
@@ -57,9 +60,11 @@ public class Barrows extends Script implements Painting {
 		while (response == null) {
 			sleep(100);
 		}
+		GeneralMethods.adjustBrightness();
 		for (String s : auths) {
 			if (s.equalsIgnoreCase(response)) {
 				onStart();
+				runTime = new Timer(0);
 				while (Var.running) {
 					loop();
 				}
@@ -74,8 +79,8 @@ public class Barrows extends Script implements Painting {
 
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
-					&& !Player.getPosition().equals(new RSTile(3498,3380,1))
-					&& !Player.getPosition().equals(new RSTile(3522,3285,0))) {
+					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
+					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
 				Var.status = "Heading to the bank";
 				Pathing.goToBank();
 				return;
@@ -153,7 +158,6 @@ public class Barrows extends Script implements Painting {
 			}
 		});
 	}
-
 
 	@Override
 	public void onPaint(Graphics g2) {

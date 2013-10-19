@@ -13,6 +13,7 @@ import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
 import org.tribot.api2007.Game;
+import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
@@ -21,6 +22,7 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
@@ -38,6 +40,15 @@ public class GeneralMethods {
 				/ (double) Skills.getActualLevel(Skills.SKILLS.HITPOINTS) * 100);
 	}
 
+	public static void adjustBrightness(){
+		while (Game.getSetting(166) != 4) {
+			if (GameTab.open(TABS.OPTIONS)) {
+				General.sleep(500);
+				Mouse.click(708, 229, 1);
+			}
+		}
+	}
+	
 	public boolean tunnelInterface() {
 		return Interfaces.get(210, 0) != null;
 	}
