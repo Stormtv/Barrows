@@ -117,19 +117,19 @@ public class TunnelTraversing {
 					if (Rooms.InTunnel()) {
 						Var.status = "Tunnel Walking";
 						Camera.setCameraAngle(General.random(90, 99));
-						for (int i = 0; i < 10 && nextDoor != null
+						if (nextDoor != null
 								&& nextDoor.length > 0
 								&& curRoom.equals(Rooms.getRoom())
-								&& !nextDoor[0].isOnScreen(); i++) {
+								&& !nextDoor[0].isOnScreen()) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 						Var.status = "Finished Walking";
 					} else {
 						Var.status = "Screen walking";
-						for (int i = 0; i < 10 && nextDoor != null
+						if (nextDoor != null
 								&& nextDoor.length > 0
 								&& curRoom.equals(Rooms.getRoom())
-								&& !nextDoor[0].isOnScreen(); i++) {
+								&& !nextDoor[0].isOnScreen()) {
 							GeneralMethods.screenWalkTo(nextDoor[0]);
 						}
 						Var.status = "Finished Walking";
