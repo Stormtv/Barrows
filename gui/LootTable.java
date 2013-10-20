@@ -38,7 +38,17 @@ public class LootTable extends JFrame {
 	 */
 
 	public static void main(String[] args) {
-		
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					LootTable frame = new LootTable();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	static ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -65,11 +75,7 @@ public class LootTable extends JFrame {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public LootTable() throws MalformedURLException {
-		addReward("Item1", 4718, 2, 55);
-		addReward("Item2", 4720, 1, 525);
-		addReward("Item1", 4718, 1, 55);
-		addReward("Item3", 60, 18, 5);
-		setTitle("Reward Table");
+		setTitle("Loot Table");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -135,12 +141,12 @@ public class LootTable extends JFrame {
 		pricesList.setBackground(new Color(49, 49, 49));
 		contentPane.add(pricesList);
 
-		java.net.URL where = new URL("http://i.imgur.com/0wC7NoV.png");
+		java.net.URL where = new URL("http://i.imgur.com/OrwyAMc.png");
 		ImageIcon icon = new ImageIcon(where);
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(icon);
-		lblNewLabel.setBounds(0, 0, 351, 488);
-		// contentPane.add(lblNewLabel);
+		lblNewLabel.setBounds(-3, -168, 351, 488);
+		contentPane.add(lblNewLabel);
 
 		updateLists();
 	}
@@ -243,7 +249,7 @@ public class LootTable extends JFrame {
 
 		}
 	}
-	
+
 	public static void addReward(RSItem loot, int stack) {
 		try {
 			String name = loot.getDefinition().getName();
