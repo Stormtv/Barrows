@@ -370,32 +370,40 @@ public class Pathing {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
 		if (isFromEctoToBank()) {
-			if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
-				General.sleep(1000);
-			else
-				Walking.walkPath(pathFromEcto);
+			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
+				// TODO TELE TO LUMBM
+			} else {
+				if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
+					General.sleep(1000);
+				else {
+					Walking.walkPath(pathFromEcto);
+				}
+			}
 		} else {
-			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
-			if (ectophial.length > 0) {
-				if (ectophial[0].click("")) {
-					RSTile here = Player.getPosition();
-					Timing.waitCondition(new Condition() {
+			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
+				Restocking.restorePrayerAtLumbridge();
+			} else {
+				RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
+				if (ectophial.length > 0) {
+					if (ectophial[0].click("")) {
+						RSTile here = Player.getPosition();
+						Timing.waitCondition(new Condition() {
+							@Override
+							public boolean active() {
+								return Player.getAnimation() != -1;
+							}
+						}, 3000);
+						General.sleep(200);
+						Timing.waitCondition(new Condition() {
 
-						@Override
-						public boolean active() {
-							return Player.getAnimation() != -1;
-						}
-					}, 3000);
-					General.sleep(200);
-					Timing.waitCondition(new Condition() {
-
-						@Override
-						public boolean active() {
-							return Player.getAnimation() == -1;
-						}
-					}, 7000);
-					if (Player.getPosition() != here)
-						Var.trips++;
+							@Override
+							public boolean active() {
+								return Player.getAnimation() == -1;
+							}
+						}, 7000);
+						if (Player.getPosition() != here)
+							Var.trips++;
+					}
 				}
 			}
 		}

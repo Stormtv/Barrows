@@ -14,30 +14,7 @@ public class Restocking {
 	static RSTile[] pathToChurch = new RSTile[] { new RSTile(3222, 3217, 0),
 			new RSTile(3231, 3218, 0), new RSTile(3234, 3211, 0) };
 
-	private static PrayerRestoring selectedMethod = PrayerRestoring.LUMBRIDGE_CHURCH;
-
-	public static enum PrayerRestoring {
-		LUMBRIDGE_CHURCH, PRAYER_POT_AT_BANK
-	}
-
-	public static void restorePrayer() {
-		if (needToRestorePrayer()) {
-			switch (selectedMethod) {
-			case LUMBRIDGE_CHURCH:
-				restorePrayerAtLumbridge();
-				break;
-			case PRAYER_POT_AT_BANK:
-				restorePrayerAtBank();
-				break;
-			}
-		}
-	}
-
-	private static void restorePrayerAtBank() {
-
-	}
-
-	private static void restorePrayerAtLumbridge() {
+	public static void restorePrayerAtLumbridge() {
 		RSObject[] altar = Objects.find(20, 409);
 		if (altar.length > 0
 				&& altar[0].getPosition().distanceTo(Player.getPosition()) < 20) {
@@ -69,7 +46,4 @@ public class Restocking {
 		}
 	}
 
-	public static boolean needToRestorePrayer() {
-		return Prayer.getPoints() != Prayer.getLevel();
-	}
 }

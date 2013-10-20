@@ -16,6 +16,8 @@ import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.util.RSArea;
 
 public class Var {
+	
+	public static boolean recharge = false;
 
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
 			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
