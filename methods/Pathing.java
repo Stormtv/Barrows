@@ -33,7 +33,7 @@ public class Pathing {
 	}
 
 	public enum PathBank {
-		HOUSE, ECTOPHIAL
+		HOUSE, ECTOPHIAL, VARROCK
 	}
 
 	static boolean isInHouse() {
@@ -184,9 +184,10 @@ public class Pathing {
 					RSObject[] barrier = Objects
 							.getAt(new RSTile(3440, 9886, 0));
 					if (barrier.length > 0) {
-						DynamicClicking.clickRSTile(new RSTile(3440, 9886, 0), 1);
+						DynamicClicking.clickRSTile(new RSTile(3440, 9886, 0),
+								1);
 						Timing.waitCondition(new Condition() {
-							
+
 							@Override
 							public boolean active() {
 								return !isUndergroundCanifis();
@@ -234,9 +235,32 @@ public class Pathing {
 					} else {
 						if (canWalkToVarrock())
 							Walking.walkPath(pathFromVarrock);
-						else
-							// TODO TELEPORT
-							System.out.println();
+						else {
+							RSItem[] teletab = Inventory.find(8007);
+							if (teletab.length > 0) {
+								if (teletab[0].click("")) {
+									RSTile here = Player.getPosition();
+									Timing.waitCondition(new Condition() {
+
+										@Override
+										public boolean active() {
+											return Player.getAnimation() != -1;
+										}
+									}, 3000);
+									General.sleep(200);
+									Timing.waitCondition(new Condition() {
+
+										@Override
+										public boolean active() {
+											return Player.getAnimation() == -1;
+										}
+									}, 7000);
+									if (Player.getPosition() != here)
+										Var.trips++;
+								}
+							}
+						}
+
 					}
 				}
 			}
@@ -277,8 +301,13 @@ public class Pathing {
 		switch (Var.bankPath) {
 		case ECTOPHIAL:
 			walkFromEcto();
+			break;
 		case HOUSE:
 			useHouse();
+			break;
+		case VARROCK:
+			goFromVarrock();
+			break;
 		}
 	}
 
