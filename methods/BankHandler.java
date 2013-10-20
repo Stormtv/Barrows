@@ -149,6 +149,25 @@ public class BankHandler {
 						}
 						return;
 					}
+					if (Inventory.getCount(Var.arrowId) > 0) {
+						while (Inventory.getCount(Var.arrowId) > 0 && Banking.isBankScreenOpen()) {
+							Banking.close();
+							for (int fail=0;fail<20 && Banking.isBankScreenOpen();fail++){
+								General.sleep(50,75);
+							}
+						}
+						if (!Banking.isBankScreenOpen()) {
+							Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+							for (int fail=0; fail<20 
+									&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
+								General.sleep(15,50);
+							}
+							while (Inventory.find(Var.arrowId).length > 0) {
+								Equipment.equip(Var.arrowId);
+							} 
+						}
+						return;
+					}
 					if (Var.superAttack > 0
 							&& Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
 						Var.status = "Withdrawing Super Attack";

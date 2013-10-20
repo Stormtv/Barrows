@@ -233,7 +233,11 @@ public class GeneralMethods {
 		}
 	}
 
-	public static void screenWalkTo(Positionable p) {
+	public static  void screenWalkTo(Positionable p) {
+		screenWalkTo(p,0);
+	}
+	
+	private static void screenWalkTo(Positionable p, int count) {
 		if (!Player.getPosition().equals(p)) {
 			Positionable target = getClosestVisibleTile(p);
 			if (target == null) {
@@ -274,6 +278,9 @@ public class GeneralMethods {
 					&& Player.getPosition().distanceTo(p) > target
 							.getPosition().distanceTo(p)) {
 				General.sleep(20, 50);
+			}
+			if (!p.getPosition().isOnScreen() && count < 10) {
+				screenWalkTo(p,count+1);
 			}
 		}
 	}
