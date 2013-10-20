@@ -1,36 +1,38 @@
 package scripts.Barrows.main;
 
+import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
-import org.tribot.api2007.Game;
-import org.tribot.api2007.GameTab;
-import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
+import org.tribot.script.interfaces.MouseActions;
 import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
-import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.PaintHandler;
+import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
-public class Barrows extends Script implements Painting {
+public class Barrows extends Script implements Painting, MouseActions {
 	String[] auths = { "E12MLDqNWpQAPcw", "RH585Khpd7MZkvD", "8634L4234Hn0PaL",
 			"T26281g87514W7y", "TxN63P3898Pw512", "m3165u7i4eZW5rd",
 			"131Zpzz15Kd5bGI", "424sAkN7rRYc32j", "KL4x044qQ2pr813",
@@ -43,6 +45,8 @@ public class Barrows extends Script implements Painting {
 	public static double version = 0.3;
 
 	public static Timer runTime = new Timer(0);
+
+	LootTable frame;
 
 	@Override
 	public void run() {
@@ -139,10 +143,25 @@ public class Barrows extends Script implements Painting {
 	private void onStart() {
 		activateGUI();
 		GeneralMethods.setPrices();
+		activateTable();
 		while (Var.guiWait) {
 			sleep(100);
 		}
 		Var.startTime = System.currentTimeMillis();
+	}
+
+	private void activateTable() {
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					frame = new LootTable();
+					frame.setVisible(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	private void activateGUI() {
@@ -163,6 +182,38 @@ public class Barrows extends Script implements Painting {
 	public void onPaint(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
 		PaintHandler.drawPaint(g);
+	}
+
+	Rectangle paint = new Rectangle(0, 340, 480, 140);
+
+	@Override
+	public void mouseClicked(Point p, int arg1, boolean arg2) {
+		if (paint.contains(p))
+			frame.setVisible(getState());
+	}
+
+	@Override
+	public void mouseDragged(Point arg0, int arg1, boolean arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(Point arg0, boolean arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(Point arg0, int arg1, boolean arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	boolean getState() {
+		if (frame.isVisible())
+			return false;
+		return true;
 	}
 
 }

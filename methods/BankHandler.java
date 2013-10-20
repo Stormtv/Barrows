@@ -11,10 +11,10 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Player;
-import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSTile;
@@ -95,8 +95,8 @@ public class BankHandler {
 							return;
 						}
 					}
-					if (Var.bankPath.equals(Pathing.PathBank.ECTOPHIAL) 
-							&& Inventory.getCount(Var.ECTOPHIAL)==0) {
+					if (Var.bankPath.equals(Pathing.PathBank.ECTOPHIAL)
+							&& Inventory.getCount(Var.ECTOPHIAL) == 0) {
 						Var.status = "Withdrawing Ectophial";
 						Banking.withdraw(1, Var.ECTOPHIAL);
 						Timing.waitCondition(new Condition() {
@@ -107,8 +107,8 @@ public class BankHandler {
 						}, 3000);
 						return;
 					}
-					if (Var.bankPath.equals(Pathing.PathBank.HOUSE) 
-							&& Inventory.getCount(8013)==0) {
+					if (Var.bankPath.equals(Pathing.PathBank.HOUSE)
+							&& Inventory.getCount(8013) == 0) {
 						Var.status = "Withdrawing House Teleport";
 						Banking.withdraw(1, 8013);
 						Timing.waitCondition(new Condition() {
@@ -121,50 +121,58 @@ public class BankHandler {
 					}
 					if (Var.arrowId > 0
 							&& (org.tribot.api2007.Equipment
-									.getCount(Var.arrowId)+Inventory.getCount(Var.arrowId)) < Var.arrowCount) {
+									.getCount(Var.arrowId) + Inventory
+									.getCount(Var.arrowId)) < Var.arrowCount) {
 						Var.status = "Withdrawing Arrows";
-						Banking.withdraw((Var.arrowCount - org.tribot.api2007.Equipment
-								.getCount(Var.arrowId)), Var.arrowId);
+						Banking.withdraw(
+								(Var.arrowCount - org.tribot.api2007.Equipment
+										.getCount(Var.arrowId)), Var.arrowId);
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
 								return Inventory.getAll().length != count;
 							}
 						}, 3000);
-						while (Inventory.getCount(Var.arrowId) > 0 && Banking.isBankScreenOpen()) {
+						while (Inventory.getCount(Var.arrowId) > 0
+								&& Banking.isBankScreenOpen()) {
 							Banking.close();
-							for (int fail=0;fail<20 && Banking.isBankScreenOpen();fail++){
-								General.sleep(50,75);
+							for (int fail = 0; fail < 20
+									&& Banking.isBankScreenOpen(); fail++) {
+								General.sleep(50, 75);
 							}
 						}
 						if (!Banking.isBankScreenOpen()) {
 							Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
-							for (int fail=0; fail<20 
-									&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
-								General.sleep(15,50);
+							for (int fail = 0; fail < 20
+									&& !GameTab.getOpen()
+											.equals(TABS.INVENTORY); fail++) {
+								General.sleep(15, 50);
 							}
 							while (Inventory.find(Var.arrowId).length > 0) {
 								Equipment.equip(Var.arrowId);
-							} 
+							}
 						}
 						return;
 					}
 					if (Inventory.getCount(Var.arrowId) > 0) {
-						while (Inventory.getCount(Var.arrowId) > 0 && Banking.isBankScreenOpen()) {
+						while (Inventory.getCount(Var.arrowId) > 0
+								&& Banking.isBankScreenOpen()) {
 							Banking.close();
-							for (int fail=0;fail<20 && Banking.isBankScreenOpen();fail++){
-								General.sleep(50,75);
+							for (int fail = 0; fail < 20
+									&& Banking.isBankScreenOpen(); fail++) {
+								General.sleep(50, 75);
 							}
 						}
 						if (!Banking.isBankScreenOpen()) {
 							Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
-							for (int fail=0; fail<20 
-									&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
-								General.sleep(15,50);
+							for (int fail = 0; fail < 20
+									&& !GameTab.getOpen()
+											.equals(TABS.INVENTORY); fail++) {
+								General.sleep(15, 50);
 							}
 							while (Inventory.find(Var.arrowId).length > 0) {
 								Equipment.equip(Var.arrowId);
-							} 
+							}
 						}
 						return;
 					}
@@ -238,6 +246,33 @@ public class BankHandler {
 								return Inventory.getAll().length != count;
 							}
 						}, 3000);
+						while (scripts.Barrows.types.enums.Prayer.getPoints() < scripts.Barrows.types.enums.Prayer
+								.getLevel()
+								&& Inventory.getCount(Potions.PRAYER_POTIONS) > 0) {
+							if (Banking.isBankScreenOpen()) {
+								Banking.close();
+								Timing.waitCondition(new Condition() {
+									@Override
+									public boolean active() {
+										return !Banking.isBankScreenOpen();
+									}
+								}, 1500);
+							} else {
+								RSItem[] pot = Inventory
+										.find(Potions.PRAYER_POTIONS);
+								if (pot.length > 0) {
+									pot[0].click("");
+									Timing.waitCondition(new Condition() {
+										@Override
+										public boolean active() {
+											return scripts.Barrows.types.enums.Prayer
+													.getPoints() == scripts.Barrows.types.enums.Prayer
+													.getLevel();
+										}
+									}, 1500);
+								}
+							}
+						}
 						return;
 					}
 					for (int i : Equipment.requiedEquipment()) {
@@ -270,7 +305,8 @@ public class BankHandler {
 				}
 			} else {
 				RSNPC[] banker = NPCs.findNearest("Banker");
-				if (banker.length > 0 && !Banking.isBankScreenOpen() && !Banking.isPinScreenOpen()) {
+				if (banker.length > 0 && !Banking.isBankScreenOpen()
+						&& !Banking.isPinScreenOpen()) {
 					Var.status = "Opening the bank";
 					if (!banker[0].isOnScreen()) {
 						Camera.turnToTile(banker[0]);
@@ -298,13 +334,12 @@ public class BankHandler {
 	}
 
 	public static boolean needToBank() {
-		return Inventory.getCount(Var.food.getId()) == 0
-				|| !Magic.hasCasts(1)
+		return Inventory.getCount(Var.food.getId()) == 0 || !Magic.hasCasts(1)
 				|| Var.arrowId != -1
 				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
 				|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0;
 	}
-	
+
 	public static boolean needsMoreSupplies() {
 		return Inventory.getCount(Var.food.getId()) < Var.foodAmount
 				|| !Magic.hasCasts(Var.spellCount)

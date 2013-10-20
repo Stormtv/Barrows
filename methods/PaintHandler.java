@@ -37,6 +37,7 @@ public class PaintHandler {
 		g.drawImage(paint, -14, 262, null);
 		g.setColor(Color.WHITE);
 		g.setFont(font1);
+		g.drawString("x", 493, 358);
 		g.drawString(Barrows.runTime.toElapsedString(), 90, 385);
 		g.drawString(
 				formatNumber(Var.profit) + " ("
