@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 
+import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
 
@@ -29,6 +30,22 @@ public class PaintHandler {
 
 	private final static Font font1 = new Font("Arial", 0, 14);
 	private final static Font font2 = new Font("Arial", 0, 13);
+	
+	public static void MouseLines(Graphics g) {
+		g.setColor(new Color(255, 255, 255, 120));
+		int x = Mouse.getPos().x;
+		int y = Mouse.getPos().y;
+		g.drawLine(x + 1000, y, x - 1000, y);
+		g.drawLine(x, y + 1000, x, y - 1000);
+		int x1 = Mouse.getPos().x + 1;
+		int y1 = Mouse.getPos().y + 1;
+		g.drawLine(x1 + 1000, y1, x1 - 1000, y1);
+		g.drawLine(x1, y1 + 1000, x1, y1 - 1000);
+		int x2 = Mouse.getPos().x + 1;
+		int y2 = Mouse.getPos().y + 1;
+		g.drawLine(x2 + 1000, y2, x2 - 1000, y2);
+		g.drawLine(x2, y2 + 1000, x2, y2 - 1000);
+	}
 
 	public static void drawPaint(Graphics2D g) {
 		if (Var.debug) {
@@ -63,6 +80,7 @@ public class PaintHandler {
 		}
 		g.setFont(new Font("Arial", 0, 11));
 		g.drawString("v" + Barrows.version, 360, 337);
+		MouseLines(g);
 	}
 
 	private static void debugPaint(Graphics g) {

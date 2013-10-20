@@ -268,8 +268,8 @@ public class Pathing {
 	}
 
 	private static boolean goViaSwamp() {
-		Walking.control_click = true;
-		Walking.walking_timeout = 500;
+		Walking.setControlClick(true);
+		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(100, 130));
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
@@ -419,7 +419,7 @@ public class Pathing {
 
 	public static void getToBarrows() {
 		Mouse.setSpeed(General.random(100, 130));
-		Walking.walking_timeout = 1000;
+		Walking.setWalkingTimeout(1000);
 		if (isInBarrows()) {
 			System.out.println("Return");
 			return;
@@ -441,7 +441,7 @@ public class Pathing {
 	}
 
 	static void goViaShortcut() {
-		Walking.walking_timeout = 2500;
+		Walking.setWalkingTimeout(2500);
 		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
 		Mouse.setSpeed(General.random(100, 150));

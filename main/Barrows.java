@@ -28,6 +28,7 @@ import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.types.enums.Prayer;
 import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.util.Timer;
 
@@ -77,9 +78,13 @@ public class Barrows extends Script implements Painting, MouseActions {
 	}
 
 	private void loop() {
-		Walking.walking_timeout = 500;
+		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(250, 350));
 		try {
+			
+			if(Prayer.anyPrayerEnabled() && Rooms.getRoom() == null && !Tunnel.inCrypt() && !Pathing.isInBarrows()){
+				Prayer.disableAllPrayers();
+			}
 
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())

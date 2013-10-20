@@ -83,28 +83,35 @@ public class Prayer {
 		return Skills.getActualLevel(Skills.SKILLS.PRAYER);
 	}
 
+	public static boolean anyPrayerEnabled() {
+		for (Prayers p : Prayers.values()) {
+			if (p.isActivated())
+				return true;
+		}
+		return false;
+	}
+	
+
 	public static void disable(Prayers b) {
-		Mouse.setSpeed(General.random(100,130));
+		Mouse.setSpeed(General.random(100, 130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
-			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
 				General.sleep(15);
 			}
 		}
 		Point p = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				b.getInterfaceId())
-				.getAbsoluteBounds());
+				b.getInterfaceId()).getAbsoluteBounds());
 		Mouse.move(p);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
-				&& !Game.getUptext().contains(
-						"Deactivate " + b.getName()); fsafe++) {
+				&& !Game.getUptext().contains("Deactivate " + b.getName()); fsafe++) {
 			General.sleep(30);
 		}
-		if (Game.getUptext().contains(
-				"Deactivate " + b.getName())) {
+		if (Game.getUptext().contains("Deactivate " + b.getName())) {
 			Mouse.click(1);
 		}
-		for (int fsafe = 0; fsafe<20 && b.isActivated(); fsafe++){
+		for (int fsafe = 0; fsafe < 20 && b.isActivated(); fsafe++) {
 			General.sleep(40);
 		}
 		if (b.isActivated()) {
@@ -112,12 +119,13 @@ public class Prayer {
 		}
 		if (GameTab.getOpen() != TABS.INVENTORY) {
 			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
-			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
 			}
 		}
 	}
-	
+
 	public static void disableAllPrayers() {
 		for (Prayers p : Prayers.values()) {
 			if (p.isActivated()) {
@@ -127,27 +135,25 @@ public class Prayer {
 	}
 
 	public static void activate(Prayers p) {
-		Mouse.setSpeed(General.random(100,130));
+		Mouse.setSpeed(General.random(100, 130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
-			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
 				General.sleep(15);
 			}
 		}
 		Point a = GeneralMethods.getRandomPoint(Interfaces.get(271,
-				p.getInterfaceId())
-				.getAbsoluteBounds());
+				p.getInterfaceId()).getAbsoluteBounds());
 		Mouse.move(a);// Could be move doesn't really matter
 		for (int fsafe = 0; fsafe < 20
-				&& !Game.getUptext().contains(
-						"Activate " + p.getName()); fsafe++) {
+				&& !Game.getUptext().contains("Activate " + p.getName()); fsafe++) {
 			General.sleep(30);
 		}
-		if (Game.getUptext().contains(
-				"Activate " + p.getName())) {
+		if (Game.getUptext().contains("Activate " + p.getName())) {
 			Mouse.click(1);
 		}
-		for (int fsafe = 0; fsafe<20 && !p.isActivated(); fsafe++){
+		for (int fsafe = 0; fsafe < 20 && !p.isActivated(); fsafe++) {
 			General.sleep(40);
 		}
 		if (!p.isActivated()) {
@@ -155,7 +161,8 @@ public class Prayer {
 		}
 		if (GameTab.getOpen() != TABS.INVENTORY) {
 			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
-			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
 			}
 		}
