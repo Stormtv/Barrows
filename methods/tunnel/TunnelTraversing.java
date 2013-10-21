@@ -1,9 +1,9 @@
 package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api.General;
-import org.tribot.api2007.Camera;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
@@ -96,73 +96,38 @@ public class TunnelTraversing {
 		}
 	}
 
-	static boolean isAtRoom(TunnelRoom t) {
-		TunnelRoom mine = Rooms.getRoom();
-		return mine != null && t != null && t.equals(mine);
-	}
 
-	public static void tunnelWalkTo(TunnelRoom r) {
+	private static void tunnelWalkTo(TunnelRoom r) {
 		Walking.setWalkingTimeout(500);
-		BrotherKilling.killBrotherInTunnel();
-		Var.status = "Checking if needing to eat food";
-		Food.eatInCombat();
 		Var.status = "Generating shortest path";
 		TunnelDoor[] path = WTunnelTraverse.pathToChest(r);
 		TunnelRoom curRoom = null;
 		if (path != null && path.length > 0) {
-			RSObject[] nextDoor = Objects.getAt(path[0].getLocation());
-			if (nextDoor.length > 0) {
-				if (!nextDoor[0].isOnScreen()) {
+			for (TunnelDoor door : path) {
+				Var.status = "Checking if needing to eat food";
+				Food.eatInCombat();
+				RSObject[] nextDoor = Objects.getAt(door.getLocation());
+				if (nextDoor != null && nextDoor.length > 0
+						&& PathFinding.canReach(nextDoor[0], true)) {
 					curRoom = Rooms.getRoom();
-					if (Rooms.InTunnel()) {
-						Var.status = "Tunnel Walking";
-						Camera.setCameraAngle(General.random(90, 99));
-						if (nextDoor != null
-								&& nextDoor.length > 0
-								&& curRoom.equals(Rooms.getRoom())
-								&& !nextDoor[0].isOnScreen()) {
-							GeneralMethods.screenWalkTo(nextDoor[0]);
-						}
-						Var.status = "Finished Walking";
-					} else {
-						Var.status = "Screen walking";
-						if (nextDoor != null
-								&& nextDoor.length > 0
-								&& curRoom.equals(Rooms.getRoom())
-								&& !nextDoor[0].isOnScreen()) {
-							GeneralMethods.screenWalkTo(nextDoor[0]);
-						}
-						Var.status = "Finished Walking";
+					GeneralMethods
+							.clickObject(nextDoor[0], "Open", false, true);
+					for (int i = 0; i < 20
+							&& !TunnelPuzzle.isPuzzleScreenOpen()
+							&& (curRoom == null || curRoom.equals(Rooms
+									.getRoom())); i++) {
+						General.sleep(100, 150);
 					}
-				}
-				if (nextDoor[0].isOnScreen()) {
-					curRoom = Rooms.getRoom();
-					try {
-						Var.status = "Clicking next door!";
-						GeneralMethods.clickObject(nextDoor[0], "Open", false,
-								false);
-						for (int i = 0; i < 200
-								&& !TunnelPuzzle.isPuzzleScreenOpen()
-								&& (curRoom == null || curRoom.equals(Rooms
-										.getRoom())); i++) {
-							General.sleep(10, 15);
-						}
-						Var.status = "Checking for puzzle";
-						if (TunnelPuzzle.isPuzzleScreenOpen()) {
-							TunnelPuzzle.solvePuzzle();
-						}
-						Var.status = "Checking for brother";
-						BrotherKilling.killBrotherInTunnel();
-					} catch (Exception e) {
-						e.printStackTrace();
+					Var.status = "Checking for puzzle";
+					if (TunnelPuzzle.isPuzzleScreenOpen()) {
+						TunnelPuzzle.solvePuzzle();
 					}
+					Var.status = "Checking for brother";
+					BrotherKilling.killBrotherInTunnel();
+				} else {
+					General.println("Invalid Door "+door.toString());
 				}
 			}
 		}
 	}
-
-	static boolean isBeingAttackedByBrother() {
-		return BrotherKilling.aggressiveNPC() != null;
-	}
-
 }

@@ -9,7 +9,10 @@ import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.types.RSItem;
 
+import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.types.Brother;
+import scripts.Barrows.types.Var;
+import scripts.Barrows.types.Brother.Brothers;
 
 public class Equipment {
 
@@ -73,6 +76,41 @@ public class Equipment {
 		}
 		return false;
 	}
+	
+	public static void equipMostFullSet() {
+		int numberOfEmptySpots=11;
+		int[] bestEquip = Brother.Brothers.Dharok.getEquipment();
+		for (Brother.Brothers b : Brothers.values()) {
+			int emptySpots=0;
+			for (int i : b.getEquipmentIds()) {
+				if (i == -1) {
+					emptySpots++;
+				}
+			}
+			if (numberOfEmptySpots > emptySpots) {
+				numberOfEmptySpots = emptySpots;
+				bestEquip = b.getEquipmentIds();
+			}
+		}
+		while (!isAllEquiped(bestEquip)) {
+			for (int i : bestEquip) {
+				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
+					Equipment.equip(i);
+				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
+					Var.status = "Unable to find Equipment ("+i+")";
+				}
+			}
+			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(bestEquip); fsafe++) {
+				General.sleep(50);
+			}
+			if (!Equipment.isAllEquiped(bestEquip) && GeneralMethods.lastMessage().equalsIgnoreCase("you don't have enough free inventory space to do that.")) {
+				if (Inventory.getCount(Var.food.getId()) > 0 && Inventory.isFull()) {
+					Food.eat();
+				}
+			}
+		}
+	}
+	
 	
 	public static ArrayList<Integer> requiedEquipment() {
 		ArrayList<Integer> equip = new ArrayList<Integer>();

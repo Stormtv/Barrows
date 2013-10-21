@@ -88,6 +88,7 @@ public class BarrowGUI extends JFrame {
 				cbxSpell.setSelectedItem(currentBrother.getSpell());
 				chckbxUsePrayer.setSelected(!currentBrother.getPrayer().equals(Prayer.Prayers.None));
 				chckbxUsePotions.setSelected(currentBrother.usePotions());
+				chckbxRecharge.setSelected(Var.recharge);
 				try {
 					if (currentBrother.equals(Brother.Brothers.Dharok)) {
 						if (picBro != null) {

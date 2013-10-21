@@ -136,6 +136,7 @@ public class BrotherKilling {
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {
 				GeneralMethods.click(target, "Attack");
 			}
+			General.sleep(100,150);
 		}	
 	}
 

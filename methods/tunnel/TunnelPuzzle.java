@@ -8,6 +8,8 @@ import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.types.RSInterface;
 
+import scripts.Barrows.types.Var;
+
 public class TunnelPuzzle {
 
 	public static boolean isPuzzleScreenOpen() {
@@ -40,8 +42,8 @@ public class TunnelPuzzle {
 	}
 
 	public static boolean solvePuzzle() {
-		General.println("solving puzzle");
-		if (isPuzzleScreenOpen()) {
+	Var.status = "Solving Puzzle";
+	if (isPuzzleScreenOpen()) {
 			RSInterface answer = getAnswer();
 			if (answer != null) {
 				if (answer.click("Ok")) {

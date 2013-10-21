@@ -72,13 +72,13 @@ public class Barrows extends Script implements Painting, MouseActions, MousePain
 				onStart();
 				runTime = new Timer(0);
 				while (Var.running) {
-					loop();
+					General.sleep(loop());
 				}
 			}
 		}
 	}
 
-	private void loop() {
+	private int loop() {
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(250, 350));
 		try {
@@ -93,57 +93,61 @@ public class Barrows extends Script implements Painting, MouseActions, MousePain
 					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
 				Var.status = "Heading to the bank";
 				Pathing.goToBank();
-				return;
+				return General.random(10, 30);
 			}
 
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
 				BankHandler.bank();
-				return;
+				return General.random(10, 30);
 			}
 
 			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
 				if (Rooms.getRoom() == null) {
 					Pathing.getToBarrows();
-					return;
+					return General.random(10, 30);
 				}
 			}
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()
 					&& !Var.lootedChest) {
 				BrotherKilling.StartFight();
-				return;
+				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 					&& !Var.lootedChest || !BrotherKilling.canKill()
 					&& Tunnel.inCrypt() && !Var.lootedChest) {
 				Tunnel.goToTunnel();
-				return;
+				return General.random(10, 30);
 			}
 			if (!BrotherKilling.canKill() && Tunnel.inCrypt()
 					&& Var.lootedChest) {
 				Tunnel.exitCrypt();
-				return;
+				return General.random(10, 30);
 			}
 			if (Rooms.getRoom() != null && !BrotherKilling.canKill()
 					&& !Tunnel.inCrypt()
 					&& !Var.bankArea.contains(Player.getPosition())) {
 				TunnelTraversing.traverseTunnel();
-				return;
+				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 					&& Var.lootedChest) {
 				BrotherKilling.reset();
-				return;
+				return General.random(10, 30);
 			}
 			if (!Pathing.isInBarrows() && Pathing.isCloseToBarrows()) {
 				Pathing.walkToCenterOfBarrows();
-				return;
+				return General.random(10, 30);
+			}
+			if (Tunnel.inCrypt()) {
+				Tunnel.exitCrypt();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return General.random(10, 30);
 		}
-
+		return General.random(10, 30);
 	}
 
 	private void onStart() {

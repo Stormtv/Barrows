@@ -132,6 +132,10 @@ public class GeneralMethods {
 	}
 
 	private static boolean isObjectValid(RSObject o) {
+		if (o== null || o.getModel() == null
+				|| Banking.isBankScreenOpen()) {
+			return false;
+		}
 		for (RSObject a : Objects.getAt((Positionable) o.getPosition())) {
 			if (a.getID() == o.getID()) {
 				return true;
@@ -142,9 +146,11 @@ public class GeneralMethods {
 
 	static void clickObject(RSObject o, String option, int fail,
 			boolean minimap, boolean safeClick) {
-		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()
-				|| Objects.find(50, o.getID()).length == 0 || !isObjectValid(o))
+		Var.status = "Checking Validity of Object";
+		if (!isObjectValid(o)) {
+			General.println("Invalid Object");
 			return;
+		}
 		if (!o.isOnScreen() || fail > 2) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
@@ -155,6 +161,7 @@ public class GeneralMethods {
 				while (Player.isMoving() && !o.isOnScreen()) {
 					General.sleep(15, 30);
 				}
+				Camera.turnToTile(o);
 				while (safeClick && Player.isMoving())
 					General.sleep(30, 50);
 				if (!o.isOnScreen()) {
@@ -162,29 +169,17 @@ public class GeneralMethods {
 				}
 				fail = 0;
 			} else {
-				Var.status = "ScreenWalking to object";
 				Camera.turnToTile(o);
-				if (!o.isOnScreen()) {
-					for (int i = 0; i < 5 && !o.isOnScreen(); i++) {
-						screenWalkTo(o);
-					}
+				if (!o.isOnScreen() || fail > 2) {
+					Var.status = "ScreenWalking to object";
+					screenWalkTo(o);
 				}
 				if (!o.isOnScreen()) {
 					clickObject(o, option, fail + 1, minimap, safeClick);
 				}
 			}
 		}
-		if (fail > 1) {
-			Camera.turnToTile(o);
-		}
-		if (fail > 3) {
-			if (minimap) {
-				Var.status = "Failed to Click: Walking to Object";
-				Walking.walkTo(o);
-			} else {
-				Var.status = "Failed to Click: Screenwalking to Object";
-				screenWalkTo(o);
-			}
+		if (fail > 4) {
 			Var.status = "Failed to Click";
 			return;
 		}
@@ -193,13 +188,13 @@ public class GeneralMethods {
 		}
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
+		Var.status = "Clicking Object";
 		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
 		Mouse.move(p);
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
 			General.sleep(10, 15);
 		if (Game.getUptext().contains(option)
 				|| Game.getUptext().contains("Use")) {
-
 			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 			Mouse.click(1);
 			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
@@ -210,6 +205,7 @@ public class GeneralMethods {
 				General.sleep(20, 30);
 			}
 		} else {
+			Var.status = "Right Clicking Object";
 			Mouse.click(3);
 			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
 				General.sleep(20, 25);
