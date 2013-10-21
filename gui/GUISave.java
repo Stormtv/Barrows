@@ -41,7 +41,7 @@ public class GUISave {
 		prop.setProperty("tunnelEquip", Arrays.toString(Var.tunnelEquipment));
 		prop.setProperty("bankPath",Var.bankPath.toString());
 		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
-		
+		prop.setProperty("recharge",Boolean.toString(Var.recharge));
 		try {
 			boolean exist = (new File(Util.getWorkingDirectory()+File.separator+"barrows").mkdirs());
 			if(exist) {
@@ -85,6 +85,7 @@ public class GUISave {
 					Var.food = f;
 				}
 			}
+			Var.recharge = Boolean.parseBoolean(prop.getProperty("recharge"));
 			Var.tunnelEquipment = parseIntegerArray(prop.getProperty("tunnelEquip"));
 			Var.foodAmount = Integer.valueOf(prop.getProperty("foodAmount"));
 			Var.superAttack = Integer.valueOf(prop.getProperty("superAttack"));

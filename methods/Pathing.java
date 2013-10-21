@@ -421,7 +421,6 @@ public class Pathing {
 		Mouse.setSpeed(General.random(100, 130));
 		Walking.setWalkingTimeout(1000);
 		if (isInBarrows()) {
-			System.out.println("Return");
 			return;
 		}
 		if (!isFromBoatToBarrows()) {
@@ -435,7 +434,7 @@ public class Pathing {
 			}
 		}
 		if (isFromBoatToBarrows()) {
-			System.out.println("Going to barrows");
+			Var.status = "Going to barrows";
 			Walking.walkPath(pathToBarrows);
 		}
 	}
@@ -474,6 +473,11 @@ public class Pathing {
 						if (wall.length > 0) {
 							GeneralMethods.clickObject(wall[0], "Search", true,
 									true);
+							for (int i=0; i<20 
+									&& !Player.getPosition().equals(new RSTile(3480,9836));
+									i++) {
+								General.sleep(100,150);
+							}
 						}
 					} else {
 						Walking.walkPath(pathUnderground);

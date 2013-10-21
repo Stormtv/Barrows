@@ -7,8 +7,6 @@ import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.Barrows.types.enums.Prayer;
-
 public class Restocking {
 
 	static RSTile[] pathToChurch = new RSTile[] { new RSTile(3222, 3217, 0),

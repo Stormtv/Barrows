@@ -102,7 +102,7 @@ public class TunnelTraversing {
 	}
 
 	public static void tunnelWalkTo(TunnelRoom r) {
-		Walking.walking_timeout = 500;
+		Walking.setWalkingTimeout(500);
 		BrotherKilling.killBrotherInTunnel();
 		Var.status = "Checking if needing to eat food";
 		Food.eatInCombat();

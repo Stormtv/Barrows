@@ -99,21 +99,21 @@ public class BrotherKilling {
 			Var.status = "Waiting";
 		}
 		if (tunnelInterface()) {
-			General.println("Tunnel Found");
+			Var.status = "Tunnel Found";
 			Var.status = bro.getName() + " is tunnel";
 			bro.setTunnel(true);
 		} else {
-			General.println("Searching Aggressive NPC");
+			Var.status = "Searching Aggressive NPC";
 			RSNPC target = aggressiveNPC();
 			if (target!=null) {
-				General.println("Found Aggressive NPC");
 				Var.status = "Target Found";
 				attackMob(target);
 				CombatManager(bro);
-			} else {
-				General.println("No Brother was Found");
+			} else if (GeneralMethods.lastMessage().equals("You don't find anything.")) {
 				Var.status = "No Target must of killed him already";
 				bro.setKilled(true);
+			} else {
+				General.println(GeneralMethods.lastMessage());
 			}
 		}
 		Var.status = "Exiting Crypt";
@@ -165,8 +165,8 @@ public class BrotherKilling {
 				if (b.getDigArea() != null) {
 					Var.status = "Walking to mound";
 					Mouse.setSpeed(General.random(100,130));
-					Walking.control_click = true;
-					Walking.walking_timeout = 1500;
+					Walking.setControlClick(true);
+					Walking.setWalkingTimeout(1500);
 					General.sleep(200,350);
 					Walking.blindWalkTo(b.getDigArea().getRandomTile());
 					General.sleep(350, 500);
@@ -249,7 +249,7 @@ public class BrotherKilling {
 				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None) 
 						&& !b.getPrayer().isActivated()) {
 					Prayer.activate(b.getPrayer());
-					General.println("Activated Prayer");
+					Var.status = "Activated Prayer";
 				}
 			}
 		}

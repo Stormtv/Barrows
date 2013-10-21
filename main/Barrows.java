@@ -17,6 +17,7 @@ import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.MouseActions;
+import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
@@ -33,7 +34,7 @@ import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
-public class Barrows extends Script implements Painting, MouseActions {
+public class Barrows extends Script implements Painting, MouseActions, MousePainting {
 	String[] auths = { "E12MLDqNWpQAPcw", "RH585Khpd7MZkvD", "8634L4234Hn0PaL",
 			"T26281g87514W7y", "TxN63P3898Pw512", "m3165u7i4eZW5rd",
 			"131Zpzz15Kd5bGI", "424sAkN7rRYc32j", "KL4x044qQ2pr813",
@@ -43,7 +44,7 @@ public class Barrows extends Script implements Painting, MouseActions {
 			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x", "cba" };
 	String response;
 
-	public static double version = 0.3;
+	public static double version = 0.4;
 
 	public static Timer runTime = new Timer(0);
 
@@ -219,6 +220,11 @@ public class Barrows extends Script implements Painting, MouseActions {
 		if (frame.isVisible())
 			return false;
 		return true;
+	}
+
+	@Override
+	public void paintMouse(Graphics arg0, Point arg1, Point arg2) {
+		// TODO Auto-generated method stub
 	}
 
 }

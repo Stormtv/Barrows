@@ -149,7 +149,7 @@ public class GeneralMethods {
 			RSTile tile = o.getPosition();
 			if (minimap) {
 				Var.status = "Walking to object";
-				Walking.control_click = true;
+				Walking.setControlClick(true);
 				Walking.walkTo(tile);
 				General.sleep(250, 350);
 				while (Player.isMoving() && !o.isOnScreen()) {
