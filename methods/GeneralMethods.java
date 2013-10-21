@@ -164,19 +164,13 @@ public class GeneralMethods {
 				Camera.turnToTile(o);
 				while (safeClick && Player.isMoving())
 					General.sleep(30, 50);
-				if (!o.isOnScreen()) {
-					clickObject(o, option, fail + 1, minimap, safeClick);
-				}
-				fail = 0;
 			} else {
 				Camera.turnToTile(o);
 				if (!o.isOnScreen() || fail > 2) {
 					Var.status = "ScreenWalking to object";
 					screenWalkTo(o);
 				}
-				if (!o.isOnScreen()) {
-					clickObject(o, option, fail + 1, minimap, safeClick);
-				}
+
 			}
 		}
 		if (fail > 4) {
@@ -185,6 +179,9 @@ public class GeneralMethods {
 		}
 		while (safeClick && Player.isMoving()) {
 			General.sleep(15, 30);
+		}
+		if (!o.isOnScreen()) {
+			clickObject(o, option, fail + 1, minimap, safeClick);
 		}
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
@@ -275,7 +272,7 @@ public class GeneralMethods {
 							.getPosition().distanceTo(p)) {
 				General.sleep(20, 50);
 			}
-			if (!p.getPosition().isOnScreen() && count < 10) {
+			if (!p.getPosition().isOnScreen() && count < 20) {
 				screenWalkTo(p,count+1);
 			}
 		}
