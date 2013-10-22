@@ -44,7 +44,7 @@ public class BrotherKilling {
 		}
 		return ba;
 	}
-	
+
 	public static boolean canKill() {
 		for (Brothers b : Brothers.values()) {
 			if (!b.isTunnel() && !b.isKilled()) {
@@ -53,7 +53,7 @@ public class BrotherKilling {
 		}
 		return false;
 	}
-	
+
 	public static void StartFight() {
 		Brothers bro = null;
 		for (Brothers b : killOrder()) {
@@ -89,12 +89,13 @@ public class BrotherKilling {
 			Var.status = "Searching the coffin";
 			GeneralMethods.clickObject(coffin[0], "Search", false, true);
 			Var.status = "Searched the coffin";
-			General.sleep(350,500);
-			while(Player.isMoving()) {
-				General.sleep(20,40);
+			General.sleep(350, 500);
+			while (Player.isMoving()) {
+				General.sleep(20, 40);
 			}
 		}
-		for (int fSafe = 0; fSafe<20 && !tunnelInterface() || fSafe<20 && aggressiveNPC() == null; fSafe++) {
+		for (int fSafe = 0; fSafe < 20 && !tunnelInterface() || fSafe < 20
+				&& aggressiveNPC() == null; fSafe++) {
 			General.sleep(20);
 			Var.status = "Waiting";
 		}
@@ -105,11 +106,12 @@ public class BrotherKilling {
 		} else {
 			Var.status = "Searching Aggressive NPC";
 			RSNPC target = aggressiveNPC();
-			if (target!=null) {
+			if (target != null) {
 				Var.status = "Target Found";
 				attackMob(target);
 				CombatManager(bro);
-			} else if (GeneralMethods.lastMessage().equals("You don't find anything.")) {
+			} else if (GeneralMethods.lastMessage().equals(
+					"You don't find anything.")) {
 				Var.status = "No Target must of killed him already";
 				bro.setKilled(true);
 			} else {
@@ -119,7 +121,7 @@ public class BrotherKilling {
 		Var.status = "Exiting Crypt";
 		exitCrypt(bro);
 	}
-	
+
 	private static void CombatManager(Brothers b) {
 		while (Player.getRSPlayer().getInteractingCharacter() != null
 				|| aggressiveNPC() != null) {
@@ -128,7 +130,8 @@ public class BrotherKilling {
 			}
 			UpKeep();
 			RSNPC target = aggressiveNPC();
-			if (target == null || target.isInCombat() && target.getHealth() == 0) {
+			if (target == null || target.isInCombat()
+					&& target.getHealth() == 0) {
 				b.setKilled(true);
 				Looting.loot(Var.arrowId);
 				return;
@@ -136,8 +139,8 @@ public class BrotherKilling {
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {
 				GeneralMethods.click(target, "Attack");
 			}
-			General.sleep(100,150);
-		}	
+			General.sleep(100, 150);
+		}
 	}
 
 	private static void UpKeep() {
@@ -165,10 +168,10 @@ public class BrotherKilling {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea() != null) {
 					Var.status = "Walking to mound";
-					Mouse.setSpeed(General.random(100,130));
+					Mouse.setSpeed(General.random(100, 130));
 					Walking.setControlClick(true);
 					Walking.setWalkingTimeout(1500);
-					General.sleep(200,350);
+					General.sleep(200, 350);
 					Walking.blindWalkTo(b.getDigArea().getRandomTile());
 					General.sleep(350, 500);
 					while (Player.isMoving()) {
@@ -184,7 +187,7 @@ public class BrotherKilling {
 				Var.status = "Digging";
 				if (!BankHandler.needToBank()) {
 					dig(b, false);
-				}	
+				}
 			} else {
 				Var.status = "Getting Ready for tunnels";
 				getReadyForTunnels();
@@ -197,13 +200,14 @@ public class BrotherKilling {
 	}
 
 	public static boolean killBrotherInTunnel() {
-		while (Player.isMoving())General.sleep(15,30);
-		for (int fSafe = 0; fSafe<5 && aggressiveNPC() == null; fSafe++) {
-			General.sleep(20,30);
+		while (Player.isMoving())
+			General.sleep(15, 30);
+		for (int fSafe = 0; fSafe < 5 && aggressiveNPC() == null; fSafe++) {
+			General.sleep(20, 30);
 			Var.status = "Checking for npc spawn";
 		}
 		RSNPC target = aggressiveNPC();
-		if (target!=null) {
+		if (target != null) {
 			Brothers bro = Brother.getTunnelBrother();
 			tunnelPrayer(bro);
 			getReadyToFight(bro);
@@ -223,9 +227,10 @@ public class BrotherKilling {
 			return false;
 		}
 	}
-	
+
 	private static void tunnelPrayer(Brothers b) {
-		if (!b.getPrayer().equals(Prayer.Prayers.None) && Potions.canDrinkWithoutWaste()) {
+		if (!b.getPrayer().equals(Prayer.Prayers.None)
+				&& Potions.canDrinkWithoutWaste()) {
 			Potions.drink();
 			Prayer.activate(b.getPrayer());
 		} else if (!b.getPrayer().equals(Prayer.Prayers.None)) {
@@ -236,7 +241,8 @@ public class BrotherKilling {
 	private static void dig(Brothers b, boolean isTunnel) {
 		if (!GameTab.getOpen().equals(TABS.INVENTORY)) {
 			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
-			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
 			}
 		}
@@ -247,7 +253,7 @@ public class BrotherKilling {
 				General.sleep(75);
 			}
 			if (Player.getPosition().getPlane() == 3) {
-				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None) 
+				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None)
 						&& !b.getPrayer().isActivated()) {
 					Prayer.activate(b.getPrayer());
 					Var.status = "Activated Prayer";
@@ -255,23 +261,23 @@ public class BrotherKilling {
 			}
 		}
 	}
-	
+
 	private static void dropVials() {
 		if (Inventory.getCount(229) > 0) {
 			for (RSItem i : Inventory.find(229)) {
 				int count = Inventory.getAll().length;
 				i.click("Drop");
-				for (int x = 0; x < 20 && count == Inventory.getAll().length;x++) {
-					General.sleep(25,30);
+				for (int x = 0; x < 20 && count == Inventory.getAll().length; x++) {
+					General.sleep(25, 30);
 				}
 			}
 		}
 		if (Inventory.getCount(2959) > 0) {
-			for (RSItem i: Inventory.find(2959)) {
+			for (RSItem i : Inventory.find(2959)) {
 				int count = Inventory.getAll().length;
 				i.click("Drop");
-				for (int x = 0; x < 20 && count == Inventory.getAll().length;x++) {
-					General.sleep(25,30);
+				for (int x = 0; x < 20 && count == Inventory.getAll().length; x++) {
+					General.sleep(25, 30);
 				}
 			}
 		}
@@ -281,7 +287,7 @@ public class BrotherKilling {
 		dropVials();
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
-			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+			for (int fsafe = 0; fsafe < 20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
 				General.sleep(50);
 			}
 		}
@@ -289,15 +295,22 @@ public class BrotherKilling {
 			for (int i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
-				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
-					Var.status = "Unable to find Equipment ("+i+")";
+				} else if (!Equipment.isEquiped(i)
+						&& Inventory.getCount(i) == 0) {
+					Var.status = "Unable to find Equipment (" + i + ")";
 				}
 			}
-			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !Equipment.isAllEquiped(Var.tunnelEquipment); fsafe++) {
 				General.sleep(50);
 			}
-			if (!Equipment.isAllEquiped(Var.tunnelEquipment) && GeneralMethods.lastMessage().equalsIgnoreCase("you don't have enough free inventory space to do that.")) {
-				if (Inventory.getCount(Var.food.getId()) > 0 && Inventory.isFull()) {
+			if (!Equipment.isAllEquiped(Var.tunnelEquipment)
+					&& GeneralMethods
+							.lastMessage()
+							.equalsIgnoreCase(
+									"you don't have enough free inventory space to do that.")) {
+				if (Inventory.getCount(Var.food.getId()) > 0
+						&& Inventory.isFull()) {
 					Food.eat();
 				}
 			}
@@ -306,15 +319,16 @@ public class BrotherKilling {
 			Food.eat();
 		}
 	}
-	
+
 	private static void getReadyToFight(Brothers b) {
+		System.out.println("here " + b.getName());
 		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
 		}
 		dropVials();
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
-			for (int fsafe = 0; fsafe<20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+			for (int fsafe = 0; fsafe < 20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
 				General.sleep(50);
 			}
 		}
@@ -322,16 +336,22 @@ public class BrotherKilling {
 			for (int i : b.getEquipment()) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
-				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
-					Var.status = "Unable to find Equipment ("+i+")";
+				} else if (!Equipment.isEquiped(i)
+						&& Inventory.getCount(i) == 0) {
+					Var.status = "Unable to find Equipment (" + i + ")";
 				}
 			}
-			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(b.getEquipment()); fsafe++) {
+			for (int fsafe = 0; fsafe < 20
+					&& !Equipment.isAllEquiped(b.getEquipment()); fsafe++) {
 				General.sleep(50);
 			}
-			if (!Equipment.isAllEquiped(b.getEquipment()) 
-					&& GeneralMethods.lastMessage().equalsIgnoreCase("you don't have enough free inventory space to do that.")) {
-				if (Inventory.getCount(Var.food.getId()) > 0 && Inventory.isFull()) {
+			if (!Equipment.isAllEquiped(b.getEquipment())
+					&& GeneralMethods
+							.lastMessage()
+							.equalsIgnoreCase(
+									"you don't have enough free inventory space to do that.")) {
+				if (Inventory.getCount(Var.food.getId()) > 0
+						&& Inventory.isFull()) {
 					Food.eat();
 				}
 			}
@@ -342,7 +362,8 @@ public class BrotherKilling {
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
 			if (!Magic.isAutocasting(b.getSpell())) {
 				Var.status = "Activating auto casting";
-				for(int fsafe = 0; fsafe<10 && !Magic.isAutocasting(b.getSpell()); fsafe++) {
+				for (int fsafe = 0; fsafe < 10
+						&& !Magic.isAutocasting(b.getSpell()); fsafe++) {
 					Magic.autoCast(b.getSpell());
 				}
 			}
@@ -353,21 +374,20 @@ public class BrotherKilling {
 	}
 
 	private static boolean tunnelInterface() {
-		  return Interfaces.get(210, 0) != null;
+		return Interfaces.get(210, 0) != null;
 	}
-	
+
 	public static boolean isInCrypt(Brothers b) {
-		if (b==null) {
+		if (b == null) {
 			return false;
 		}
 		return (Player.getPosition().getPlane() == 3 && Objects.find(15,
 				b.getCryptID()).length > 0);
 	}
-	
+
 	public static RSNPC aggressiveNPC() {
 		for (RSNPC n : NPCs.getAll()) {
-			if (n.isInteractingWithMe() 
-					&& isBrother(n)) {
+			if (n.isInteractingWithMe() && isBrother(n)) {
 				return n;
 			}
 		}
@@ -382,7 +402,7 @@ public class BrotherKilling {
 			General.sleep(10);
 		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 	}
-	
+
 	private static boolean isBrother(RSNPC n) {
 		for (Brothers bro : Brothers.values()) {
 			if (n.getName().contains(bro.getName())) {
@@ -393,8 +413,8 @@ public class BrotherKilling {
 	}
 
 	public static void reset() {
-		Var.startingRoom=null;
-		Var.lootedChest=false;
+		Var.startingRoom = null;
+		Var.lootedChest = false;
 		for (Brothers b : Brothers.values()) {
 			b.setKilled(false);
 			b.setTunnel(false);
