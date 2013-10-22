@@ -39,6 +39,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import org.tribot.api.General;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 @SuppressWarnings("serial")
 public class BarrowGUI extends JFrame {
@@ -56,8 +58,9 @@ public class BarrowGUI extends JFrame {
 	private static JCheckBox chckbxUsePotions, chckbxUsePrayer, chckbxRecharge;
 	private static Brother.Brothers currentBrother;
 	private static JLabel picHelm, picNeck, picBody, picLegs, picBoots, picGloves, picRing, picCape, picSword, picShield, picArrow, picBro;
-	
+	private static JSpinner spinner;
 	private static JTextField txtFood,txtSA,txtSS,txtSD,txtRP,txtPP,txtArrows,txtCasts;
+	
 	private Image helm = getImage("http://i.imgur.com/S4K9ppc.png");
 	private Image necklace = getImage("http://i.imgur.com/2RyM9tH.png");
 	private Image body = getImage("http://i.imgur.com/cxHgHov.png");
@@ -287,6 +290,7 @@ public class BarrowGUI extends JFrame {
 
 				cbxFood.setSelectedItem(Var.food);
 
+				spinner.setValue(Var.killCount);
 				txtFood.setText(Integer.toString(Var.foodAmount));
 				txtSA.setText(Integer.toString(Var.superAttack));
 				txtSS.setText(Integer.toString(Var.superStrength));
@@ -352,7 +356,8 @@ public class BarrowGUI extends JFrame {
 						}
 
 						Var.food = (Food.Edibles) cbxFood.getSelectedItem();
-
+						
+						Var.killCount = (int)spinner.getValue();
 						Var.foodAmount = Integer.parseInt(txtFood.getText());
 						Var.superAttack = Integer.parseInt(txtSA.getText());
 						Var.superStrength = Integer.parseInt(txtSS.getText());
@@ -1208,15 +1213,24 @@ public class BarrowGUI extends JFrame {
 		listSelected = new JList<String>(modelSelected);
 
 		listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
+		
+		JLabel lblKillCount = new JLabel("Kill Count:");
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(listSelected, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-						.addComponent(btnLeft, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-						.addComponent(btnRight, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(listSelected, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+						.addComponent(btnLeft, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+						.addComponent(btnRight, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addComponent(lblKillCount)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -1228,7 +1242,11 @@ public class BarrowGUI extends JFrame {
 					.addComponent(listSelected, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnLeft)
-					.addContainerGap(46, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblKillCount))
+					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 		getContentPane().setLayout(groupLayout);

@@ -87,7 +87,7 @@ public class BrotherKilling {
 		RSObject[] coffin = Objects.find(10, bro.getCryptID());
 		if (coffin.length > 0) {
 			Var.status = "Searching the coffin";
-			GeneralMethods.clickObject(coffin[0], "Search", false, true);
+			GeneralMethods.clickObject(coffin[0], "Search", false, false);
 			Var.status = "Searched the coffin";
 			General.sleep(350, 500);
 			while (Player.isMoving()) {
