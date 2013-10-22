@@ -130,4 +130,6 @@ public class Var {
 	public static int profit = 0;
 
 	public static int chests;
+
+	public static int killCount;
 }
