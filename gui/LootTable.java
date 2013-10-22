@@ -22,7 +22,7 @@ import javax.swing.border.LineBorder;
 
 import org.tribot.api2007.types.RSItem;
 
-import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.methods.PriceHandler;
 
 public class LootTable extends JFrame {
 
@@ -244,7 +244,7 @@ public class LootTable extends JFrame {
 	public static void addReward(RSItem loot) {
 		try {
 			String name = loot.getDefinition().getName();
-			int price = GeneralMethods.getPrice(loot.getID());
+			int price = PriceHandler.getPrice(loot.getID());
 			addReward(name, loot.getID(), loot.getStack(), price);
 		} catch (Exception e) {
 
@@ -254,7 +254,7 @@ public class LootTable extends JFrame {
 	public static void addReward(RSItem loot, int stack) {
 		try {
 			String name = loot.getDefinition().getName();
-			int price = GeneralMethods.getPrice(loot.getID());
+			int price = PriceHandler.getPrice(loot.getID());
 			addReward(name, loot.getID(), stack, price);
 		} catch (Exception e) {
 
