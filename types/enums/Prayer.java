@@ -93,6 +93,7 @@ public class Prayer {
 	
 
 	public static void disable(Prayers b) {
+		if (b.equals(Prayer.Prayers.None)) return;
 		Mouse.setSpeed(General.random(100, 130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
@@ -128,13 +129,14 @@ public class Prayer {
 
 	public static void disableAllPrayers() {
 		for (Prayers p : Prayers.values()) {
-			if (p.isActivated()) {
+			if (!p.equals(Prayer.Prayers.None) && p.isActivated()) {
 				disable(p);
 			}
 		}
 	}
 
 	public static void activate(Prayers p) {
+		if (p.equals(Prayer.Prayers.None)) return;
 		Mouse.setSpeed(General.random(100, 130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);
