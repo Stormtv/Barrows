@@ -30,7 +30,6 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
-import scripts.Barrows.util.PriceItem;
 import scripts.Barrows.util.RSArea;
 
 public class GeneralMethods {

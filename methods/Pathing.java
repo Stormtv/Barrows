@@ -1,6 +1,5 @@
 package scripts.Barrows.methods;
 
-import org.tribot.api.DynamicClicking;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
