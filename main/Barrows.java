@@ -21,20 +21,22 @@ import org.tribot.script.interfaces.MousePainting;
 import org.tribot.script.interfaces.Painting;
 
 import scripts.Barrows.gui.BarrowGUI;
+import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
-import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
-public class Barrows extends Script implements Painting, MouseActions, MousePainting {
+public class Barrows extends Script implements Painting, MouseActions,
+		MousePainting {
 	String[] auths = { "E12MLDqNWpQAPcw", "RH585Khpd7MZkvD", "8634L4234Hn0PaL",
 			"T26281g87514W7y", "TxN63P3898Pw512", "m3165u7i4eZW5rd",
 			"131Zpzz15Kd5bGI", "424sAkN7rRYc32j", "KL4x044qQ2pr813",
@@ -82,8 +84,9 @@ public class Barrows extends Script implements Painting, MouseActions, MousePain
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(250, 350));
 		try {
-			
-			if(Prayer.anyPrayerEnabled() && Rooms.getRoom() == null && !Tunnel.inCrypt() && !Pathing.isInBarrows()){
+
+			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
+					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
 
@@ -152,7 +155,7 @@ public class Barrows extends Script implements Painting, MouseActions, MousePain
 
 	private void onStart() {
 		activateGUI();
-		GeneralMethods.setPrices();
+		new Thread(new PriceHandler()).start();
 		activateTable();
 		while (Var.guiWait) {
 			sleep(100);

@@ -7,9 +7,11 @@ import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
+
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Looting;
+import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Food;
@@ -77,7 +79,7 @@ public class TunnelTraversing {
 			} else {
 				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
-					price += GeneralMethods.getPrice(i.getID()) * i.getStack();
+					price += PriceHandler.getPrice(i.getID()) * i.getStack();
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
@@ -87,7 +89,7 @@ public class TunnelTraversing {
 				for (RSItem i : Inventory.getAll()) {
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						Var.pieces++;
-					finalPrice += GeneralMethods.getPrice(i.getID())
+					finalPrice += PriceHandler.getPrice(i.getID())
 							* i.getStack();
 				}
 				Var.profit += finalPrice - price;
