@@ -18,9 +18,9 @@ public class Potions {
 	public static int[] SUPER_POTS = { 161, 159, 157, 2440, 167, 165, 163,
 			2442, 149, 147, 145, 2436, 2444, 169, 171, 173 };
 	private static int[] PRAYER_POTIONS_LEAST_TO_HIGH = {143,141,139,2434};
-	public static int SUPER_ATTACK = 2436;
-	public static int SUPER_STRENGTH = 2440;
-	public static int SUPER_DEFENCE = 2442;
+	public static int[] SUPER_ATTACK = {2436, 145, 147, 149};
+	public static int[] SUPER_STRENGTH = {2440, 157, 159, 161};
+	public static int[] SUPER_DEFENCE = {2442, 163, 165, 167};
 
 	public static int getPrayerPerDose() {
 		return Skills.getActualLevel(Skills.SKILLS.PRAYER) / 4 + 7;

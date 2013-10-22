@@ -80,7 +80,6 @@ public class BankHandler {
 						Var.status = "Withdrawing Spade";
 						Banking.withdraw(1, Var.SPADE_ID);
 						Timing.waitCondition(new Condition() {
-
 							@Override
 							public boolean active() {
 								return Inventory.getAll().length != count;
@@ -334,7 +333,9 @@ public class BankHandler {
 	}
 
 	public static boolean needToBank() {
-		return Inventory.getCount(Var.food.getId()) == 0 || !Magic.hasCasts(1)
+		return Inventory.getCount(Var.food.getId()) == 0 
+				|| !Magic.hasCasts(1)
+				|| Inventory.getCount(Var.SPADE_ID) == 0
 				|| Var.arrowId != -1
 				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
 				|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0;
@@ -343,6 +344,7 @@ public class BankHandler {
 	public static boolean needsMoreSupplies() {
 		return Inventory.getCount(Var.food.getId()) < Var.foodAmount
 				|| !Magic.hasCasts(Var.spellCount)
+				|| Inventory.getCount(Var.SPADE_ID) == 0
 				|| Var.arrowId != -1
 				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < Var.arrowCount
 				|| Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion;
