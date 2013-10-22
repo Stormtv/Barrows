@@ -109,8 +109,8 @@ public class GeneralMethods {
 	}
 
 	public static void clickObject(RSObject o, String option,
-			boolean minimapVisible, boolean safeClick) {
-		clickObject(o, option, 0, minimapVisible, safeClick);
+			boolean minimapVisible, boolean checkReachable) {
+		clickObject(o, option, 0, minimapVisible, checkReachable);
 	}
 
 	public static boolean turnTilOnScreen(Positionable p) {
@@ -144,12 +144,13 @@ public class GeneralMethods {
 	}
 
 	static void clickObject(RSObject o, String option, int fail,
-			boolean minimap, boolean safeClick) {
+			boolean minimap, boolean checkReachable) {
 		Var.status = "Checking Validity of Object";
 		if (!isObjectValid(o)) {
 			General.println("Invalid Object");
 			return;
 		}
+		if (checkReachable && !PathFinding.canReach(o, true)) return;
 		if (!o.isOnScreen() || fail > 2) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
@@ -161,7 +162,7 @@ public class GeneralMethods {
 					General.sleep(15, 30);
 				}
 				Camera.turnToTile(o);
-				while (safeClick && Player.isMoving())
+				while (Player.isMoving())
 					General.sleep(30, 50);
 			} else {
 				Camera.turnToTile(o);
@@ -176,11 +177,11 @@ public class GeneralMethods {
 			Var.status = "Failed to Click";
 			return;
 		}
-		while (safeClick && Player.isMoving()) {
+		while (Player.isMoving()) {
 			General.sleep(15, 30);
 		}
 		if (!o.isOnScreen()) {
-			clickObject(o, option, fail + 1, minimap, safeClick);
+			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
@@ -218,9 +219,9 @@ public class GeneralMethods {
 				return;
 			} else if (ChooseOption.isOpen()) {
 				ChooseOption.close();
-				clickObject(o, option, fail + 1, minimap, safeClick);
+				clickObject(o, option, fail + 1, minimap, checkReachable);
 			} else {
-				clickObject(o, option, fail + 1, minimap, safeClick);
+				clickObject(o, option, fail + 1, minimap, checkReachable);
 			}
 		}
 	}
@@ -231,11 +232,13 @@ public class GeneralMethods {
 	
 	private static void screenWalkTo(Positionable p, int count) {
 		if (!Player.getPosition().equals(p)) {
+			Var.status = "Generating Target Tile";
 			Positionable target = getClosestVisibleTile(p);
 			if (target == null) {
 				return;
 			}
 			Var.targetTile = (RSTile) target;
+			Var.status = "Clicking Target Tile";
 			Point i = Projection.tileToScreen(target, 0);
 			Mouse.move(i);
 			for (int fSafe = 0; fSafe < 15
@@ -249,12 +252,13 @@ public class GeneralMethods {
 					General.sleep(12, 18);
 				}
 			} else {
+				Var.status = "Right clicking target tile";
 				Mouse.click(3);
 				for (int fSafe = 0; fSafe < 15 && !ChooseOption.isOpen(); fSafe++)
 					General.sleep(5, 10);
 				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
 					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-					ChooseOption.select("Walk");
+					ChooseOption.select("Walk here");
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 					for (int fail = 0; fail < 20 && !Player.isMoving(); fail++) {
 						General.sleep(12, 18);
@@ -269,9 +273,11 @@ public class GeneralMethods {
 					&& Player.getPosition().distanceTo(target) > 2
 					&& Player.getPosition().distanceTo(p) > target
 							.getPosition().distanceTo(p)) {
+				Var.status = "Waiting until near target";
 				General.sleep(20, 50);
 			}
 			if (!p.getPosition().isOnScreen() && count < 20) {
+				Var.status = "Screenwalking again";
 				screenWalkTo(p,count+1);
 			}
 		}
