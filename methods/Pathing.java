@@ -184,15 +184,12 @@ public class Pathing {
 					RSObject[] barrier = Objects
 							.getAt(new RSTile(3440, 9886, 0));
 					if (barrier.length > 0) {
-						DynamicClicking.clickRSTile(new RSTile(3440, 9886, 0),
-								1);
-						Timing.waitCondition(new Condition() {
-
-							@Override
-							public boolean active() {
-								return !isUndergroundCanifis();
-							}
-						}, 3000);
+						if (barrier[0].isOnScreen()) {
+							GeneralMethods.clickObject(barrier[0], "Pass",
+									true, true);
+						} else {
+							Walking.walkTo(barrier[0]);
+						}
 					}
 				} else {
 					if (PathFinding.canReach(new RSTile(3422, 9889, 0), false)) {
@@ -473,10 +470,10 @@ public class Pathing {
 						if (wall.length > 0) {
 							GeneralMethods.clickObject(wall[0], "Search", true,
 									true);
-							for (int i=0; i<20 
-									&& !Player.getPosition().equals(new RSTile(3480,9836));
-									i++) {
-								General.sleep(100,150);
+							for (int i = 0; i < 20
+									&& !Player.getPosition().equals(
+											new RSTile(3480, 9836)); i++) {
+								General.sleep(100, 150);
 							}
 						}
 					} else {
