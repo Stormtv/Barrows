@@ -99,7 +99,7 @@ public class Var {
 
 	public static Pathing.PathBarrows barrowsPath = PathBarrows.SHORTCUT;
 
-	public static int[] tunnelEquipment;
+	public static int[][] tunnelEquipment;
 
 	public static TunnelRoom startingRoom;
 

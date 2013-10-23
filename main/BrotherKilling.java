@@ -292,7 +292,7 @@ public class BrotherKilling {
 			}
 		}
 		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
-			for (int i : Var.tunnelEquipment) {
+			for (int[] i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				} else if (!Equipment.isEquiped(i)
@@ -332,8 +332,8 @@ public class BrotherKilling {
 				General.sleep(50);
 			}
 		}
-		while (!Equipment.isAllEquiped(b.getEquipment())) {
-			for (int i : b.getEquipment()) {
+		while (!Equipment.isAllEquiped(b.getEquipmentIds())) {
+			for (int[] i : b.getEquipmentIds()) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				} else if (!Equipment.isEquiped(i)
@@ -342,10 +342,10 @@ public class BrotherKilling {
 				}
 			}
 			for (int fsafe = 0; fsafe < 20
-					&& !Equipment.isAllEquiped(b.getEquipment()); fsafe++) {
+					&& !Equipment.isAllEquiped(b.getEquipmentIds()); fsafe++) {
 				General.sleep(50);
 			}
-			if (!Equipment.isAllEquiped(b.getEquipment())
+			if (!Equipment.isAllEquiped(b.getEquipmentIds())
 					&& GeneralMethods
 							.lastMessage()
 							.equalsIgnoreCase(

@@ -30,8 +30,12 @@ public class BankHandler {
 	public static int[] getRequiredItems() {
 		ArrayList<Integer> items = new ArrayList<Integer>();
 
-		for (int i : Equipment.requiedEquipment()) {
-			items.add(i);
+		for (int[] i : Equipment.requiredEquipment()) {
+			for (int j : i) {
+				if (!items.contains(j)) {
+					items.add(j);
+				}
+			}
 		}
 		items.add(Var.food.getId());
 		items.add(Var.SPADE_ID);
@@ -274,8 +278,8 @@ public class BankHandler {
 						}
 						return;
 					}
-					for (int i : Equipment.requiedEquipment()) {
-						if (!has(i) && i > 0) {
+					for (int[] i : Equipment.requiredEquipment()) {
+						if (!has(i) && i[0] != -1) {
 							Var.status = "Withdrawing Equipment";
 							Banking.withdraw(1, i);
 							Timing.waitCondition(new Condition() {
@@ -323,7 +327,7 @@ public class BankHandler {
 		}
 	}
 
-	static boolean has(int l) {
+	static boolean has(int... l) {
 		return Inventory.getCount(l) > 0
 				|| org.tribot.api2007.Equipment.getCount(l) > 0;
 	}

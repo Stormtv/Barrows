@@ -1,6 +1,6 @@
 package scripts.Barrows.types.enums;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.tribot.api.General;
 import org.tribot.api2007.GameTab;
@@ -48,14 +48,33 @@ public class Equipment {
 		return -1;
 	}
 	
-	public static int[] getEquipedItems() {
-		int[] items = new int [11];
-		int count = 0;
-		for (Gear i : Gear.values()) {
-			items[count] = getEquipmentID(i);
-			count++;
+	public static int[][] getEquipedItems() {
+		try {
+		int[][] items = new int [11][];
+			int count = 0;
+			for (Gear i : Gear.values()) {
+				int itemID = getEquipmentID(i);
+				boolean isBarrows = false;
+				for (Armor.Degradables b : Armor.Degradables.values()) {
+					for (int a : b.getId()) {
+						if (a == itemID) {
+							items[count] = new int[b.getId().length];
+							items[count] = b.getId();
+							isBarrows = true;
+						}
+					}
+				}
+				if (!isBarrows) {
+					items[count] = new int[1]; 
+					items[count][0]= getEquipmentID(i);
+				}
+				count++;
+			}
+			return items;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return items;
+		return null;
 	}
 
 	public static boolean isAllEquiped(int... id) {
@@ -65,6 +84,22 @@ public class Equipment {
 		}
 		return true;
 	}
+	
+	public static boolean isAllEquiped(int[][] ids) {
+		for (int[] i : ids) {
+			boolean emptySpot = false;
+			for (int a : i) {
+				if (a == -1) {
+					emptySpot = true;
+				}
+			}
+			if (!emptySpot && !isEquiped(i)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 
 	public static boolean isEquiped(int id) {
 		if (Interfaces.get(387, 28) != null) {
@@ -77,14 +112,30 @@ public class Equipment {
 		return false;
 	}
 	
+	public static boolean isEquiped(int[] id) {
+		if (Interfaces.get(387, 28) != null) {
+			for (RSItem i : Interfaces.get(387, 28).getItems()) {
+				for (int a : id) {
+					if (i.getID() == a) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public static void equipMostFullSet() {
 		int numberOfEmptySpots=11;
-		int[] bestEquip = Brother.Brothers.Dharok.getEquipment();
+		int[][] bestEquip = Brother.Brothers.Dharok.getEquipmentIds();
 		for (Brother.Brothers b : Brothers.values()) {
 			int emptySpots=0;
-			for (int i : b.getEquipmentIds()) {
-				if (i == -1) {
-					emptySpots++;
+			for (int[] i : b.getEquipmentIds()) {
+				for (int t : i) {
+					if (t == -1) {
+						emptySpots++;
+						break;
+					}
 				}
 			}
 			if (numberOfEmptySpots > emptySpots) {
@@ -93,8 +144,8 @@ public class Equipment {
 			}
 		}
 		while (!isAllEquiped(bestEquip)) {
-			for (int i : bestEquip) {
-				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
+			for (int[] i : bestEquip) {
+				if (!Equipment.isAllEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
 					Var.status = "Unable to find Equipment ("+i+")";
@@ -112,13 +163,13 @@ public class Equipment {
 	}
 	
 	
-	public static ArrayList<Integer> requiedEquipment() {
-		ArrayList<Integer> equip = new ArrayList<Integer>();
+	public static int[][] requiredEquipment() {
+		int[][] equip = new int[66][];
+		int count = 0;
 		for (Brother.Brothers b : Brother.Brothers.values()) {
-			for (int i : b.getEquipmentIds()) {
-				if (!equip.contains(i)) {
-					equip.add(i);
-				}
+			for (int[] i : b.getEquipmentIds()) {
+				equip[count] = i;
+				count++;
 			}
 		}
 		return equip;

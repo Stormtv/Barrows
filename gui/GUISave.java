@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -24,7 +25,7 @@ public class GUISave {
 		Properties prop = new Properties();
 		for (Brothers b : Brothers.values()) {
 			prop.setProperty(b.getName()+"KillOrder", Integer.toString(b.killOrder()));
-			prop.setProperty(b.getName()+"Equipment", Arrays.toString(b.getEquipment()));
+			prop.setProperty(b.getName()+"wEquipment", Arrays.deepToString(b.getEquipmentIds()));
 			prop.setProperty(b.getName()+"Spell", b.getSpell().toString());
 			prop.setProperty(b.getName()+"Prayer", b.getPrayer().toString());
 			prop.setProperty(b.getName()+"Potions", Boolean.toString(b.usePotions()));
@@ -38,7 +39,7 @@ public class GUISave {
 		prop.setProperty("prayerPotion", Integer.toString(Var.prayerPotion));
 		prop.setProperty("arrows", Integer.toString(Var.arrowCount));
 		prop.setProperty("casts", Integer.toString(Var.spellCount));
-		prop.setProperty("tunnelEquip", Arrays.toString(Var.tunnelEquipment));
+		prop.setProperty("TunnelEquip", Arrays.deepToString(Var.tunnelEquipment));
 		prop.setProperty("bankPath",Var.bankPath.toString());
 		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
 		prop.setProperty("recharge",Boolean.toString(Var.recharge));
@@ -68,7 +69,7 @@ public class GUISave {
 			prop.load(streamI);
 			for (Brothers b : Brothers.values()) {
 				b.setKillOrder(Integer.valueOf(prop.getProperty(b.getName()+"KillOrder")));
-				b.setEquipmentIds(parseIntegerArray(prop.getProperty(b.getName()+"Equipment")));
+				b.setEquipmentIds(parseTwoDimensionalIntArray(prop.getProperty(b.getName()+"wEquipment")));
 				for (Magic.Spell s : Magic.Spell.values()) {
 					if (prop.getProperty(b.getName()+"Spell").equals(s.toString())) {
 						b.setSpell(s);
@@ -87,7 +88,7 @@ public class GUISave {
 				}
 			}
 			Var.recharge = Boolean.parseBoolean(prop.getProperty("recharge"));
-			Var.tunnelEquipment = parseIntegerArray(prop.getProperty("tunnelEquip"));
+			Var.tunnelEquipment = parseTwoDimensionalIntArray(prop.getProperty("TunnelEquip"));
 			Var.foodAmount = Integer.valueOf(prop.getProperty("foodAmount"));
 			Var.superAttack = Integer.valueOf(prop.getProperty("superAttack"));
 			Var.superStrength = Integer.valueOf(prop.getProperty("superStrength"));
@@ -113,14 +114,29 @@ public class GUISave {
 		}
 	}
 	
-	private static int[] parseIntegerArray(String s) {
-		String arr = s;
-		String[] items = arr.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\\ ", "").split(",");
-		int[] results = new int[items.length];
-		for (int i = 0; i < items.length; i++) {
-		    try {
-		        results[i] = Integer.parseInt(items[i]);
-		    } catch (NumberFormatException nfe) {};
+	private static int[][] parseTwoDimensionalIntArray(String s) {
+		String b = s;
+		b = b.replace("[", "");
+		b = b.replace("]]", "");
+		b =	b.replace(" ", "");
+		String[] lines = b.split("],");
+		int width = lines.length;
+		ArrayList<String[]> cells = new ArrayList<String[]>();
+		for (String i : lines) {
+			cells.add(i.split(","));
+		}
+		int[] heights = new int[cells.size()];
+		for (int i=0; i < cells.size(); i++) {
+			heights[i] = cells.get(i).length;
+		}
+		int[][] results = new int[width][];
+		for (int i=0; i < cells.size();i++) {
+			results[i] = new int[heights[i]];
+		}
+		for (int i = 0; i < width;i++) {
+			for (int j = 0; j < heights[i];j++) {
+				results[i][j] = Integer.parseInt(cells.get(i)[j]);
+			}
 		}
 		return results;
 	}

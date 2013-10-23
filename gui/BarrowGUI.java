@@ -132,11 +132,11 @@ public class BarrowGUI extends JFrame {
 					}
 					if (currentBrother.getEquipmentIds()!=null 
 							&& currentBrother.getEquipmentIds().length > 0) {
-						if (currentBrother.getEquipmentIds()[0]!= -1) {
+						if (currentBrother.getEquipmentIds()[0][0]!= -1) {
 							if (picHelm!=null) {
-								picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0])));
+								picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
 							} else {
-								picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0])));
+								picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
 							}
 						} else {
 							if (picHelm!=null) {
@@ -145,11 +145,11 @@ public class BarrowGUI extends JFrame {
 								picHelm = new JLabel(new ImageIcon(helm));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[1]!= -1) {
+						if (currentBrother.getEquipmentIds()[1][0]!= -1) {
 							if (picCape!=null) {
-								picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1])));
+								picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
 							} else {
-								picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1])));
+								picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
 							}
 						} else {
 							if (picCape!=null) {
@@ -158,11 +158,11 @@ public class BarrowGUI extends JFrame {
 								picCape = new JLabel(new ImageIcon(cape));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[2]!= -1) {
+						if (currentBrother.getEquipmentIds()[2][0]!= -1) {
 							if (picNeck!=null) {
-								picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2])));
+								picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
 							} else {
-								picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2])));
+								picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
 							}
 						} else {
 							if (picNeck!=null) {
@@ -171,11 +171,11 @@ public class BarrowGUI extends JFrame {
 								picNeck = new JLabel(new ImageIcon(necklace));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[3]!= -1) {
+						if (currentBrother.getEquipmentIds()[3][0]!= -1) {
 							if (picSword!=null) {
-								picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3])));
+								picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
 							} else {
-								picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3])));
+								picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
 							}
 						} else {
 							if (picSword!=null) {
@@ -184,11 +184,11 @@ public class BarrowGUI extends JFrame {
 								picSword = new JLabel(new ImageIcon(weapon));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[4]!= -1) {
+						if (currentBrother.getEquipmentIds()[4][0]!= -1) {
 							if (picBody!=null) {
-								picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4])));
+								picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
 							} else {
-								picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4])));
+								picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
 							}
 						} else {
 							if (picBody!=null) {
@@ -197,11 +197,11 @@ public class BarrowGUI extends JFrame {
 								picBody = new JLabel(new ImageIcon(body));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[5]!= -1) {
+						if (currentBrother.getEquipmentIds()[5][0]!= -1) {
 							if (picShield!=null) {
-								picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5])));
+								picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
 							} else {
-								picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5])));
+								picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
 							}						
 						} else {
 							if (picShield!=null) {
@@ -210,11 +210,11 @@ public class BarrowGUI extends JFrame {
 								picShield = new JLabel(new ImageIcon(shield));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[6]!= -1) {
+						if (currentBrother.getEquipmentIds()[6][0]!= -1) {
 							if (picLegs!=null) {
-								picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6])));
+								picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
 							} else {
-								picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6])));
+								picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
 							}
 						} else {
 							if (picLegs!=null) {
@@ -223,11 +223,11 @@ public class BarrowGUI extends JFrame {
 								picLegs = new JLabel(new ImageIcon(legs));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[7]!= -1) {
+						if (currentBrother.getEquipmentIds()[7][0]!= -1) {
 							if (picGloves!=null) {
-								picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7])));
+								picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
 							} else {
-								picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7])));
+								picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
 							}	
 						} else {
 							if (picGloves!=null) {
@@ -236,11 +236,11 @@ public class BarrowGUI extends JFrame {
 								picGloves = new JLabel(new ImageIcon(gloves));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[8]!= -1) {
+						if (currentBrother.getEquipmentIds()[8][0]!= -1) {
 							if (picBoots!=null) {
-								picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8])));
+								picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
 							} else {
-								picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8])));
+								picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
 							}	
 						} else {
 							if (picBoots!=null) {
@@ -249,11 +249,11 @@ public class BarrowGUI extends JFrame {
 								picBoots = new JLabel(new ImageIcon(boots));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[9]!= -1) {
+						if (currentBrother.getEquipmentIds()[9][0]!= -1) {
 							if (picRing!=null) {
-								picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9])));
+								picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
 							} else {
-								picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9])));
+								picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
 							}			
 						} else {
 							if (picRing!=null){
@@ -262,11 +262,11 @@ public class BarrowGUI extends JFrame {
 								picRing = new JLabel(new ImageIcon(ring));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[10]!= -1) {
+						if (currentBrother.getEquipmentIds()[10][0]!= -1) {
 							if (picArrow!=null) {
-								picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10])));
+								picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
 							} else {
-								picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10])));
+								picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
 							}
 						} else {
 							if (picArrow!=null) {
@@ -671,15 +671,15 @@ public class BarrowGUI extends JFrame {
 		JButton btnSetEquipment = new JButton("Set Equipment");
 		btnSetEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				currentBrother.setEquipment(Equipment.getEquipedItems());
+				currentBrother.setEquipmentIds(Equipment.getEquipedItems());
 				try {
 					if (currentBrother.getEquipmentIds()!=null 
 							&& currentBrother.getEquipmentIds().length > 0) {
-						if (currentBrother.getEquipmentIds()[0]!= -1) {
+						if (currentBrother.getEquipmentIds()[0][0]!= -1) {
 							if (picHelm!=null) {
-								picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0])));
+								picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
 							} else {
-								picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0])));
+								picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
 							}
 						} else {
 							if (picHelm!=null) {
@@ -688,11 +688,11 @@ public class BarrowGUI extends JFrame {
 								picHelm = new JLabel(new ImageIcon(helm));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[1]!= -1) {
+						if (currentBrother.getEquipmentIds()[1][0]!= -1) {
 							if (picCape!=null) {
-								picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1])));
+								picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
 							} else {
-								picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1])));
+								picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
 							}
 						} else {
 							if (picCape!=null) {
@@ -701,11 +701,11 @@ public class BarrowGUI extends JFrame {
 								picCape = new JLabel(new ImageIcon(cape));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[2]!= -1) {
+						if (currentBrother.getEquipmentIds()[2][0]!= -1) {
 							if (picNeck!=null) {
-								picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2])));
+								picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
 							} else {
-								picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2])));
+								picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
 							}
 						} else {
 							if (picNeck!=null) {
@@ -714,11 +714,11 @@ public class BarrowGUI extends JFrame {
 								picNeck = new JLabel(new ImageIcon(necklace));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[3]!= -1) {
+						if (currentBrother.getEquipmentIds()[3][0]!= -1) {
 							if (picSword!=null) {
-								picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3])));
+								picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
 							} else {
-								picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3])));
+								picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
 							}
 						} else {
 							if (picSword!=null) {
@@ -727,11 +727,11 @@ public class BarrowGUI extends JFrame {
 								picSword = new JLabel(new ImageIcon(weapon));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[4]!= -1) {
+						if (currentBrother.getEquipmentIds()[4][0]!= -1) {
 							if (picBody!=null) {
-								picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4])));
+								picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
 							} else {
-								picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4])));
+								picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
 							}
 						} else {
 							if (picBody!=null) {
@@ -740,11 +740,11 @@ public class BarrowGUI extends JFrame {
 								picBody = new JLabel(new ImageIcon(body));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[5]!= -1) {
+						if (currentBrother.getEquipmentIds()[5][0]!= -1) {
 							if (picShield!=null) {
-								picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5])));
+								picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
 							} else {
-								picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5])));
+								picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
 							}						
 						} else {
 							if (picShield!=null) {
@@ -753,11 +753,11 @@ public class BarrowGUI extends JFrame {
 								picShield = new JLabel(new ImageIcon(shield));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[6]!= -1) {
+						if (currentBrother.getEquipmentIds()[6][0]!= -1) {
 							if (picLegs!=null) {
-								picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6])));
+								picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
 							} else {
-								picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6])));
+								picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
 							}
 						} else {
 							if (picLegs!=null) {
@@ -766,11 +766,11 @@ public class BarrowGUI extends JFrame {
 								picLegs = new JLabel(new ImageIcon(legs));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[7]!= -1) {
+						if (currentBrother.getEquipmentIds()[7][0]!= -1) {
 							if (picGloves!=null) {
-								picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7])));
+								picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
 							} else {
-								picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7])));
+								picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
 							}	
 						} else {
 							if (picGloves!=null) {
@@ -779,11 +779,11 @@ public class BarrowGUI extends JFrame {
 								picGloves = new JLabel(new ImageIcon(gloves));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[8]!= -1) {
+						if (currentBrother.getEquipmentIds()[8][0]!= -1) {
 							if (picBoots!=null) {
-								picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8])));
+								picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
 							} else {
-								picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8])));
+								picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
 							}	
 						} else {
 							if (picBoots!=null) {
@@ -792,11 +792,11 @@ public class BarrowGUI extends JFrame {
 								picBoots = new JLabel(new ImageIcon(boots));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[9]!= -1) {
+						if (currentBrother.getEquipmentIds()[9][0]!= -1) {
 							if (picRing!=null) {
-								picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9])));
+								picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
 							} else {
-								picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9])));
+								picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
 							}			
 						} else {
 							if (picRing!=null){
@@ -805,11 +805,11 @@ public class BarrowGUI extends JFrame {
 								picRing = new JLabel(new ImageIcon(ring));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[10]!= -1) {
+						if (currentBrother.getEquipmentIds()[10][0]!= -1) {
 							if (picArrow!=null) {
-								picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10])));
+								picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
 							} else {
-								picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10])));
+								picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
 							}
 						} else {
 							if (picArrow!=null) {
@@ -893,11 +893,11 @@ public class BarrowGUI extends JFrame {
 					}
 					if (currentBrother.getEquipmentIds()!=null 
 							&& currentBrother.getEquipmentIds().length > 0) {
-						if (currentBrother.getEquipmentIds()[0]!= -1) {
+						if (currentBrother.getEquipmentIds()[0][0]!= -1) {
 							if (picHelm!=null) {
-								picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0])));
+								picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
 							} else {
-								picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0])));
+								picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
 							}
 						} else {
 							if (picHelm!=null) {
@@ -906,11 +906,11 @@ public class BarrowGUI extends JFrame {
 								picHelm = new JLabel(new ImageIcon(helm));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[1]!= -1) {
+						if (currentBrother.getEquipmentIds()[1][0]!= -1) {
 							if (picCape!=null) {
-								picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1])));
+								picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
 							} else {
-								picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1])));
+								picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
 							}
 						} else {
 							if (picCape!=null) {
@@ -919,11 +919,11 @@ public class BarrowGUI extends JFrame {
 								picCape = new JLabel(new ImageIcon(cape));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[2]!= -1) {
+						if (currentBrother.getEquipmentIds()[2][0]!= -1) {
 							if (picNeck!=null) {
-								picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2])));
+								picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
 							} else {
-								picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2])));
+								picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
 							}
 						} else {
 							if (picNeck!=null) {
@@ -932,11 +932,11 @@ public class BarrowGUI extends JFrame {
 								picNeck = new JLabel(new ImageIcon(necklace));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[3]!= -1) {
+						if (currentBrother.getEquipmentIds()[3][0]!= -1) {
 							if (picSword!=null) {
-								picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3])));
+								picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
 							} else {
-								picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3])));
+								picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
 							}
 						} else {
 							if (picSword!=null) {
@@ -945,11 +945,11 @@ public class BarrowGUI extends JFrame {
 								picSword = new JLabel(new ImageIcon(weapon));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[4]!= -1) {
+						if (currentBrother.getEquipmentIds()[4][0]!= -1) {
 							if (picBody!=null) {
-								picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4])));
+								picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
 							} else {
-								picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4])));
+								picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
 							}
 						} else {
 							if (picBody!=null) {
@@ -958,11 +958,11 @@ public class BarrowGUI extends JFrame {
 								picBody = new JLabel(new ImageIcon(body));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[5]!= -1) {
+						if (currentBrother.getEquipmentIds()[5][0]!= -1) {
 							if (picShield!=null) {
-								picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5])));
+								picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
 							} else {
-								picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5])));
+								picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
 							}						
 						} else {
 							if (picShield!=null) {
@@ -971,11 +971,11 @@ public class BarrowGUI extends JFrame {
 								picShield = new JLabel(new ImageIcon(shield));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[6]!= -1) {
+						if (currentBrother.getEquipmentIds()[6][0]!= -1) {
 							if (picLegs!=null) {
-								picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6])));
+								picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
 							} else {
-								picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6])));
+								picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
 							}
 						} else {
 							if (picLegs!=null) {
@@ -984,11 +984,11 @@ public class BarrowGUI extends JFrame {
 								picLegs = new JLabel(new ImageIcon(legs));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[7]!= -1) {
+						if (currentBrother.getEquipmentIds()[7][0]!= -1) {
 							if (picGloves!=null) {
-								picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7])));
+								picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
 							} else {
-								picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7])));
+								picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
 							}	
 						} else {
 							if (picGloves!=null) {
@@ -997,11 +997,11 @@ public class BarrowGUI extends JFrame {
 								picGloves = new JLabel(new ImageIcon(gloves));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[8]!= -1) {
+						if (currentBrother.getEquipmentIds()[8][0]!= -1) {
 							if (picBoots!=null) {
-								picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8])));
+								picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
 							} else {
-								picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8])));
+								picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
 							}	
 						} else {
 							if (picBoots!=null) {
@@ -1010,11 +1010,11 @@ public class BarrowGUI extends JFrame {
 								picBoots = new JLabel(new ImageIcon(boots));
 							}	
 						}
-						if (currentBrother.getEquipmentIds()[9]!= -1) {
+						if (currentBrother.getEquipmentIds()[9][0]!= -1) {
 							if (picRing!=null) {
-								picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9])));
+								picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
 							} else {
-								picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9])));
+								picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
 							}			
 						} else {
 							if (picRing!=null){
@@ -1023,11 +1023,11 @@ public class BarrowGUI extends JFrame {
 								picRing = new JLabel(new ImageIcon(ring));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[10]!= -1) {
+						if (currentBrother.getEquipmentIds()[10][0]!= -1) {
 							if (picArrow!=null) {
-								picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10])));
+								picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
 							} else {
-								picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10])));
+								picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
 							}
 						} else {
 							if (picArrow!=null) {
