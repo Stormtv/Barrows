@@ -1,7 +1,5 @@
 package scripts.Barrows.types.enums;
 
-import java.util.Arrays;
-
 import org.tribot.api.General;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
