@@ -111,6 +111,8 @@ public class Var {
 
 	public static long startTime;
 
+	public static final int[] Salamanders = {10146,10147,10148};
+	
 	public static long runTime;
 
 	public static int arrowCount;

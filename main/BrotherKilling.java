@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Combat;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
@@ -208,10 +209,10 @@ public class BrotherKilling {
 		}
 		RSNPC target = aggressiveNPC();
 		if (target != null) {
+			Var.status = "Found Brother in Tunnel";
 			Brothers bro = Brother.getTunnelBrother();
 			tunnelPrayer(bro);
 			getReadyToFight(bro);
-			Var.status = "Found Brother in Tunnel";
 			attackMob(target);
 			CombatManager(bro);
 			if (!BankHandler.needToBank()) {
@@ -358,6 +359,13 @@ public class BrotherKilling {
 		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();
+		}
+		if (Equipment.isEquiped(Var.Salamanders)) {
+			if (b.equals(Brother.Brothers.Ahrim)) {
+				Combat.selectStyleSkill("Ranged");
+			} else {
+				Combat.selectStyleSkill("Magic");
+			}
 		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
 			if (!Magic.isAutocasting(b.getSpell())) {

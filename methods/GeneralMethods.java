@@ -30,7 +30,6 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
-import scripts.Barrows.util.RSArea;
 
 public class GeneralMethods {
 
@@ -317,18 +316,6 @@ public class GeneralMethods {
 		}
 		Var.viableTiles = tiles;
 		return tiles;
-	}
-
-	public static RSArea getWithin(int distance, RSTile refe) {
-		if (refe == null)
-			return null;
-		if (distance == 0)
-			return null;
-		RSTile southwest = new RSTile(refe.getX() - distance, refe.getY()
-				- distance);
-		RSTile northeast = new RSTile(refe.getX() + distance, refe.getY()
-				+ distance);
-		return new RSArea(southwest, northeast);
 	}
 
 	public static boolean click(RSNPC m, String option) {
