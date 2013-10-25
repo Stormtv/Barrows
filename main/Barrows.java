@@ -46,7 +46,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x", "cba" };
 	String response;
 
-	public static double version = 0.41;
+	public static double version = 0.42;
 
 	public static Timer runTime = new Timer(0);
 
@@ -142,9 +142,6 @@ public class Barrows extends Script implements Painting, MouseActions,
 			if (!Pathing.isInBarrows() && Pathing.isCloseToBarrows()) {
 				Pathing.walkToCenterOfBarrows();
 				return General.random(10, 30);
-			}
-			if (Tunnel.inCrypt()) {
-				Tunnel.exitCrypt();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

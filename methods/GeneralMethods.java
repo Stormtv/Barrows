@@ -28,6 +28,7 @@ import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 
@@ -144,6 +145,7 @@ public class GeneralMethods {
 
 	static void clickObject(RSObject o, String option, int fail,
 			boolean minimap, boolean checkReachable) {
+		Rooms.TunnelRoom curRoom = Rooms.getRoom();
 		Var.status = "Checking Validity of Object";
 		if (!isObjectValid(o)) {
 			General.println("Invalid Object");
@@ -184,6 +186,9 @@ public class GeneralMethods {
 		}
 		if (!(o.getModel().getAllVisiblePoints().length > 0)) {
 			o = Objects.getAt(o.getPosition())[0];
+		}
+		if (Rooms.getRoom() != curRoom) {
+			return;
 		}
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
