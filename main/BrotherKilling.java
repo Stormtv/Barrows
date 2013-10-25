@@ -130,6 +130,10 @@ public class BrotherKilling {
 				return;
 			}
 			UpKeep();
+			if(!b.getPrayer().equals(Prayer.Prayers.None)
+					&& !b.getPrayer().isActivated()) {
+				Prayer.activate(b.getPrayer());
+			}
 			RSNPC target = aggressiveNPC();
 			if (target == null || target.isInCombat()
 					&& target.getHealth() == 0) {
