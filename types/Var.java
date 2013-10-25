@@ -76,7 +76,7 @@ public class Var {
 			new RSTile(3512, 3476, 0), new RSTile(3512, 3474, 0),
 			new RSTile(3509, 3474, 0), new RSTile(3507, 3480, 0) });
 
-	public static final boolean debug = false;
+	public static final boolean debug = true;
 
 	public static Brothers curBrother;
 

@@ -126,8 +126,6 @@ public class TunnelTraversing {
 					}
 					Var.status = "Checking for brother";
 					BrotherKilling.killBrotherInTunnel();
-				} else {
-					General.println("Invalid Door "+door.toString());
 				}
 			}
 		}

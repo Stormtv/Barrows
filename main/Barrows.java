@@ -46,7 +46,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x", "cba" };
 	String response;
 
-	public static double version = 0.4;
+	public static double version = 0.4.1;
 
 	public static Timer runTime = new Timer(0);
 

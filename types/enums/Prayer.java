@@ -14,6 +14,7 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 
 import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.types.Potions;
 
 public class Prayer {
 
@@ -137,6 +138,9 @@ public class Prayer {
 
 	public static void activate(Prayers p) {
 		if (p.equals(Prayer.Prayers.None)) return;
+		if (Prayer.getPoints()==0) {
+			Potions.drink();
+		}
 		Mouse.setSpeed(General.random(100, 130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
 			Keyboard.pressFunctionKey(5);

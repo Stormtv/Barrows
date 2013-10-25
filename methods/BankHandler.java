@@ -337,12 +337,18 @@ public class BankHandler {
 	}
 
 	public static boolean needToBank() {
-		return Inventory.getCount(Var.food.getId()) == 0 
-				|| !Magic.hasCasts(1)
-				|| Inventory.getCount(Var.SPADE_ID) == 0
-				|| Var.arrowId != -1
-				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
-				|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0;
+		int count=0;
+		for (int i=0; i < 5; i++) {
+			if (Inventory.getCount(Var.food.getId()) == 0 
+					|| !Magic.hasCasts(1)
+					|| Inventory.getCount(Var.SPADE_ID) == 0
+					|| Var.arrowId != -1
+					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
+					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0) {
+				count++;
+			}
+		}
+		return count==5;
 	}
 
 	public static boolean needsMoreSupplies() {

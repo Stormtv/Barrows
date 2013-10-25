@@ -322,7 +322,6 @@ public class BrotherKilling {
 	}
 
 	private static void getReadyToFight(Brothers b) {
-		System.out.println("here " + b.getName());
 		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
 		}
@@ -362,9 +361,9 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquiped(Var.Salamanders)) {
 			if (b.equals(Brother.Brothers.Ahrim)) {
-				Combat.selectStyleSkill("Ranged");
+				Combat.selectIndex(3);
 			} else {
-				Combat.selectStyleSkill("Magic");
+				Combat.selectIndex(2);
 			}
 		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {

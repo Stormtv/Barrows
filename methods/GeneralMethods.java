@@ -150,7 +150,7 @@ public class GeneralMethods {
 			return;
 		}
 		if (checkReachable && !PathFinding.canReach(o, true)) return;
-		if (!o.isOnScreen() || fail > 2) {
+		if (!o.isOnScreen() || fail > 1) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
 				Var.status = "Walking to object";
@@ -172,7 +172,7 @@ public class GeneralMethods {
 
 			}
 		}
-		if (fail > 4) {
+		if (fail > 2) {
 			Var.status = "Failed to Click";
 			return;
 		}
@@ -181,6 +181,9 @@ public class GeneralMethods {
 		}
 		if (!o.isOnScreen()) {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
+		}
+		if (!(o.getModel().getAllVisiblePoints().length > 0)) {
+			o = Objects.getAt(o.getPosition())[0];
 		}
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
@@ -230,6 +233,9 @@ public class GeneralMethods {
 	}
 	
 	private static void screenWalkTo(Positionable p, int count) {
+		if (count == 20) {
+			return;
+		}
 		if (!Player.getPosition().equals(p)) {
 			Var.status = "Generating Target Tile";
 			Positionable target = getClosestVisibleTile(p);
@@ -247,8 +253,11 @@ public class GeneralMethods {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				Mouse.click(1);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-				for (int fail = 0; fail < 20 && !Player.isMoving(); fail++) {
+				for (int fail = 0; fail < 20 && Game.getDestination()==null; fail++) {
 					General.sleep(12, 18);
+				}
+				if (Game.getDestination() == null) {
+					screenWalkTo(p,count+1);
 				}
 			} else {
 				Var.status = "Right clicking target tile";
@@ -259,8 +268,11 @@ public class GeneralMethods {
 					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 					ChooseOption.select("Walk here");
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-					for (int fail = 0; fail < 20 && !Player.isMoving(); fail++) {
+					for (int fail = 0; fail < 20 && Game.getDestination()==null; fail++) {
 						General.sleep(12, 18);
+					}
+					if (Game.getDestination() == null) {
+						screenWalkTo(p,count+1);
 					}
 				} else if (ChooseOption.isOpen()) {
 					ChooseOption.close();

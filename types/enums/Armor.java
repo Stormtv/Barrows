@@ -16,7 +16,7 @@ public class Armor {
 		
 		VeracsHelm(new int[]{4753,4976,4977,4978,4979,4980},Equipment.Gear.HELM,4981),
 		VeracsBody(new int[]{4757,4988,4989,4990,4991},Equipment.Gear.BODY,4992),
-		VeracsLegs(new int[]{4759,4994,495,4996,4997},Equipment.Gear.LEGS,4998),
+		VeracsLegs(new int[]{4759,4994,4955,4996,4997},Equipment.Gear.LEGS,4998),
 		VeracsFlail(new int[]{4755,4982,4983,4984,4985,4986},Equipment.Gear.WEAPON,4987),
 		
 		KarilsBody(new int[]{4736,4940,4941,4942,4943},Equipment.Gear.BODY,4944),
