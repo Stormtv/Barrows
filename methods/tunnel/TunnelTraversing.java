@@ -9,6 +9,7 @@ import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.main.BrotherKilling;
+import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.PriceHandler;
@@ -106,6 +107,9 @@ public class TunnelTraversing {
 		TunnelRoom curRoom = null;
 		if (path != null && path.length > 0) {
 			for (TunnelDoor door : path) {
+				if (BankHandler.needToBank()) {
+					return;
+				}
 				Var.status = "Checking if needing to eat food";
 				Food.eatInCombat();
 				RSObject[] nextDoor = Objects.getAt(door.getLocation());
