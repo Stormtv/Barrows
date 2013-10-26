@@ -13,6 +13,7 @@ import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
@@ -212,7 +213,7 @@ public class BrotherKilling {
 			Var.status = "Checking for npc spawn";
 		}
 		RSNPC target = aggressiveNPC();
-		if (target != null) {
+		if (target != null && PathFinding.canReach(target.getPosition(), false)) {
 			Var.status = "Found Brother in Tunnel";
 			Brothers bro = Brother.getTunnelBrother();
 			tunnelPrayer(bro);

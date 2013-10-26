@@ -11,6 +11,7 @@ import org.tribot.api2007.Skills;
 
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Prayer;
+import scripts.wCombatAIO.types.vars;
 
 public class Potions {
 
@@ -125,6 +126,13 @@ public class Potions {
 					&& Skills.getCurrentLevel(Skills.SKILLS.RANGED) <= points; fsafe++) {
 				General.sleep(40);
 			}
+		}
+		if (Inventory.getCount(9745,9743,9741,9739) > 0 ) {
+			openInventory();
+			int points = Skills.getCurrentLevel(Skills.SKILLS.STRENGTH);
+			Inventory.find(9745,9743,9741,9739)[0].click("Drink");
+			for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel(Skills.SKILLS.STRENGTH) <= points; fsafe++) 
+				General.sleep(40);
 		}
 	}
 
