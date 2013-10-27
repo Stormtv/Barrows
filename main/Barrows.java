@@ -56,12 +56,12 @@ public class Barrows extends Script implements Painting, MouseActions,
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(250, 350));
 		try {
-
+			
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
-
+			
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))

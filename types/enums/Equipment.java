@@ -1,5 +1,7 @@
 package scripts.Barrows.types.enums;
 
+import java.util.Arrays;
+
 import org.tribot.api.General;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -146,7 +148,7 @@ public class Equipment {
 				if (!Equipment.isAllEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
-					Var.status = "Unable to find Equipment ("+i+")";
+					Var.status = "Unable to find Equipment ("+Arrays.toString(i)+")";
 				}
 			}
 			for (int fsafe = 0; fsafe<20 && !Equipment.isAllEquiped(bestEquip); fsafe++) {

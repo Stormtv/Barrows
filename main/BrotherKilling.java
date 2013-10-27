@@ -2,6 +2,7 @@ package scripts.Barrows.main;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
@@ -301,9 +302,10 @@ public class BrotherKilling {
 			for (int[] i : Var.tunnelEquipment) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
+					continue;
 				} else if (!Equipment.isEquiped(i)
 						&& Inventory.getCount(i) == 0) {
-					Var.status = "Unable to find Equipment (" + i + ")";
+					Var.status = "Unable to find Equipment (" + Arrays.toString(i) + ")";
 				}
 			}
 			for (int fsafe = 0; fsafe < 20
@@ -313,12 +315,11 @@ public class BrotherKilling {
 			if (!Equipment.isAllEquiped(Var.tunnelEquipment)
 					&& GeneralMethods
 							.lastMessage()
-							.equalsIgnoreCase(
-									"you don't have enough free inventory space to do that.")) {
-				if (Inventory.getCount(Var.food.getId()) > 0
-						&& Inventory.isFull()) {
-					Food.eat();
-				}
+							.contains(
+									"free inventory space")
+					&& Inventory.getCount(Var.food.getId()) > 0
+					&& Inventory.isFull()) {
+				Food.forceFeed();
 			}
 		}
 		if (Food.canEatWithoutWaste()) {
@@ -341,9 +342,10 @@ public class BrotherKilling {
 			for (int[] i : b.getEquipmentIds()) {
 				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
+					continue;
 				} else if (!Equipment.isEquiped(i)
 						&& Inventory.getCount(i) == 0) {
-					Var.status = "Unable to find Equipment (" + i + ")";
+					Var.status = "Unable to find Equipment (" + Arrays.toString(i) + ")";
 				}
 			}
 			for (int fsafe = 0; fsafe < 20
@@ -353,12 +355,11 @@ public class BrotherKilling {
 			if (!Equipment.isAllEquiped(b.getEquipmentIds())
 					&& GeneralMethods
 							.lastMessage()
-							.equalsIgnoreCase(
-									"you don't have enough free inventory space to do that.")) {
-				if (Inventory.getCount(Var.food.getId()) > 0
-						&& Inventory.isFull()) {
-					Food.eat();
-				}
+							.contains(
+									"free inventory space")
+					&& Inventory.getCount(Var.food.getId()) > 0
+					&& Inventory.isFull()) {
+				Food.forceFeed();
 			}
 		}
 		if (Food.canEatWithoutWaste()) {

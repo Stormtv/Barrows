@@ -43,6 +43,28 @@ public class Food {
 			return healAmount;
 		}
 	}
+	
+	public static void forceFeed() {
+		if (GameTab.getOpen() != TABS.INVENTORY) {
+			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
+				General.sleep(15);
+			}
+		}
+		if (Inventory.find(Var.food.getId()).length > 0) {
+			final int t = Inventory.getAll().length;
+			Inventory.find(Var.food.getId())[0].click("Eat"); 
+			Timing.waitCondition(new Condition(){;
+			@Override
+			public boolean active()
+			{
+				return Inventory.getAll().length < t;
+			}}, General.random(1200, 1300));
+			if (Inventory.getAll().length == t) {
+				forceFeed();
+			}
+		}			
+	}
 
 	public static void eat() {
 		if((Skills.getActualLevel(Skills.SKILLS.HITPOINTS) - Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS)) >= Var.food.getHealAmount()) {
