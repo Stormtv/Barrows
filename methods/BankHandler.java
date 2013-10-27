@@ -71,6 +71,9 @@ public class BankHandler {
 	}
 
 	public static void bank() {
+		if (!Banking.isPinScreenOpen() && !Banking.isBankScreenOpen()) {
+			Equipment.equipMostFullSet();
+		}
 		Mouse.setSpeed(General.random(100, 130));
 		if (Banking.isPinScreenOpen()) {
 			Banking.inPin();

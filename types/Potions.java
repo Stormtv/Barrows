@@ -11,7 +11,6 @@ import org.tribot.api2007.Skills;
 
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Prayer;
-import scripts.wCombatAIO.types.vars;
 
 public class Potions {
 

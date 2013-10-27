@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
@@ -34,19 +33,10 @@ import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
 import scripts.Barrows.util.Timer;
 
-@ScriptManifest(authors = { "wussupwussup", "Integer" }, category = "Minigames", name = "Barrows")
+@ScriptManifest(authors = { "wussupwussup, integer"}, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting {
-	String[] auths = { "E12MLDqNWpQAPcw", "RH585Khpd7MZkvD", "8634L4234Hn0PaL",
-			"T26281g87514W7y", "TxN63P3898Pw512", "m3165u7i4eZW5rd",
-			"131Zpzz15Kd5bGI", "424sAkN7rRYc32j", "KL4x044qQ2pr813",
-			"74M6T36MtK406Qe", "74M6T36MtK406Qe", "dZyv87g38A8Y8MC",
-			"F8uWE3LlzY0bW22", "3Oa6C4x0J85iI51", "cM4dfP7AnOC2fDA",
-			"n1M0zJ01g498U67", "LYi3dheq91jVvjn", "a1dCG1e68epU659",
-			"aF6t55x89206V4K", "qPDkkdGd3Ay3f3x", "cba" };
-	String response;
-
-	public static double version = 0.42;
+	public static double version = 1.0;
 
 	public static Timer runTime = new Timer(0);
 
@@ -54,29 +44,11 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	@Override
 	public void run() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					response = JOptionPane.showInputDialog(null,
-							"Please enter the wBarrows Beta password");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		while (response == null) {
-			sleep(100);
-		}
 		GeneralMethods.adjustBrightness();
-		for (String s : auths) {
-			if (s.equalsIgnoreCase(response)) {
-				onStart();
-				runTime = new Timer(0);
-				while (Var.running) {
-					General.sleep(loop());
-				}
-			}
+		onStart();
+		runTime = new Timer(0);
+		while (Var.running) {
+			General.sleep(loop());
 		}
 	}
 
@@ -143,6 +115,10 @@ public class Barrows extends Script implements Painting, MouseActions,
 				Pathing.walkToCenterOfBarrows();
 				return General.random(10, 30);
 			}
+			if (Tunnel.inCrypt()) {
+				Tunnel.exitCrypt();
+				return General.random(10, 30);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return General.random(10, 30);
@@ -198,8 +174,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	@Override
 	public void mouseClicked(Point p, int arg1, boolean arg2) {
-		if (paint.contains(p))
-			frame.setVisible(getState());
+		if (paint.contains(p));
+			//frame.setVisible(getState());
 	}
 
 	@Override

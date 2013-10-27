@@ -125,7 +125,7 @@ public class Equipment {
 	
 	public static void equipMostFullSet() {
 		int numberOfEmptySpots=11;
-		int[][] bestEquip = Brother.Brothers.Dharok.getEquipmentIds();
+		int[][] bestEquip = getEquipedItems();
 		for (Brother.Brothers b : Brothers.values()) {
 			int emptySpots=0;
 			for (int[] i : b.getEquipmentIds()) {
