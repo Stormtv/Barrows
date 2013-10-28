@@ -35,7 +35,7 @@ public class Pathing {
 		HOUSE, ECTOPHIAL, VARROCK
 	}
 
-	static boolean isInHouse() {
+	public static boolean isInHouse() {
 		return Player.getPosition().getX() > 10000;
 	}
 
@@ -224,7 +224,7 @@ public class Pathing {
 							&& !PathFinding.canReach(after, false)) {
 						RSObject[] door = Objects.getAt(new RSTile(3319, 3467,
 								0));
-						if (door.length > 1) {
+						if (door.length > 1 && door[0].getPosition().distanceTo(Player.getPosition()) < 10) {
 							GeneralMethods.clickObject(door[0], "Open", true,
 									false);
 						}
@@ -547,7 +547,7 @@ public class Pathing {
 				|| new RSTile(3495, 3464, 0).distanceTo(Player.getRSPlayer()) < 15;
 	}
 
-	private static void enterBoat() {
+	public static void enterBoat() {
 		RSObject[] boat = Objects.findNearest(9999, 6970);
 		if (boat.length > 0) {
 			if (boat[0].isOnScreen()) {
@@ -569,7 +569,7 @@ public class Pathing {
 		return Interfaces.get(322, 0) != null;
 	}
 
-	static boolean canEnterBoat() {
+	public static boolean canEnterBoat() {
 		RSObject[] boat = Objects.findNearest(9999, 6970);
 		return !isInBoat() && boat.length > 0
 				&& Player.getPosition().distanceTo(boat[0].getPosition()) < 20;
@@ -666,11 +666,15 @@ public class Pathing {
 		}
 	}
 
-	static boolean buildingMode() {
+	public static boolean buildingMode() {
 		return Game.getSetting(261) == 1;
 	}
 
-	static void turnOnBuildingMode() {
+	public static boolean walkFromVarrock(){
+		return canWalkToVarrock() || canWalkToBank();
+	}
+	
+	public static void turnOnBuildingMode() {
 		if (buildingMode())
 			return;
 		if (isBuildingInterfaceOpen())

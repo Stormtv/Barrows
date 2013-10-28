@@ -97,7 +97,7 @@ public class Var {
 
 	public static Pathing.PathBank bankPath;
 
-	public static Pathing.PathBarrows barrowsPath = PathBarrows.SHORTCUT;
+	public static Pathing.PathBarrows barrowsPath = PathBarrows.SWAMP;
 
 	public static int[][] tunnelEquipment;
 

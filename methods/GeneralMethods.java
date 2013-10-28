@@ -3,7 +3,17 @@ package scripts.Barrows.methods;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
@@ -14,19 +24,21 @@ import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
+import org.tribot.api2007.Screen;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.Walking;
-import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
+import org.tribot.util.Util;
 
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
@@ -46,6 +58,61 @@ public class GeneralMethods {
 				Mouse.click(708, 229, 1);
 			}
 		}
+	}
+	
+	public static void takeScreenShot() {
+		try {
+			File dir = new File(Util.getWorkingDirectory(), "Barrows/screenshots");
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			Date k = new Date(System.currentTimeMillis());
+			ImageIO.write(
+					Screen.getGameImage(),
+					"png",
+					new File(dir, "Reward - " + k.toString() + " "
+							+ System.currentTimeMillis() + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void updateSig() throws MalformedURLException {
+		if (Var.runTime > 0) {
+			update(new General().getTRiBotUsername(), "" + Var.runTime / 1000,
+					"" + Var.profit, "" + Var.trips, "" + Var.chests, ""
+							+ Var.pieces);
+
+		}
+	}
+
+	public static void update(String username, String runtime, String profit,
+			String trips, String chests, String pieces)
+			throws MalformedURLException {
+
+		final String unformattedUrl = "http://polycoding.com/sigs/integer/barrows/update.php?username=%s&runtime=%s&profit=%s&trips=%s&chests=%s&pieces=%s";
+		final String formattedUrl = String.format(unformattedUrl, username,
+				runtime, profit, trips, chests, pieces);
+		InputStream connection = null;
+
+		URL url = new URL(formattedUrl);
+		try {
+			url = new URL(formattedUrl);
+			connection = url.openStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					connection));
+			String line = br.readLine();
+			while (line != null) {
+				line = br.readLine();
+			}
+			connection.close();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			url = null;
+			connection = null;
+		}
+
 	}
 	
 	public boolean tunnelInterface() {

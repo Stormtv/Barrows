@@ -141,7 +141,7 @@ public class LootTable extends JFrame {
 		pricesList.setBackground(new Color(49, 49, 49));
 		contentPane.add(pricesList);
 
-		java.net.URL where = new URL("http://i.imgur.com/OrwyAMc.png");
+		java.net.URL where = new URL("http://i.imgur.com/IALObbY.png");
 		ImageIcon icon = new ImageIcon(where);
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(icon);

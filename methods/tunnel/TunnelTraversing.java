@@ -1,6 +1,7 @@
 package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api.General;
+import scripts.Barrows.gui.LootTable;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
@@ -92,13 +93,15 @@ public class TunnelTraversing {
 						Var.pieces++;
 					finalPrice += PriceHandler.getPrice(i.getID())
 							* i.getStack();
+					LootTable.addReward(i.getDefinition().getName(), i.getID(),
+							i.getStack(), PriceHandler.getPrice(i.getID()));
+					GeneralMethods.takeScreenShot();
 				}
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
 			}
 		}
 	}
-
 
 	private static void tunnelWalkTo(TunnelRoom r) {
 		Walking.setWalkingTimeout(500);
