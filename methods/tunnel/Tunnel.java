@@ -16,16 +16,14 @@ import scripts.Barrows.types.Var;
 public class Tunnel {
 	
 	public static void exitCrypt() {
-		Var.status = "Exiting Crypt";
+		Var.status = "Lost Exiting Crypt";
 		for (Brothers b: Brothers.values()) {
-			if (b.isTunnel()) {
-				if (Objects.find(10, b.getStair()).length > 0) {
-					RSObject stair = Objects.find(10, b.getStair())[0];
-					GeneralMethods.clickObject(stair, "Climb", false, true);
-					for (int fSafe = 0; fSafe < 20
-							&& Player.getPosition().getPlane() == 3; fSafe++) {
-						General.sleep(75);
-					}
+			if (Objects.find(10, b.getStair()).length > 0) {
+				RSObject stair = Objects.find(10, b.getStair())[0];
+				GeneralMethods.clickObject(stair, "Climb", false, true);
+				for (int fSafe = 0; fSafe < 20
+						&& Player.getPosition().getPlane() == 3; fSafe++) {
+					General.sleep(75);
 				}
 			}
 		}
