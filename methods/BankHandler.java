@@ -44,6 +44,8 @@ public class BankHandler {
 			items.add(Var.ECTOPHIAL);
 		} else if (Var.bankPath.equals(PathBank.HOUSE)) {
 			items.add(8013);
+		} else if (Var.bankPath.equals(PathBank.VARROCK)) {
+			items.add(8007);
 		}
 		for (int i : Potions.PRAYER_POTIONS)
 			items.add(i);
@@ -124,6 +126,17 @@ public class BankHandler {
 							}
 						}, 3000);
 						return;
+					}
+					if (Var.bankPath.equals(Pathing.PathBank.VARROCK)
+							&& Inventory.getCount(8007)==0) {
+						Var.status = "Withdrawing Varrock Teletab";
+						Banking.withdraw(1, 8007);
+						Timing.waitCondition(new Condition() {
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
 					}
 					if (Var.arrowId > 0
 							&& (org.tribot.api2007.Equipment
