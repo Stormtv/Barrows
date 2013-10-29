@@ -38,7 +38,7 @@ import scripts.Barrows.util.Timer;
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting, Ending {
-	public static double version = 1.01;
+	public static double version = 1.02;
 
 	public static Timer runTime = new Timer(0);
 

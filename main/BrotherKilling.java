@@ -135,7 +135,7 @@ public class BrotherKilling {
 			if (BankHandler.needToBank()) {
 				return;
 			}
-			UpKeep();
+			UpKeep(b);
 			if(!b.getPrayer().equals(Prayer.Prayers.None)
 					&& !b.getPrayer().isActivated()) {
 				Prayer.activate(b.getPrayer());
@@ -154,8 +154,10 @@ public class BrotherKilling {
 		}
 	}
 
-	private static void UpKeep() {
-		Potions.drinkPrayerInCombat();
+	private static void UpKeep(Brothers b) {
+		if (!b.getPrayer().equals(Prayer.Prayers.None)) {
+			Potions.drinkPrayerInCombat();
+		}
 		Food.eatInCombat();
 	}
 
