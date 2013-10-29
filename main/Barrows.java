@@ -38,7 +38,7 @@ import scripts.Barrows.util.Timer;
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting, Ending {
-	public static double version = 1.0;
+	public static double version = 1.01;
 
 	public static Timer runTime = new Timer(0);
 
@@ -67,67 +67,66 @@ public class Barrows extends Script implements Painting, MouseActions,
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
-					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))
-					|| Pathing.walkFromVarrock()) {
+					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
 				Var.status = "Heading to the bank";
 				Walking.setWalkingTimeout(1);
 				Pathing.goToBank();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
 				BankHandler.bank();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 
 			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
 				if (Rooms.getRoom() == null) {
 					Pathing.getToBarrows();
-					return General.random(110, 130);
+					return General.random(10, 30);
 				}
 			}
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()
 					&& !Var.lootedChest) {
 				BrotherKilling.StartFight();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 					&& !Var.lootedChest || !BrotherKilling.canKill()
 					&& Tunnel.inCrypt() && !Var.lootedChest) {
 				Tunnel.goToTunnel();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 			if (!BrotherKilling.canKill() && Tunnel.inCrypt()
 					&& Var.lootedChest) {
 				Tunnel.exitCrypt();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 			if (Rooms.getRoom() != null && !BrotherKilling.canKill()
 					&& !Tunnel.inCrypt()
 					&& !Var.bankArea.contains(Player.getPosition())) {
 				TunnelTraversing.traverseTunnel();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 					&& Var.lootedChest) {
 				BrotherKilling.reset();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 			if (!Pathing.isInBarrows() && Pathing.isCloseToBarrows()) {
 				Pathing.walkToCenterOfBarrows();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 			if (Tunnel.inCrypt()) {
 				Tunnel.exitCrypt();
-				return General.random(110, 130);
+				return General.random(10, 30);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return General.random(110, 130);
+			return General.random(10, 30);
 		}
-		return General.random(110, 130);
+		return General.random(10, 30);
 	}
 
 	private void onStart() {

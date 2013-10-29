@@ -1181,6 +1181,7 @@ public class BarrowGUI extends JFrame {
 		panel_1.setLayout(gl_panel_1);
 
 		JButton btnRight = new JButton("▲");
+		btnRight.setEnabled(false);
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String s1 = listSelected.getSelectedValue();
@@ -1194,6 +1195,7 @@ public class BarrowGUI extends JFrame {
 		});
 
 		JButton btnLeft = new JButton("▼");
+		btnLeft.setEnabled(false);
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String s1 = listSelected.getSelectedValue();

@@ -70,6 +70,10 @@ public class BrotherKilling {
 				Prayer.disableAllPrayers();
 				Var.status = "Going to crypt " + bro.getName();
 				goToCrypt(bro);
+			} 
+			for (int fSafe = 0; fSafe < 20
+					&& !isInCrypt(bro); fSafe++) {
+				General.sleep(75);
 			}
 			if (isInCrypt(bro)) {
 				if (aggressiveNPC() != null) {
@@ -259,6 +263,7 @@ public class BrotherKilling {
 					&& Player.getPosition().getPlane() != 3; fSafe++) {
 				General.sleep(75);
 			}
+			General.println("Dug");
 			if (Player.getPosition().getPlane() == 3) {
 				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None)
 						&& !b.getPrayer().isActivated()) {
