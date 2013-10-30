@@ -54,7 +54,7 @@ public class GeneralMethods {
 	public static void adjustBrightness() {
 		while (Game.getSetting(166) != 4) {
 			if (!GameTab.getOpen().equals(TABS.OPTIONS)) {
-				Keyboard.pressFunctionKey(12);
+				Keyboard.pressFunctionKey(10);
 				for (int i = 0; i<20 
 						&& !GameTab.getOpen().equals(TABS.OPTIONS);i++) {
 					General.sleep(45,75);

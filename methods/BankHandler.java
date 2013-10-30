@@ -332,7 +332,7 @@ public class BankHandler {
 						Camera.turnToTile(banker[0]);
 					}
 					if (!banker[0].isOnScreen()) {
-						Walking.walkTo(banker[0]);
+						Walking.walkTo(new RSTile(3510, 3478, 0));
 						while(Player.isMoving()) {
 							General.sleep(20,50);
 						}

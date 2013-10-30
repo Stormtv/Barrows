@@ -10,8 +10,11 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.types.RSItem;
+import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
+import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
+import org.tribot.api2007.Walking;
 
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.types.Var;
@@ -72,6 +75,12 @@ public class Food {
 				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
 				for (int fsafe = 0; fsafe < 20 && !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 					General.sleep(15);
+				}
+			}
+			if (Game.getUptext().contains("Use Vial ->")) {
+				Walking.walkTo(Player.getPosition());
+				for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial->");i++){
+					General.sleep(30,50);
 				}
 			}
 			if (Inventory.find(Var.food.getId()).length > 0) {

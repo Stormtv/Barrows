@@ -10,6 +10,7 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Combat;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
+import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
@@ -294,6 +295,12 @@ public class BrotherKilling {
 				}
 			}
 		}
+		if (Game.getUptext().contains("Use Vial ->")) {
+			Walking.walkTo(Player.getPosition());
+			for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial->");i++){
+				General.sleep(30,50);
+			}
+		}
 	}
 
 	private static void getReadyForTunnels() {
@@ -373,7 +380,7 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquiped(Var.Salamanders)) {
 			if (b.equals(Brother.Brothers.Ahrim)) {
-				Combat.selectIndex(3);
+				Combat.selectIndex(1);
 			} else {
 				Combat.selectIndex(2);
 			}

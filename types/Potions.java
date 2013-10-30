@@ -6,9 +6,11 @@ import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
+import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
+import org.tribot.api2007.Walking;
 
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Prayer;
@@ -53,6 +55,12 @@ public class Potions {
 					for (int fsafe = 0; fsafe < 50
 							&& Player.getAnimation() == 829; fsafe++) {
 						General.sleep(40);
+					}
+				}
+				if (Game.getUptext().contains("Use Vial")) {
+					Walking.walkTo(Player.getPosition());
+					for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial");i++){
+						General.sleep(30,50);
 					}
 				}
 			}
@@ -146,6 +154,12 @@ public class Potions {
 			for (int fsafe = 0; fsafe < 50
 					&& Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
+			}
+		}
+		if (Game.getUptext().contains("Use Vial ->")) {
+			Walking.walkTo(Player.getPosition());
+			for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial->");i++){
+				General.sleep(30,50);
 			}
 		}
 	}
