@@ -15,6 +15,7 @@ import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSTile;
@@ -329,6 +330,12 @@ public class BankHandler {
 					Var.status = "Opening the bank";
 					if (!banker[0].isOnScreen()) {
 						Camera.turnToTile(banker[0]);
+					}
+					if (!banker[0].isOnScreen()) {
+						Walking.walkTo(banker[0]);
+						while(Player.isMoving()) {
+							General.sleep(20,50);
+						}
 					}
 					GeneralMethods.click(banker[0], "Bank");
 					Timing.waitCondition(new Condition() {
