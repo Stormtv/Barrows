@@ -99,9 +99,8 @@ public class TunnelTraversing {
 								i.getStack(), PriceHandler.getPrice(i.getID()));
 						}
 					}
-					//Too slow takes like 8 seconds
-					//GeneralMethods.takeScreenShot();
 				}
+				GeneralMethods.takeScreenShot();
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
 			}
