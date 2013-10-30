@@ -129,7 +129,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	private void onStart() {
 		println("Thank you for using wBarrows " + General.getTRiBotUsername()
-				+" If you have any issues contact me on skype: wussupscripts");
+				+", if you have any issues contact me on skype: wussupscripts");
 		GeneralMethods.adjustBrightness();
 		activateGUI();
 		new Thread(new PriceHandler()).start();
