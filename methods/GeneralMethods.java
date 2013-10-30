@@ -53,9 +53,19 @@ public class GeneralMethods {
 
 	public static void adjustBrightness() {
 		while (Game.getSetting(166) != 4) {
-			if (GameTab.open(TABS.OPTIONS)) {
-				General.sleep(500);
-				Mouse.click(708, 229, 1);
+			if (!GameTab.getOpen().equals(TABS.OPTIONS)) {
+				Keyboard.pressFunctionKey(12);
+				for (int i = 0; i<20 
+						&& !GameTab.getOpen().equals(TABS.OPTIONS);i++) {
+					General.sleep(45,75);
+				}
+			}
+			if (Interfaces.get(261,5)!=null) {
+				if (Interfaces.get(261, 5).click("Adjust Screen Brightness")) {
+					for (int i=0; i<20 && Game.getSetting(166)!=4;i++) {
+						General.sleep(10,30);
+					}
+				}
 			}
 		}
 	}

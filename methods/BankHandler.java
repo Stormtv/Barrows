@@ -367,7 +367,7 @@ public class BankHandler {
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
-					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0) {
+					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0 && Var.prayerPotion > 0) {
 				count++;
 			}
 		}

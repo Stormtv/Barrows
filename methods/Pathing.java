@@ -174,30 +174,35 @@ public class Pathing {
 		return false;
 	}
 
-	static void walkLol(RSTile[] fs) {
+	static void walkPath(RSTile[] fs) {
 		if (fs.length == 0)
 			return;
-		for (int i = 0; i < Walking.invertPath(fs).length; i++) {
+		for (int i = 0; i < fs.length; i++) {
 			RSTile t = Walking.invertPath(fs)[i];
-			if (Walking.invertPath(fs).length > 1 && i > 0) {
-				if (t.distanceTo(Player.getPosition()) < 30) {
-					if (Projection.isInMinimap(Projection.tileToMinimap(t))) {
-						//System.out.println(t.distanceTo(Player.getPosition())
-							//	+ "  " + t.toString());
-						Walking.walkTo(t);
-						General.sleep(1000);
-						return;
+			if (t.distanceTo(Player.getPosition()) < 30
+					&& Projection.isInMinimap(Projection.tileToMinimap(t))) {
+				Walking.walkTo(t);
+				if (i==0) {
+					while (Player.isMoving() 
+							&& !Player.getPosition().equals(t)) {
+						Var.status = "Waiting until at target";
+						General.sleep(20, 50);
+					}
+				} else {
+					while (Player.isMoving() && !Player.getPosition().equals(t)
+							&& Player.getPosition().distanceTo(t) > 5) {
+						Var.status = "Waiting until near target";
+						General.sleep(20, 50);
 					}
 				}
-			} else {
-				Walking.walkTo(t);
+				return;
 			}
 		}
 	}
 
 	public static void goFromVarrock() {
 		if (canWalkToBank()) {
-			walkLol(toBank);
+			walkPath(toBank);
 		} else {
 			if (isUndergroundCanifis()) {
 				if (PathFinding.canReach(new RSTile(3439, 9896, 0), false)) {
@@ -253,7 +258,7 @@ public class Pathing {
 						}
 					} else {
 						if (canWalkToVarrock())
-							walkLol(pathFromVarrock);
+							walkPath(pathFromVarrock);
 						else {
 							RSItem[] teletab = Inventory.find(8007);
 							if (teletab.length > 0) {
@@ -303,13 +308,13 @@ public class Pathing {
 				if (canEnterBoat())
 					enterBoat();
 				else
-					walkLol(pathToBoat);
+					walkPath(pathToBoat);
 				General.sleep(500);
 			} else if (isFromBankToGate()) {
 				if (canOpenGate())
 					openGate();
 				else
-					walkLol(pathToGate);
+					walkPath(pathToGate);
 			}
 		}
 		return false;
@@ -429,7 +434,7 @@ public class Pathing {
 				if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
 					General.sleep(1000);
 				else {
-					walkLol(pathFromEcto);
+					walkPath(pathFromEcto);
 				}
 			}
 		} else {
@@ -488,7 +493,7 @@ public class Pathing {
 		}
 		if (isFromBoatToBarrows()) {
 			Var.status = "Going to barrows";
-			walkLol(pathToBarrows);
+			walkPath(pathToBarrows);
 		}
 	}
 
@@ -533,7 +538,7 @@ public class Pathing {
 							}
 						}
 					} else {
-						walkLol(pathUnderground);
+						walkPath(pathUnderground);
 					}
 				}
 			} else {
@@ -565,7 +570,7 @@ public class Pathing {
 						enterBoat();
 					} else {
 						GeneralMethods.enableRun();
-						walkLol(pathToBoatFromShortcut);
+						walkPath(pathToBoatFromShortcut);
 						GeneralMethods.disableRun();
 					}
 				}

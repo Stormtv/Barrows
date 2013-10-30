@@ -38,7 +38,7 @@ import scripts.Barrows.util.Timer;
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting, Ending {
-	public static double version = 1.03;
+	public static double version = 1.04;
 
 	public static Timer runTime = new Timer(0);
 
@@ -57,12 +57,11 @@ public class Barrows extends Script implements Painting, MouseActions,
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(250, 350));
 		try {
-
+			GeneralMethods.adjustBrightness();
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
-
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
@@ -83,8 +82,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
 				if (Rooms.getRoom() == null) {
 					Pathing.getToBarrows();
-					return General.random(10, 30);
 				}
+				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()
 					&& !Var.lootedChest) {

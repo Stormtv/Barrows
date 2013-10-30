@@ -7,6 +7,7 @@ import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
+import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 
 import scripts.Barrows.types.Brother.Brothers;
@@ -43,12 +44,14 @@ public class Potions {
 	public static void drink() {
 		if (canDrinkWithoutWaste()) {
 			int doseID = getBestDoseToDrink();
-			int points = Skills.getCurrentLevel(Skills.SKILLS.PRAYER);
 			if (Inventory.find(doseID).length > 0) {
 				openInventory();
 				if (Inventory.find(doseID)[0].click("Drink")) {
+					for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
+						General.sleep(50,75);
+					}
 					for (int fsafe = 0; fsafe < 50
-							&& Skills.getCurrentLevel(Skills.SKILLS.PRAYER) <= points; fsafe++) {
+							&& Player.getAnimation() == 829; fsafe++) {
 						General.sleep(40);
 					}
 				}
@@ -91,61 +94,58 @@ public class Potions {
 
 	public static void superPot() {
 		if (Inventory.getCount(161, 159, 157, 2440) > 0) {
-			int points = Skills.getCurrentLevel(Skills.SKILLS.STRENGTH);
-			for (int i = 0; i < 5 
-					&& Skills.getCurrentLevel(Skills.SKILLS.STRENGTH) <= points;i++) {
-				openInventory();
-				Inventory.find(161, 159, 157, 2440)[0].click("Drink");
-				for (int fsafe = 0; fsafe < 50
-						&& Skills.getCurrentLevel(Skills.SKILLS.STRENGTH) <= points; fsafe++) {
-					General.sleep(40);
-				}
+			openInventory();
+			Inventory.find(161, 159, 157, 2440)[0].click("Drink");
+			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50,75);
+			}
+			for (int fsafe = 0; fsafe < 50
+					&& Player.getAnimation() == 829; fsafe++) {
+				General.sleep(40);
 			}
 		}
 		if (Inventory.getCount(167, 165, 163, 2442) > 0) {
-			int points = Skills.getCurrentLevel(Skills.SKILLS.DEFENCE);
-			for (int i = 0; i < 5 
-					&& Skills.getCurrentLevel(Skills.SKILLS.DEFENCE) <= points;i++) {
-				openInventory();
-				Inventory.find(167, 165, 163, 2442)[0].click("Drink");
-				for (int fsafe = 0; fsafe < 50
-						&& Skills.getCurrentLevel(Skills.SKILLS.DEFENCE) <= points; fsafe++) {
-					General.sleep(40);
-				}
+			openInventory();
+			Inventory.find(167, 165, 163, 2442)[0].click("Drink");
+			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50,75);
+			}
+			for (int fsafe = 0; fsafe < 50
+					&& Player.getAnimation() == 829; fsafe++) {
+				General.sleep(40);
 			}
 		}
 		if (Inventory.getCount(149, 147, 145, 2436) > 0) {
-			int points = Skills.getCurrentLevel(Skills.SKILLS.ATTACK);
-			for (int i = 0; i < 5 
-					&& Skills.getCurrentLevel(Skills.SKILLS.ATTACK) <= points;i++) {
-				openInventory();
-				Inventory.find(149, 147, 145, 2436)[0].click("Drink");
-				for (int fsafe = 0; fsafe < 50
-						&& Skills.getCurrentLevel(Skills.SKILLS.ATTACK) <= points; fsafe++) {
-					General.sleep(40);
-				}
+			openInventory();
+			Inventory.find(149, 147, 145, 2436)[0].click("Drink");
+			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50,75);
+			}
+			for (int fsafe = 0; fsafe < 50
+					&& Player.getAnimation() == 829; fsafe++) {
+				General.sleep(40);
 			}
 		}
 		if (Inventory.getCount(2444, 169, 171, 173) > 0) {
-			int points = Skills.getCurrentLevel(Skills.SKILLS.RANGED);
-			for (int i = 0; i < 5 
-					&& Skills.getCurrentLevel(Skills.SKILLS.RANGED) <= points;i++) {
-				openInventory();
-				Inventory.find(2444, 169, 171, 173)[0].click("Drink");
-				for (int fsafe = 0; fsafe < 50
-						&& Skills.getCurrentLevel(Skills.SKILLS.RANGED) <= points; fsafe++) {
-					General.sleep(40);
-				}
+			openInventory();
+			Inventory.find(2444, 169, 171, 173)[0].click("Drink");
+			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50,75);
+			}
+			for (int fsafe = 0; fsafe < 50
+					&& Player.getAnimation() == 829; fsafe++) {
+				General.sleep(40);
 			}
 		}
 		if (Inventory.getCount(9745,9743,9741,9739) > 0 ) {
-			int points = Skills.getCurrentLevel(Skills.SKILLS.STRENGTH);
-			for (int i = 0; i < 5 
-					&& Skills.getCurrentLevel(Skills.SKILLS.STRENGTH) <= points;i++) {
-				openInventory();
-				Inventory.find(9745,9743,9741,9739)[0].click("Drink");
-				for (int fsafe = 0;fsafe<50 && Skills.getCurrentLevel(Skills.SKILLS.STRENGTH) <= points; fsafe++) 
-					General.sleep(40);
+			openInventory();
+			Inventory.find(9745,9743,9741,9739)[0].click("Drink");
+			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50,75);
+			}
+			for (int fsafe = 0; fsafe < 50
+					&& Player.getAnimation() == 829; fsafe++) {
+				General.sleep(40);
 			}
 		}
 	}
