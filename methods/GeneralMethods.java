@@ -79,7 +79,7 @@ public class GeneralMethods {
 	}
 
 	public static void updateSig() throws MalformedURLException {
-		update(new General().getTRiBotUsername(), getFullString(""
+		update(General.getTRiBotUsername(), getFullString(""
 				+ Var.runTime / 1000), getFullString("" + Var.profit),
 				getFullString("" + Var.trips), getFullString("" + Var.chests),
 				getFullString("" + Var.pieces));

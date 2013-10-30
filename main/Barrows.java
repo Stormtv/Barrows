@@ -38,7 +38,7 @@ import scripts.Barrows.util.Timer;
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting, Ending {
-	public static double version = 1.02;
+	public static double version = 1.03;
 
 	public static Timer runTime = new Timer(0);
 
@@ -46,7 +46,6 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	@Override
 	public void run() {
-		GeneralMethods.adjustBrightness();
 		onStart();
 		runTime = new Timer(0);
 		while (Var.running) {
@@ -130,6 +129,9 @@ public class Barrows extends Script implements Painting, MouseActions,
 	}
 
 	private void onStart() {
+		println("Thank you for using wBarrows " + General.getTRiBotUsername()
+				+" If you have any issues contact me on skype: wussupscripts");
+		GeneralMethods.adjustBrightness();
 		activateGUI();
 		new Thread(new PriceHandler()).start();
 		activateTable();
@@ -216,7 +218,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 			GeneralMethods.updateSig();
 			System.out
 					.println("Upated Sig, to check yours, visit: http://polycoding.com/wbarrows/"
-							+ new General().getTRiBotUsername() + ".png");
+							+ General.getTRiBotUsername() + ".png");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

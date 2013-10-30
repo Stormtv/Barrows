@@ -93,8 +93,12 @@ public class TunnelTraversing {
 						Var.pieces++;
 					finalPrice += PriceHandler.getPrice(i.getID())
 							* i.getStack();
-					LootTable.addReward(i.getDefinition().getName(), i.getID(),
-							i.getStack(), PriceHandler.getPrice(i.getID()));
+					for (int j : Var.lootIDs) {
+						if (i.getID() == j) {
+						LootTable.addReward(i.getDefinition().getName(), i.getID(),
+								i.getStack(), PriceHandler.getPrice(i.getID()));
+						}
+					}
 					GeneralMethods.takeScreenShot();
 				}
 				Var.profit += finalPrice - price;

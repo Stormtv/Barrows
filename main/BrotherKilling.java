@@ -265,7 +265,6 @@ public class BrotherKilling {
 					&& Player.getPosition().getPlane() != 3; fSafe++) {
 				General.sleep(75);
 			}
-			General.println("Dug");
 			if (Player.getPosition().getPlane() == 3) {
 				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None)
 						&& !b.getPrayer().isActivated()) {
