@@ -5,6 +5,7 @@ import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
+import org.tribot.api.types.generic.Filter;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
@@ -14,6 +15,7 @@ import org.tribot.api2007.Objects;
 import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Projection;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
@@ -24,9 +26,6 @@ import scripts.Barrows.types.enums.Prayer;
 
 public class Pathing {
 
-	final static int[] ALTARS = {};
-	final static int[] PORTALS = {};
-
 	public enum PathBarrows {
 		SWAMP, SHORTCUT
 	}
@@ -36,7 +35,7 @@ public class Pathing {
 	}
 
 	public static boolean isInHouse() {
-		return Player.getPosition().getX() > 10000;
+		return Player.getPosition().getX() > 7000;
 	}
 
 	final static RSTile[] pathFromVarrock = { new RSTile(3214, 3429, 0),
@@ -144,6 +143,8 @@ public class Pathing {
 			new RSTile(3503, 3485, 0), new RSTile(3506, 3481, 0),
 			new RSTile(3510, 3478, 0) };
 
+	private static final int PORTAL = 13179;
+
 	public static boolean isInBarrows() {
 		return Var.barrowsArea.contains(Player.getPosition());
 	}
@@ -174,10 +175,31 @@ public class Pathing {
 		return false;
 	}
 
+	static void walkLol(RSTile[] fs) {
+		if (fs.length == 0)
+			return;
+		for (int i = 0; i < Walking.invertPath(fs).length; i++) {
+			RSTile t = Walking.invertPath(fs)[i];
+			if (Walking.invertPath(fs).length > 1 && i > 0) {
+				if (t.distanceTo(Player.getPosition()) < 30) {
+					if (Projection.isInMinimap(Projection.tileToMinimap(t))) {
+						System.out.println(t.distanceTo(Player.getPosition())
+								+ "  " + t.toString());
+						Walking.walkTo(t);
+						General.sleep(1000);
+						return;
+					}
+				}
+			} else {
+				Walking.walkTo(t);
+			}
+		}
+	}
+
 	public static void goFromVarrock() {
-		if (canWalkToBank())
-			Walking.walkPath(toBank);
-		else {
+		if (canWalkToBank()) {
+			walkLol(toBank);
+		} else {
 			if (isUndergroundCanifis()) {
 				if (PathFinding.canReach(new RSTile(3439, 9896, 0), false)) {
 					RSObject[] barrier = Objects
@@ -224,13 +246,15 @@ public class Pathing {
 							&& !PathFinding.canReach(after, false)) {
 						RSObject[] door = Objects.getAt(new RSTile(3319, 3467,
 								0));
-						if (door.length > 1 && door[0].getPosition().distanceTo(Player.getPosition()) < 10) {
+						if (door.length > 1
+								&& door[0].getPosition().distanceTo(
+										Player.getPosition()) < 10) {
 							GeneralMethods.clickObject(door[0], "Open", true,
 									false);
 						}
 					} else {
 						if (canWalkToVarrock())
-							Walking.walkPath(pathFromVarrock);
+							walkLol(pathFromVarrock);
 						else {
 							RSItem[] teletab = Inventory.find(8007);
 							if (teletab.length > 0) {
@@ -263,7 +287,7 @@ public class Pathing {
 		}
 	}
 
-	private static boolean goViaSwamp() {
+	public static boolean goViaSwamp() {
 		Walking.setControlClick(true);
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(100, 130));
@@ -280,13 +304,13 @@ public class Pathing {
 				if (canEnterBoat())
 					enterBoat();
 				else
-					Walking.walkPath(pathToBoat);
+					walkLol(pathToBoat);
 				General.sleep(500);
 			} else if (isFromBankToGate()) {
 				if (canOpenGate())
 					openGate();
 				else
-					Walking.walkPath(pathToGate);
+					walkLol(pathToGate);
 			}
 		}
 		return false;
@@ -307,23 +331,50 @@ public class Pathing {
 		}
 	}
 
-	static void useHouse() {
+	static void pray() {
+		RSObject[] altar = Objects.find(30, "Altar");
+		if (altar.length > 0) {
+			if (PathFinding.canReach(altar[0].getPosition(), true)) {
+				GeneralMethods.clickObject(altar[0], "Pray", true, false);
+			} else {
+
+				RSObject door = getClosestDoor(altar[0]);
+				if (door != null) {
+					GeneralMethods.clickObject(door, "Open", true, false);
+				}
+			}
+		}
+	}
+
+	static RSObject getClosestDoor(RSObject target) {
+		RSObject[] doors = Objects.find(30, "Door");
+
+		int dist = 99;
+		RSObject finalL = null;
+		if (doors.length > 0) {
+			for (RSObject door : doors) {
+				if (door.getPosition().distanceTo(target.getPosition()) < dist) {
+					if (PathFinding.canReach(door, true)) {
+						dist = door.getPosition().distanceTo(
+								target.getPosition());
+						finalL = door;
+					}
+				}
+			}
+		}
+		return finalL;
+	}
+
+	public static void useHouse() {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
 		if (isInHouse()) {
-			if (buildingMode())
-				turnOnBuildingMode();
-			else {
-				if (Prayer.getPoints() < Prayer.getLevel()) {
-					// TODO CHANGE INTERACTION STRINGS
-					RSObject[] altar = Objects.findNearest(30, ALTARS);
-					if (altar.length > 0) {
-						GeneralMethods.clickObject(altar[0], "Pray", false,
-								false);
-					}
-				} else {
-					RSObject[] portal = Objects.findNearest(30, PORTALS);
-					if (portal.length > 0) {
+			if (Prayer.getPoints() < Prayer.getLevel()) {
+				pray();
+			} else {
+				RSObject[] portal = Objects.findNearest(30, PORTAL);
+				if (portal.length > 0) {
+					if (PathFinding.canReach(portal[0], true)) {
 						GeneralMethods.clickObject(portal[0], "", false, false);
 						Timing.waitCondition(new Condition() {
 
@@ -332,8 +383,15 @@ public class Pathing {
 								return !isInHouse();
 							}
 						}, 10000);
+					} else {
+						RSObject door = getClosestDoor(portal[0]);
+						if (door != null) {
+							GeneralMethods.clickObject(door, "Open", true,
+									false);
+						}
 					}
 				}
+
 			}
 		} else {
 			RSItem[] teletab = Inventory.find(8013);
@@ -372,7 +430,7 @@ public class Pathing {
 				if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
 					General.sleep(1000);
 				else {
-					Walking.walkPath(pathFromEcto);
+					walkLol(pathFromEcto);
 				}
 			}
 		} else {
@@ -415,7 +473,7 @@ public class Pathing {
 
 	public static void getToBarrows() {
 		Mouse.setSpeed(General.random(100, 130));
-		Walking.setWalkingTimeout(1000);
+		Walking.setWalkingTimeout(500);
 		if (isInBarrows()) {
 			return;
 		}
@@ -431,12 +489,12 @@ public class Pathing {
 		}
 		if (isFromBoatToBarrows()) {
 			Var.status = "Going to barrows";
-			Walking.walkPath(pathToBarrows);
+			walkLol(pathToBarrows);
 		}
 	}
 
 	static void goViaShortcut() {
-		Walking.setWalkingTimeout(2500);
+		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
 		Mouse.setSpeed(General.random(100, 150));
@@ -476,7 +534,7 @@ public class Pathing {
 							}
 						}
 					} else {
-						Walking.walkPath(pathUnderground);
+						walkLol(pathUnderground);
 					}
 				}
 			} else {
@@ -508,7 +566,7 @@ public class Pathing {
 						enterBoat();
 					} else {
 						GeneralMethods.enableRun();
-						Walking.walkPath(pathToBoatFromShortcut);
+						walkLol(pathToBoatFromShortcut);
 						GeneralMethods.disableRun();
 					}
 				}
@@ -610,9 +668,8 @@ public class Pathing {
 
 	static boolean isFromGateToBoat() {
 		for (RSTile t : pathToBoat) {
-			if (t.distanceTo(Player.getPosition()) < 5
+			if (t.distanceTo(Player.getPosition()) < 15
 					&& PathFinding.canReach(t, false)) {
-				Walking.walkTo(t);
 				return true;
 			}
 		}
@@ -621,8 +678,7 @@ public class Pathing {
 
 	static boolean isFromBoatToBarrows() {
 		for (RSTile t : pathToBarrows) {
-			if (t.distanceTo(Player.getPosition()) < 5
-					&& PathFinding.canReach(t, false))
+			if (t.distanceTo(Player.getPosition()) < 15)
 				return true;
 		}
 		return false;
@@ -630,8 +686,7 @@ public class Pathing {
 
 	static boolean isFromBankToGate() {
 		for (RSTile t : pathToGate) {
-			if (t.distanceTo(Player.getPosition()) < 5
-					&& PathFinding.canReach(t, false))
+			if (t.distanceTo(Player.getPosition()) < 15)
 				return true;
 		}
 		return false;
@@ -670,10 +725,10 @@ public class Pathing {
 		return Game.getSetting(261) == 1;
 	}
 
-	public static boolean walkFromVarrock(){
+	public static boolean walkFromVarrock() {
 		return canWalkToVarrock() || canWalkToBank();
 	}
-	
+
 	public static void turnOnBuildingMode() {
 		if (buildingMode())
 			return;

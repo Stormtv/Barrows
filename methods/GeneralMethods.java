@@ -51,7 +51,7 @@ public class GeneralMethods {
 				/ (double) Skills.getActualLevel(Skills.SKILLS.HITPOINTS) * 100);
 	}
 
-	public static void adjustBrightness(){
+	public static void adjustBrightness() {
 		while (Game.getSetting(166) != 4) {
 			if (GameTab.open(TABS.OPTIONS)) {
 				General.sleep(500);
@@ -59,10 +59,11 @@ public class GeneralMethods {
 			}
 		}
 	}
-	
+
 	public static void takeScreenShot() {
 		try {
-			File dir = new File(Util.getWorkingDirectory(), "Barrows/screenshots");
+			File dir = new File(Util.getWorkingDirectory(),
+					"Barrows/screenshots");
 			if (!dir.exists()) {
 				dir.mkdir();
 			}
@@ -76,20 +77,21 @@ public class GeneralMethods {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void updateSig() throws MalformedURLException {
-		if (Var.runTime > 0) {
-			update(new General().getTRiBotUsername(), "" + Var.runTime / 1000,
-					"" + Var.profit, "" + Var.trips, "" + Var.chests, ""
-							+ Var.pieces);
 
-		}
+	public static void updateSig() throws MalformedURLException {
+		update(new General().getTRiBotUsername(), getFullString(""
+				+ Var.runTime / 1000), getFullString("" + Var.profit),
+				getFullString("" + Var.trips), getFullString("" + Var.chests),
+				getFullString("" + Var.pieces));
+	}
+
+	public static String getFullString(String s) {
+		return "\"" + s + "\"";
 	}
 
 	public static void update(String username, String runtime, String profit,
 			String trips, String chests, String pieces)
 			throws MalformedURLException {
-
 		final String unformattedUrl = "http://polycoding.com/sigs/integer/barrows/update.php?username=%s&runtime=%s&profit=%s&trips=%s&chests=%s&pieces=%s";
 		final String formattedUrl = String.format(unformattedUrl, username,
 				runtime, profit, trips, chests, pieces);
@@ -114,7 +116,7 @@ public class GeneralMethods {
 		}
 
 	}
-	
+
 	public boolean tunnelInterface() {
 		return Interfaces.get(210, 0) != null;
 	}
@@ -198,8 +200,7 @@ public class GeneralMethods {
 	}
 
 	private static boolean isObjectValid(RSObject o) {
-		if (o== null || o.getModel() == null
-				|| Banking.isBankScreenOpen()) {
+		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()) {
 			return false;
 		}
 		for (RSObject a : Objects.getAt((Positionable) o.getPosition())) {
@@ -218,7 +219,8 @@ public class GeneralMethods {
 			General.println("Invalid Object");
 			return;
 		}
-		if (checkReachable && !PathFinding.canReach(o, true)) return;
+		if (checkReachable && !PathFinding.canReach(o, true))
+			return;
 		if (!o.isOnScreen() || fail > 1) {
 			RSTile tile = o.getPosition();
 			if (minimap) {
@@ -300,10 +302,10 @@ public class GeneralMethods {
 		}
 	}
 
-	public static  void screenWalkTo(Positionable p) {
-		screenWalkTo(p,0);
+	public static void screenWalkTo(Positionable p) {
+		screenWalkTo(p, 0);
 	}
-	
+
 	private static void screenWalkTo(Positionable p, int count) {
 		if (count == 20) {
 			return;
@@ -325,11 +327,11 @@ public class GeneralMethods {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 				Mouse.click(1);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-				for (int fail = 0; fail < 20 && Game.getDestination()==null; fail++) {
+				for (int fail = 0; fail < 20 && Game.getDestination() == null; fail++) {
 					General.sleep(12, 18);
 				}
 				if (Game.getDestination() == null) {
-					screenWalkTo(p,count+1);
+					screenWalkTo(p, count + 1);
 				}
 			} else {
 				Var.status = "Right clicking target tile";
@@ -340,11 +342,12 @@ public class GeneralMethods {
 					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 					ChooseOption.select("Walk here");
 					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-					for (int fail = 0; fail < 20 && Game.getDestination()==null; fail++) {
+					for (int fail = 0; fail < 20
+							&& Game.getDestination() == null; fail++) {
 						General.sleep(12, 18);
 					}
 					if (Game.getDestination() == null) {
-						screenWalkTo(p,count+1);
+						screenWalkTo(p, count + 1);
 					}
 				} else if (ChooseOption.isOpen()) {
 					ChooseOption.close();
@@ -361,7 +364,7 @@ public class GeneralMethods {
 			}
 			if (!p.getPosition().isOnScreen() && count < 20) {
 				Var.status = "Screenwalking again";
-				screenWalkTo(p,count+1);
+				screenWalkTo(p, count + 1);
 			}
 		}
 	}
@@ -438,7 +441,6 @@ public class GeneralMethods {
 		}
 		return false;
 	}
-
 
 	private static boolean groundItemCheck(RSGroundItem g) {
 		for (RSGroundItem a : GroundItems.getAt(g)) {
