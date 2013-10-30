@@ -5,7 +5,6 @@ import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
-import org.tribot.api.types.generic.Filter;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
@@ -183,8 +182,8 @@ public class Pathing {
 			if (Walking.invertPath(fs).length > 1 && i > 0) {
 				if (t.distanceTo(Player.getPosition()) < 30) {
 					if (Projection.isInMinimap(Projection.tileToMinimap(t))) {
-						System.out.println(t.distanceTo(Player.getPosition())
-								+ "  " + t.toString());
+						//System.out.println(t.distanceTo(Player.getPosition())
+							//	+ "  " + t.toString());
 						Walking.walkTo(t);
 						General.sleep(1000);
 						return;

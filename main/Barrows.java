@@ -216,8 +216,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 	public void onEnd() {
 		try {
 			GeneralMethods.updateSig();
-			System.out
-					.println("Upated Sig, to check yours, visit: http://polycoding.com/wbarrows/"
+			println("Upated Sig, to check yours, visit: http://polycoding.com/wbarrows/"
 							+ General.getTRiBotUsername() + ".png");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
