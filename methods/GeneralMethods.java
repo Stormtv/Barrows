@@ -63,7 +63,7 @@ public class GeneralMethods {
 	public static void takeScreenShot() {
 		try {
 			File dir = new File(Util.getWorkingDirectory(),
-					"Barrows/screenshots");
+					"Barrows"+File.separator+"screenshots");
 			if (!dir.exists()) {
 				dir.mkdir();
 			}
