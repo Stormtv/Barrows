@@ -34,7 +34,7 @@ public class Pathing {
 	}
 
 	public static boolean isInHouse() {
-		return Player.getPosition().getX() > 7000;
+		return Objects.findNearest(30, "Kharyrll Portal").length > 0;
 	}
 
 	final static RSTile[] pathFromVarrock = { new RSTile(3214, 3429, 0),
@@ -182,9 +182,8 @@ public class Pathing {
 			if (t.distanceTo(Player.getPosition()) < 30
 					&& Projection.isInMinimap(Projection.tileToMinimap(t))) {
 				Walking.walkTo(t);
-				if (i==0) {
-					while (Player.isMoving() 
-							&& !Player.getPosition().equals(t)) {
+				if (i == 0) {
+					while (Player.isMoving() && !Player.getPosition().equals(t)) {
 						Var.status = "Waiting until at target";
 						General.sleep(20, 50);
 					}
@@ -341,7 +340,6 @@ public class Pathing {
 			if (PathFinding.canReach(altar[0].getPosition(), true)) {
 				GeneralMethods.clickObject(altar[0], "Pray", true, false);
 			} else {
-
 				RSObject door = getClosestDoor(altar[0]);
 				if (door != null) {
 					GeneralMethods.clickObject(door, "Open", true, false);
@@ -376,10 +374,13 @@ public class Pathing {
 			if (Prayer.getPoints() < Prayer.getLevel()) {
 				pray();
 			} else {
-				RSObject[] portal = Objects.findNearest(30, PORTAL);
+				RSObject[] portal = Objects.findNearest(30, "Kharyrll Portal");
 				if (portal.length > 0) {
-					if (PathFinding.canReach(portal[0], true)) {
-						GeneralMethods.clickObject(portal[0], "", false, false);
+					RSObject[] wave = Objects.findNearest(30,
+							"Teleportation focus");
+					if (wave.length > 0 && PathFinding.canReach(wave[0], true)) {
+						GeneralMethods.clickObject(portal[0], "Enter", false,
+								false);
 						Timing.waitCondition(new Condition() {
 
 							@Override
@@ -387,6 +388,7 @@ public class Pathing {
 								return !isInHouse();
 							}
 						}, 10000);
+
 					} else {
 						RSObject door = getClosestDoor(portal[0]);
 						if (door != null) {
@@ -429,7 +431,7 @@ public class Pathing {
 			Options.setRunOn(true);
 		if (isFromEctoToBank()) {
 			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
-				// TODO TELE TO LUMBM
+				Restocking.restorePrayerAtLumbridge();
 			} else {
 				if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
 					General.sleep(1000);
