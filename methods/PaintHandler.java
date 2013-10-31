@@ -113,7 +113,7 @@ public class PaintHandler {
 			}
 		}
 		g.setColor(Color.RED);
-		g.drawString("wBarrows Beta", 5, 40);
+		g.drawString("wBarrows Debug Mode", 5, 40);
 	}
 
 	private static String getRoom(Rooms.TunnelRoom r) {

@@ -38,7 +38,6 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-import org.tribot.api.General;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 

@@ -272,7 +272,7 @@ public class GeneralMethods {
 		Var.debugObject = o;
 		Var.centerPoint = getAverage(o.getModel().getAllVisiblePoints(), 0);
 		Var.status = "Clicking Object";
-		Point p = getAverage(o.getModel().getAllVisiblePoints(), 14);
+		Point p = getAverage(o.getModel().getAllVisiblePoints(), 7);
 		Mouse.move(p);
 		for (int fSafe = 0; fSafe < 20 && !Game.getUptext().contains(option); fSafe++)
 			General.sleep(10, 15);

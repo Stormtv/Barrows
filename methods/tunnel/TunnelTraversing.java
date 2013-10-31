@@ -128,9 +128,18 @@ public class TunnelTraversing {
 				RSObject[] nextDoor = Objects.getAt(door.getLocation());
 				if (nextDoor != null && nextDoor.length > 0
 						&& PathFinding.canReach(nextDoor[0], true)) {
+					RSObject next = null;
+					for (RSObject o : nextDoor) {
+						if (next == null) {
+							next = o;
+						}
+						if (o.getModel().getPoints().length > 1000) {
+							next = o;
+						}
+					}
 					curRoom = Rooms.getRoom();
 					GeneralMethods
-							.clickObject(nextDoor[0], "Open", false, true);
+							.clickObject(next, "Open", false, true);
 					for (int i = 0; i < 20
 							&& !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom == null || curRoom.equals(Rooms

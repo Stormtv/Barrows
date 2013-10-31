@@ -268,10 +268,10 @@ public class BrotherKilling {
 			}
 		}
 		if (Inventory.find(Var.SPADE_ID).length > 0) {
-			Inventory.find(Var.SPADE_ID)[0].click("");
-			for (int fSafe = 0; fSafe < 20
+			Inventory.find(Var.SPADE_ID)[0].click("Dig");
+			for (int fSafe = 0; fSafe < 40
 					&& Player.getPosition().getPlane() != 3; fSafe++) {
-				General.sleep(75);
+				General.sleep(75,150);
 			}
 		}
 	}
