@@ -9,16 +9,12 @@ import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
-import org.tribot.api2007.Camera;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
-import org.tribot.api2007.NPCs;
-import org.tribot.api2007.Player;
-import org.tribot.api2007.Walking;
+import org.tribot.api2007.Objects;
 import org.tribot.api2007.types.RSItem;
-import org.tribot.api2007.types.RSNPC;
-import org.tribot.api2007.types.RSTile;
+import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.types.Potions;
@@ -331,27 +327,16 @@ public class BankHandler {
 					}
 				}
 			} else {
-				RSNPC[] banker = NPCs.findNearest("Banker");
+				RSObject[] banker = Objects.findNearest(15, "Bank booth");
 				if (banker.length > 0 && !Banking.isBankScreenOpen()
 						&& !Banking.isPinScreenOpen()) {
 					Var.status = "Opening the bank";
-					if (!banker[0].isOnScreen()) {
-						Camera.turnToTile(banker[0]);
+					GeneralMethods.clickObject(banker[0], "Bank", true, true);
+					for (int fail=0; fail<20 
+							&& !Banking.isBankScreenOpen()
+							&& !Banking.isPinScreenOpen();fail++) {
+						General.sleep(20, 40);
 					}
-					if (!banker[0].isOnScreen()) {
-						Walking.walkTo(new RSTile(3510, 3478, 0));
-						while(Player.isMoving()) {
-							General.sleep(20,50);
-						}
-					}
-					GeneralMethods.click(banker[0], "Bank");
-					Timing.waitCondition(new Condition() {
-
-						@Override
-						public boolean active() {
-							return Banking.isBankScreenOpen();
-						}
-					}, 3000);
 				}
 			}
 		}
@@ -388,9 +373,5 @@ public class BankHandler {
 				|| Var.arrowId != -1
 				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < Var.arrowCount
 				|| Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion;
-	}
-
-	boolean isNearBank() {
-		return Player.getPosition().distanceTo(new RSTile(3512, 3480, 0)) < 15;
 	}
 }
