@@ -38,6 +38,13 @@ public class BankHandler {
 				}
 			}
 		}
+		for (int[] i : Var.tunnelEquipment) {
+			for (int j : i) {
+				if (!items.contains(j)) {
+					items.add(j);
+				}
+			}
+		}
 		items.add(Var.food.getId());
 		items.add(Var.SPADE_ID);
 		items.add(Var.arrowId);

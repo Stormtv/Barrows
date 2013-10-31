@@ -305,7 +305,6 @@ public class BarrowGUI extends JFrame {
 			}
 		});
 		if (modelSelected.isEmpty()) {
-			General.println("Model was empty");
 			modelSelected.addElement("Dharok");
 			modelSelected.addElement("Karil");
 			modelSelected.addElement("Verac");
