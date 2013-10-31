@@ -66,6 +66,13 @@ public class BrotherKilling {
 				break;
 			}
 		}
+		int killCount=0;
+		for (Brothers b : Brothers.values()) {
+			if (b.isKilled()) killCount++;
+		}
+		if (killCount == 5) {
+			bro.setTunnel(true);
+		}
 		if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
 			if (!isInCrypt(bro)) {
 				Prayer.disableAllPrayers();
@@ -200,14 +207,14 @@ public class BrotherKilling {
 				getReadyToFight(b);
 				Var.status = "Digging";
 				if (!BankHandler.needToBank()) {
-					dig(b, false);
+					dig(b);
 				}
 			} else {
 				Var.status = "Getting Ready for tunnels";
 				getReadyForTunnels();
 				Var.status = "Digging";
 				if (!BankHandler.needToBank()) {
-					dig(b, true);
+					dig(b);
 				}
 			}
 		}
@@ -252,7 +259,7 @@ public class BrotherKilling {
 		}
 	}
 
-	private static void dig(Brothers b, boolean isTunnel) {
+	private static void dig(Brothers b) {
 		if (!GameTab.getOpen().equals(TABS.INVENTORY)) {
 			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
 			for (int fsafe = 0; fsafe < 20
@@ -265,13 +272,6 @@ public class BrotherKilling {
 			for (int fSafe = 0; fSafe < 20
 					&& Player.getPosition().getPlane() != 3; fSafe++) {
 				General.sleep(75);
-			}
-			if (Player.getPosition().getPlane() == 3) {
-				if (!isTunnel && !b.getPrayer().equals(Prayer.Prayers.None)
-						&& !b.getPrayer().isActivated()) {
-					Prayer.activate(b.getPrayer());
-					Var.status = "Activated Prayer";
-				}
 			}
 		}
 	}
@@ -340,7 +340,7 @@ public class BrotherKilling {
 		}
 	}
 
-	private static void getReadyToFight(Brothers b) {
+	public static void getReadyToFight(Brothers b) {
 		if (b.getPrayer() != null && !b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.fillPrayer();
 		}
@@ -396,6 +396,11 @@ public class BrotherKilling {
 		}
 		if (b.usePotions()) {
 			Potions.superPot();
+		}
+		if (!b.getPrayer().equals(Prayer.Prayers.None)
+				&& !b.getPrayer().isActivated()) {
+			Prayer.activate(b.getPrayer());
+			Var.status = "Activated Prayer";
 		}
 	}
 

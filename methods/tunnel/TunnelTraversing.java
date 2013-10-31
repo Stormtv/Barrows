@@ -15,6 +15,7 @@ import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
+import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Food;
 
@@ -76,6 +77,11 @@ public class TunnelTraversing {
 		RSObject[] chest = Objects.find(10, 20973);
 		if (chest.length > 0) {
 			if (chest[0].getModel().getPoints().length == 606) {
+				for (Brothers b: Brothers.values()) {
+					if (!b.isKilled() && b.isTunnel()) {
+						BrotherKilling.getReadyToFight(b);
+					}
+				}
 				GeneralMethods.clickObject(chest[0], "Open", false, true);
 				BrotherKilling.killBrotherInTunnel();
 			} else {
