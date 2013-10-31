@@ -528,7 +528,7 @@ public class Pathing {
 							.getRSPlayer()) < 15
 							&& PathFinding.canReach(new RSTile(3477, 9845, 0),
 									false)) {
-						RSObject[] wall = Objects.getAt(new RSTile(3480, 9836,
+						RSObject[] wall = Objects.getAt(new RSTile(3480, 9837,
 								0));
 						if (wall.length > 0) {
 							GeneralMethods.clickObject(wall[0], "Search", true,
