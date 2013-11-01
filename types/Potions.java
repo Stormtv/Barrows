@@ -57,9 +57,9 @@ public class Potions {
 						General.sleep(40);
 					}
 				}
-				if (Game.getUptext().contains("Use Vial ->")) {
+				if (Game.getUptext().contains("->")) {
 					Walking.walkTo(Player.getPosition());
-					for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial ->");i++){
+					for  (int i=0;i<10 && !Game.getUptext().contains("->");i++){
 						General.sleep(30,50);
 					}
 				}
@@ -156,9 +156,9 @@ public class Potions {
 				General.sleep(40);
 			}
 		}
-		if (Game.getUptext().contains("Use Vial ->")) {
+		if (Game.getUptext().contains("->")) {
 			Walking.walkTo(Player.getPosition());
-			for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial ->");i++){
+			for  (int i=0;i<10 && !Game.getUptext().contains("->");i++){
 				General.sleep(30,50);
 			}
 		}
