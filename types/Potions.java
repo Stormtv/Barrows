@@ -75,7 +75,7 @@ public class Potions {
 	}
 
 	public static void drinkPrayerInCombat() {
-		if (Prayer.getPoints() - prayerDrain() < 7) {
+		if (Prayer.getPoints() - prayerDrain() < 5) {
 			drink();
 		}
 	}
@@ -90,7 +90,7 @@ public class Potions {
 		}
 	}
 
-	private static int prayerDrain() {
+	public static int prayerDrain() {
 		int drain = 8;
 		for (Brothers b : Brothers.values()) {
 			if (b.isKilled()) {

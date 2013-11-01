@@ -249,7 +249,8 @@ public class BrotherKilling {
 				&& Potions.canDrinkWithoutWaste()) {
 			Potions.drink();
 			Prayer.activate(b.getPrayer());
-		} else if (!b.getPrayer().equals(Prayer.Prayers.None)) {
+		} else if (!b.getPrayer().equals(Prayer.Prayers.None)
+				&& !b.getPrayer().isActivated()) {
 			Prayer.activate(b.getPrayer());
 		}
 	}
@@ -265,7 +266,6 @@ public class BrotherKilling {
 		if (Inventory.find(Var.SPADE_ID).length > 0) {
 			Inventory.find(Var.SPADE_ID)[0].click("Dig");
 			for (int fSafe = 0; fSafe < 40
-					&& Player.getPosition().getPlane() != 3
 					&& Objects.find(15, "Sarcophagus").length == 0; fSafe++) {
 				General.sleep(40,60);
 			}
