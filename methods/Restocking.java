@@ -6,17 +6,13 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
-import org.tribot.api2007.Inventory;
-import org.tribot.api2007.Magic;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
-import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
 
 public class Restocking {

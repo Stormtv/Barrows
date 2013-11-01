@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -40,6 +39,7 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.util.Util;
 
+import scripts.Barrows.main.Barrows;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
@@ -55,15 +55,15 @@ public class GeneralMethods {
 		while (Game.getSetting(166) != 4) {
 			if (!GameTab.getOpen().equals(TABS.OPTIONS)) {
 				Keyboard.pressFunctionKey(10);
-				for (int i = 0; i<20 
-						&& !GameTab.getOpen().equals(TABS.OPTIONS);i++) {
-					General.sleep(45,75);
+				for (int i = 0; i < 20
+						&& !GameTab.getOpen().equals(TABS.OPTIONS); i++) {
+					General.sleep(45, 75);
 				}
 			}
-			if (Interfaces.get(261,5)!=null) {
+			if (Interfaces.get(261, 5) != null) {
 				if (Interfaces.get(261, 5).click("Adjust Screen Brightness")) {
-					for (int i=0; i<20 && Game.getSetting(166)!=4;i++) {
-						General.sleep(10,30);
+					for (int i = 0; i < 20 && Game.getSetting(166) != 4; i++) {
+						General.sleep(10, 30);
 					}
 				}
 			}
@@ -72,8 +72,8 @@ public class GeneralMethods {
 
 	public static void takeScreenShot() {
 		try {
-			File dir = new File(Util.getWorkingDirectory(),
-					"Barrows"+File.separator+"screenshots");
+			File dir = new File(Util.getWorkingDirectory(), "Barrows"
+					+ File.separator + "screenshots");
 			if (!dir.exists()) {
 				dir.mkdir();
 			}
@@ -88,43 +88,48 @@ public class GeneralMethods {
 		}
 	}
 
-	public static void updateSig() throws MalformedURLException {
-		update(General.getTRiBotUsername(), getFullString(""
-				+ Var.runTime / 1000), getFullString("" + Var.profit),
-				getFullString("" + Var.trips), getFullString("" + Var.chests),
-				getFullString("" + Var.pieces));
+	public static void updateSig() {
+		try {
+			update(General.getTRiBotUsername(),
+					unzero((int) Barrows.runTime.getElapsed() / 1000),
+					unzero(Var.profit), unzero(Var.trips), unzero(Var.chests),
+					unzero(Var.pieces));
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public static String getFullString(String s) {
-		return "\"" + s + "\"";
+	public static String unzero(final int num) {
+		return String.valueOf((num == 0 ? "null" : num));
 	}
 
-	public static void update(String username, String runtime, String profit,
-			String trips, String chests, String pieces)
-			throws MalformedURLException {
+	public static String update(final String usr, final String time,
+			final String pft, final String trips, final String chst,
+			final String pcs) {
 		final String unformattedUrl = "http://polycoding.com/sigs/integer/barrows/update.php?username=%s&runtime=%s&profit=%s&trips=%s&chests=%s&pieces=%s";
-		final String formattedUrl = String.format(unformattedUrl, username,
-				runtime, profit, trips, chests, pieces);
-		InputStream connection = null;
+		final String formattedUrl = String.format(unformattedUrl, usr, time,
+				pft, trips, chst, pcs);
 
-		URL url = new URL(formattedUrl);
+		final StringBuilder builder = new StringBuilder();
+
+		URL url = null;
+		InputStream stream = null;
 		try {
 			url = new URL(formattedUrl);
-			connection = url.openStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					connection));
+			stream = url.openStream();
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(stream));
 			String line = br.readLine();
 			while (line != null) {
 				line = br.readLine();
 			}
-			connection.close();
 		} catch (final Exception e) {
 			e.printStackTrace();
 		} finally {
 			url = null;
-			connection = null;
+			stream = null;
 		}
-
+		return builder.toString();
 	}
 
 	public boolean tunnelInterface() {

@@ -147,7 +147,6 @@ public class Pathing {
 			new RSTile(3503, 3485, 0), new RSTile(3506, 3481, 0),
 			new RSTile(3510, 3478, 0) };
 
-	private static final int PORTAL = 13179;
 
 	public static boolean isInBarrows() {
 		return Var.barrowsArea.contains(Player.getPosition());
@@ -207,7 +206,6 @@ public class Pathing {
 	public static void goFromVarrock() {
 		if (new RSTile(3412, 3488, 0).distanceTo(Player.getPosition()) < 20
 				&& PathFinding.canReach(new RSTile(3412, 3488, 0), false)) {
-			System.out.println("heeeeeey");
 			if (Prayer.getPoints() < Prayer.getLevel()) {
 				RSObject[] altar = Objects.getAt(new RSTile(3416, 3488, 0));
 				if (altar.length > 0) {
@@ -240,7 +238,6 @@ public class Pathing {
 			return;
 		}
 		if (canWalkToBank()) {
-			System.out.println("nooo");
 			walkPath(toBank);
 		} else {
 			if (isUndergroundCanifis()) {
@@ -284,7 +281,6 @@ public class Pathing {
 						&& (PathFinding.canReach(new RSTile(3408, 3488, 0),
 								false) || PathFinding.canReach(new RSTile(3412,
 								3488, 0), false))) {
-					System.out.println("hi");
 					RSObject[] altar = Objects.getAt(new RSTile(3416, 3488, 0));
 					if (altar.length > 0) {
 						if (!PathFinding.canReach(altar[0], true)) {
@@ -310,14 +306,13 @@ public class Pathing {
 					}
 				} else {
 					Walking.setWalkingTimeout(500);
-					System.out.println("sup");
 					RSObject[] trapdoor = Objects.getAt(new RSTile(3405, 3507,
 							0));
-					if (trapdoor.length > 0) {
-						System.out.println("trappp");
+					if (trapdoor.length > 0
+							&& trapdoor[0].getPosition().distanceTo(
+									Player.getPosition()) < 20) {
 						if (trapdoor[0].getPosition().distanceTo(
 								Player.getRSPlayer()) < 10) {
-							System.out.println("uhmm");
 							GeneralMethods.clickObject(trapdoor[0], "", true,
 									false);
 						} else {

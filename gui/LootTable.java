@@ -56,14 +56,22 @@ public class LootTable extends JFrame {
 	static ArrayList<Integer> ammounts = new ArrayList<Integer>();
 	static ArrayList<Integer> prices = new ArrayList<Integer>();
 
+	@SuppressWarnings("rawtypes")
 	static JList idslist;
+	@SuppressWarnings("rawtypes")
 	static JList nameslist;
+	@SuppressWarnings("rawtypes")
 	static JList ammslist;
+	@SuppressWarnings("rawtypes")
 	static JList pricesList;
 
+	@SuppressWarnings("rawtypes")
 	final static DefaultListModel model = new DefaultListModel();
+	@SuppressWarnings("rawtypes")
 	final static DefaultListModel model3 = new DefaultListModel();
+	@SuppressWarnings("rawtypes")
 	final static DefaultListModel model2 = new DefaultListModel();
+	@SuppressWarnings("rawtypes")
 	final static DefaultListModel model4 = new DefaultListModel();
 	private final JLabel lblNewLabel;
 	private final JPanel panel_1;
@@ -212,6 +220,7 @@ public class LootTable extends JFrame {
 		updatePrices();
 	}
 
+	@SuppressWarnings("rawtypes")
 	static int getIndex(ArrayList a, Object b) {
 		if (a.contains(b)) {
 			return a.indexOf(b);

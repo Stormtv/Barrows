@@ -22,7 +22,6 @@ import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
-import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.types.enums.Magic;
 
 public class BankHandler {

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.net.MalformedURLException;
 
 import javax.swing.SwingUtilities;
 
@@ -28,6 +27,7 @@ import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.PriceHandler;
+import scripts.Barrows.methods.TrialVersionHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
@@ -38,6 +38,9 @@ import scripts.Barrows.util.Timer;
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting, Ending {
+
+	public static boolean trial = false;
+
 	public static double version = 1.051;
 
 	public static Timer runTime = new Timer(0);
@@ -46,10 +49,17 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	@Override
 	public void run() {
+		if (trial) {
+			TrialVersionHandler.setAuthorized(General.getTRiBotUsername());
+		}
 		onStart();
 		runTime = new Timer(0);
-		while (Var.running) {
-			General.sleep(loop());
+		while (Var.running && TrialVersionHandler.isAuthorized()) {
+			if (TrialVersionHandler.canUpdate()) {
+				TrialVersionHandler.updateTrial(General.getTRiBotUsername());
+			} else {
+				General.sleep(loop());
+			}
 		}
 	}
 
@@ -128,16 +138,19 @@ public class Barrows extends Script implements Painting, MouseActions,
 	}
 
 	private void onStart() {
-		println("Thank you for using wBarrows " + General.getTRiBotUsername()
-				+", if you have any issues contact me on skype: wussupscripts");
-		GeneralMethods.adjustBrightness();
-		activateGUI();
-		new Thread(new PriceHandler()).start();
-		activateTable();
-		while (Var.guiWait) {
-			sleep(100);
+		if (TrialVersionHandler.isAuthorized()) {
+			println("Thank you for using wBarrows "
+					+ General.getTRiBotUsername()
+					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");
+			GeneralMethods.adjustBrightness();
+			activateGUI();
+			new Thread(new PriceHandler()).start();
+			activateTable();
+			while (Var.guiWait) {
+				sleep(100);
+			}
+			Var.startTime = System.currentTimeMillis();
 		}
-		Var.startTime = System.currentTimeMillis();
 	}
 
 	private void activateTable() {
@@ -216,8 +229,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 		try {
 			GeneralMethods.updateSig();
 			println("Upated Sig, to check yours, visit: http://polycoding.com/wbarrows/"
-							+ General.getTRiBotUsername() + ".png");
-		} catch (MalformedURLException e) {
+					+ General.getTRiBotUsername() + ".png");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
