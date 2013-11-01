@@ -1,7 +1,6 @@
 package scripts.Barrows.main;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.tribot.api.General;
@@ -37,14 +36,10 @@ import scripts.Barrows.types.enums.Prayer;
 
 public class BrotherKilling {
 
-	private static ArrayList<Brothers> killOrder() {
-		ArrayList<Brothers> ba = new ArrayList<Brothers>();
-		int i = 0;
+	private static Brothers[] killOrder() {
+		Brothers[] ba = new Brothers[6];
 		for (Brothers bro : Brothers.values()) {
-			if (bro.killOrder() == i) {
-				ba.add(bro);
-			}
-			i++;
+			ba[bro.killOrder()] = bro;
 		}
 		return ba;
 	}

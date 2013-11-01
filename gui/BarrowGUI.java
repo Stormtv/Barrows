@@ -41,6 +41,7 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+
 @SuppressWarnings("serial")
 public class BarrowGUI extends JFrame {
 	/**
@@ -340,16 +341,22 @@ public class BarrowGUI extends JFrame {
 							switch (s) {
 								case "Dharok":
 									Brother.Brothers.Dharok.setKillOrder(index);
+									break;
 								case "Karil":
 									Brother.Brothers.Karil.setKillOrder(index);
+									break;
 								case "Verac":
 									Brother.Brothers.Verac.setKillOrder(index);
+									break;
 								case "Guthan":
 									Brother.Brothers.Guthan.setKillOrder(index);
+									break;
 								case "Torag":
 									Brother.Brothers.Torag.setKillOrder(index);
+									break;
 								case "Ahrim":
 									Brother.Brothers.Ahrim.setKillOrder(index);
+									break;
 							}
 						}
 
@@ -1179,7 +1186,7 @@ public class BarrowGUI extends JFrame {
 		panel_1.setLayout(gl_panel_1);
 
 		JButton btnRight = new JButton("▲");
-		btnRight.setEnabled(false);
+		btnRight.setEnabled(true);
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String s1 = listSelected.getSelectedValue();
@@ -1193,7 +1200,7 @@ public class BarrowGUI extends JFrame {
 		});
 
 		JButton btnLeft = new JButton("▼");
-		btnLeft.setEnabled(false);
+		btnLeft.setEnabled(true);
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String s1 = listSelected.getSelectedValue();
