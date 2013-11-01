@@ -13,6 +13,8 @@ import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.Skills;
+import org.tribot.api2007.Skills.SKILLS;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
@@ -20,6 +22,7 @@ import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
+import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.types.enums.Magic;
 
 public class BankHandler {
@@ -132,7 +135,7 @@ public class BankHandler {
 						return;
 					}
 					if (Var.bankPath.equals(Pathing.PathBank.VARROCK)
-							&& Inventory.getCount(8007)==0) {
+							&& Inventory.getCount(8007) == 0) {
 						Var.status = "Withdrawing Varrock Teletab";
 						Banking.withdraw(1, 8007);
 						Timing.waitCondition(new Condition() {
@@ -269,9 +272,9 @@ public class BankHandler {
 								return Inventory.getAll().length != count;
 							}
 						}, 3000);
-						while (scripts.Barrows.types.enums.Prayer.getPoints() < scripts.Barrows.types.enums.Prayer
-								.getLevel()
-								&& Inventory.getCount(Potions.PRAYER_POTIONS) > 0) {
+						while (Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS) < Skills
+								.getActualLevel(SKILLS.HITPOINTS)
+								&& Inventory.getCount(Var.food.getId()) > 0) {
 							if (Banking.isBankScreenOpen()) {
 								Banking.close();
 								Timing.waitCondition(new Condition() {
@@ -288,9 +291,8 @@ public class BankHandler {
 									Timing.waitCondition(new Condition() {
 										@Override
 										public boolean active() {
-											return scripts.Barrows.types.enums.Prayer
-													.getPoints() == scripts.Barrows.types.enums.Prayer
-													.getLevel();
+											return Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS) >= Skills
+													.getActualLevel(SKILLS.HITPOINTS);
 										}
 									}, 1500);
 								}
@@ -332,9 +334,8 @@ public class BankHandler {
 						&& !Banking.isPinScreenOpen()) {
 					Var.status = "Opening the bank";
 					GeneralMethods.clickObject(banker[0], "Bank", true, true);
-					for (int fail=0; fail<20 
-							&& !Banking.isBankScreenOpen()
-							&& !Banking.isPinScreenOpen();fail++) {
+					for (int fail = 0; fail < 20 && !Banking.isBankScreenOpen()
+							&& !Banking.isPinScreenOpen(); fail++) {
 						General.sleep(20, 40);
 					}
 				}
@@ -352,18 +353,18 @@ public class BankHandler {
 	}
 
 	public static boolean needToBank() {
-		int count=0;
-		for (int i=0; i < 5; i++) {
-			if (Inventory.getCount(Var.food.getId()) == 0 
-					|| !Magic.hasCasts(1)
+		int count = 0;
+		for (int i = 0; i < 5; i++) {
+			if (Inventory.getCount(Var.food.getId()) == 0 || !Magic.hasCasts(1)
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
-					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0 && Var.prayerPotion > 0) {
+					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0
+					&& Var.prayerPotion > 0) {
 				count++;
 			}
 		}
-		return count==5;
+		return count == 5;
 	}
 
 	public static boolean needsMoreSupplies() {

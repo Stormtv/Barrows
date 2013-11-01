@@ -9,6 +9,7 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.methods.Pathing.PathBarrows;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Brother.Brothers;
@@ -17,7 +18,7 @@ import scripts.Barrows.util.RSArea;
 
 public class Var {
 	
-	public static boolean recharge = false;
+	public static boolean recharge = true;
 
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
 			new RSTile(3555, 3300, 0), new RSTile(3559, 3300, 0),
@@ -95,7 +96,7 @@ public class Var {
 
 	public static boolean lootedChest = false;
 
-	public static Pathing.PathBank bankPath;
+	public static Pathing.PathBank bankPath = PathBank.ECTOPHIAL;
 
 	public static Pathing.PathBarrows barrowsPath = PathBarrows.SWAMP;
 

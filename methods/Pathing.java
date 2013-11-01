@@ -1,13 +1,17 @@
 package scripts.Barrows.methods;
 
+import java.awt.Color;
+
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
+import org.tribot.api.types.colour.Tolerance;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
@@ -15,6 +19,7 @@ import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
+import org.tribot.api2007.Screen;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
@@ -26,11 +31,11 @@ import scripts.Barrows.types.enums.Prayer;
 public class Pathing {
 
 	public enum PathBarrows {
-		SWAMP, SHORTCUT
+		SWAMP, SHORTCUT, BURGH_DE_ROTT
 	}
 
 	public enum PathBank {
-		HOUSE, ECTOPHIAL, VARROCK
+		HOUSE, ECTOPHIAL, VARROCK, BURGH_DE_ROTT
 	}
 
 	public static boolean isInHouse() {
@@ -200,7 +205,42 @@ public class Pathing {
 	}
 
 	public static void goFromVarrock() {
+		if (new RSTile(3412, 3488, 0).distanceTo(Player.getPosition()) < 20
+				&& PathFinding.canReach(new RSTile(3412, 3488, 0), false)) {
+			System.out.println("heeeeeey");
+			if (Prayer.getPoints() < Prayer.getLevel()) {
+				RSObject[] altar = Objects.getAt(new RSTile(3416, 3488, 0));
+				if (altar.length > 0) {
+					if (PathFinding.canReach(altar[0], true)) {
+						GeneralMethods.clickObject(altar[0], "Pray-at", true,
+								false);
+						while (Player.isMoving())
+							General.sleep(100);
+						Timing.waitCondition(new Condition() {
+							@Override
+							public boolean active() {
+								return Prayer.getPoints() == Prayer.getLevel();
+							}
+						}, 2000);
+					}
+				}
+			} else {
+				final RSObject[] door = Objects
+						.getAt(new RSTile(3408, 3488, 0));
+				if (door.length > 0) {
+					GeneralMethods.clickObject(door[0], "Open", true, false);
+					Timing.waitCondition(new Condition() {
+						@Override
+						public boolean active() {
+							return door.length == 0;
+						}
+					}, 2000);
+				}
+			}
+			return;
+		}
 		if (canWalkToBank()) {
+			System.out.println("nooo");
 			walkPath(toBank);
 		} else {
 			if (isUndergroundCanifis()) {
@@ -238,52 +278,93 @@ public class Pathing {
 					}
 				}
 			} else {
-				RSObject[] trapdoor = Objects.getAt(new RSTile(3405, 3507, 0));
-				if (trapdoor.length > 0
-						&& trapdoor[0].getPosition().distanceTo(
-								Player.getRSPlayer()) < 20) {
-					GeneralMethods.clickObject(trapdoor[0], "", true, false);
-				} else {
-					RSTile after = new RSTile(3321, 3468, 0);
-					if (after.distanceTo(Player.getRSPlayer()) < 10
-							&& !PathFinding.canReach(after, false)) {
-						RSObject[] door = Objects.getAt(new RSTile(3319, 3467,
-								0));
-						if (door.length > 1
-								&& door[0].getPosition().distanceTo(
-										Player.getPosition()) < 10) {
-							GeneralMethods.clickObject(door[0], "Open", true,
-									false);
-						}
-					} else {
-						if (canWalkToVarrock())
-							walkPath(pathFromVarrock);
-						else {
-							RSItem[] teletab = Inventory.find(8007);
-							if (teletab.length > 0) {
-								if (teletab[0].click("")) {
-									RSTile here = Player.getPosition();
-									Timing.waitCondition(new Condition() {
+				if (new RSTile(3408, 3488, 0).distanceTo(Player.getPosition()) < 20
+						&& Var.recharge
+						&& Prayer.getPoints() < Prayer.getLevel()
+						&& (PathFinding.canReach(new RSTile(3408, 3488, 0),
+								false) || PathFinding.canReach(new RSTile(3412,
+								3488, 0), false))) {
+					System.out.println("hi");
+					RSObject[] altar = Objects.getAt(new RSTile(3416, 3488, 0));
+					if (altar.length > 0) {
+						if (!PathFinding.canReach(altar[0], true)) {
 
+							final RSObject[] door = Objects.getAt(new RSTile(
+									3408, 3488, 0));
+							if (door.length > 0) {
+								if (door[0].getPosition().distanceTo(
+										Player.getPosition()) < 5) {
+									GeneralMethods.clickObject(door[0], "Open",
+											true, false);
+									Timing.waitCondition(new Condition() {
 										@Override
 										public boolean active() {
-											return Player.getAnimation() != -1;
+											return door.length == 0;
 										}
-									}, 3000);
-									General.sleep(200);
-									Timing.waitCondition(new Condition() {
-
-										@Override
-										public boolean active() {
-											return Player.getAnimation() == -1;
-										}
-									}, 7000);
-									if (Player.getPosition() != here)
-										Var.trips++;
+									}, 2000);
+								} else {
+									Walking.blindWalkTo(door[0]);
 								}
 							}
 						}
+					}
+				} else {
+					Walking.setWalkingTimeout(500);
+					System.out.println("sup");
+					RSObject[] trapdoor = Objects.getAt(new RSTile(3405, 3507,
+							0));
+					if (trapdoor.length > 0) {
+						System.out.println("trappp");
+						if (trapdoor[0].getPosition().distanceTo(
+								Player.getRSPlayer()) < 10) {
+							System.out.println("uhmm");
+							GeneralMethods.clickObject(trapdoor[0], "", true,
+									false);
+						} else {
+							Walking.blindWalkTo(trapdoor[0]);
+						}
+					} else {
+						RSTile after = new RSTile(3321, 3468, 0);
+						if (after.distanceTo(Player.getRSPlayer()) < 10
+								&& !PathFinding.canReach(after, false)) {
+							RSObject[] door = Objects.getAt(new RSTile(3319,
+									3467, 0));
+							if (door.length > 1
+									&& door[0].getPosition().distanceTo(
+											Player.getPosition()) < 10) {
+								GeneralMethods.clickObject(door[0], "Open",
+										true, false);
+							}
+						} else {
+							if (canWalkToVarrock())
+								walkPath(pathFromVarrock);
+							else {
+								RSItem[] teletab = Inventory.find(8007);
+								if (teletab.length > 0) {
+									if (teletab[0].click("")) {
+										RSTile here = Player.getPosition();
+										Timing.waitCondition(new Condition() {
 
+											@Override
+											public boolean active() {
+												return Player.getAnimation() != -1;
+											}
+										}, 3000);
+										General.sleep(200);
+										Timing.waitCondition(new Condition() {
+
+											@Override
+											public boolean active() {
+												return Player.getAnimation() == -1;
+											}
+										}, 7000);
+										if (Player.getPosition() != here)
+											Var.trips++;
+									}
+								}
+							}
+
+						}
 					}
 				}
 			}
@@ -331,8 +412,33 @@ public class Pathing {
 		case VARROCK:
 			goFromVarrock();
 			break;
+		case BURGH_DE_ROTT:
+			walkPath(Walking.invertPath(pathFromBurghToBarrows));
+			break;
 		}
 	}
+
+	public static final RSTile[] pathFromBurghToBarrows = {
+			new RSTile(3496, 3212, 0), new RSTile(3495, 3217, 0),
+			new RSTile(3494, 3222, 0), new RSTile(3489, 3227, 0),
+			new RSTile(3485, 3231, 0), new RSTile(3485, 3236, 0),
+			new RSTile(3485, 3241, 0), new RSTile(3484, 3246, 0),
+			new RSTile(3485, 3251, 0), new RSTile(3488, 3255, 0),
+			new RSTile(3489, 3260, 0), new RSTile(3488, 3265, 0),
+			new RSTile(3490, 3270, 0), new RSTile(3493, 3274, 0),
+			new RSTile(3496, 3278, 0), new RSTile(3500, 3281, 0),
+			new RSTile(3505, 3283, 0), new RSTile(3510, 3283, 0),
+			new RSTile(3515, 3282, 0), new RSTile(3520, 3281, 0),
+			new RSTile(3525, 3279, 0), new RSTile(3530, 3281, 0),
+			new RSTile(3535, 3281, 0), new RSTile(3539, 3284, 0),
+			new RSTile(3539, 3289, 0), new RSTile(3538, 3294, 0),
+			new RSTile(3537, 3299, 0), new RSTile(3538, 3304, 0),
+			new RSTile(3542, 3307, 0), new RSTile(3546, 3310, 0),
+			new RSTile(3551, 3312, 0), new RSTile(3556, 3314, 0),
+			new RSTile(3561, 3316, 0), new RSTile(3564, 3312, 0),
+			new RSTile(3565, 3307, 0), new RSTile(3566, 3302, 0),
+			new RSTile(3567, 3297, 0), new RSTile(3567, 3292, 0),
+			new RSTile(3565, 3287, 0) };
 
 	static void pray() {
 		RSObject[] altar = Objects.find(30, "Altar");
@@ -400,27 +506,28 @@ public class Pathing {
 
 			}
 		} else {
-			RSItem[] teletab = Inventory.find(8013);
-			if (teletab.length > 0) {
-				if (teletab[0].click("")) {
-					RSTile here = Player.getPosition();
-					Timing.waitCondition(new Condition() {
+			if (new RSTile(3510, 3478, 0).distanceTo(Player.getPosition()) < 30) {
+				Walking.blindWalkTo(new RSTile(3510, 3478, 0));
+			} else {
+				RSItem[] teletab = Inventory.find(8013);
+				if (teletab.length > 0) {
+					if (teletab[0].click("")) {
+						RSTile here = Player.getPosition();
+						General.sleep(500);
+						if (Player.getAnimation() != -1) {
+							Timing.waitCondition(new Condition() {
 
-						@Override
-						public boolean active() {
-							return Player.getAnimation() != -1;
+								@Override
+								public boolean active() {
+									return Player.getAnimation() == -1;
+								}
+							}, 7000);
+							if (Player.getPosition() != here)
+								Var.trips++;
+							while (!houseScreen())
+								General.sleep(50);
 						}
-					}, 3000);
-					General.sleep(200);
-					Timing.waitCondition(new Condition() {
-
-						@Override
-						public boolean active() {
-							return Player.getAnimation() == -1;
-						}
-					}, 7000);
-					if (Player.getPosition() != here)
-						Var.trips++;
+					}
 				}
 			}
 		}
@@ -429,7 +536,7 @@ public class Pathing {
 	static void walkFromEcto() {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
-		if (isFromEctoToBank()) {
+		if (isFromEctoToBank() || Restocking.canWalkToAltar()) {
 			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
 				Restocking.restorePrayerAtLumbridge();
 			} else {
@@ -441,7 +548,17 @@ public class Pathing {
 			}
 		} else {
 			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
-				Restocking.restorePrayerAtLumbridge();
+				if (Player.getAnimation() == -1) {
+					if (GameTab.open(TABS.MAGIC)) {
+						Mouse.click(573, 237, 1);
+						Timing.waitCondition(new Condition() {
+							@Override
+							public boolean active() {
+								return Player.getAnimation() != -1;
+							}
+						}, 2000);
+					}
+				}
 			} else {
 				RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
 				if (ectophial.length > 0) {
@@ -490,6 +607,9 @@ public class Pathing {
 				break;
 			case SHORTCUT:
 				goViaShortcut();
+				break;
+			case BURGH_DE_ROTT:
+				walkPath(Walking.invertPath(pathFromBurghToBarrows));
 				break;
 			}
 		}
@@ -753,5 +873,17 @@ public class Pathing {
 
 	public static void walkToCenterOfBarrows() {
 		Walking.blindWalkTo(new RSTile(3563, 3288, 0));
+	}
+
+	public static boolean houseScreen() {
+		Color a = Screen.getColorAt(100, 280);
+		Color c = Screen.getColorAt(486, 280);
+		Color d = Screen.getColorAt(100, 42);
+		Color e = Screen.getColorAt(486, 42);
+		Color b = new Color(0, 0, 0);
+		return !org.tribot.api.Screen.coloursMatch(b, c, new Tolerance(10))
+				&& !org.tribot.api.Screen.coloursMatch(b, d, new Tolerance(10))
+				&& !org.tribot.api.Screen.coloursMatch(b, a, new Tolerance(10))
+				&& !org.tribot.api.Screen.coloursMatch(b, e, new Tolerance(10));
 	}
 }
