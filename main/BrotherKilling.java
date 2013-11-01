@@ -270,8 +270,9 @@ public class BrotherKilling {
 		if (Inventory.find(Var.SPADE_ID).length > 0) {
 			Inventory.find(Var.SPADE_ID)[0].click("Dig");
 			for (int fSafe = 0; fSafe < 40
-					&& Player.getPosition().getPlane() != 3; fSafe++) {
-				General.sleep(75,150);
+					&& Player.getPosition().getPlane() != 3
+					&& Objects.find(15, "Sarcophagus").length == 0; fSafe++) {
+				General.sleep(40,60);
 			}
 		}
 	}
@@ -297,7 +298,7 @@ public class BrotherKilling {
 		}
 		if (Game.getUptext().contains("Use Vial ->")) {
 			Walking.walkTo(Player.getPosition());
-			for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial->");i++){
+			for  (int i=0;i<10 && !Game.getUptext().contains("Use Vial ->");i++){
 				General.sleep(30,50);
 			}
 		}

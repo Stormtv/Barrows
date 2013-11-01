@@ -14,10 +14,10 @@ public class Armor {
 		DharoksLegs(new int[]{4722,4898,4899,4900,4901}, Equipment.Gear.LEGS, 4902),
 		DharoksHelm(new int[]{4716,4880,4881,4882,4883}, Equipment.Gear.HELM, 4884),
 		
-		VeracsHelm(new int[]{4753,4976,4977,4978,4979,4980},Equipment.Gear.HELM,4981),
+		VeracsHelm(new int[]{4753,4976,4977,4978,4979},Equipment.Gear.HELM,4981),
 		VeracsBody(new int[]{4757,4988,4989,4990,4991},Equipment.Gear.BODY,4992),
-		VeracsLegs(new int[]{4759,4994,4955,4996,4997},Equipment.Gear.LEGS,4998),
-		VeracsFlail(new int[]{4755,4982,4983,4984,4985,4986},Equipment.Gear.WEAPON,4987),
+		VeracsLegs(new int[]{4759,4994,4995,4996,4997},Equipment.Gear.LEGS,4998),
+		VeracsFlail(new int[]{4755,4982,4983,4984,4985},Equipment.Gear.WEAPON,4986),
 		
 		KarilsBody(new int[]{4736,4940,4941,4942,4943},Equipment.Gear.BODY,4944),
 		KarilsHelm(new int[]{4732,4982,4929,4930,4931,4932},Equipment.Gear.HELM,4932),
