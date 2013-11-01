@@ -264,6 +264,14 @@ public class GeneralMethods {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
 		if (!(o.getModel().getAllVisiblePoints().length > 0)) {
+			for (RSObject a : Objects.getAt(o)) {
+				if (o.getModel().getAllVisiblePoints().length == 0) {
+					o = a;
+				}
+				if (a.getModel().getPoints().length > 1000) {
+					o = a;
+				}
+			}
 			o = Objects.getAt(o.getPosition())[0];
 		}
 		if (Rooms.getRoom() != curRoom) {
