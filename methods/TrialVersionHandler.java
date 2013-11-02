@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.tribot.api.General;
+
 import scripts.Barrows.types.Var;
 
 public class TrialVersionHandler {
@@ -24,7 +26,7 @@ public class TrialVersionHandler {
 			if (minutes > 0) {
 				authorized = true;
 			}else{
-				System.out.println("Your trial has expired.");
+				General.println("Your trial has expired.");
 			}
 		} else {
 			update(username, 60);
@@ -45,7 +47,7 @@ public class TrialVersionHandler {
 				.getElapsed() / 60000);
 		update(username, minutesToBeSubmitted);
 		lastTime = System.currentTimeMillis();
-		System.out.println("updated " + username + " with "
+		General.println("updated " + username + " with "
 				+ minutesToBeSubmitted + " minutes left.");
 		return "";
 	}
