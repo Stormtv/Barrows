@@ -6,7 +6,6 @@ import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
-import org.tribot.api.types.colour.Tolerance;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
@@ -75,6 +74,9 @@ public class Pathing {
 			new RSTile(3403, 3490, 0), new RSTile(3404, 3494, 0),
 			new RSTile(3404, 3498, 0), new RSTile(3405, 3502, 0), };
 
+	final static RSTile[] pubToBank = { new RSTile(3494, 3478, 0),
+			new RSTile(3502, 3480, 0), new RSTile(3511, 3479, 0)};
+	
 	final static RSTile[] pathToGate = { new RSTile(3508, 3481, 0),
 			new RSTile(3503, 3481, 0), new RSTile(3498, 3481, 0),
 			new RSTile(3493, 3482, 0), new RSTile(3488, 3481, 0),
@@ -502,7 +504,7 @@ public class Pathing {
 			}
 		} else {
 			if (new RSTile(3510, 3478, 0).distanceTo(Player.getPosition()) < 30) {
-				Walking.blindWalkTo(new RSTile(3510, 3478, 0));
+				walkPath(pubToBank);
 			} else {
 				RSItem[] teletab = Inventory.find(8013);
 				if (teletab.length > 0) {
@@ -519,7 +521,7 @@ public class Pathing {
 							}, 7000);
 							if (Player.getPosition() != here)
 								Var.trips++;
-							while (!houseScreen())
+							while (houseScreen())
 								General.sleep(50);
 						}
 					}
@@ -871,14 +873,6 @@ public class Pathing {
 	}
 
 	public static boolean houseScreen() {
-		Color a = Screen.getColorAt(100, 280);
-		Color c = Screen.getColorAt(486, 280);
-		Color d = Screen.getColorAt(100, 42);
-		Color e = Screen.getColorAt(486, 42);
-		Color b = new Color(0, 0, 0);
-		return !org.tribot.api.Screen.coloursMatch(b, c, new Tolerance(10))
-				&& !org.tribot.api.Screen.coloursMatch(b, d, new Tolerance(10))
-				&& !org.tribot.api.Screen.coloursMatch(b, a, new Tolerance(10))
-				&& !org.tribot.api.Screen.coloursMatch(b, e, new Tolerance(10));
+		return Screen.getColorAt(77, 145).equals(new Color(0,0,0));
 	}
 }

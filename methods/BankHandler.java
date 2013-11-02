@@ -23,7 +23,6 @@ import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Magic;
-import scripts.Barrows.types.enums.Prayer;
 
 public class BankHandler {
 
@@ -356,15 +355,12 @@ public class BankHandler {
 		int count = 0;
 		for (int i = 0; i < 5; i++) {
 			if (Inventory.getCount(Var.food.getId()) == 0 
-					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 
-							|| GeneralMethods.getHPPercent() < 50)
 					|| !Magic.hasCasts(1)
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
 					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0
-					&& Var.prayerPotion > 0
-					&& (Prayer.getPoints() - Potions.prayerDrain() < 5)) {
+					&& Var.prayerPotion > 0) {
 				count++;
 			}
 		}

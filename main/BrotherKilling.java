@@ -266,9 +266,11 @@ public class BrotherKilling {
 		if (Inventory.find(Var.SPADE_ID).length > 0) {
 			Inventory.find(Var.SPADE_ID)[0].click("Dig");
 			for (int fSafe = 0; fSafe < 40
-					&& Objects.find(15, "Sarcophagus").length == 0; fSafe++) {
+					&& Objects.find(15, "Sarcophagus").length == 0
+					&& Player.getPosition().getPlane() != 3; fSafe++) {
 				General.sleep(40,60);
 			}
+			General.sleep(650,1000);
 		}
 	}
 

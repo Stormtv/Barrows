@@ -47,7 +47,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 		onStart();
 		Var.runTime = new Timer(0);
 		while (Var.running && TrialVersionHandler.isAuthorized()) {
-			if (TrialVersionHandler.canUpdate()) {
+			if (Var.trial && TrialVersionHandler.canUpdate()) {
 				TrialVersionHandler.updateTrial(General.getTRiBotUsername());
 			} else {
 				General.sleep(loop());

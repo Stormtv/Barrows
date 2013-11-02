@@ -136,7 +136,7 @@ public class Var {
 
 	public static int killCount;
 	
-	public static boolean trial = true;
+	public static boolean trial = false;
 
 	public static double version = 1.1;
 
