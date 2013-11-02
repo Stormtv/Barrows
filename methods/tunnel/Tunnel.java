@@ -116,7 +116,7 @@ public class Tunnel {
 
 	public static void fightForKc() {
 		Var.status = "Getting Kc up to " + Var.killCount;
-		if (!Player.getRSPlayer().isInCombat()) {
+		if (Player.getRSPlayer().getInteractingCharacter() == null) {
 			RSNPC monster = getMonster();
 			if (monster != null) {
 				if (monster.isOnScreen()) {

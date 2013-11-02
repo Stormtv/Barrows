@@ -17,6 +17,7 @@ import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.methods.Pathing.PathBank;
+import scripts.Barrows.methods.Pathing.PathBarrows;
 import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
@@ -50,6 +51,8 @@ public class BankHandler {
 			items.add(8013);
 		} else if (Var.bankPath.equals(PathBank.VARROCK)) {
 			items.add(8007);
+		} else if (Var.barrowsPath.equals(PathBarrows.FAIRY_RINGS)) {
+			items.add(772);
 		}
 		for (int i : Potions.PRAYER_POTIONS)
 			items.add(i);
@@ -123,6 +126,18 @@ public class BankHandler {
 							&& Inventory.getCount(8013) == 0) {
 						Var.status = "Withdrawing House Teleport";
 						Banking.withdraw(1, 8013);
+						Timing.waitCondition(new Condition() {
+							@Override
+							public boolean active() {
+								return Inventory.getAll().length != count;
+							}
+						}, 3000);
+						return;
+					}
+					if (Var.bankPath.equals(Pathing.PathBarrows.FAIRY_RINGS)
+							&& Inventory.getCount(772) == 0) {
+						Var.status = "Withdrawing Dramen Staff";
+						Banking.withdraw(1, 772);
 						Timing.waitCondition(new Condition() {
 							@Override
 							public boolean active() {
@@ -326,8 +341,7 @@ public class BankHandler {
 	public static boolean needToBank() {
 		int count = 0;
 		for (int i = 0; i < 5; i++) {
-			if (Inventory.getCount(Var.food.getId()) == 0 
-					|| !Magic.hasCasts(1)
+			if (Inventory.getCount(Var.food.getId()) == 0 || !Magic.hasCasts(1)
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
