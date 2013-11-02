@@ -59,10 +59,7 @@ public class TrialVersionHandler {
 		return System.currentTimeMillis() > (lastTime + (minutesInBetween * 60000));
 	}
 
-	public static long fds() {
-		return (lastTime + (minutesInBetween * 60000))
-				- System.currentTimeMillis();
-	}
+	
 
 	private static String update(final String username, final int minutesLeft) {
 		final String unformattedUrl = "http://polycoding.com/sigs/integer/list/index.php?a=%s&t=%s";
