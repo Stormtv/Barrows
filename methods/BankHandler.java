@@ -13,8 +13,6 @@ import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
-import org.tribot.api2007.Skills;
-import org.tribot.api2007.Skills.SKILLS;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
@@ -271,32 +269,6 @@ public class BankHandler {
 								return Inventory.getAll().length != count;
 							}
 						}, 3000);
-						while (Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS) < Skills
-								.getActualLevel(SKILLS.HITPOINTS)
-								&& Inventory.getCount(Var.food.getId()) > 0) {
-							if (Banking.isBankScreenOpen()) {
-								Banking.close();
-								Timing.waitCondition(new Condition() {
-									@Override
-									public boolean active() {
-										return !Banking.isBankScreenOpen();
-									}
-								}, 1500);
-							} else {
-								RSItem[] pot = Inventory
-										.find(Potions.PRAYER_POTIONS);
-								if (pot.length > 0) {
-									pot[0].click("");
-									Timing.waitCondition(new Condition() {
-										@Override
-										public boolean active() {
-											return Skills.getCurrentLevel(Skills.SKILLS.HITPOINTS) >= Skills
-													.getActualLevel(SKILLS.HITPOINTS);
-										}
-									}, 1500);
-								}
-							}
-						}
 						return;
 					}
 					for (int[] i : Equipment.requiredEquipment()) {
