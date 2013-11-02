@@ -34,6 +34,7 @@ import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
 import scripts.Barrows.util.Timer;
+import scripts.Barrows.types.Brother;
 
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,

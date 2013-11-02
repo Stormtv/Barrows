@@ -10,7 +10,6 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
-import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
@@ -75,8 +74,8 @@ public class Pathing {
 			new RSTile(3404, 3498, 0), new RSTile(3405, 3502, 0), };
 
 	final static RSTile[] pubToBank = { new RSTile(3494, 3478, 0),
-			new RSTile(3502, 3480, 0), new RSTile(3511, 3479, 0)};
-	
+			new RSTile(3502, 3480, 0), new RSTile(3511, 3479, 0) };
+
 	final static RSTile[] pathToGate = { new RSTile(3508, 3481, 0),
 			new RSTile(3503, 3481, 0), new RSTile(3498, 3481, 0),
 			new RSTile(3493, 3482, 0), new RSTile(3488, 3481, 0),
@@ -149,7 +148,6 @@ public class Pathing {
 			new RSTile(3503, 3485, 0), new RSTile(3506, 3481, 0),
 			new RSTile(3510, 3478, 0) };
 
-
 	public static boolean isInBarrows() {
 		return Var.barrowsArea.contains(Player.getPosition());
 	}
@@ -197,6 +195,7 @@ public class Pathing {
 					while (Player.isMoving() && !Player.getPosition().equals(t)
 							&& Player.getPosition().distanceTo(t) > 5) {
 						Var.status = "Waiting until near target";
+						Walking.blindWalkTo(t);
 						General.sleep(20, 50);
 					}
 				}
@@ -533,6 +532,30 @@ public class Pathing {
 	static void walkFromEcto() {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
+		if(Prayer.getPoints() == Prayer.getLevel() && Restocking.canWalkToAltar()){
+			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
+			if (ectophial.length > 0) {
+				if (ectophial[0].click("")) {
+					RSTile here = Player.getPosition();
+					Timing.waitCondition(new Condition() {
+						@Override
+						public boolean active() {
+							return Player.getAnimation() != -1;
+						}
+					}, 3000);
+					General.sleep(200);
+					Timing.waitCondition(new Condition() {
+
+						@Override
+						public boolean active() {
+							return Player.getAnimation() == -1;
+						}
+					}, 7000);
+					if (Player.getPosition() != here)
+						Var.trips++;
+				}
+			}
+		}
 		if (isFromEctoToBank() || Restocking.canWalkToAltar()) {
 			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
 				Restocking.restorePrayerAtLumbridge();
@@ -544,40 +567,26 @@ public class Pathing {
 				}
 			}
 		} else {
-			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
-				if (Player.getAnimation() == -1) {
-					if (GameTab.open(TABS.MAGIC)) {
-						Mouse.click(573, 237, 1);
-						Timing.waitCondition(new Condition() {
-							@Override
-							public boolean active() {
-								return Player.getAnimation() != -1;
-							}
-						}, 2000);
-					}
-				}
-			} else {
-				RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
-				if (ectophial.length > 0) {
-					if (ectophial[0].click("")) {
-						RSTile here = Player.getPosition();
-						Timing.waitCondition(new Condition() {
-							@Override
-							public boolean active() {
-								return Player.getAnimation() != -1;
-							}
-						}, 3000);
-						General.sleep(200);
-						Timing.waitCondition(new Condition() {
+			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
+			if (ectophial.length > 0) {
+				if (ectophial[0].click("")) {
+					RSTile here = Player.getPosition();
+					Timing.waitCondition(new Condition() {
+						@Override
+						public boolean active() {
+							return Player.getAnimation() != -1;
+						}
+					}, 3000);
+					General.sleep(200);
+					Timing.waitCondition(new Condition() {
 
-							@Override
-							public boolean active() {
-								return Player.getAnimation() == -1;
-							}
-						}, 7000);
-						if (Player.getPosition() != here)
-							Var.trips++;
-					}
+						@Override
+						public boolean active() {
+							return Player.getAnimation() == -1;
+						}
+					}, 7000);
+					if (Player.getPosition() != here)
+						Var.trips++;
 				}
 			}
 		}
@@ -873,6 +882,6 @@ public class Pathing {
 	}
 
 	public static boolean houseScreen() {
-		return Screen.getColorAt(77, 145).equals(new Color(0,0,0));
+		return Screen.getColorAt(77, 145).equals(new Color(0, 0, 0));
 	}
 }

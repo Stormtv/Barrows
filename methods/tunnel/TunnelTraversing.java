@@ -1,7 +1,9 @@
 package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api.General;
+
 import scripts.Barrows.gui.LootTable;
+
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
@@ -77,7 +79,7 @@ public class TunnelTraversing {
 		RSObject[] chest = Objects.find(10, 20973);
 		if (chest.length > 0) {
 			if (chest[0].getModel().getPoints().length == 606) {
-				for (Brothers b: Brothers.values()) {
+				for (Brothers b : Brothers.values()) {
 					if (!b.isKilled() && b.isTunnel()) {
 						BrotherKilling.getReadyToFight(b);
 					}
@@ -101,8 +103,9 @@ public class TunnelTraversing {
 							* i.getStack();
 					for (int j : Var.lootIDs) {
 						if (i.getID() == j) {
-						LootTable.addReward(i.getDefinition().getName(), i.getID(),
-								i.getStack(), PriceHandler.getPrice(i.getID()));
+							LootTable.addReward(i.getDefinition().getName(),
+									i.getID(), i.getStack(),
+									PriceHandler.getPrice(i.getID()));
 						}
 					}
 				}
@@ -125,6 +128,13 @@ public class TunnelTraversing {
 				}
 				Var.status = "Checking if needing to eat food";
 				Food.eatInCombat();
+				TunnelRoom current = Rooms.getRoom();
+				while (Rooms.getRoom() != null && Rooms.getRoom() == current
+						&& Tunnel.isPuzzleDoor(door) && Tunnel.getKcLeft() > 0
+						&& !BankHandler.needToBank()) {
+					Tunnel.fightForKc();
+					General.sleep(100);
+				}
 				RSObject[] nextDoor = Objects.getAt(door.getLocation());
 				if (nextDoor != null && nextDoor.length > 0
 						&& PathFinding.canReach(nextDoor[0], true)) {
@@ -138,8 +148,7 @@ public class TunnelTraversing {
 						}
 					}
 					curRoom = Rooms.getRoom();
-					GeneralMethods
-							.clickObject(next, "Open", false, true);
+					GeneralMethods.clickObject(next, "Open", false, true);
 					for (int i = 0; i < 20
 							&& !TunnelPuzzle.isPuzzleScreenOpen()
 							&& (curRoom == null || curRoom.equals(Rooms

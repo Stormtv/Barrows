@@ -1218,7 +1218,7 @@ public class BarrowGUI extends JFrame {
 		listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		spinner = new JSpinner();
-		spinner.setEnabled(false);
+		spinner.setEnabled(true);
 		spinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 		
 		JLabel lblKillCount = new JLabel("KC:");

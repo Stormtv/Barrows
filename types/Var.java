@@ -134,7 +134,7 @@ public class Var {
 
 	public static int chests;
 
-	public static int killCount;
+	public static int killCount = 20;
 	
 	public static boolean trial = false;
 
