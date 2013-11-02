@@ -4,11 +4,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
-import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
-import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Camera;
-import org.tribot.api2007.Combat;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.NPCs;
@@ -120,25 +117,49 @@ public class Tunnel {
 
 	public static void fightForKc() {
 		Var.status = "Getting Kc up to " + Var.killCount;
+		RSNPC target;
+		Food.eatInCombat();
 		if (Player.getRSPlayer().getInteractingCharacter() == null) {
-			RSNPC monster = getMonster();
-			if (monster != null) {
-				if (monster.isOnScreen()) {
-					if (monster.click("Attack")) {
-						while (Player.isMoving())
-							General.sleep(100);
-						Timing.waitCondition(new Condition() {
-							@Override
-							public boolean active() {
-								return Combat.getAttackingEntities().length > 0;
-							}
-						}, 3000);
-					}
-				} else {
-					Walking.walkTo(monster);
+			if (agressiveNPC().isEmpty()) {
+				target = closestNPC(combatFilter(reachFilter()));
+			} else {
+				target = closestNPC(agressiveNPC());
+			}
+			if (target != null && !target.isOnScreen()) {
+				walkToMob(target);
+			}
+			if(!attackMob(target)) {
+				
+			}
+		} else {
+			RSNPC attackingNPC = (RSNPC) Player.getRSPlayer()
+					.getInteractingCharacter();
+			if (attackingNPC.getHealth() > 0 && isAttackable(attackingNPC)) {
+				target = attackingNPC;
+			}
+			levelUpCloser();
+		}
+	}
+
+	private static RSNPC closestNPC(ArrayList<RSNPC> a) {
+		int dist = Integer.MAX_VALUE;
+		int level = 90;
+		RSNPC target = null;
+		for (RSNPC n : a) {
+			if (n.getCombatLevel() < level) {
+				level = n.getCombatLevel();
+			}
+		}
+		for (RSNPC n : a) {
+			if (n.getCombatLevel() == level) {
+				int thisDist = n.getPosition().distanceTo(Player.getPosition());
+				if (thisDist < dist) {
+					dist = thisDist;
+					target = n;
 				}
 			}
 		}
+		return target;
 	}
 
 	public static ArrayList<RSNPC> reachFilter() {
