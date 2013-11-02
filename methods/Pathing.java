@@ -8,6 +8,7 @@ import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
+import org.tribot.api2007.Equipment;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.Interfaces;
@@ -25,11 +26,12 @@ import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
+import scripts.Barrows.util.FairyRing;
 
 public class Pathing {
 
 	public enum PathBarrows {
-		SWAMP, SHORTCUT, BURGH_DE_ROTT
+		SWAMP, SHORTCUT, BURGH_DE_ROTT, FAIRY_RINGS
 	}
 
 	public enum PathBank {
@@ -178,7 +180,7 @@ public class Pathing {
 		return false;
 	}
 
-	static void walkPath(RSTile[] fs) {
+	public static void walkPath(RSTile[] fs) {
 		if (fs.length == 0)
 			return;
 		for (int i = 0; i < fs.length; i++) {
@@ -436,7 +438,7 @@ public class Pathing {
 			new RSTile(3567, 3297, 0), new RSTile(3567, 3292, 0),
 			new RSTile(3565, 3287, 0) };
 
-	static void pray() {
+	public static void pray() {
 		RSObject[] altar = Objects.find(30, "Altar");
 		if (altar.length > 0) {
 			if (PathFinding.canReach(altar[0].getPosition(), true)) {
@@ -450,7 +452,7 @@ public class Pathing {
 		}
 	}
 
-	static RSObject getClosestDoor(RSObject target) {
+	public static RSObject getClosestDoor(RSObject target) {
 		RSObject[] doors = Objects.find(30, "Door");
 
 		int dist = 99;
@@ -469,18 +471,34 @@ public class Pathing {
 		return finalL;
 	}
 
+	static RSObject getFocus(RSObject portal) {
+		RSObject[] wave = Objects.findNearest(30, "Teleportation focus");
+		int distance = 444;
+		RSObject focus = null;
+		if (wave.length > 0) {
+			if (wave.length == 1)
+				return wave[0];
+			for (RSObject f : wave) {
+				if (f.getPosition().distanceTo(portal) < distance) {
+					distance = f.getPosition().distanceTo(portal);
+					focus = f;
+				}
+			}
+		}
+		return focus;
+	}
+
 	public static void useHouse() {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
 		if (isInHouse()) {
-			if (Prayer.getPoints() < Prayer.getLevel()) {
+			if (Prayer.getPoints() < Prayer.getLevel() && Var.recharge) {
 				pray();
 			} else {
 				RSObject[] portal = Objects.findNearest(30, "Kharyrll Portal");
 				if (portal.length > 0) {
-					RSObject[] wave = Objects.findNearest(30,
-							"Teleportation focus");
-					if (wave.length > 0 && PathFinding.canReach(wave[0], true)) {
+					RSObject wave = getFocus(portal[0]);
+					if (wave != null && PathFinding.canReach(wave, true)) {
 						GeneralMethods.clickObject(portal[0], "Enter", false,
 								false);
 						Timing.waitCondition(new Condition() {
@@ -532,7 +550,8 @@ public class Pathing {
 	static void walkFromEcto() {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
 			Options.setRunOn(true);
-		if(Prayer.getPoints() == Prayer.getLevel() && Restocking.canWalkToAltar()){
+		if (Prayer.getPoints() == Prayer.getLevel()
+				&& Restocking.canWalkToAltar()) {
 			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
 			if (ectophial.length > 0) {
 				if (ectophial[0].click("")) {
@@ -616,6 +635,9 @@ public class Pathing {
 				break;
 			case BURGH_DE_ROTT:
 				walkPath(Walking.invertPath(pathFromBurghToBarrows));
+				break;
+			case FAIRY_RINGS:
+				goFromEdge();
 				break;
 			}
 		}
@@ -884,4 +906,158 @@ public class Pathing {
 	public static boolean houseScreen() {
 		return Screen.getColorAt(77, 145).equals(new Color(0, 0, 0));
 	}
+
+	static void goFromEdge() {
+		if (Pathing.canEnterBoat()) {
+			Pathing.enterBoat();
+		} else {
+			if (canWalkToBoatFromRing()) {
+				Pathing.walkPath(pathFromRing);
+			} else {
+				if (new RSTile(2412, 4434, 0).distanceTo(Player.getRSPlayer()) < 10) {
+					if (Interfaces.get(426, 33) != null) {
+						if (FairyRing.SetFairyCombination("b", "k", "r")) {
+							if (Interfaces.get(426, 33).click("Ok")) {
+								Timing.waitCondition(new Condition() {
+									@Override
+									public boolean active() {
+										return Interfaces.get(426, 33) == null;
+									}
+								}, 3000);
+								General.sleep(500);
+							}
+						}
+					} else {
+						RSObject[] ring = Objects.getAt(new RSTile(2412, 4434,
+								0));
+						if (ring.length > 0) {
+							GeneralMethods.clickObject(ring[0], "Use", true,
+									false);
+						}
+					}
+				} else {
+					if (isAtEdge()) {
+						RSObject[] ring = Objects.getAt(new RSTile(3129, 3496,
+								0));
+						if (ring.length > 0
+								&& ring[0].getPosition().distanceTo(
+										Player.getRSPlayer()) < 5) {
+							if (Equipment.getCount(772) > 0) {
+								GeneralMethods.clickObject(ring[0], "Use",
+										true, false);
+							} else {
+								RSItem[] staff = Inventory.find(772);
+								if (staff.length > 0) {
+									if (staff[0].click("Wield")) {
+										General.sleep(1000);
+									}
+								}
+							}
+						} else {
+							Pathing.walkPath(pathToRing);
+						}
+					} else {
+						if (Pathing.isInHouse()
+								|| Objects.find(999, 4525).length > 0) {
+							if (Prayer.getPoints() < Prayer.getLevel()
+									&& Var.recharge) {
+								Pathing.pray();
+							} else {
+								if (Interfaces.get(234, 1) != null) {
+									Interfaces.get(234, 1).click("");
+								} else {
+									RSObject[] glory = Objects.findNearest(30,
+											13523);
+									if (glory.length > 0) {
+										if (PathFinding.canReach(glory[0],
+												false)) {
+											GeneralMethods.clickObject(
+													glory[0], "Rub", false,
+													false);
+										} else {
+											RSObject door = Pathing
+													.getClosestDoor(glory[0]);
+											if (door != null) {
+												GeneralMethods.clickObject(
+														door, "Open", true,
+														false);
+											}
+										}
+									}
+								}
+
+							}
+						} else {
+							RSItem[] teletab = Inventory.find(8013);
+							if (teletab.length > 0) {
+								if (teletab[0].click("")) {
+									RSTile here = Player.getPosition();
+									Timing.waitCondition(new Condition() {
+
+										@Override
+										public boolean active() {
+											return Player.getAnimation() != -1;
+										}
+									}, 3000);
+									General.sleep(1200);
+									Timing.waitCondition(new Condition() {
+
+										@Override
+										public boolean active() {
+											return Player.getAnimation() == -1;
+										}
+									}, 7000);
+									if (Player.getPosition() != here)
+										Var.trips++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	static RSTile[] pathFromRing = { new RSTile(3469, 3430, 0),
+			new RSTile(3473, 3430, 0), new RSTile(3477, 3428, 0),
+			new RSTile(3479, 3424, 0), new RSTile(3478, 3420, 0),
+			new RSTile(3475, 3417, 0), new RSTile(3472, 3414, 0),
+			new RSTile(3469, 3411, 0), new RSTile(3468, 3407, 0),
+			new RSTile(3468, 3403, 0), new RSTile(3469, 3399, 0),
+			new RSTile(3472, 3395, 0), new RSTile(3482, 3353, 0),
+			new RSTile(3474, 3393, 0), new RSTile(3478, 3391, 0),
+			new RSTile(3476, 3387, 0), new RSTile(3476, 3383, 0),
+			new RSTile(3479, 3380, 0), new RSTile(3481, 3376, 0),
+			new RSTile(3485, 3376, 0), new RSTile(3489, 3376, 0),
+			new RSTile(3493, 3379, 0), new RSTile(3497, 3380, 0),
+			new RSTile(3501, 3380, 0), };
+
+	static boolean canWalkToBoatFromRing() {
+		for (RSTile t : pathFromRing) {
+			if (t.distanceTo(Player.getRSPlayer()) < 15)
+				return true;
+		}
+		return false;
+	}
+
+	static boolean isAtEdge() {
+		for (RSTile t : pathToRing) {
+			if (t.distanceTo(Player.getRSPlayer()) < 15)
+				return true;
+		}
+		return false;
+	}
+
+	static RSTile[] pathToRing = { new RSTile(3087, 3496, 0),
+			new RSTile(3090, 3500, 0), new RSTile(3094, 3500, 0),
+			new RSTile(3098, 3500, 0), new RSTile(3102, 3500, 0),
+			new RSTile(3106, 3501, 0), new RSTile(3110, 3502, 0),
+			new RSTile(3114, 3501, 0), new RSTile(3118, 3504, 0),
+			new RSTile(3120, 3508, 0), new RSTile(3123, 3511, 0),
+			new RSTile(3127, 3513, 0), new RSTile(3130, 3517, 0),
+			new RSTile(3134, 3517, 0), new RSTile(3136, 3513, 0),
+			new RSTile(3136, 3509, 0), new RSTile(3134, 3505, 0),
+			new RSTile(3134, 3501, 0), new RSTile(3131, 3497, 0),
+			new RSTile(3129, 3493, 0) };
+
 }
