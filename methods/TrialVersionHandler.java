@@ -25,7 +25,7 @@ public class TrialVersionHandler {
 			int minutes = getMinutesLeft(username);
 			if (minutes > 0) {
 				authorized = true;
-			}else{
+			} else {
 				General.println("Your trial has expired.");
 			}
 		} else {
@@ -43,12 +43,15 @@ public class TrialVersionHandler {
 
 	public static String updateTrial(String username) {
 		int minutes = getMinutesLeft(username);
-		int minutesToBeSubmitted = (minutes - (int) Var.runTime
-				.getElapsed() / 60000);
-		update(username, minutesToBeSubmitted);
-		lastTime = System.currentTimeMillis();
-		General.println("updated " + username + " with "
-				+ minutesToBeSubmitted + " minutes left.");
+		int minutesToBeSubmitted = (minutes - (int) Var.runTime.getElapsed() / 60000);
+		if (minutes == 0)
+			Var.running = false;
+		else {
+			update(username, minutesToBeSubmitted);
+			lastTime = System.currentTimeMillis();
+			General.println("Updated " + username + " with "
+					+ minutesToBeSubmitted + " minutes left.");
+		}
 		return "";
 	}
 
