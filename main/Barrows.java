@@ -39,21 +39,13 @@ import scripts.Barrows.util.Timer;
 public class Barrows extends Script implements Painting, MouseActions,
 		MousePainting, Ending {
 
-	public static boolean trial = false;
-
-	public static double version = 1.051;
-
-	public static Timer runTime = new Timer(0);
-
-	LootTable frame;
-
 	@Override
 	public void run() {
-		if (trial) {
+		if (Var.trial) {
 			TrialVersionHandler.setAuthorized(General.getTRiBotUsername());
 		}
 		onStart();
-		runTime = new Timer(0);
+		Var.runTime = new Timer(0);
 		while (Var.running && TrialVersionHandler.isAuthorized()) {
 			if (TrialVersionHandler.canUpdate()) {
 				TrialVersionHandler.updateTrial(General.getTRiBotUsername());
@@ -158,8 +150,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 			@Override
 			public void run() {
 				try {
-					frame = new LootTable();
-					frame.setVisible(false);
+					Var.frame = new LootTable();
+					Var.frame.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -192,7 +184,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 	@Override
 	public void mouseClicked(Point p, int arg1, boolean arg2) {
 		if (!arg2 && paint.contains(p))
-			frame.setVisible(getState());
+			Var.frame.setVisible(getState());
 	}
 
 	@Override
@@ -214,7 +206,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 	}
 
 	boolean getState() {
-		if (frame.isVisible())
+		if (Var.frame.isVisible())
 			return false;
 		return true;
 	}

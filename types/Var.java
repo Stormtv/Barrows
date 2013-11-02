@@ -8,6 +8,7 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.gui.BarrowGUI;
+import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.methods.Pathing.PathBarrows;
@@ -15,6 +16,7 @@ import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.util.RSArea;
+import scripts.Barrows.util.Timer;
 
 public class Var {
 	
@@ -114,8 +116,6 @@ public class Var {
 
 	public static final int[] Salamanders = {10146,10147,10148};
 	
-	public static long runTime;
-
 	public static int arrowCount;
 
 	public static int spellCount;
@@ -135,4 +135,12 @@ public class Var {
 	public static int chests;
 
 	public static int killCount;
+	
+	public static boolean trial = true;
+
+	public static double version = 1.1;
+
+	public static Timer runTime = new Timer(0);
+	
+	public static LootTable frame;
 }

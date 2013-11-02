@@ -15,7 +15,6 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile;
 
-import scripts.Barrows.main.Barrows;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
@@ -55,14 +54,14 @@ public class PaintHandler {
 		g.setColor(Color.WHITE);
 		g.setFont(font1);
 		g.drawString("x", 493, 358);
-		g.drawString(Barrows.runTime.toElapsedString(), 90, 385);
+		g.drawString(Var.runTime.toElapsedString(), 90, 385);
 		g.drawString(
 				formatNumber(Var.profit) + " ("
-						+ formatNumber(getPerHour(Var.profit, Barrows.runTime))
+						+ formatNumber(getPerHour(Var.profit, Var.runTime))
 						+ " /hr)", 67, 409);
 		g.drawString("" + Var.trips, 65, 432);
 		g.drawString(Integer.toString(Var.chests) + " ("
-				+ formatNumber(getPerHour(Var.chests, Barrows.runTime))
+				+ formatNumber(getPerHour(Var.chests, Var.runTime))
 				+ " /hr)", 235, 432);
 		g.drawString(getRoom(Rooms.getRoom()), 290, 385);
 		g.drawString(getRoom(Var.startingRoom), 290, 407);
@@ -79,7 +78,7 @@ public class PaintHandler {
 			}
 		}
 		g.setFont(new Font("Arial", 0, 11));
-		g.drawString("v" + Barrows.version, 360, 337);
+		g.drawString("v" + Var.version, 360, 337);
 		MouseLines(g);
 	}
 

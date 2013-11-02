@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import scripts.Barrows.main.Barrows;
+import scripts.Barrows.types.Var;
 
 public class TrialVersionHandler {
 
@@ -16,7 +16,7 @@ public class TrialVersionHandler {
 
 	private static long lastTime = 0;
 
-	private static int minutesInBetween = 3;
+	private static int minutesInBetween = 5;
 
 	public static void setAuthorized(String username) {
 		if (isInDatabase(username)) {
@@ -33,7 +33,7 @@ public class TrialVersionHandler {
 	}
 
 	public static boolean isAuthorized() {
-		if (Barrows.trial) {
+		if (Var.trial) {
 			return authorized;
 		}
 		return true;
@@ -41,7 +41,7 @@ public class TrialVersionHandler {
 
 	public static String updateTrial(String username) {
 		int minutes = getMinutesLeft(username);
-		int minutesToBeSubmitted = (minutes - (int) Barrows.runTime
+		int minutesToBeSubmitted = (minutes - (int) Var.runTime
 				.getElapsed() / 60000);
 		update(username, minutesToBeSubmitted);
 		lastTime = System.currentTimeMillis();

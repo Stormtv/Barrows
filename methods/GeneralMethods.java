@@ -39,7 +39,6 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.util.Util;
 
-import scripts.Barrows.main.Barrows;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
@@ -91,7 +90,7 @@ public class GeneralMethods {
 	public static void updateSig() {
 		try {
 			update(General.getTRiBotUsername(),
-					unzero((int) Barrows.runTime.getElapsed() / 1000),
+					unzero((int) Var.runTime.getElapsed() / 1000),
 					unzero(Var.profit), unzero(Var.trips), unzero(Var.chests),
 					unzero(Var.pieces));
 		} catch (final Exception e) {
