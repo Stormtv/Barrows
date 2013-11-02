@@ -1,10 +1,11 @@
 package scripts.Barrows.methods.tunnel;
 
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import org.tribot.api.General;
-import org.tribot.api.Timing;
-import org.tribot.api.types.generic.Condition;
+import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.Camera;
-import org.tribot.api2007.Combat;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.NPCs;
@@ -100,7 +101,7 @@ public class Tunnel {
 	}
 
 	public static int getKcLeft() {
-		return Brother.getTunnelBrother() == null ? getCount() : getCount() - 1;
+		return Brother.getTunnelBrother().isKilled() ? getCount() : getCount() - 1;
 	}
 
 	private static int getCount() {
@@ -116,38 +117,139 @@ public class Tunnel {
 
 	public static void fightForKc() {
 		Var.status = "Getting Kc up to " + Var.killCount;
-		if (!Player.getRSPlayer().isInCombat()) {
-			RSNPC monster = getMonster();
-			if (monster != null) {
-				if (monster.isOnScreen()) {
-					if (monster.click("Attack")) {
-						while (Player.isMoving())
-							General.sleep(100);
-						Timing.waitCondition(new Condition() {
-							@Override
-							public boolean active() {
-								return Combat.getAttackingEntities().length > 0;
-							}
-						}, 3000);
-					}
-				} else {
-					Walking.walkTo(monster);
-				}
+		RSNPC target;
+		Food.eatInCombat();
+		if (Player.getRSPlayer().getInteractingCharacter() == null) {
+			if (agressiveNPC().isEmpty()) {
+				target = closestNPC(combatFilter(reachFilter()));
+			} else {
+				target = closestNPC(agressiveNPC());
+			}
+			if (target != null && !target.isOnScreen()) {
+				walkToMob(target);
+			}
+			if(!attackMob(target)) {
+				
 			}
 		} else {
-			if (!Combat.isAutoRetaliateOn())
-				Combat.setAutoRetaliate(true);
-			Food.eatInCombat();
+			RSNPC attackingNPC = (RSNPC) Player.getRSPlayer()
+					.getInteractingCharacter();
+			if (attackingNPC.getHealth() > 0 && isAttackable(attackingNPC)) {
+				target = attackingNPC;
+			}
+			levelUpCloser();
 		}
 	}
 
-	private static int[] monsterIds = { 1921, 1920, 1922, 1916, 1915 };
-
-	public static RSNPC getMonster() {
-		for (RSNPC n : NPCs.findNearest(monsterIds)) {
-			if (PathFinding.canReach(n, false))
-				return n;
+	private static RSNPC closestNPC(ArrayList<RSNPC> a) {
+		int dist = Integer.MAX_VALUE;
+		int level = 90;
+		RSNPC target = null;
+		for (RSNPC n : a) {
+			if (n.getCombatLevel() < level) {
+				level = n.getCombatLevel();
+			}
 		}
-		return null;
+		for (RSNPC n : a) {
+			if (n.getCombatLevel() == level) {
+				int thisDist = n.getPosition().distanceTo(Player.getPosition());
+				if (thisDist < dist) {
+					dist = thisDist;
+					target = n;
+				}
+			}
+		}
+		return target;
+	}
+
+	public static ArrayList<RSNPC> reachFilter() {
+		ArrayList<RSNPC> ourNPCs = new ArrayList<RSNPC>();
+		for (RSNPC n : NPCs.getAll()) {
+			if (PathFinding.canReach(n, false)) {
+				ourNPCs.add(n);
+			}
+		}
+		return ourNPCs;
+	}
+
+	public static ArrayList<RSNPC> combatFilter(ArrayList<RSNPC> npcs) {
+		ArrayList<RSNPC> ourNPCs = new ArrayList<RSNPC>();
+		ArrayList<RSNPC> badNPCs = new ArrayList<RSNPC>();
+		for (RSNPC n : npcs) {
+			if (!n.isInCombat()) {
+				ourNPCs.add(n);
+			} else {
+				badNPCs.add(n);
+			}
+		}
+		return ourNPCs;
+	}
+
+	private static ArrayList<RSNPC> agressiveNPC() {
+		ArrayList<RSNPC> ourNPCs = new ArrayList<RSNPC>();
+		for (RSNPC n : NPCs.getAll()) {
+			if (n.isInteractingWithMe()
+					&& Player.getRSPlayer().getInteractingCharacter() == null
+					&& PathFinding.canReach(n, false) && isAttackable(n)
+					&& n.getCombatLevel() < 90) {
+				ourNPCs.add(n);
+			}
+
+		}
+		return ourNPCs;
+	}
+
+	private static void walkToMob(RSNPC n) {
+		Var.status = "Navigating to target";
+		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+		Walking.walkTo(n);
+		General.sleep(250, 350);
+		while (Player.isMoving() && !n.isOnScreen()) {
+			General.sleep(25, 50);
+		}
+		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+	}
+
+	private static boolean attackMob(RSNPC target) {
+		Var.status = "Attacking monster";
+		if (target != null) {
+			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+			GeneralMethods.click(target, "Attack");
+			General.sleep(250, 350);
+			while (Player.isMoving())
+				General.sleep(10);
+			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
+			return true;
+		} else {
+			General.println("No Target Found this is strange");
+			return false;
+		}
+	}
+
+	private static boolean isAttackable(RSNPC npc) {
+		return npc.getCombatLevel() > 0;
+	}
+
+	private static void levelUpCloser() {
+		if (Interfaces.get(171, 2) != null) {
+			Var.status = "Closing Level up interface";
+			Interfaces.get(171, 2).click("Continue");
+		}
+		if (Interfaces.get(167, 2) != null) {
+			Var.status = "Closing Level up interface";
+			Interfaces.get(167, 2).click("Continue");
+		}
+		if (Interfaces.get(168, 2) != null) {
+			Var.status = "Closing Level up interface";
+			Interfaces.get(168, 2).click("Continue");
+		}
+		if (Interfaces.get(158, 2) != null) {
+			Var.status = "Grats on level let me close that interface";
+			Interfaces.get(158, 2).click("Continue");
+		}
+		if (Interfaces.get(161, 2) != null) {
+			Var.status = "Grats on a def level let me close that interface";
+			Interfaces.get(161, 2).click("Continue");
+		}
 	}
 }

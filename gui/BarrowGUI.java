@@ -1219,7 +1219,7 @@ public class BarrowGUI extends JFrame {
 		
 		spinner = new JSpinner();
 		spinner.setEnabled(true);
-		spinner.setModel(new SpinnerNumberModel(0, 0, 10, 1));
+		spinner.setModel(new SpinnerNumberModel(6, 6, 20, 1));
 		
 		JLabel lblKillCount = new JLabel("KC:");
 		GroupLayout gl_panel = new GroupLayout(panel);

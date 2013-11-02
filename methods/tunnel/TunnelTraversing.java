@@ -119,7 +119,7 @@ public class TunnelTraversing {
 	private static void tunnelWalkTo(TunnelRoom r) {
 		Walking.setWalkingTimeout(500);
 		Var.status = "Generating shortest path";
-		TunnelDoor[] path = WTunnelTraverse.pathToChest(r);
+		TunnelDoor[] path = WTunnelTraverse.doorPathToChest(r);
 		TunnelRoom curRoom = null;
 		if (path != null && path.length > 0) {
 			for (TunnelDoor door : path) {
@@ -130,10 +130,12 @@ public class TunnelTraversing {
 				Food.eatInCombat();
 				TunnelRoom current = Rooms.getRoom();
 				while (Rooms.getRoom() != null && Rooms.getRoom() == current
-						&& Tunnel.isPuzzleDoor(door) && Tunnel.getKcLeft() > 0
-						&& !BankHandler.needToBank()) {
+						&& Tunnel.isPuzzleDoor(door) 
+						&& Tunnel.getKcLeft() > 0
+						&& !BankHandler.needToBank() 
+						&& PathFinding.canReach(door.getLocation(),true)) {
 					Tunnel.fightForKc();
-					General.sleep(100);
+					General.sleep(30,100);
 				}
 				RSObject[] nextDoor = Objects.getAt(door.getLocation());
 				if (nextDoor != null && nextDoor.length > 0
