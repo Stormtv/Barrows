@@ -143,4 +143,10 @@ public class Var {
 	public static Timer runTime = new Timer(0);
 	
 	public static LootTable frame;
+	
+	public static boolean forceBank = false;
+
+	public static int nextRunDoses = 0;
+
+	public static int nextRunFood = 0;
 }

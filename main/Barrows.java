@@ -34,7 +34,6 @@ import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
 import scripts.Barrows.util.Timer;
-import scripts.Barrows.types.Brother;
 
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
 public class Barrows extends Script implements Painting, MouseActions,
@@ -68,7 +67,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
-					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
+					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))
+					|| Var.forceBank) {
 				Var.status = "Heading to the bank";
 				Walking.setWalkingTimeout(1);
 				Pathing.goToBank();
@@ -77,6 +77,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
+				Var.forceBank = false;
 				BankHandler.bank();
 				return General.random(10, 30);
 			}

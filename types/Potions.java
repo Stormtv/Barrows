@@ -164,4 +164,12 @@ public class Potions {
 		}
 	}
 
+	public static int getPrayerDoses() {
+		int doses = 0;
+		for (int i = 0; i < PRAYER_POTIONS_LEAST_TO_HIGH.length; i++) {
+			doses += Inventory.find(PRAYER_POTIONS_LEAST_TO_HIGH[i]).length*(i+1);
+		}
+		return doses;
+	}
+
 }

@@ -18,6 +18,7 @@ import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Brother.Brothers;
+import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Food;
 
@@ -112,6 +113,11 @@ public class TunnelTraversing {
 				GeneralMethods.takeScreenShot();
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
+				if (Potions.getPrayerDoses()  < Var.nextRunDoses
+						|| Inventory.getCount(Var.food.getId()) 
+							< Var.nextRunFood) {
+					Var.forceBank = true;
+				}
 			}
 		}
 	}
