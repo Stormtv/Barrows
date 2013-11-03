@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
-import org.tribot.api.interfaces.Positionable;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GroundItems;
@@ -40,9 +39,7 @@ public class Looting {
 			if (itemsOnG.length == 0) {
 				return;
 			}
-			if (itemsOnG.length == 1
-					&& itemsOnG[0].getID() == Food.Edibles.Bass.getId()
-					&& Player.getRSPlayer().isInCombat()) {
+			if (itemsOnG.length == 1 && Player.getRSPlayer().isInCombat()) {
 				return;
 			}
 			RSItem[] food = Inventory.find(Food.getFoodIDs());
@@ -58,13 +55,11 @@ public class Looting {
 			}
 			for (int a = 0; a < itemsOnG.length; a++) {
 				boolean tf = true;
-				if (itemsOnG[a].getID() == Food.Edibles.Bass.getId()
-						&& itemsOnG[a].getPosition().distanceTo(
-								Player.getPosition()) > 12) {
+				if (itemsOnG[a].getPosition().distanceTo(Player.getPosition()) > 12
+						&& PathFinding.canReach(itemsOnG[a], false)) {
 					tf = false;
 				}
-				if (!PathFinding.canReach(
-						(Positionable) itemsOnG[a].getPosition(), false)) {
+				if (!PathFinding.canReach(itemsOnG[a], false)) {
 					continue;
 				}
 				if (Inventory.isFull()
