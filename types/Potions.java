@@ -56,6 +56,7 @@ public class Potions {
 							&& Player.getAnimation() == 829; fsafe++) {
 						General.sleep(40);
 					}
+					General.sleep(450,600);
 				}
 				if (Game.getUptext().contains("->")) {
 					Walking.walkTo(Player.getPosition());
@@ -111,6 +112,7 @@ public class Potions {
 					&& Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
+			General.sleep(450,600);
 		}
 		if (Inventory.getCount(167, 165, 163, 2442) > 0) {
 			openInventory();
@@ -122,6 +124,7 @@ public class Potions {
 					&& Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
+			General.sleep(450,600);
 		}
 		if (Inventory.getCount(149, 147, 145, 2436) > 0) {
 			openInventory();
@@ -133,6 +136,7 @@ public class Potions {
 					&& Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
+			General.sleep(450,600);
 		}
 		if (Inventory.getCount(2444, 169, 171, 173) > 0) {
 			openInventory();
@@ -144,6 +148,7 @@ public class Potions {
 					&& Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
+			General.sleep(450,600);
 		}
 		if (Inventory.getCount(9745,9743,9741,9739) > 0 ) {
 			openInventory();
@@ -155,6 +160,7 @@ public class Potions {
 					&& Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
+			General.sleep(450,600);
 		}
 		if (Game.getUptext().contains("->")) {
 			Walking.walkTo(Player.getPosition());
