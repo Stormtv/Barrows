@@ -10,12 +10,14 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
+import org.tribot.api2007.types.RSTile;
 
 import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.methods.Pathing.PathBarrows;
@@ -356,7 +358,9 @@ public class BankHandler {
 				count++;
 			}
 		}
-		if (count == 5) {
+		if (count == 5 
+				&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
+				&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
 			Var.forceBank = true;
 		}
 		return count == 5;

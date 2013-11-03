@@ -315,7 +315,7 @@ public class BarrowGUI extends JFrame {
 			modelSelected.addElement("Ahrim");
 		}
 		setTitle("Barrows");
-		setBounds(100, 100, 874, 475);
+		setBounds(100, 100, 874, 513);
 
 		final DefaultComboBoxModel<Food.Edibles> FoodModel = new DefaultComboBoxModel<Food.Edibles>();
 		for(Food.Edibles f : Food.Edibles.values()) {
@@ -396,13 +396,13 @@ public class BarrowGUI extends JFrame {
 												listSelected.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 												GroupLayout gl_panel = new GroupLayout(panel);
 												gl_panel.setHorizontalGroup(
-													gl_panel.createParallelGroup(Alignment.TRAILING)
-														.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+													gl_panel.createParallelGroup(Alignment.LEADING)
+														.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 															.addContainerGap()
 															.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-																.addComponent(btnLeft, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
 																.addComponent(listSelected, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-																.addComponent(btnRight, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+																.addComponent(btnRight, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+																.addComponent(btnLeft, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
 															.addContainerGap())
 												);
 												gl_panel.setVerticalGroup(
@@ -411,10 +411,10 @@ public class BarrowGUI extends JFrame {
 															.addContainerGap()
 															.addComponent(btnRight)
 															.addPreferredGap(ComponentPlacement.RELATED)
-															.addComponent(listSelected, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+															.addComponent(listSelected, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
 															.addPreferredGap(ComponentPlacement.RELATED)
 															.addComponent(btnLeft)
-															.addContainerGap(41, Short.MAX_VALUE))
+															.addGap(21))
 												);
 												panel.setLayout(gl_panel);
 				
@@ -1228,18 +1228,18 @@ public class BarrowGUI extends JFrame {
 						.addGroup(gl_panel_6.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_panel_6.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_6.createSequentialGroup()
-									.addComponent(label, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+								.addGroup(Alignment.TRAILING, gl_panel_6.createSequentialGroup()
+									.addComponent(label, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel_6.createSequentialGroup()
 									.addGroup(gl_panel_6.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(lblTunnelFood, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblTunnelDoses, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_panel_6.createParallelGroup(Alignment.LEADING)
-										.addComponent(spnFood, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
-										.addComponent(spnDoses, GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE))))
+									.addGroup(gl_panel_6.createParallelGroup(Alignment.TRAILING)
+										.addComponent(spnDoses, GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+										.addComponent(spnFood, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 							.addContainerGap())
 				);
 				gl_panel_6.setVerticalGroup(
@@ -1266,11 +1266,11 @@ public class BarrowGUI extends JFrame {
 							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(panel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-										.addComponent(panel_6, 0, 0, Short.MAX_VALUE))
-									.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-									.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 505, GroupLayout.PREFERRED_SIZE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(panel, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+										.addComponent(panel_6, Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
@@ -1289,21 +1289,21 @@ public class BarrowGUI extends JFrame {
 							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
+									.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
 									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(panel, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
 										.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 									.addGap(5)
 									.addComponent(panel_4, 0, 0, Short.MAX_VALUE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
 								.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
 								.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-							.addGap(156))
+							.addGap(33))
 				);
 				getContentPane().setLayout(groupLayout);
 	}

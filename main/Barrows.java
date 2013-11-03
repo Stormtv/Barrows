@@ -64,6 +64,12 @@ public class Barrows extends Script implements Painting, MouseActions,
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
+			if (BankHandler.needsMoreSupplies()
+					&& Var.bankArea.contains(Player.getPosition())) {
+				Var.forceBank = false;
+				BankHandler.bank();
+				return General.random(10, 30);
+			}
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
@@ -74,14 +80,6 @@ public class Barrows extends Script implements Painting, MouseActions,
 				Pathing.goToBank();
 				return General.random(10, 30);
 			}
-
-			if (BankHandler.needsMoreSupplies()
-					&& Var.bankArea.contains(Player.getPosition())) {
-				Var.forceBank = false;
-				BankHandler.bank();
-				return General.random(10, 30);
-			}
-
 			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
 				if (Rooms.getRoom() == null) {
