@@ -1204,7 +1204,7 @@ public class BarrowGUI extends JFrame {
 																panel_2.setLayout(gl_panel_2);
 				
 				JPanel panel_6 = new JPanel();
-				panel_6.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Advanced", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				panel_6.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Advanced Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				
 				JLabel lblTunnelFood = new JLabel("Min Food:");
 				
@@ -1221,7 +1221,7 @@ public class BarrowGUI extends JFrame {
 				spinner = new JSpinner();
 				spinner.setEnabled(true);
 				
-				JLabel label = new JLabel("KC:");
+				JLabel label = new JLabel("Kill Count:");
 				GroupLayout gl_panel_6 = new GroupLayout(panel_6);
 				gl_panel_6.setHorizontalGroup(
 					gl_panel_6.createParallelGroup(Alignment.LEADING)
