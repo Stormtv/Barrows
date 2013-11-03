@@ -24,6 +24,8 @@ import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
+import scripts.Barrows.methods.tunnel.Rooms;
+import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
 import scripts.Barrows.util.FairyRing;
@@ -373,7 +375,9 @@ public class Pathing {
 		Walking.setControlClick(true);
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(100, 130));
-		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
+		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn()
+				&& Rooms.getRoom() == null && !Pathing.isInBarrows()
+				&& !Tunnel.inCrypt())
 			Options.setRunOn(true);
 		if (!warning()) {
 			if (isInBarrows())
@@ -489,7 +493,9 @@ public class Pathing {
 	}
 
 	public static void useHouse() {
-		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
+		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn()
+				&& Rooms.getRoom() == null && !Pathing.isInBarrows()
+				&& !Tunnel.inCrypt())
 			Options.setRunOn(true);
 		if (isInHouse()) {
 			if (Prayer.getPoints() < Prayer.getLevel() && Var.recharge) {
@@ -548,7 +554,9 @@ public class Pathing {
 	}
 
 	static void walkFromEcto() {
-		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn())
+		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn()
+				&& Rooms.getRoom() == null && !Pathing.isInBarrows()
+				&& !Tunnel.inCrypt())
 			Options.setRunOn(true);
 		if (Prayer.getPoints() == Prayer.getLevel()
 				&& Restocking.canWalkToAltar()) {

@@ -219,54 +219,101 @@ public class BankHandler {
 						return;
 					}
 					if (Var.superAttack > 0
-							&& Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
-						Var.status = "Withdrawing Super Attack";
-						Banking.withdraw(
-								Var.superAttack
-										- Inventory
-												.getCount(Potions.SUPER_ATTACK),
-								Potions.SUPER_ATTACK);
-						Timing.waitCondition(new Condition() {
+							&& Inventory.getCount(Potions.SUPER_ATTACK) != Var.superAttack) {
+						if (Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
+							Var.status = "Withdrawing Super Attack";
+							Banking.withdraw(
+									Var.superAttack
+											- Inventory
+													.getCount(Potions.SUPER_ATTACK),
+									Potions.SUPER_ATTACK);
+							Timing.waitCondition(new Condition() {
 
-							@Override
-							public boolean active() {
-								return Inventory.getAll().length != count;
-							}
-						}, 3000);
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+						} else {
+							Var.status = "Depositing Super Attack";
+							Banking.deposit(
+									Inventory.getCount(Potions.SUPER_ATTACK)
+											- Var.superAttack,
+									Potions.SUPER_ATTACK);
+							Timing.waitCondition(new Condition() {
+
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+
+						}
 						return;
 					}
 					if (Var.superStrength > 0
-							&& Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
-						Var.status = "Withdrawing Super Strength";
-						Banking.withdraw(
-								Var.superStrength
-										- Inventory
-												.getCount(Potions.SUPER_STRENGTH),
-								Potions.SUPER_STRENGTH);
-						Timing.waitCondition(new Condition() {
+							&& Inventory.getCount(Potions.SUPER_STRENGTH) != Var.superStrength) {
+						if (Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
+							Var.status = "Withdrawing Super Strength";
+							Banking.withdraw(
+									Var.superStrength
+											- Inventory
+													.getCount(Potions.SUPER_STRENGTH),
+									Potions.SUPER_STRENGTH);
+							Timing.waitCondition(new Condition() {
 
-							@Override
-							public boolean active() {
-								return Inventory.getAll().length != count;
-							}
-						}, 3000);
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+						} else {
+							Var.status = "Depositing Super Strength";
+							Banking.withdraw(
+									Inventory.getCount(Potions.SUPER_STRENGTH)
+											- Var.superStrength,
+									Potions.SUPER_STRENGTH);
+							Timing.waitCondition(new Condition() {
+
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+						}
 						return;
 					}
 					if (Var.superDefence > 0
-							&& Inventory.getCount(Potions.SUPER_DEFENCE) < Var.superDefence) {
-						Var.status = "Withdrawing Super Defence";
-						Banking.withdraw(
-								Var.superDefence
-										- Inventory
-												.getCount(Potions.SUPER_DEFENCE),
-								Potions.SUPER_DEFENCE);
-						Timing.waitCondition(new Condition() {
+							&& Inventory.getCount(Potions.SUPER_DEFENCE) != Var.superDefence) {
+						if (Inventory.getCount(Potions.SUPER_DEFENCE) < Var.superDefence) {
+							Var.status = "Withdrawing Super Defence";
+							Banking.withdraw(
+									Var.superDefence
+											- Inventory
+													.getCount(Potions.SUPER_DEFENCE),
+									Potions.SUPER_DEFENCE);
+							Timing.waitCondition(new Condition() {
 
-							@Override
-							public boolean active() {
-								return Inventory.getAll().length != count;
-							}
-						}, 3000);
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+						} else {
+							Var.status = "Depositing Super Defence";
+							Banking.withdraw(
+									Inventory.getCount(Potions.SUPER_DEFENCE)
+											- Var.superDefence,
+									Potions.SUPER_DEFENCE);
+							Timing.waitCondition(new Condition() {
+
+								@Override
+								public boolean active() {
+									return Inventory.getAll().length != count;
+								}
+							}, 3000);
+
+						}
 						return;
 					}
 					if (Var.prayerPotion != Inventory
@@ -345,10 +392,9 @@ public class BankHandler {
 	public static boolean needToBank() {
 		int count = 0;
 		for (int i = 0; i < 5; i++) {
-			if (Inventory.getCount(Var.food.getId()) == 0 
-					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 
-							|| GeneralMethods.getHPPercent() < 50)
-					|| !Magic.hasCasts(1)
+			if (Inventory.getCount(Var.food.getId()) == 0
+					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 || GeneralMethods
+							.getHPPercent() < 50) || !Magic.hasCasts(1)
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
@@ -358,7 +404,7 @@ public class BankHandler {
 				count++;
 			}
 		}
-		if (count == 5 
+		if (count == 5
 				&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
 				&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
 			Var.forceBank = true;
