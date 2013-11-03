@@ -12,7 +12,6 @@ import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
-import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 
@@ -128,9 +127,7 @@ public class Tunnel {
 			if (target != null && !target.isOnScreen()) {
 				walkToMob(target);
 			}
-			if(!attackMob(target)) {
-				
-			}
+			attackMob(target);
 		} else {
 			RSNPC attackingNPC = (RSNPC) Player.getRSPlayer()
 					.getInteractingCharacter();
@@ -202,7 +199,7 @@ public class Tunnel {
 	private static void walkToMob(RSNPC n) {
 		Var.status = "Navigating to target";
 		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-		Walking.walkTo(n);
+		GeneralMethods.screenWalkTo(n);
 		General.sleep(250, 350);
 		while (Player.isMoving() && !n.isOnScreen()) {
 			General.sleep(25, 50);
