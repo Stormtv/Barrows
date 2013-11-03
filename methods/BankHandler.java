@@ -350,6 +350,13 @@ public class BankHandler {
 							}, 3000);
 							System.out.println("lil " + i);
 							return;
+						} else if (i.length > 1
+								&& Inventory.getCount(i)
+										+ org.tribot.api2007.Equipment
+												.getCount(i) > 1) {
+							if (Inventory.getCount(i) > 0) {
+								Banking.deposit(1, i);
+							}
 						}
 					}
 					if (getSpaceLeft() > 0) {
