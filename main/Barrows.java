@@ -70,6 +70,11 @@ public class Barrows extends Script implements Painting, MouseActions,
 				BankHandler.bank();
 				return General.random(10, 30);
 			}
+			if (Var.forceBank
+					&& Var.bankArea.contains(Player.getPosition())) {
+				Var.forceBank = false;
+				return General.random(10, 30);
+			}
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
