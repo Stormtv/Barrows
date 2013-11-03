@@ -10,6 +10,7 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.Skills;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
@@ -22,6 +23,7 @@ import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Magic;
+import scripts.Barrows.types.enums.Prayer;
 
 public class BankHandler {
 
@@ -341,14 +343,21 @@ public class BankHandler {
 	public static boolean needToBank() {
 		int count = 0;
 		for (int i = 0; i < 5; i++) {
-			if (Inventory.getCount(Var.food.getId()) == 0 || !Magic.hasCasts(1)
+			if (Inventory.getCount(Var.food.getId()) == 0 
+					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 
+							|| GeneralMethods.getHPPercent() < 50)
+					|| !Magic.hasCasts(1)
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
 					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0
-					&& Var.prayerPotion > 0) {
+					&& Var.prayerPotion > 0
+					&& Prayer.getPoints() - Potions.prayerDrain() < 5) {
 				count++;
 			}
+		}
+		if (count == 5) {
+			Var.forceBank = true;
 		}
 		return count == 5;
 	}

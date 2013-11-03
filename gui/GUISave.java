@@ -44,6 +44,8 @@ public class GUISave {
 		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
 		prop.setProperty("recharge",Boolean.toString(Var.recharge));
 		prop.setProperty("killCount", Integer.toString(Var.killCount));
+		prop.setProperty("minFood", Integer.toString(Var.nextRunFood));
+		prop.setProperty("minDoses", Integer.toString(Var.nextRunDoses));
 		try {
 			boolean exist = (new File(Util.getWorkingDirectory()+File.separator+"barrows").mkdirs());
 			if(exist) {
@@ -98,6 +100,8 @@ public class GUISave {
 			Var.arrowCount = Integer.valueOf(prop.getProperty("arrows"));
 			Var.spellCount = Integer.valueOf(prop.getProperty("casts"));
 			Var.killCount = Integer.valueOf(prop.getProperty("killCount"));
+			Var.nextRunDoses = Integer.valueOf(prop.getProperty("minDoses"));
+			Var.nextRunFood = Integer.valueOf(prop.getProperty("minFood"));
 			for (Pathing.PathBank p : Pathing.PathBank.values()) {
 				if (prop.getProperty("bankPath").equals(p.toString())) {
 					Var.bankPath = p;
