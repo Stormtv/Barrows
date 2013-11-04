@@ -8,17 +8,17 @@ public class Brother {
 
 	public enum Brothers {
 		Dharok(0, "Dharok", false, false, Var.dharokDig, new int[][] {},
-				Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST,
+				Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE,
 				20720, 20668, 443, 354), Karil(1, "Karil", false, false,
 				Var.karilDig, new int[][] {}, Prayer.Prayers.ProtectFromMissiles,
 				false, Magic.Spell.NONE, 20771, 20670, 443, 394), Verac(2, "Verac",
 				false, false, Var.veracDig, new int[][] {},
-				Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST,
+				Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE,
 				20772, 20672, 443, 454), Guthan(3, "Guthan", false, false,
 				Var.guthanDig, new int[][] {}, Prayer.Prayers.ProtectFromMelee,
-				false, Magic.Spell.WIND_BLAST, 20722, 20669, 443, 414), Torag(4,
+				false, Magic.Spell.NONE, 20722, 20669, 443, 414), Torag(4,
 				"Torag", false, false, Var.toragDig, new int[][] {},
-				Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.WIND_BLAST,
+				Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE,
 				20721, 20671, 443, 434), Ahrim(5, "Ahrim", false, false,
 				Var.ahrimDig, new int[][] {}, Prayer.Prayers.ProtectFromMagic,
 				false, Magic.Spell.NONE, 20770, 20667, 443, 374);
