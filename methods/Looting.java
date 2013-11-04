@@ -54,11 +54,6 @@ public class Looting {
 				}
 			}
 			for (int a = 0; a < itemsOnG.length; a++) {
-				boolean tf = true;
-				if (itemsOnG[a].getPosition().distanceTo(Player.getPosition()) > 12
-						&& PathFinding.canReach(itemsOnG[a], false)) {
-					tf = false;
-				}
 				if (!PathFinding.canReach(itemsOnG[a], false)) {
 					continue;
 				}
@@ -77,7 +72,8 @@ public class Looting {
 						}
 					}
 				}
-				if (!Inventory.isFull() && itemsOnG[a] != null && tf) {
+				if (!Inventory.isFull() && itemsOnG[a] != null
+						&& PathFinding.canReach(itemsOnG[a], false)) {
 					GeneralMethods.leftClick(itemsOnG[a]);
 				}
 			}

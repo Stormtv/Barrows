@@ -466,7 +466,7 @@ public class GeneralMethods {
 
 	private static boolean groundItemCheck(RSGroundItem g) {
 		for (RSGroundItem a : GroundItems.getAt(g)) {
-			if (a.getID() == g.getID()) {
+			if (a.getID() == g.getID() && PathFinding.canReach(a, false)) {
 				return true;
 			}
 		}
@@ -497,7 +497,7 @@ public class GeneralMethods {
 			Mouse.setSpeed(General.random(110, 120));
 			if (!n.isOnScreen()) {
 				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-				Walking.blindWalkTo(n);
+				screenWalkTo(n);
 				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				General.sleep(250, 350);
 				while (Player.isMoving()) {
@@ -505,9 +505,8 @@ public class GeneralMethods {
 				}
 			}
 			if (n.getPosition().distanceTo(Player.getPosition()) > 8) {
-
 				enableRun();
-				Walking.blindWalkTo(n.getPosition());
+				screenWalkTo(n);
 				disableRun();
 			}
 			if (!groundItemCheck(n))
