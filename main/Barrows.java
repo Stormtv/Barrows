@@ -70,8 +70,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 				BankHandler.bank();
 				return General.random(10, 30);
 			}
-			if (Var.forceBank
-					&& Var.bankArea.contains(Player.getPosition())) {
+			if (Var.forceBank && Var.bankArea.contains(Player.getPosition())) {
 				Var.forceBank = false;
 				return General.random(10, 30);
 			}
@@ -136,6 +135,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	private void onStart() {
 		if (TrialVersionHandler.isAuthorized()) {
+			GeneralMethods.updateTracker("Script Runs");
 			println("Thank you for using wBarrows "
 					+ General.getTRiBotUsername()
 					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");

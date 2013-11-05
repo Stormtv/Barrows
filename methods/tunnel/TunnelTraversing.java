@@ -104,18 +104,18 @@ public class TunnelTraversing {
 							* i.getStack();
 					for (int j : Var.lootIDs) {
 						if (i.getID() == j) {
-							LootTable.addReward(i.getDefinition().getName(),
-									i.getID(), i.getStack(),
+							String name = i.getDefinition().getName();
+							LootTable.addReward(name, i.getID(), i.getStack(),
 									PriceHandler.getPrice(i.getID()));
+							GeneralMethods.updateTracker(name);
 						}
 					}
 				}
 				GeneralMethods.takeScreenShot();
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
-				if (Potions.getPrayerDoses()  < Var.nextRunDoses
-						|| Inventory.getCount(Var.food.getId()) 
-							< Var.nextRunFood) {
+				if (Potions.getPrayerDoses() < Var.nextRunDoses
+						|| Inventory.getCount(Var.food.getId()) < Var.nextRunFood) {
 					Var.forceBank = true;
 				}
 			}
@@ -136,12 +136,11 @@ public class TunnelTraversing {
 				Food.eatInCombat();
 				TunnelRoom current = Rooms.getRoom();
 				while (Rooms.getRoom() != null && Rooms.getRoom() == current
-						&& Tunnel.isPuzzleDoor(door) 
-						&& Tunnel.getKcLeft() > 0
-						&& !BankHandler.needToBank() 
-						&& PathFinding.canReach(door.getLocation(),true)) {
+						&& Tunnel.isPuzzleDoor(door) && Tunnel.getKcLeft() > 0
+						&& !BankHandler.needToBank()
+						&& PathFinding.canReach(door.getLocation(), true)) {
 					Tunnel.fightForKc();
-					General.sleep(30,100);
+					General.sleep(30, 100);
 				}
 				RSObject[] nextDoor = Objects.getAt(door.getLocation());
 				if (nextDoor != null && nextDoor.length > 0

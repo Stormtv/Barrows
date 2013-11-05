@@ -43,21 +43,20 @@ public class Restocking {
 						General.sleep(100);
 				}
 			} else {
-				final RSObject[] door = Objects
-						.getAt(new RSTile(3238, 3210, 0));
-				if (door.length > 1) {
-					if (door[1].isOnScreen()) {
-						if (door[1].click("Open")) {
+				final RSObject door = Pathing.getLumbDoor();
+				if (door != null) {
+					if (door.isOnScreen()) {
+						if (door.click("Open")) {
 							Timing.waitCondition(new Condition() {
 
 								@Override
 								public boolean active() {
-									return door.length == 1;
+									return door == null;
 								}
 							}, 1000);
 						}
 					} else {
-						Walking.walkTo(door[0].getPosition());
+						Walking.walkTo(door.getPosition());
 						while (Player.isMoving())
 							General.sleep(100);
 					}
