@@ -1120,7 +1120,8 @@ public class Pathing {
 	static boolean canWalkToBoatFromRing() {
 		for (RSTile t : pathFromRing) {
 			if (t.distanceTo(Player.getRSPlayer()) < 15)
-				return true;
+				if (PathFinding.canReach(t, false))
+					return true;
 		}
 		return false;
 	}
