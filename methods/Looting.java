@@ -39,9 +39,6 @@ public class Looting {
 			if (itemsOnG.length == 0) {
 				return;
 			}
-			if (itemsOnG.length == 1 && Player.getRSPlayer().isInCombat()) {
-				return;
-			}
 			RSItem[] food = Inventory.find(Food.getFoodIDs());
 			if ((Inventory.getAll().length + itemsOnG.length) > 28) {
 				if (!(GameTab.getOpen() == TABS.INVENTORY)) {

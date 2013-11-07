@@ -97,7 +97,7 @@ public class GeneralMethods {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public static String unzero(final int num) {
 		return String.valueOf((num == 0 ? "null" : num));
 	}
@@ -203,7 +203,7 @@ public class GeneralMethods {
 			return true;
 		}
 		int cAngle = Camera.getCameraRotation();
-		int angle = 180 + Camera.getTileAngle((Positionable) p.getPosition());
+		int angle = 180 + Camera.getTileAngle(p);
 		int dir = cAngle - angle;
 		if (Math.abs(dir) <= 190 && Math.abs(dir) >= 180) {
 			return true;
@@ -455,8 +455,6 @@ public class GeneralMethods {
 						ChooseOption.close();
 						for (int fSafe = 0; fSafe < 20 && ChooseOption.isOpen(); fSafe++)
 							General.sleep(General.random(10, 15));
-						General.println("Misclicked");
-						click(m, option);
 					}
 				}
 			}
