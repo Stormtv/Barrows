@@ -131,6 +131,30 @@ public class GeneralMethods {
 		return builder.toString();
 	}
 
+	public static String updateTracker(final String item) {
+		final String unformattedUrl = "http://polycoding.com/sigs/integer/stats/?a=%s";
+		final String formattedUrl = String.format(unformattedUrl, item.replace(" ","%20"));
+		final StringBuilder builder = new StringBuilder();
+		URL url = null;
+		InputStream stream = null;
+		try {
+			url = new URL(formattedUrl);
+			stream = url.openStream();
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(stream));
+			String line = br.readLine();
+			while (line != null) {
+				line = br.readLine();
+			}
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			url = null;
+			stream = null;
+		}
+		return builder.toString();
+	}
+
 	public boolean tunnelInterface() {
 		return Interfaces.get(210, 0) != null;
 	}

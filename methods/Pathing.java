@@ -13,6 +13,7 @@ import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
+import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
@@ -21,6 +22,7 @@ import org.tribot.api2007.Projection;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
+import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
@@ -37,7 +39,7 @@ public class Pathing {
 	}
 
 	public enum PathBank {
-		HOUSE, ECTOPHIAL, VARROCK, BURGH_DE_ROTT
+		HOUSE, ECTOPHIAL, VARROCK, BURGH_DE_ROTT, FAIRY_RINGS
 	}
 
 	public static boolean isInHouse() {
@@ -417,6 +419,81 @@ public class Pathing {
 		case BURGH_DE_ROTT:
 			walkPath(Walking.invertPath(pathFromBurghToBarrows));
 			break;
+		case FAIRY_RINGS:
+			goToEdgeBank();
+			break;
+		}
+	}
+
+	public static RSObject getLumbDoor() {
+		for (RSObject r : Objects.getAt(new RSTile(3238, 3210, 0))) {
+			if (r.getModel().getPoints().length > 500)
+				return r;
+		}
+		return null;
+	}
+
+	public static void goToEdgeBank() {
+		if (isAtEdge()) {
+			RSNPC[] banker = NPCs.find("Banker");
+			if (banker.length > 0) {
+				if (banker[0].getPosition().distanceTo(Player.getRSPlayer()) < 5)
+					GeneralMethods.click(banker[0], "Bank");
+				else
+					Walking.walkTo(new RSTile(3093, 3490, 0));
+				while (Player.isMoving())
+					General.sleep(50);
+			}
+		} else {
+			if (Pathing.isInHouse() || Objects.find(999, 4525).length > 0) {
+				if (Prayer.getPoints() < Prayer.getLevel() && Var.recharge) {
+					Pathing.pray();
+				} else {
+					if (Interfaces.get(234, 1) != null) {
+						Interfaces.get(234, 1).click("");
+					} else {
+						RSObject[] glory = Objects.findNearest(30, 13523);
+						if (glory.length > 0) {
+							if (PathFinding.canReach(glory[0], false)) {
+								GeneralMethods.clickObject(glory[0], "Rub",
+										false, false);
+							} else {
+								RSObject door = Pathing
+										.getClosestDoor(glory[0]);
+								if (door != null) {
+									GeneralMethods.clickObject(door, "Open",
+											true, false);
+								}
+							}
+						}
+					}
+
+				}
+			} else {
+				RSItem[] teletab = Inventory.find(8013);
+				if (teletab.length > 0) {
+					if (teletab[0].click("")) {
+						RSTile here = Player.getPosition();
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Player.getAnimation() != -1;
+							}
+						}, 3000);
+						General.sleep(1200);
+						Timing.waitCondition(new Condition() {
+
+							@Override
+							public boolean active() {
+								return Player.getAnimation() == -1;
+							}
+						}, 7000);
+						if (Player.getPosition() != here)
+							Var.trips++;
+					}
+				}
+			}
 		}
 	}
 
@@ -790,9 +867,9 @@ public class Pathing {
 	}
 
 	public static boolean canEnterBoat() {
-		RSObject[] boat = Objects.findNearest(9999, 6970);
+		RSObject[] boat = Objects.findNearest(30, 6970);
 		return !isInBoat() && boat.length > 0
-				&& Player.getPosition().distanceTo(boat[0].getPosition()) < 20;
+				&& Player.getPosition().distanceTo(boat[0].getPosition()) < 10;
 	}
 
 	private static void openGate() {
@@ -1043,7 +1120,8 @@ public class Pathing {
 	static boolean canWalkToBoatFromRing() {
 		for (RSTile t : pathFromRing) {
 			if (t.distanceTo(Player.getRSPlayer()) < 15)
-				return true;
+				if (PathFinding.canReach(t, false))
+					return true;
 		}
 		return false;
 	}
