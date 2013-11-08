@@ -134,7 +134,8 @@ public class BrotherKilling {
 
 	private static void CombatManager(Brothers b) {
 		while (Player.getRSPlayer().getInteractingCharacter() != null
-				|| aggressiveNPC() != null) {
+				|| aggressiveNPC() != null 
+				|| !PathFinding.canReach(aggressiveNPC(), false)) {
 			if (BankHandler.needToBank()) {
 				return;
 			}

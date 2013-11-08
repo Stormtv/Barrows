@@ -89,7 +89,7 @@ public class Magic {
 	}
 
 	public static boolean isAutocasting(Spell s) {
-		return Game.getSetting(108) == s.getSettingID() && Interfaces.get(201,2) == null;
+		return Game.getSetting(108) == s.getSettingID() && Interfaces.get(201,0) == null;
 	}
 
 	public static boolean castOn(Spell s, RSModel m) {
@@ -130,16 +130,16 @@ public class Magic {
 		if (Interfaces.get(310, 16) != null) {
 			if (Interfaces.get(310, 16).click("Choose spell")) {
 				for (int fail=0; fail<20 
-						&& Interfaces.get(201,2)==null;fail++) {
+						&& Interfaces.get(201,0)==null;fail++) {
 					General.sleep(50,75);
 				}
 			}
 		}
-		if (Interfaces.get(201, 2) != null) {
-			if (Interfaces.get(201, 2).getChild(s.getSecondInterfaceID())
+		if (Interfaces.get(201, 0) != null) {
+			if (Interfaces.get(201, 0).getChild(s.getSecondInterfaceID())
 					.click(s.name)) {
 				for (int fail=0; fail<20
-						&& Interfaces.get(201, 2)!=null;fail++) {
+						&& Interfaces.get(201, 0)!=null;fail++) {
 					General.sleep(50,75);
 				}
 				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
