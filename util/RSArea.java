@@ -4,7 +4,10 @@ import org.tribot.api.General;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.types.RSTile; 
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
