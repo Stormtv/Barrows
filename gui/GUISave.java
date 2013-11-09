@@ -53,7 +53,7 @@ public class GUISave {
 			}
 			streamO = new FileOutputStream(Util.getWorkingDirectory()
 					+ File.separator + "barrows" + File.separator
-					+ "Settings.ini");
+					+ Var.fileName + ".ini");
 			prop.store(streamO, null);
 			streamO.flush();
 			streamO.close();
@@ -67,7 +67,7 @@ public class GUISave {
 			Properties prop = new Properties();
 			streamI = new FileInputStream(Util.getWorkingDirectory()
 					+ File.separator + "barrows" + File.separator
-					+ "Settings.ini");
+					+ Var.fileName + ".ini");
 			prop.load(streamI);
 			for (Brothers b : Brothers.values()) {
 				b.setKillOrder(Integer.valueOf(prop.getProperty(b.getName()+"KillOrder")));

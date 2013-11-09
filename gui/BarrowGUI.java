@@ -14,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,8 +31,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -41,6 +44,7 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.tribot.util.Util;
 
 @SuppressWarnings("serial")
 public class BarrowGUI extends JFrame {
@@ -1145,6 +1149,7 @@ public class BarrowGUI extends JFrame {
 						
 						Var.arrowId = Equipment.getEquipmentID(Equipment.Gear.ARROW);
 						try {
+							Var.fileName = "Settings";
 							GUISave.save();
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -1259,6 +1264,314 @@ public class BarrowGUI extends JFrame {
 							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 				);
 				panel_6.setLayout(gl_panel_6);
+				
+				JButton btnSave = new JButton("Save");
+				btnSave.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						for (int index = 0; index < 6; index++) {
+							String s = modelSelected.getElementAt(index);
+							switch (s) {
+								case "Dharok":
+									Brother.Brothers.Dharok.setKillOrder(index);
+									break;
+								case "Karil":
+									Brother.Brothers.Karil.setKillOrder(index);
+									break;
+								case "Verac":
+									Brother.Brothers.Verac.setKillOrder(index);
+									break;
+								case "Guthan":
+									Brother.Brothers.Guthan.setKillOrder(index);
+									break;
+								case "Torag":
+									Brother.Brothers.Torag.setKillOrder(index);
+									break;
+								case "Ahrim":
+									Brother.Brothers.Ahrim.setKillOrder(index);
+									break;
+							}
+						}
+
+						Var.food = (Food.Edibles) cbxFood.getSelectedItem();
+						
+						Var.killCount = (int)spinner.getValue();
+						Var.nextRunDoses = (int)spnDoses.getValue();
+						Var.nextRunFood = (int)spnFood.getValue();
+						Var.foodAmount = Integer.parseInt(txtFood.getText());
+						Var.superAttack = Integer.parseInt(txtSA.getText());
+						Var.superStrength = Integer.parseInt(txtSS.getText());
+						Var.superDefence = Integer.parseInt(txtSD.getText());
+						Var.rangingPotion = Integer.parseInt(txtRP.getText());
+						Var.prayerPotion = Integer.parseInt(txtPP.getText());
+						Var.arrowCount = Integer.parseInt(txtArrows.getText());
+						Var.spellCount = Integer.parseInt(txtCasts.getText());
+						
+						Var.bankPath = (Pathing.PathBank) cbxBank.getSelectedItem();
+						Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows.getSelectedItem();
+						
+						Var.arrowId = Equipment.getEquipmentID(Equipment.Gear.ARROW);
+						try {
+							Var.fileName = JOptionPane.showInputDialog("Filename","Enter your file name");
+							GUISave.save();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				});
+				
+				JButton btnLoad = new JButton("Load");
+				btnLoad.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							ArrayList<String> results = new ArrayList<String>();
+							File[] files = new File(Util.getWorkingDirectory()+File.separator+"barrows").listFiles();
+							for (File file : files) {
+								if (file.isFile() && file.getName().endsWith(".ini")) {
+									results.add(file.getName().replace(".ini",""));
+								}
+							}
+							JFrame frame = new JFrame("FileOptions");
+							String[] fileNames = results.toArray(new String[results.size()]);
+							Var.fileName = (String) JOptionPane.showInputDialog(frame, 
+									"Which file would you like to load?",
+									"File Selection",
+									JOptionPane.QUESTION_MESSAGE, 
+									null, 
+									fileNames, 
+									fileNames[0]);
+
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						try {
+							GUISave.load();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						try {
+							GUISave.load();
+						} catch (IOException e3) {
+							e3.printStackTrace();
+						}
+						currentBrother = (Brother.Brothers)cbxBrother.getSelectedItem();
+						cbxSpell.setSelectedItem(currentBrother.getSpell());
+						chckbxUsePrayer.setSelected(!currentBrother.getPrayer().equals(Prayer.Prayers.None));
+						chckbxUsePotions.setSelected(currentBrother.usePotions());
+						chckbxRecharge.setSelected(Var.recharge);
+						try {
+							if (currentBrother.equals(Brother.Brothers.Dharok)) {
+								if (picBro != null) {
+									picBro.setIcon(new ImageIcon(dharok));
+								} else {
+									picBro = new JLabel(new ImageIcon(dharok));
+								}
+							} else if (currentBrother.equals(Brother.Brothers.Ahrim)) {
+								if (picBro != null) {
+									picBro.setIcon(new ImageIcon(ahrim));
+								} else {
+									picBro = new JLabel(new ImageIcon(ahrim));
+								}
+							} else if (currentBrother.equals(Brother.Brothers.Torag)) {
+								if (picBro != null) {
+									picBro.setIcon(new ImageIcon(torag));
+								} else {
+									picBro = new JLabel(new ImageIcon(torag));
+								}
+							} else if (currentBrother.equals(Brother.Brothers.Guthan)) {
+								if (picBro != null) {
+									picBro.setIcon(new ImageIcon(guthan));
+								} else {
+									picBro = new JLabel(new ImageIcon(guthan));
+								}
+							} else if (currentBrother.equals(Brother.Brothers.Verac)) {
+								if (picBro != null) {
+									picBro.setIcon(new ImageIcon(verac));
+								} else {
+									picBro = new JLabel(new ImageIcon(verac));
+								}
+							} else if (currentBrother.equals(Brother.Brothers.Karil)) {
+								if (picBro != null) {
+									picBro.setIcon(new ImageIcon(karil));
+								} else {
+									picBro = new JLabel(new ImageIcon(karil));
+								}
+							}
+							if (currentBrother.getEquipmentIds()!=null 
+									&& currentBrother.getEquipmentIds().length > 0) {
+								if (currentBrother.getEquipmentIds()[0][0]!= -1) {
+									if (picHelm!=null) {
+										picHelm.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
+									} else {
+										picHelm = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[0][0])));
+									}
+								} else {
+									if (picHelm!=null) {
+										picHelm.setIcon(new ImageIcon(helm));
+									} else {
+										picHelm = new JLabel(new ImageIcon(helm));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[1][0]!= -1) {
+									if (picCape!=null) {
+										picCape.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
+									} else {
+										picCape = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[1][0])));
+									}
+								} else {
+									if (picCape!=null) {
+										picCape.setIcon(new ImageIcon(cape));
+									} else {
+										picCape = new JLabel(new ImageIcon(cape));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[2][0]!= -1) {
+									if (picNeck!=null) {
+										picNeck.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
+									} else {
+										picNeck = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[2][0])));
+									}
+								} else {
+									if (picNeck!=null) {
+										picNeck.setIcon(new ImageIcon(necklace));
+									} else {
+										picNeck = new JLabel(new ImageIcon(necklace));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[3][0]!= -1) {
+									if (picSword!=null) {
+										picSword.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
+									} else {
+										picSword = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[3][0])));
+									}
+								} else {
+									if (picSword!=null) {
+										picSword.setIcon(new ImageIcon(weapon));
+									} else {
+										picSword = new JLabel(new ImageIcon(weapon));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[4][0]!= -1) {
+									if (picBody!=null) {
+										picBody.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
+									} else {
+										picBody = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[4][0])));
+									}
+								} else {
+									if (picBody!=null) {
+										picBody.setIcon(new ImageIcon(body));
+									} else {
+										picBody = new JLabel(new ImageIcon(body));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[5][0]!= -1) {
+									if (picShield!=null) {
+										picShield.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
+									} else {
+										picShield = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[5][0])));
+									}						
+								} else {
+									if (picShield!=null) {
+										picShield.setIcon(new ImageIcon(shield));
+									} else {
+										picShield = new JLabel(new ImageIcon(shield));
+									}	
+								}
+								if (currentBrother.getEquipmentIds()[6][0]!= -1) {
+									if (picLegs!=null) {
+										picLegs.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
+									} else {
+										picLegs = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[6][0])));
+									}
+								} else {
+									if (picLegs!=null) {
+										picLegs.setIcon(new ImageIcon(legs));
+									} else {
+										picLegs = new JLabel(new ImageIcon(legs));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[7][0]!= -1) {
+									if (picGloves!=null) {
+										picGloves.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
+									} else {
+										picGloves = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[7][0])));
+									}	
+								} else {
+									if (picGloves!=null) {
+										picGloves.setIcon(new ImageIcon(gloves));
+									} else {
+										picGloves = new JLabel(new ImageIcon(gloves));
+									}	
+								}
+								if (currentBrother.getEquipmentIds()[8][0]!= -1) {
+									if (picBoots!=null) {
+										picBoots.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
+									} else {
+										picBoots = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[8][0])));
+									}	
+								} else {
+									if (picBoots!=null) {
+										picBoots.setIcon(new ImageIcon(boots));
+									} else {
+										picBoots = new JLabel(new ImageIcon(boots));
+									}	
+								}
+								if (currentBrother.getEquipmentIds()[9][0]!= -1) {
+									if (picRing!=null) {
+										picRing.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
+									} else {
+										picRing = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[9][0])));
+									}			
+								} else {
+									if (picRing!=null){
+										picRing.setIcon(new ImageIcon(ring));
+									} else {
+										picRing = new JLabel(new ImageIcon(ring));
+									}
+								}
+								if (currentBrother.getEquipmentIds()[10][0]!= -1) {
+									if (picArrow!=null) {
+										picArrow.setIcon(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
+									} else {
+										picArrow = new JLabel(new ImageIcon(getIcon(currentBrother.getEquipmentIds()[10][0])));
+									}
+								} else {
+									if (picArrow!=null) {
+										picArrow.setIcon(new ImageIcon(arrow));
+									} else {
+										picArrow = new JLabel(new ImageIcon(arrow));
+									}
+								}
+							}
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}	
+						
+						modelSelected.setSize(6);
+						modelSelected.set(Brother.Brothers.Dharok.killOrder(), "Dharok");
+						modelSelected.set(Brother.Brothers.Karil.killOrder(), "Karil");
+						modelSelected.set(Brother.Brothers.Guthan.killOrder(), "Guthan");
+						modelSelected.set(Brother.Brothers.Ahrim.killOrder(), "Ahrim");
+						modelSelected.set(Brother.Brothers.Verac.killOrder(), "Verac");
+						modelSelected.set(Brother.Brothers.Torag.killOrder(), "Torag");
+
+						cbxFood.setSelectedItem(Var.food);
+
+						spinner.setValue(Var.killCount);
+						spnFood.setValue(Var.nextRunFood);
+						spnDoses.setValue(Var.nextRunDoses);
+						txtFood.setText(Integer.toString(Var.foodAmount));
+						txtSA.setText(Integer.toString(Var.superAttack));
+						txtSS.setText(Integer.toString(Var.superStrength));
+						txtSD.setText(Integer.toString(Var.superDefence));
+						txtRP.setText(Integer.toString(Var.rangingPotion));
+						txtPP.setText(Integer.toString(Var.prayerPotion));
+						txtArrows.setText(Integer.toString(Var.arrowCount));
+						txtCasts.setText(Integer.toString(Var.spellCount));
+						
+						cbxBarrows.setSelectedItem(Var.barrowsPath);
+						cbxBank.setSelectedItem(Var.bankPath);
+					}
+				});
 				GroupLayout groupLayout = new GroupLayout(getContentPane());
 				groupLayout.setHorizontalGroup(
 					groupLayout.createParallelGroup(Alignment.LEADING)
@@ -1280,7 +1593,12 @@ public class BarrowGUI extends JFrame {
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+										.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))))
 							.addGap(22))
 				);
 				groupLayout.setVerticalGroup(
@@ -1299,10 +1617,15 @@ public class BarrowGUI extends JFrame {
 									.addGap(5)
 									.addComponent(panel_4, 0, 0, Short.MAX_VALUE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
-								.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-								.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+								.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(btnLoad, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)))
 							.addGap(33))
 				);
 				getContentPane().setLayout(groupLayout);

@@ -149,4 +149,6 @@ public class Var {
 	public static int nextRunDoses = 0;
 
 	public static int nextRunFood = 0;
+
+	public static String fileName = "Settings";
 }

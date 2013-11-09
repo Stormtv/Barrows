@@ -740,8 +740,8 @@ public class Pathing {
 		if (isNearTrapDoor()) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
 			if (trapdoor.length > 0
-					&& Player.getPosition().distanceTo(trapdoor[0]) < 15) {
-				GeneralMethods.clickObject(trapdoor[0], "Open", true, false);
+					&& Player.getPosition().distanceTo(trapdoor[1]) < 15) {
+				GeneralMethods.clickObject(trapdoor[1], "Open", true, false);
 			} else {
 				Walking.walkTo(new RSTile(3506, 3469, 0));
 			}
