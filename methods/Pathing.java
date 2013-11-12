@@ -661,7 +661,8 @@ public class Pathing {
 			}
 		}
 		if (isFromEctoToBank() || Restocking.canWalkToAltar()) {
-			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()) {
+			if (Var.recharge && Prayer.getPoints() < Prayer.getLevel()
+					&& Inventory.getCount(Var.EMPTY_ECTOPHIAL) == 0) {
 				Restocking.restorePrayerAtLumbridge();
 			} else {
 				if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
