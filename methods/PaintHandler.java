@@ -77,6 +77,7 @@ public class PaintHandler {
 				g.drawImage(tunnel, b.getX() + 30, b.getY(), null);
 			}
 		}
+		//g.drawString("forceBank: " + Var.forceBank, 20, 40);
 		g.setFont(new Font("Arial", 0, 11));
 		g.drawString("v" + Var.version, 360, 337);
 		MouseLines(g);

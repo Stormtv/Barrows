@@ -413,7 +413,11 @@ public class BankHandler {
 		}
 		if (count == 5
 				&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
-				&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
+				&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))
+				&& !Player.getPosition().equals(new RSTile(3490, 3413, 0))
+				&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
+				&& Player.getPosition() != null) {
+			//General.println("needToBank Force Bank " + Player.getPosition().toString());
 			Var.forceBank = true;
 		}
 		return count == 5;

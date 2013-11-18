@@ -78,7 +78,14 @@ public class Barrows extends Script implements Painting, MouseActions,
 					&& !Var.bankArea.contains(Player.getPosition())
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
 					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))
-					|| Var.forceBank) {
+					&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
+					&& !Player.getPosition().equals(new RSTile(3490, 3413, 0))
+					|| Var.forceBank
+					&& !Var.bankArea.contains(Player.getPosition())
+					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
+					&& !Player.getPosition().equals(new RSTile(3490, 3413, 0))
+					&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
+					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
 				Var.status = "Heading to the bank";
 				Walking.setWalkingTimeout(1);
 				Pathing.goToBank();

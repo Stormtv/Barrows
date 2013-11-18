@@ -194,13 +194,13 @@ public class Pathing {
 				Walking.walkTo(t);
 				if (i == 0) {
 					while (Player.isMoving() && !Player.getPosition().equals(t)) {
-						Var.status = "Waiting until at target";
+						Var.status = "Waiting until at tile " + t.toString();
 						General.sleep(20, 50);
 					}
 				} else {
 					while (Player.isMoving() && !Player.getPosition().equals(t)
 							&& Player.getPosition().distanceTo(t) > 5) {
-						Var.status = "Waiting until near target";
+						Var.status = "Waiting until near tile " + t.toString();
 						Walking.blindWalkTo(t);
 						General.sleep(20, 50);
 					}
@@ -825,7 +825,7 @@ public class Pathing {
 	}
 
 	static RSTile[] pathToBoatFromShortcut = { new RSTile(3495, 3416),
-			new RSTile(3493, 3407), new RSTile(3495, 3396),
+			new RSTile(3492, 3407), new RSTile(3495, 3396),
 			new RSTile(3496, 3386) };
 
 	static boolean canWalkUnderground() {
