@@ -94,7 +94,9 @@ public class PaintHandler {
 			g.setColor(tRed);
 			g.drawPolygon(Var.debugObject.getModel().getEnclosedArea());
 			g.setColor(tYellow);
-			g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
+			if (Var.centerPoint.x >= 7 && Var.centerPoint.y >= 7) {
+				g.drawRect(Var.centerPoint.x - 7, Var.centerPoint.y - 7, 14, 14);
+			}
 		}
 		if (Var.targetTile != null && Var.targetTile.isOnScreen()) {
 			g.setColor(Color.BLACK);

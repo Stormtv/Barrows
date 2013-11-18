@@ -192,6 +192,7 @@ public class Pathing {
 			if (t.distanceTo(Player.getPosition()) < 30
 					&& Projection.isInMinimap(Projection.tileToMinimap(t))) {
 				Walking.walkTo(t);
+				General.sleep(250,350);
 				if (i == 0) {
 					while (Player.isMoving() && !Player.getPosition().equals(t)) {
 						Var.status = "Waiting until at tile " + t.toString();
@@ -245,7 +246,7 @@ public class Pathing {
 			return;
 		}
 		if (canWalkToBank()) {
-			walkPath(toBank);
+			Walking.walkPath(toBank);
 		} else {
 			if (isUndergroundCanifis()) {
 				if (PathFinding.canReach(new RSTile(3439, 9896, 0), false)) {
@@ -339,7 +340,7 @@ public class Pathing {
 							}
 						} else {
 							if (canWalkToVarrock())
-								walkPath(pathFromVarrock);
+								Walking.walkPath(pathFromVarrock);
 							else {
 								RSItem[] teletab = Inventory.find(8007);
 								if (teletab.length > 0) {
@@ -392,13 +393,13 @@ public class Pathing {
 				if (canEnterBoat())
 					enterBoat();
 				else
-					walkPath(pathToBoat);
+					Walking.walkPath(pathToBoat);
 				General.sleep(500);
 			} else if (isFromBankToGate()) {
 				if (canOpenGate())
 					openGate();
 				else
-					walkPath(pathToGate);
+					Walking.walkPath(pathToGate);
 			}
 		}
 		return false;
@@ -417,7 +418,7 @@ public class Pathing {
 			goFromVarrock();
 			break;
 		case BURGH_DE_ROTT:
-			walkPath(Walking.invertPath(pathFromBurghToBarrows));
+			Walking.walkPath(Walking.invertPath(pathFromBurghToBarrows));
 			break;
 		case FAIRY_RINGS:
 			goToEdgeBank();
@@ -604,7 +605,7 @@ public class Pathing {
 			}
 		} else {
 			if (new RSTile(3510, 3478, 0).distanceTo(Player.getPosition()) < 30) {
-				walkPath(pubToBank);
+				Walking.walkPath(pubToBank);
 			} else {
 				RSItem[] teletab = Inventory.find(8013);
 				if (teletab.length > 0) {
@@ -668,7 +669,7 @@ public class Pathing {
 				if (Inventory.getCount(Var.EMPTY_ECTOPHIAL) > 0)
 					General.sleep(1000);
 				else {
-					walkPath(pathFromEcto);
+					Walking.walkPath(pathFromEcto);
 				}
 			}
 		} else {
@@ -720,7 +721,7 @@ public class Pathing {
 				goViaShortcut();
 				break;
 			case BURGH_DE_ROTT:
-				walkPath(Walking.invertPath(pathFromBurghToBarrows));
+				Walking.walkPath(Walking.invertPath(pathFromBurghToBarrows));
 				break;
 			case FAIRY_RINGS:
 				goFromEdge();
@@ -729,7 +730,7 @@ public class Pathing {
 		}
 		if (isFromBoatToBarrows()) {
 			Var.status = "Going to barrows";
-			walkPath(pathToBarrows);
+			Walking.walkPath(pathToBarrows);
 		}
 	}
 
@@ -774,7 +775,7 @@ public class Pathing {
 							}
 						}
 					} else {
-						walkPath(pathUnderground);
+						Walking.walkPath(pathUnderground);
 					}
 				}
 			} else {
@@ -806,7 +807,7 @@ public class Pathing {
 						enterBoat();
 					} else {
 						GeneralMethods.enableRun();
-						walkPath(pathToBoatFromShortcut);
+						Walking.walkPath(pathToBoatFromShortcut);
 						GeneralMethods.disableRun();
 					}
 				}
@@ -998,7 +999,7 @@ public class Pathing {
 			Pathing.enterBoat();
 		} else {
 			if (canWalkToBoatFromRing()) {
-				Pathing.walkPath(pathFromRing);
+				Walking.walkPath(pathFromRing);
 			} else {
 				if (new RSTile(2412, 4434, 0).distanceTo(Player.getRSPlayer()) < 10) {
 					if (Interfaces.get(426, 33) != null) {
@@ -1040,7 +1041,7 @@ public class Pathing {
 								}
 							}
 						} else {
-							Pathing.walkPath(pathToRing);
+							Walking.walkPath(pathToRing);
 						}
 					} else {
 						if (Pathing.isInHouse()

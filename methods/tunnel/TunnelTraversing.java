@@ -34,9 +34,8 @@ public class TunnelTraversing {
 					&& Objects.getAt(room.getExitTile())[0].getModel()
 							.getPoints().length > 0) {
 				Var.startingRoom = room;
-			} else {
-				return;
 			}
+			if (Var.startingRoom == null) return;
 		}
 		if (Rooms.getRoom() != null) {
 			if (TunnelPuzzle.isPuzzleScreenOpen()) {
@@ -44,9 +43,10 @@ public class TunnelTraversing {
 			} else {
 				if (Var.lootedChest) {
 					if (Rooms.getRoom() != null
+							&& Var.startingRoom != null
 							&& Rooms.getRoom().equals(Var.startingRoom)) {
 						climbLadder();
-					} else if (Rooms.getRoom() != null) {
+					} else if (Rooms.getRoom() != null && Var.startingRoom !=null) {
 						tunnelWalkTo(Var.startingRoom);
 					}
 				} else {
@@ -150,24 +150,26 @@ public class TunnelTraversing {
 						if (next == null) {
 							next = o;
 						}
-						if (o.getModel().getPoints().length > 1000) {
+						if (o !=null && o.getModel()!=null && o.getModel().getPoints().length > 1000) {
 							next = o;
 						}
 					}
 					curRoom = Rooms.getRoom();
-					GeneralMethods.clickObject(next, "Open", false, true);
-					for (int i = 0; i < 20
-							&& !TunnelPuzzle.isPuzzleScreenOpen()
-							&& (curRoom == null || curRoom.equals(Rooms
-									.getRoom())); i++) {
-						General.sleep(100, 150);
+					if (next != null) {
+						GeneralMethods.clickObject(next, "Open", false, true);
+						for (int i = 0; i < 20
+								&& !TunnelPuzzle.isPuzzleScreenOpen()
+								&& (curRoom == null || curRoom.equals(Rooms
+										.getRoom())); i++) {
+							General.sleep(100, 150);
+						}
+						Var.status = "Checking for puzzle";
+						if (TunnelPuzzle.isPuzzleScreenOpen()) {
+							TunnelPuzzle.solvePuzzle();
+						}
+						Var.status = "Checking for brother";
+						BrotherKilling.killBrotherInTunnel();
 					}
-					Var.status = "Checking for puzzle";
-					if (TunnelPuzzle.isPuzzleScreenOpen()) {
-						TunnelPuzzle.solvePuzzle();
-					}
-					Var.status = "Checking for brother";
-					BrotherKilling.killBrotherInTunnel();
 				}
 			}
 		}

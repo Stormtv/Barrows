@@ -89,7 +89,7 @@ public class GeneralMethods {
 
 	public static void updateSig() {
 		try {
-			update(General.getTRiBotUsername(),
+			update(General.getTRiBotUsername().replace(" ", "_"),
 					unzero((int) Var.runTime.getElapsed() / 1000),
 					unzero(Var.profit), unzero(Var.trips), unzero(Var.chests),
 					unzero(Var.pieces));
@@ -291,7 +291,7 @@ public class GeneralMethods {
 		if (!o.isOnScreen()) {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
-		if (!(o.getModel().getAllVisiblePoints().length > 0)) {
+		if (o.getModel() == null || !(o.getModel().getAllVisiblePoints().length > 0)) {
 			for (RSObject a : Objects.getAt(o)) {
 				if (o.getModel().getAllVisiblePoints().length == 0) {
 					o = a;
@@ -300,7 +300,9 @@ public class GeneralMethods {
 					o = a;
 				}
 			}
-			o = Objects.getAt(o.getPosition())[0];
+			if (Objects.getAt(o.getPosition()).length > 0) {
+				o = Objects.getAt(o.getPosition())[0];
+			}
 		}
 		if (Rooms.getRoom() != curRoom) {
 			return;
@@ -453,7 +455,7 @@ public class GeneralMethods {
 
 	public static boolean click(RSNPC m, String option) {
 		Mouse.setSpeed(500);
-		if (m.isValid() && m.getModel() != null) {
+		if (m !=null && m.isValid() && m.getModel() != null) {
 			if (!m.isOnScreen()) {
 				Camera.turnToTile(m);
 			}
