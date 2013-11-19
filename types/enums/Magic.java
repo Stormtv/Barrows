@@ -21,33 +21,45 @@ import scripts.Barrows.types.Brother.Brothers;
 public class Magic {
 
 	public enum Spell {
-		NONE(-1, -1, -1, "None", -1, null),
-		FIRE_BOLT(35, 20, 17, "Fire Bolt", 8, new int[][] {{554,4},{556,2},{562,1}}),
-		WIND_BLAST(41, 24, 19,"Wind Blast", 9, new int[][] {{556,3},{560,1}}),
-		WATER_BLAST(47, 27, 21, "Water Blast", 10, new int[][] {{555,3},{556,3},{560,1}}),
-		EARTH_BLAST(53, 33, 23, "Earth Blast", 11, new int[][] {{557,4},{556,3},{560,1}}),
-		FIRE_BLAST(59, 38, 25,"Fire Blast", 12, new int[][] {{554,5},{556,3},{560,1}}),
-		WIND_WAVE(62, 45, 27, "Wind Wave", 13, new int[][] {{556,5},{565,1}}),
-		WATER_WAVE(65, 48, 29, "Water Wave", 14, new int[][] {{553,7},{556,5},{565,1}}),
-		EARTH_WAVE(70, 52, 31,"Earth Wave", 15, new int[][] {{557,7},{556,5},{565,1}}),
-		FIRE_WAVE(75, 55, 33, "Fire Wave", 16, new int[][] {{554,7},{556,5},{565,1}}),
-		MAGIC_DART(50, 31, 37, "Magic Dart", 18, new int[][] {{560,1},{558,4}}),
-		SMOKE_RUSH(50, 8, 63, "Smoke Rush", 31, new int[][] {{562,2},{560,2},{554,1},{556,1}}),
-		SHADOW_RUSH(52, 12, 65, "Shadow Rush", 32, new int[][] {{562,2},{560,2},{556,1},{566,1}}),
-		BLOOD_RUSH(56, 4, 67, "Blood Rush", 33, new int[][] {{562,2},{560,2},{565,1}}),
-		ICE_RUSH(58, 0, 69, "Ice Rush", 34, new int[][] {{562,2},{560,2},{555,2}}),
-		SMOKE_BLITZ(74, 9, 79, "Smoke Blitz", 39, new int[][] {{565,2},{560,2},{554,2},{556,2}}),
-		SHADOW_BLITZ(76, 13, 81, "Shadow Blitz", 40, new int[][] {{565,2},{560,2},{556,2},{566,2}}),
-		BLOOD_BLITZ(80, 5, 83, "Blood Blitz", 41, new int[][] {{565,4},{560,2}}),
-		ICE_BLITZ(82, 1, 85, "Ice Blitz", 42, new int[][] {{565,2},{560,2},{555,3}});
+		NONE(-1, -1, -1, "None", -1, null), FIRE_BOLT(35, 20, 17, "Fire Bolt",
+				8, new int[][] { { 554, 4 }, { 556, 2 }, { 562, 1 } }), WIND_BLAST(
+				41, 24, 19, "Wind Blast", 9, new int[][] { { 556, 3 },
+						{ 560, 1 } }), WATER_BLAST(47, 27, 21, "Water Blast",
+				10, new int[][] { { 555, 3 }, { 556, 3 }, { 560, 1 } }), EARTH_BLAST(
+				53, 33, 23, "Earth Blast", 11, new int[][] { { 557, 4 },
+						{ 556, 3 }, { 560, 1 } }), FIRE_BLAST(59, 38, 25,
+				"Fire Blast", 12, new int[][] { { 554, 5 }, { 556, 3 },
+						{ 560, 1 } }), WIND_WAVE(62, 45, 27, "Wind Wave", 13,
+				new int[][] { { 556, 5 }, { 565, 1 } }), WATER_WAVE(65, 48, 29,
+				"Water Wave", 14, new int[][] { { 553, 7 }, { 556, 5 },
+						{ 565, 1 } }), EARTH_WAVE(70, 52, 31, "Earth Wave", 15,
+				new int[][] { { 557, 7 }, { 556, 5 }, { 565, 1 } }), FIRE_WAVE(
+				75, 55, 33, "Fire Wave", 16, new int[][] { { 554, 7 },
+						{ 556, 5 }, { 565, 1 } }), MAGIC_DART(50, 31, 37,
+				"Magic Dart", 18, new int[][] { { 560, 1 }, { 558, 4 } }), SMOKE_RUSH(
+				50, 8, 63, "Smoke Rush", 31, new int[][] { { 562, 2 },
+						{ 560, 2 }, { 554, 1 }, { 556, 1 } }), SHADOW_RUSH(52,
+				12, 65, "Shadow Rush", 32, new int[][] { { 562, 2 },
+						{ 560, 2 }, { 556, 1 }, { 566, 1 } }), BLOOD_RUSH(56,
+				4, 67, "Blood Rush", 33, new int[][] { { 562, 2 }, { 560, 2 },
+						{ 565, 1 } }), ICE_RUSH(58, 0, 69, "Ice Rush", 34,
+				new int[][] { { 562, 2 }, { 560, 2 }, { 555, 2 } }), SMOKE_BLITZ(
+				74, 9, 79, "Smoke Blitz", 39, new int[][] { { 565, 2 },
+						{ 560, 2 }, { 554, 2 }, { 556, 2 } }), SHADOW_BLITZ(76,
+				13, 81, "Shadow Blitz", 40, new int[][] { { 565, 2 },
+						{ 560, 2 }, { 556, 2 }, { 566, 2 } }), BLOOD_BLITZ(80,
+				5, 83, "Blood Blitz", 41,
+				new int[][] { { 565, 4 }, { 560, 2 } }), ICE_BLITZ(82, 1, 85,
+				"Ice Blitz", 42, new int[][] { { 565, 2 }, { 560, 2 },
+						{ 555, 3 } });
 
-		
 		private final int req;
 		private final int interfaceID;
 		private final int setting;
 		private final String name;
 		private final int secondInterface;
 		private final int[][] requiredRunes;
+
 		private Spell(int req, int interfaceID, int setting, String name,
 				int secondInterface, int[][] requiredRunes) {
 			this.req = req;
@@ -61,7 +73,7 @@ public class Magic {
 		int[][] getRequiredRunes() {
 			return requiredRunes;
 		}
-		
+
 		int getRequiredlevel() {
 			return req;
 		}
@@ -89,7 +101,8 @@ public class Magic {
 	}
 
 	public static boolean isAutocasting(Spell s) {
-		return Game.getSetting(108) == s.getSettingID() && Interfaces.get(201,0) == null;
+		return Game.getSetting(108) == s.getSettingID()
+				&& Interfaces.get(201, 0) == null;
 	}
 
 	public static boolean castOn(Spell s, RSModel m) {
@@ -122,33 +135,51 @@ public class Magic {
 			return true;
 		if (!GameTab.getOpen().equals(TABS.COMBAT)) {
 			Keyboard.pressFunctionKey(1);
-			for (int fail=0; fail<20 
-					&& !GameTab.getOpen().equals(TABS.COMBAT);fail++) {
-				General.sleep(15,50);
+			for (int fail = 0; fail < 20
+					&& !GameTab.getOpen().equals(TABS.COMBAT); fail++) {
+				General.sleep(15, 50);
 			}
 		}
 		if (Interfaces.get(310, 16) != null) {
 			if (Interfaces.get(310, 16).click("Choose spell")) {
-				for (int fail=0; fail<20 
-						&& Interfaces.get(201,0)==null;fail++) {
-					General.sleep(50,75);
+				for (int fail = 0; fail < 20 && Interfaces.get(201, 0) == null; fail++) {
+					General.sleep(50, 75);
 				}
 			}
 		}
-		if (Interfaces.get(201, 0) != null) {
-			if (Interfaces.get(201, 0).getChild(s.getSecondInterfaceID())
-					.click(s.name)) {
-				for (int fail=0; fail<20
-						&& Interfaces.get(201, 0)!=null;fail++) {
-					General.sleep(50,75);
+		if (Equipment.isEquiped(8841)) {
+			if (Interfaces.get(201, 0) != null) {
+				if (Interfaces.get(201, 0).getChild(getVoidMaceInterface(s))
+						.click(s.name)) {
+					for (int fail = 0; fail < 20
+							&& Interfaces.get(201, 0) != null; fail++) {
+						General.sleep(50, 75);
+					}
+					Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+					for (int fail = 0; fail < 20
+							&& !GameTab.getOpen().equals(TABS.INVENTORY); fail++) {
+						General.sleep(15, 50);
+					}
+					if (isAutocasting(s))
+						return true;
 				}
-				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
-				for (int fail=0; fail<20 
-						&& !GameTab.getOpen().equals(TABS.INVENTORY);fail++) {
-					General.sleep(15,50);
+			}
+		} else {
+			if (Interfaces.get(201, 0) != null) {
+				if (Interfaces.get(201, 0).getChild(s.getSecondInterfaceID())
+						.click(s.name)) {
+					for (int fail = 0; fail < 20
+							&& Interfaces.get(201, 0) != null; fail++) {
+						General.sleep(50, 75);
+					}
+					Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+					for (int fail = 0; fail < 20
+							&& !GameTab.getOpen().equals(TABS.INVENTORY); fail++) {
+						General.sleep(15, 50);
+					}
+					if (isAutocasting(s))
+						return true;
 				}
-				if (isAutocasting(s))
-					return true;
 			}
 		}
 		return false;
@@ -162,7 +193,7 @@ public class Magic {
 		}
 		return false;
 	}
-	
+
 	private static ArrayList<Integer> getStaffRunes() {
 		ArrayList<Integer> staffRunes = new ArrayList<Integer>();
 		for (int i : BankHandler.getRequiredItems()) {
@@ -178,14 +209,13 @@ public class Magic {
 		}
 		return staffRunes;
 	}
-	
+
 	public static boolean hasCasts(int numOfCasts) {
 		for (Brothers b : Brothers.values()) {
 			if (!b.getSpell().equals(Magic.Spell.NONE)) {
 				int[][] req = b.getSpell().getRequiredRunes();
-				for (int i=0;i<req.length;i++) {
-					if (Inventory.getCount(req[i][0]) 
-							< numOfCasts*req[i][1]
+				for (int i = 0; i < req.length; i++) {
+					if (Inventory.getCount(req[i][0]) < numOfCasts * req[i][1]
 							&& !getStaffRunes().contains(req[i][0])) {
 						return false;
 					}
@@ -194,20 +224,21 @@ public class Magic {
 		}
 		return true;
 	}
-	
+
 	public static void withdrawCasts(int numOfCasts) {
-		for (Brothers b: Brothers.values()) {
+		for (Brothers b : Brothers.values()) {
 			if (!b.getSpell().equals(Magic.Spell.NONE)) {
 				if (!hasCasts(numOfCasts)) {
 					int[][] req = b.getSpell().getRequiredRunes();
-					for (int i=0;i<req.length;i++) {
-						int need = numOfCasts*req[i][1]
+					for (int i = 0; i < req.length; i++) {
+						int need = numOfCasts * req[i][1]
 								- Inventory.getCount(req[i][0]);
 						int count = Inventory.getAll().length;
 						if (need > 0 && !getStaffRunes().contains(req[i][0])) {
 							Banking.withdraw(need, req[i][0]);
-							for (int fail = 0;fail < 20 && Inventory.getAll().length == count;fail++){
-								General.sleep(50,100);
+							for (int fail = 0; fail < 20
+									&& Inventory.getAll().length == count; fail++) {
+								General.sleep(50, 100);
 							}
 						}
 					}
@@ -215,13 +246,13 @@ public class Magic {
 			}
 		}
 	}
-	
+
 	public static int[] getRuneIDs() {
 		ArrayList<Integer> runeIds = new ArrayList<Integer>();
 		for (Brothers b : Brothers.values()) {
 			if (!b.getSpell().equals(Magic.Spell.NONE)) {
 				int[][] req = b.getSpell().getRequiredRunes();
-				for (int i = 0;i<req.length;i++) {
+				for (int i = 0; i < req.length; i++) {
 					runeIds.add(req[i][0]);
 				}
 			}
@@ -232,5 +263,19 @@ public class Magic {
 		}
 		return intArray;
 	}
-	
+
+	public static int getVoidMaceInterface(Spell s) {
+		switch (s) {
+		case WIND_WAVE:
+			return 13;
+		case WATER_WAVE:
+			return 14;
+		case EARTH_WAVE:
+			return 15;
+		case FIRE_WAVE:
+			return 16;
+		}
+		return 0;
+	}
+
 }
