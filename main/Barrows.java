@@ -26,6 +26,7 @@ import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.Repairing;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.TrialVersionHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
@@ -33,6 +34,7 @@ import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
+import scripts.Barrows.types.enums.Armor;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
@@ -64,6 +66,11 @@ public class Barrows extends Script implements Painting, MouseActions,
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
+			}
+
+			if (Armor.getCurrentDegraded() > 0) {
+				Repairing.repair();
+				return General.random(10, 30);
 			}
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
