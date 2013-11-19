@@ -31,6 +31,7 @@ public class TunnelTraversing {
 					&& room.getExitTile() != null
 					&& Objects.getAt(room.getExitTile()) != null
 					&& Objects.getAt(room.getExitTile()).length > 0
+					&& Objects.getAt(room.getExitTile())[0].getModel() != null
 					&& Objects.getAt(room.getExitTile())[0].getModel()
 							.getPoints().length > 0) {
 				Var.startingRoom = room;

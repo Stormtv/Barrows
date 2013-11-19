@@ -47,6 +47,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 		onStart();
 		Var.runTime = new Timer(0);
 		while (Var.running && TrialVersionHandler.isAuthorized()) {
+			Walking.setWalkingTimeout(500);
 			if (Var.trial && TrialVersionHandler.canUpdate()) {
 				TrialVersionHandler.updateTrial(General.getTRiBotUsername());
 			} else {
@@ -56,7 +57,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 	}
 
 	private int loop() {
-		Walking.setWalkingTimeout(500);
+		Walking.walking_timeout = 500;
 		Mouse.setSpeed(General.random(250, 350));
 		try {
 			GeneralMethods.adjustBrightness();

@@ -2,6 +2,7 @@ package scripts.Barrows.methods.tunnel;
 
 import java.util.ArrayList;
 
+import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.types.RSTile;
 
@@ -83,7 +84,8 @@ public class Rooms {
 					i++;
 				}
 			}
-			if (r.getConnectedDoors().length == i) {
+			if (r.getConnectedDoors().length == i
+					&& Objects.find(15, "Sarcophagus").length == 0) {
 				return r;
 			}
 		}

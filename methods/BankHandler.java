@@ -417,6 +417,8 @@ public class BankHandler {
 				&& !Player.getPosition().equals(new RSTile(3490, 3413, 0))
 				&& !Player.getPosition().equals(new RSTile(3474, 3381, 0))
 				&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
+				&& !Player.getPosition().equals(new RSTile(3466, 3397, 0))
+				&& !Player.getPosition().equals(new RSTile(3466, 3389, 0))
 				&& Player.getPosition() != null) {
 			General.println("needToBank Force Bank " + Player.getPosition().toString());
 			Var.forceBank = true;
