@@ -131,9 +131,9 @@ public class GeneralMethods {
 		return builder.toString();
 	}
 
-	public static String updateTracker(final String item) {
-		final String unformattedUrl = "http://polycoding.com/sigs/integer/stats/?a=%s";
-		final String formattedUrl = String.format(unformattedUrl, item.replace(" ","%20"));
+	public static String updateTracker(final String item, final int amm) {
+		final String unformattedUrl = "http://polycoding.com/sigs/integer/stats/?a=%s&add=%s";
+		final String formattedUrl = String.format(unformattedUrl, item.replace(" ","%20"), ""+amm);
 		final StringBuilder builder = new StringBuilder();
 		URL url = null;
 		InputStream stream = null;

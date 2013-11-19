@@ -143,7 +143,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	private void onStart() {
 		if (TrialVersionHandler.isAuthorized()) {
-			GeneralMethods.updateTracker("Script Runs");
+			GeneralMethods.updateTracker("Script Runs", 1);
 			println("Thank you for using wBarrows "
 					+ General.getTRiBotUsername()
 					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");
