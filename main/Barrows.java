@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Banking;
+import org.tribot.api2007.Login;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSTile;
@@ -26,6 +28,7 @@ import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.Repairing;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.TrialVersionHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
@@ -33,6 +36,7 @@ import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
+import scripts.Barrows.types.enums.Armor;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
@@ -64,6 +68,11 @@ public class Barrows extends Script implements Painting, MouseActions,
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
+			}
+			
+			if (Armor.getCurrentDegraded() > 0) {
+				Repairing.repair();
+				return General.random(10, 30);
 			}
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
@@ -143,7 +152,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	private void onStart() {
 		if (TrialVersionHandler.isAuthorized()) {
-			GeneralMethods.updateTracker("Script Runs");
+			GeneralMethods.updateTracker("Script Runs", 1);
 			println("Thank you for using wBarrows "
 					+ General.getTRiBotUsername()
 					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");

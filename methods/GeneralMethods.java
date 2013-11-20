@@ -68,6 +68,56 @@ public class GeneralMethods {
 			}
 		}
 	}
+	
+	static void notify(String s){
+		System.out.println(s);
+		Var.status = s;
+	}
+
+	public static boolean needsToLogout() {
+		if (beSure()) {
+			notify("Out of supplies, re-checking 5 times:");
+			for (int i = 0; i < 5; i++) {
+				notify("Out of supplies, re-checking 5 times: " + (i + 1));
+				General.sleep(150);
+				if (!beSure())
+					return false;
+			}
+			notify("Out of supplies, logging out.");
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean beSure() {
+		if (Banking.isBankScreenOpen()) {
+			return getBankCount(Var.food.getId()) < 10
+					|| getBankCount(scripts.Barrows.types.Potions.PRAYER_POTIONS) < 5
+					|| hasCastsInBank();
+		}
+		return false;
+	}
+
+	static boolean hasCastsInBank() {
+		return getBankCount(scripts.Barrows.types.enums.Magic.getRuneIDs()) < 50;
+	}
+
+	public static int getBankCount(int id) {
+		if (Banking.isBankScreenOpen() && Banking.find(id).length > 0)
+			return Banking.find(id)[0].getStack();
+		return -1;
+	}
+
+	public static int getBankCount(int[] ids) {
+		int am = 0;
+		for (int i : ids) {
+			int count = getBankCount(i);
+			General.sleep(200);
+			if (count > 0)
+				am = am + count;
+		}
+		return am;
+	}
 
 	public static void takeScreenShot() {
 		try {
@@ -97,7 +147,7 @@ public class GeneralMethods {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static String unzero(final int num) {
 		return String.valueOf((num == 0 ? "null" : num));
 	}
@@ -131,9 +181,10 @@ public class GeneralMethods {
 		return builder.toString();
 	}
 
-	public static String updateTracker(final String item) {
-		final String unformattedUrl = "http://polycoding.com/sigs/integer/stats/?a=%s";
-		final String formattedUrl = String.format(unformattedUrl, item.replace(" ","%20"));
+	public static String updateTracker(final String item, final int amm) {
+		final String unformattedUrl = "http://polycoding.com/sigs/integer/stats/?a=%s&add=%s";
+		final String formattedUrl = String.format(unformattedUrl,
+				item.replace(" ", "%20"), "" + amm);
 		final StringBuilder builder = new StringBuilder();
 		URL url = null;
 		InputStream stream = null;
@@ -292,7 +343,8 @@ public class GeneralMethods {
 		if (!o.isOnScreen()) {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
-		if (o.getModel() == null || o.getModel().getAllVisiblePoints().length <= 0) {
+		if (o.getModel() == null
+				|| !(o.getModel().getAllVisiblePoints().length > 0)) {
 			for (RSObject a : Objects.getAt(o)) {
 				if (o.getModel() == null || o.getModel().getAllVisiblePoints().length <= 0) {
 					o = a;
@@ -456,7 +508,7 @@ public class GeneralMethods {
 
 	public static boolean click(RSNPC m, String option) {
 		Mouse.setSpeed(500);
-		if (m !=null && m.isValid() && m.getModel() != null) {
+		if (m != null && m.isValid() && m.getModel() != null) {
 			if (!m.isOnScreen()) {
 				Camera.turnToTile(m);
 			}

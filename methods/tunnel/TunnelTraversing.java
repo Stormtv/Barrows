@@ -108,7 +108,7 @@ public class TunnelTraversing {
 							String name = i.getDefinition().getName();
 							LootTable.addReward(name, i.getID(), i.getStack(),
 									PriceHandler.getPrice(i.getID()));
-							GeneralMethods.updateTracker(name);
+							GeneralMethods.updateTracker(name, i.getStack());
 						}
 					}
 				}
