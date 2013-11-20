@@ -19,39 +19,44 @@ import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.types.Brother.Brothers;
 
 public class Magic {
-
 	public enum Spell {
-		NONE(-1, -1, -1, "None", -1, null), FIRE_BOLT(35, 20, 17, "Fire Bolt",
-				8, new int[][] { { 554, 4 }, { 556, 2 }, { 562, 1 } }), WIND_BLAST(
-				41, 24, 19, "Wind Blast", 9, new int[][] { { 556, 3 },
-						{ 560, 1 } }), WATER_BLAST(47, 27, 21, "Water Blast",
-				10, new int[][] { { 555, 3 }, { 556, 3 }, { 560, 1 } }), EARTH_BLAST(
-				53, 33, 23, "Earth Blast", 11, new int[][] { { 557, 4 },
-						{ 556, 3 }, { 560, 1 } }), FIRE_BLAST(59, 38, 25,
-				"Fire Blast", 12, new int[][] { { 554, 5 }, { 556, 3 },
-						{ 560, 1 } }), WIND_WAVE(62, 45, 27, "Wind Wave", 13,
-				new int[][] { { 556, 5 }, { 565, 1 } }), WATER_WAVE(65, 48, 29,
-				"Water Wave", 14, new int[][] { { 553, 7 }, { 556, 5 },
-						{ 565, 1 } }), EARTH_WAVE(70, 52, 31, "Earth Wave", 15,
-				new int[][] { { 557, 7 }, { 556, 5 }, { 565, 1 } }), FIRE_WAVE(
-				75, 55, 33, "Fire Wave", 16, new int[][] { { 554, 7 },
-						{ 556, 5 }, { 565, 1 } }), MAGIC_DART(50, 31, 37,
-				"Magic Dart", 18, new int[][] { { 560, 1 }, { 558, 4 } }), SMOKE_RUSH(
-				50, 8, 63, "Smoke Rush", 31, new int[][] { { 562, 2 },
-						{ 560, 2 }, { 554, 1 }, { 556, 1 } }), SHADOW_RUSH(52,
-				12, 65, "Shadow Rush", 32, new int[][] { { 562, 2 },
-						{ 560, 2 }, { 556, 1 }, { 566, 1 } }), BLOOD_RUSH(56,
-				4, 67, "Blood Rush", 33, new int[][] { { 562, 2 }, { 560, 2 },
-						{ 565, 1 } }), ICE_RUSH(58, 0, 69, "Ice Rush", 34,
-				new int[][] { { 562, 2 }, { 560, 2 }, { 555, 2 } }), SMOKE_BLITZ(
-				74, 9, 79, "Smoke Blitz", 39, new int[][] { { 565, 2 },
-						{ 560, 2 }, { 554, 2 }, { 556, 2 } }), SHADOW_BLITZ(76,
-				13, 81, "Shadow Blitz", 40, new int[][] { { 565, 2 },
-						{ 560, 2 }, { 556, 2 }, { 566, 2 } }), BLOOD_BLITZ(80,
-				5, 83, "Blood Blitz", 41,
-				new int[][] { { 565, 4 }, { 560, 2 } }), ICE_BLITZ(82, 1, 85,
-				"Ice Blitz", 42, new int[][] { { 565, 2 }, { 560, 2 },
-						{ 555, 3 } });
+		NONE(-1, -1, -1, "None", -1, null),
+		FIRE_BOLT(35, 20, 17, "Fire Bolt", 8, new int[][] { { 554, 4 },
+				{ 556, 2 }, { 562, 1 } }),
+		WIND_BLAST(41, 24, 19, "Wind Blast", 9, new int[][] { { 556, 3 },
+				{ 560, 1 } }),
+		WATER_BLAST(47, 27, 21, "Water Blast", 10, new int[][] { { 555, 3 },
+				{ 556, 3 }, { 560, 1 } }),
+		EARTH_BLAST(53, 33, 23, "Earth Blast", 11, new int[][] { { 557, 4 },
+				{ 556, 3 }, { 560, 1 } }),
+		FIRE_BLAST(59, 38, 25, "Fire Blast", 12, new int[][] { { 554, 5 },
+				{ 556, 3 }, { 560, 1 } }),
+		WIND_WAVE(62, 45, 27, "Wind Wave", 13, new int[][] { { 556, 5 },
+				{ 565, 1 } }),
+		WATER_WAVE(65, 48, 29, "Water Wave", 14, new int[][] { { 553, 7 },
+				{ 556, 5 }, { 565, 1 } }),
+		EARTH_WAVE(70, 52, 31, "Earth Wave", 15, new int[][] { { 557, 7 },
+				{ 556, 5 }, { 565, 1 } }),
+		FIRE_WAVE(75, 55, 33, "Fire Wave", 16, new int[][] { { 554, 7 },
+				{ 556, 5 }, { 565, 1 } }),
+		MAGIC_DART(50, 31, 37, "Magic Dart", 18, new int[][] { { 560, 1 },
+				{ 558, 4 } }),
+		SMOKE_RUSH(50, 8, 63, "Smoke Rush", 31, new int[][] { { 562, 2 },
+				{ 560, 2 }, { 554, 1 }, { 556, 1 } }),
+		SHADOW_RUSH(52, 12, 65, "Shadow Rush", 32, new int[][] { { 562, 2 },
+				{ 560, 2 }, { 556, 1 }, { 566, 1 } }),
+		BLOOD_RUSH(56, 4, 67, "Blood Rush", 33, new int[][] { { 562, 2 },
+				{ 560, 2 }, { 565, 1 } }),
+		ICE_RUSH(58, 0, 69, "Ice Rush", 34, new int[][] { { 562, 2 },
+				{ 560, 2 }, { 555, 2 } }),
+		SMOKE_BLITZ(74, 9, 79, "Smoke Blitz", 39, new int[][] { { 565, 2 },
+				{ 560, 2 }, { 554, 2 }, { 556, 2 } }),
+		SHADOW_BLITZ(76, 13, 81, "Shadow Blitz", 40, new int[][] { { 565, 2 },
+				{ 560, 2 }, { 556, 2 }, { 566, 2 } }),
+		BLOOD_BLITZ(80, 5, 83, "Blood Blitz", 41, new int[][] { { 565, 4 },
+				{ 560, 2 } }),
+		ICE_BLITZ(82, 1, 85, "Ice Blitz", 42, new int[][] { { 565, 2 },
+				{ 560, 2 }, { 555, 3 } });
 
 		private final int req;
 		private final int interfaceID;
