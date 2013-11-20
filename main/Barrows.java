@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
+import org.tribot.api2007.Banking;
+import org.tribot.api2007.Login;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSTile;
@@ -67,7 +69,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
-
+			
 			if (Armor.getCurrentDegraded() > 0) {
 				Repairing.repair();
 				return General.random(10, 30);

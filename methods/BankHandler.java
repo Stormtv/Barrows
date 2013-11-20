@@ -10,6 +10,7 @@ import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.Login;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.GameTab.TABS;
@@ -95,6 +96,14 @@ public class BankHandler {
 				if (hasJunk()) {
 					Banking.depositAllExcept(getRequiredItems());
 				} else {
+					if (GeneralMethods.needsToLogout()) {
+						while (Banking.isBankScreenOpen())
+							Banking.close();
+						while (!Login.getLoginState().equals(Login.STATE.LOGINSCREEN))
+							Login.logout();
+						Var.running = false;
+						return;
+					}
 					final int count = Inventory.getAll().length;
 					if (Inventory.getCount(Var.SPADE_ID) < 1) {
 						Var.status = "Withdrawing Spade";
