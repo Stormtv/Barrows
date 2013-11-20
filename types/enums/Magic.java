@@ -56,7 +56,11 @@ public class Magic {
 		BLOOD_BLITZ(80, 5, 83, "Blood Blitz", 41, new int[][] { { 565, 4 },
 				{ 560, 2 } }),
 		ICE_BLITZ(82, 1, 85, "Ice Blitz", 42, new int[][] { { 565, 2 },
-				{ 560, 2 }, { 555, 3 } });
+				{ 560, 2 }, { 555, 3 } }),
+		CLAWS_OF_GUTHIX(60, 42, 39, "Claws of Guthix", 19, new int[][] {
+				{ 556, 4 }, { 565, 2 }, { 554, 1 } }),
+		CHARGE(80, 58, 0, "Charge", 1, new int[][] { { 556, 3 }, { 565, 3 },
+				{ 554, 3 } });
 
 		private final int req;
 		private final int interfaceID;
@@ -279,6 +283,8 @@ public class Magic {
 			return 15;
 		case FIRE_WAVE:
 			return 16;
+		case CLAWS_OF_GUTHIX:
+			return 19;
 		}
 		return 0;
 	}
