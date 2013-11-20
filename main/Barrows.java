@@ -61,8 +61,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 	}
 
 	private int loop() {
-		Walking.walking_timeout = 500;
-		Mouse.setSpeed(General.random(250, 350));
+		Walking.walking_timeout = General.random(250, 350);
+		Mouse.setSpeed(General.random(250, 650));
 		try {
 			GeneralMethods.adjustBrightness();
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
