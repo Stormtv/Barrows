@@ -358,7 +358,8 @@ public class BrotherKilling {
 					Equipment.equip(i);
 					continue;
 				} else if (!Equipment.isEquiped(i)
-						&& Inventory.getCount(i) == 0) {
+						&& Inventory.getCount(i) == 0
+						&& !Arrays.toString(i).contains("-1")) {
 					Var.status = "Unable to find Equipment (" + Arrays.toString(i) + ")";
 				}
 			}

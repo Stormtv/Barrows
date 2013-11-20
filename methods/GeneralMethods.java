@@ -274,11 +274,12 @@ public class GeneralMethods {
 					General.sleep(30, 50);
 			} else {
 				Camera.turnToTile(o);
-				if (!o.isOnScreen() || fail > 2) {
-					Var.status = "ScreenWalking to object";
-					screenWalkTo(o);
+				if (!o.isOnScreen() || fail > 1) {
+					if (!Pathing.isInBarrows()) {
+						Var.status = "ScreenWalking to object";
+						screenWalkTo(o);
+					}
 				}
-
 			}
 		}
 		if (fail > 2) {
@@ -291,12 +292,12 @@ public class GeneralMethods {
 		if (!o.isOnScreen()) {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
-		if (o.getModel() == null || !(o.getModel().getAllVisiblePoints().length > 0)) {
+		if (o.getModel() == null || o.getModel().getAllVisiblePoints().length <= 0) {
 			for (RSObject a : Objects.getAt(o)) {
-				if (o.getModel().getAllVisiblePoints().length == 0) {
+				if (o.getModel() == null || o.getModel().getAllVisiblePoints().length <= 0) {
 					o = a;
 				}
-				if (a.getModel().getPoints().length > 1000) {
+				if (a.getModel() !=null && a.getModel().getPoints().length > 1000) {
 					o = a;
 				}
 			}
@@ -468,7 +469,7 @@ public class GeneralMethods {
 			if (Game.getUptext().contains(option + " " + m.getName())) {
 				Mouse.click(1);
 				return true;
-			} else {
+			} else if (m.getModel() != null) {
 				Mouse.click(GeneralMethods.getAverage(m.getModel()
 						.getAllVisiblePoints(), 0), 3);
 				General.sleep(80, 120);
