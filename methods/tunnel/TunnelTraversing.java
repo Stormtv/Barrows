@@ -15,6 +15,7 @@ import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Looting;
+import scripts.Barrows.methods.LootFiltering;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Brother.Brothers;
@@ -89,6 +90,7 @@ public class TunnelTraversing {
 				GeneralMethods.clickObject(chest[0], "Open", false, true);
 				BrotherKilling.killBrotherInTunnel();
 			} else {
+				LootFiltering.addInventory(true);
 				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
 					price += PriceHandler.getPrice(i.getID()) * i.getStack();
@@ -97,21 +99,15 @@ public class TunnelTraversing {
 				BrotherKilling.killBrotherInTunnel();
 				Var.lootedChest = true;
 				Looting.loot(Var.lootIDs);
+				LootFiltering.addInventory(false);
 				int finalPrice = 0;
 				for (RSItem i : Inventory.getAll()) {
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						Var.pieces++;
 					finalPrice += PriceHandler.getPrice(i.getID())
 							* i.getStack();
-					for (int j : Var.lootIDs) {
-						if (i.getID() == j) {
-							String name = i.getDefinition().getName();
-							LootTable.addReward(name, i.getID(), i.getStack(),
-									PriceHandler.getPrice(i.getID()));
-							GeneralMethods.updateTracker(name, i.getStack());
-						}
-					}
 				}
+				LootFiltering.compare();
 				GeneralMethods.takeScreenShot();
 				Var.profit += finalPrice - price;
 				Var.chests += 1;

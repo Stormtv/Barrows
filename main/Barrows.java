@@ -69,7 +69,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
-			
+
 			if (Armor.getCurrentDegraded() > 0) {
 				Repairing.repair();
 				return General.random(10, 30);
@@ -195,18 +195,27 @@ public class Barrows extends Script implements Painting, MouseActions,
 		});
 	}
 
+	boolean showPaint = true;
+
 	@Override
 	public void onPaint(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
-		PaintHandler.drawPaint(g);
+		if (showPaint)
+			PaintHandler.drawPaint(g);
 	}
 
 	Rectangle paint = new Rectangle(0, 340, 480, 140);
+	Rectangle closePaint = new Rectangle(487, 343, 15, 15);
 
 	@Override
 	public void mouseClicked(Point p, int arg1, boolean arg2) {
-		if (!arg2 && paint.contains(p))
-			Var.frame.setVisible(getState());
+		if (!arg2 && closePaint.contains(p)) {
+			showPaint = !showPaint;
+		} else {
+			if (!arg2 && paint.contains(p)) {
+				Var.frame.setVisible(getState());
+			}
+		}
 	}
 
 	@Override
