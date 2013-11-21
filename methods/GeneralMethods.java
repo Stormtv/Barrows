@@ -68,19 +68,19 @@ public class GeneralMethods {
 			}
 		}
 	}
-	
-	static void notify(String s){
+
+	static void notify(String s) {
 		System.out.println(s);
 		Var.status = s;
 	}
 
 	public static boolean needsToLogout() {
-		if (beSure()) {
+		if (!beSure()) {
 			notify("Out of supplies, re-checking 5 times:");
 			for (int i = 0; i < 5; i++) {
 				notify("Out of supplies, re-checking 5 times: " + (i + 1));
 				General.sleep(150);
-				if (!beSure())
+				if (beSure())
 					return false;
 			}
 			notify("Out of supplies, logging out.");
@@ -91,15 +91,23 @@ public class GeneralMethods {
 
 	public static boolean beSure() {
 		if (Banking.isBankScreenOpen()) {
-			return getBankCount(Var.food.getId()) < 10
-					|| getBankCount(scripts.Barrows.types.Potions.PRAYER_POTIONS) < 5
+			return getBankCount(Var.food.getId()) > 10
+					|| getBankCount(scripts.Barrows.types.Potions.PRAYER_POTIONS) > 5
 					|| hasCastsInBank();
 		}
 		return false;
 	}
 
+	static boolean hasFood() {
+		return getBankCount(Var.food.getId()) < 10;
+	}
+
 	static boolean hasCastsInBank() {
-		return getBankCount(scripts.Barrows.types.enums.Magic.getRuneIDs()) < 50;
+		if (scripts.Barrows.types.enums.Magic.getRuneIDs().length == 0
+				|| scripts.Barrows.types.enums.Magic.getRuneIDs() == null)
+			return true;
+		return scripts.Barrows.types.enums.Magic.getRuneIDs() != null
+				&& getBankCount(scripts.Barrows.types.enums.Magic.getRuneIDs()) < 50;
 	}
 
 	public static int getBankCount(int id) {
@@ -109,13 +117,15 @@ public class GeneralMethods {
 	}
 
 	public static int getBankCount(int[] ids) {
-		int am = 0;
+		int am = -1;
 		for (int i : ids) {
 			int count = getBankCount(i);
 			General.sleep(200);
 			if (count > 0)
 				am = am + count;
 		}
+		if (am > -1)
+			am++;
 		return am;
 	}
 
@@ -346,10 +356,12 @@ public class GeneralMethods {
 		if (o.getModel() == null
 				|| !(o.getModel().getAllVisiblePoints().length > 0)) {
 			for (RSObject a : Objects.getAt(o)) {
-				if (o.getModel() == null || o.getModel().getAllVisiblePoints().length <= 0) {
+				if (o.getModel() == null
+						|| o.getModel().getAllVisiblePoints().length <= 0) {
 					o = a;
 				}
-				if (a.getModel() !=null && a.getModel().getPoints().length > 1000) {
+				if (a.getModel() != null
+						&& a.getModel().getPoints().length > 1000) {
 					o = a;
 				}
 			}
