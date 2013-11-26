@@ -738,6 +738,8 @@ public class Pathing {
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
+		if(!Banking.close())
+			General.sleep(100);
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
