@@ -2,6 +2,7 @@ package scripts.Barrows.methods;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
@@ -428,13 +429,15 @@ public class BankHandler {
 				&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
 				&& !Player.getPosition().equals(new RSTile(3466, 3397, 0))
 				&& !Player.getPosition().equals(new RSTile(3466, 3389, 0))
+				&& !Player.getPosition().equals(new RSTile(3497, 3380, 1))
+				&& Inventory.getAll().length != 0
 				&& Player.getPosition() != null) {
 			General.println("needToBank Force Bank " + Player.getPosition().toString());
 			Var.forceBank = true;
 		}
 		return count == 5;
 	}
-
+	
 	public static boolean needsMoreSupplies() {
 		return Inventory.getCount(Var.food.getId()) < Var.foodAmount
 				|| !Magic.hasCasts(Var.spellCount)
