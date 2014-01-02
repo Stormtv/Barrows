@@ -149,8 +149,8 @@ public class Magic {
 				General.sleep(15, 50);
 			}
 		}
-		if (Interfaces.get(310, 16) != null) {
-			if (Interfaces.get(310, 16).click("Choose spell")) {
+		if (Interfaces.get(593, 16) != null) {
+			if (Interfaces.get(593, 16).click("Choose spell")) {
 				for (int fail = 0; fail < 20 && Interfaces.get(201, 0) == null; fail++) {
 					General.sleep(50, 75);
 				}
