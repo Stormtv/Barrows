@@ -415,6 +415,7 @@ public class BankHandler {
 					|| Inventory.getCount(Var.SPADE_ID) == 0
 					|| Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
+					&& Inventory.getCount(Var.arrowId) < 1
 					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0
 					&& Var.prayerPotion > 0
 					&& Prayer.getPoints() - Potions.prayerDrain() < 5) {
@@ -422,16 +423,7 @@ public class BankHandler {
 			}
 		}
 		if (count == 5
-				&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
-				&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))
-				&& !Player.getPosition().equals(new RSTile(3490, 3413, 0))
-				&& !Player.getPosition().equals(new RSTile(3474, 3381, 0))
-				&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
-				&& !Player.getPosition().equals(new RSTile(3466, 3397, 0))
-				&& !Player.getPosition().equals(new RSTile(3466, 3389, 0))
-				&& !Player.getPosition().equals(new RSTile(3497, 3380, 1))
-				&& Inventory.getAll().length != 0
-				&& Player.getPosition() != null) {
+				&& Inventory.getAll().length != 0) {
 			General.println("needToBank Force Bank " + Player.getPosition().toString());
 			Var.forceBank = true;
 		}
