@@ -100,7 +100,8 @@ public class BankHandler {
 					if (GeneralMethods.needsToLogout()) {
 						while (Banking.isBankScreenOpen())
 							Banking.close();
-						while (!Login.getLoginState().equals(Login.STATE.LOGINSCREEN))
+						while (!Login.getLoginState().equals(
+								Login.STATE.LOGINSCREEN))
 							Login.logout();
 						Var.running = false;
 						return;
@@ -279,7 +280,7 @@ public class BankHandler {
 							}, 3000);
 						} else {
 							Var.status = "Depositing Super Strength";
-							Banking.withdraw(
+							Banking.deposit(
 									Inventory.getCount(Potions.SUPER_STRENGTH)
 											- Var.superStrength,
 									Potions.SUPER_STRENGTH);
@@ -303,7 +304,6 @@ public class BankHandler {
 													.getCount(Potions.SUPER_DEFENCE),
 									Potions.SUPER_DEFENCE);
 							Timing.waitCondition(new Condition() {
-
 								@Override
 								public boolean active() {
 									return Inventory.getAll().length != count;
@@ -311,7 +311,7 @@ public class BankHandler {
 							}, 3000);
 						} else {
 							Var.status = "Depositing Super Defence";
-							Banking.withdraw(
+							Banking.deposit(
 									Inventory.getCount(Potions.SUPER_DEFENCE)
 											- Var.superDefence,
 									Potions.SUPER_DEFENCE);
@@ -330,12 +330,15 @@ public class BankHandler {
 							.getCount(Potions.PRAYER_POTIONS)) {
 						if (Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion) {
 							Var.status = "Withdrawing Prayer Potions";
-							Banking.withdraw((Var.prayerPotion - Inventory
-									.getCount(Potions.PRAYER_POTIONS)),
+							Banking.withdraw(
+									Var.prayerPotion
+											- Inventory
+													.getCount(Potions.PRAYER_POTIONS),
 									Potions.PRAYER_POTIONS);
 						} else {
 							Banking.deposit(
-									(Inventory.getCount(Potions.PRAYER_POTIONS) - Var.prayerPotion),
+									Inventory.getCount(Potions.PRAYER_POTIONS)
+											- Var.prayerPotion,
 									Potions.PRAYER_POTIONS);
 						}
 						Timing.waitCondition(new Condition() {
@@ -422,14 +425,14 @@ public class BankHandler {
 				count++;
 			}
 		}
-		if (count == 5
-				&& Inventory.getAll().length != 0) {
-			General.println("needToBank Force Bank " + Player.getPosition().toString());
+		if (count == 5 && Inventory.getAll().length != 0) {
+			General.println("needToBank Force Bank "
+					+ Player.getPosition().toString());
 			Var.forceBank = true;
 		}
 		return count == 5;
 	}
-	
+
 	public static boolean needsMoreSupplies() {
 		return Inventory.getCount(Var.food.getId()) < Var.foodAmount
 				|| !Magic.hasCasts(Var.spellCount)
