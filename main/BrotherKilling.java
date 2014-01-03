@@ -382,9 +382,13 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquiped(Var.Salamanders)) {
 			if (b.equals(Brother.Brothers.Ahrim)) {
-				Combat.selectIndex(1);
+				while (Combat.getSelectedStyleIndex() != 1) {
+					Combat.selectIndex(1);
+				}
 			} else {
-				Combat.selectIndex(2);
+				while (Combat.getSelectedStyleIndex() != 2) {
+					Combat.selectIndex(2);
+				}
 			}
 		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
