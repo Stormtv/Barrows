@@ -61,9 +61,10 @@ public class BrotherKilling {
 				break;
 			}
 		}
-		int killCount=0;
+		int killCount = 0;
 		for (Brothers b : Brothers.values()) {
-			if (b.isKilled()) killCount++;
+			if (b.isKilled())
+				killCount++;
 		}
 		if (killCount == 5) {
 			bro.setTunnel(true);
@@ -73,9 +74,8 @@ public class BrotherKilling {
 				Prayer.disableAllPrayers();
 				Var.status = "Going to crypt " + bro.getName();
 				goToCrypt(bro);
-			} 
-			for (int fSafe = 0; fSafe < 20
-					&& !isInCrypt(bro); fSafe++) {
+			}
+			for (int fSafe = 0; fSafe < 20 && !isInCrypt(bro); fSafe++) {
 				General.sleep(75);
 			}
 			if (isInCrypt(bro)) {
@@ -134,13 +134,13 @@ public class BrotherKilling {
 
 	private static void CombatManager(Brothers b) {
 		while (Player.getRSPlayer().getInteractingCharacter() != null
-				|| aggressiveNPC() != null 
+				|| aggressiveNPC() != null
 				|| !PathFinding.canReach(aggressiveNPC(), false)) {
 			if (BankHandler.needToBank()) {
 				return;
 			}
 			UpKeep(b);
-			if(!b.getPrayer().equals(Prayer.Prayers.None)
+			if (!b.getPrayer().equals(Prayer.Prayers.None)
 					&& !b.getPrayer().isActivated()) {
 				Prayer.activate(b.getPrayer());
 			}
@@ -268,11 +268,13 @@ public class BrotherKilling {
 			Inventory.find(Var.SPADE_ID)[0].click("Dig");
 			for (int fSafe = 0; fSafe < 40
 					&& (Objects.find(15, "Sarcophagus").length == 0
-					|| Objects.find(15, "Sarcophagus")[0].getModel() == null
-					|| Objects.find(15, "Sarcophagus")[0].getModel().getAllVisiblePoints().length < 10
-					|| PathFinding.canReach(Objects.find(15, "Sarcophagus")[0], true)
-					|| Player.getPosition().getPlane() != 3); fSafe++) {
-				General.sleep(40,60);
+							|| Objects.find(15, "Sarcophagus")[0].getModel() == null
+							|| Objects.find(15, "Sarcophagus")[0].getModel()
+									.getAllVisiblePoints().length < 10
+							|| PathFinding.canReach(
+									Objects.find(15, "Sarcophagus")[0], true) || Player
+							.getPosition().getPlane() != 3); fSafe++) {
+				General.sleep(40, 60);
 			}
 		}
 	}
@@ -298,8 +300,8 @@ public class BrotherKilling {
 		}
 		if (Game.getUptext().contains("->")) {
 			Walking.walkTo(Player.getPosition());
-			for  (int i=0;i<10 && !Game.getUptext().contains("->");i++){
-				General.sleep(30,50);
+			for (int i = 0; i < 10 && !Game.getUptext().contains("->"); i++) {
+				General.sleep(30, 50);
 			}
 		}
 	}
@@ -319,7 +321,8 @@ public class BrotherKilling {
 					continue;
 				} else if (!Equipment.isEquiped(i)
 						&& Inventory.getCount(i) == 0) {
-					Var.status = "Unable to find Equipment (" + Arrays.toString(i) + ")";
+					Var.status = "Unable to find Equipment ("
+							+ Arrays.toString(i) + ")";
 				}
 			}
 			for (int fsafe = 0; fsafe < 20
@@ -327,10 +330,8 @@ public class BrotherKilling {
 				General.sleep(50);
 			}
 			if (!Equipment.isAllEquiped(Var.tunnelEquipment)
-					&& GeneralMethods
-							.lastMessage()
-							.contains(
-									"free inventory space")
+					&& GeneralMethods.lastMessage().contains(
+							"free inventory space")
 					&& Inventory.getCount(Var.food.getId()) > 0
 					&& Inventory.isFull()) {
 				Food.forceFeed();
@@ -360,7 +361,8 @@ public class BrotherKilling {
 				} else if (!Equipment.isEquiped(i)
 						&& Inventory.getCount(i) == 0
 						&& !Arrays.toString(i).contains("-1")) {
-					Var.status = "Unable to find Equipment (" + Arrays.toString(i) + ")";
+					Var.status = "Unable to find Equipment ("
+							+ Arrays.toString(i) + ")";
 				}
 			}
 			for (int fsafe = 0; fsafe < 20
@@ -368,10 +370,8 @@ public class BrotherKilling {
 				General.sleep(50);
 			}
 			if (!Equipment.isAllEquiped(b.getEquipmentIds())
-					&& GeneralMethods
-							.lastMessage()
-							.contains(
-									"free inventory space")
+					&& GeneralMethods.lastMessage().contains(
+							"free inventory space")
 					&& Inventory.getCount(Var.food.getId()) > 0
 					&& Inventory.isFull()) {
 				Food.forceFeed();
@@ -381,6 +381,13 @@ public class BrotherKilling {
 			Food.eat();
 		}
 		if (Equipment.isEquiped(Var.Salamanders)) {
+			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
+				Keyboard.pressFunctionKey(1);
+				for (int fail = 0; fail < 20
+						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
+					General.sleep(15, 25);
+				}
+			}
 			if (b.equals(Brother.Brothers.Ahrim)) {
 				while (Combat.getSelectedStyleIndex() != 1) {
 					Combat.selectIndex(1);

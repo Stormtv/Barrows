@@ -2,8 +2,6 @@ package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api.General;
 
-import scripts.Barrows.gui.LootTable;
-
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;

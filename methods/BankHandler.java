@@ -2,8 +2,6 @@ package scripts.Barrows.methods;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.tribot.api.General;
 import org.tribot.api.Timing;
 import org.tribot.api.input.Keyboard;
@@ -19,8 +17,6 @@ import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
-import org.tribot.api2007.types.RSTile;
-
 import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.methods.Pathing.PathBarrows;
 import scripts.Barrows.types.Potions;

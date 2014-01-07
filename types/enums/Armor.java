@@ -22,7 +22,7 @@ public class Armor {
 		VeracsFlail(new int[] { 4755, 4982, 4983, 4984, 4985 }, Equipment.Gear.WEAPON, 4986),
 
 		KarilsBody(new int[] { 4736, 4940, 4941, 4942, 4943 }, Equipment.Gear.BODY, 4944),
-		KarilsHelm(new int[] { 4732, 4982, 4929, 4930, 4931, 4932 }, Equipment.Gear.HELM, 4932),
+		KarilsHelm(new int[] { 4732, 4928, 4929, 4930, 4931 }, Equipment.Gear.HELM, 4932),
 		KarilsLegs(new int[] { 4738, 4946, 4948, 4949, 4950 }, Equipment.Gear.LEGS, 4951),
 		KarilsCBow(new int[] { 4734, 4934, 4935, 4936, 4937 }, Equipment.Gear.WEAPON, 4938),
 

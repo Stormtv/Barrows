@@ -285,8 +285,9 @@ public class Magic {
 			return 16;
 		case CLAWS_OF_GUTHIX:
 			return 19;
+		default:
+			return 0;
 		}
-		return 0;
 	}
 
 }
