@@ -367,7 +367,7 @@ public class BarrowGUI extends JFrame {
 				JPanel panel = new JPanel();
 				panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Kill Order", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				
-						JButton btnRight = new JButton("▲");
+						JButton btnRight = new JButton("Up");
 						btnRight.setEnabled(true);
 						btnRight.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
@@ -381,7 +381,7 @@ public class BarrowGUI extends JFrame {
 							}
 						});
 						
-								JButton btnLeft = new JButton("▼");
+								JButton btnLeft = new JButton("Down");
 								btnLeft.setEnabled(true);
 								btnLeft.addActionListener(new ActionListener() {
 									public void actionPerformed(ActionEvent e) {

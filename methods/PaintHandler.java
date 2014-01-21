@@ -114,8 +114,12 @@ public class PaintHandler {
 				}
 			}
 		}
-		g.setColor(Color.RED);
+		g.setColor(Color.GREEN);
 		g.drawString("wBarrows Debug Mode", 5, 40);
+		if (Var.tarName != null) {
+			g.drawString(Var.tarName, 5, 60);
+			g.drawString(Integer.toString(Var.tarHp), 5, 80);
+		}
 	}
 
 	private static String getRoom(Rooms.TunnelRoom r) {
@@ -150,5 +154,4 @@ public class PaintHandler {
 			return null;
 		}
 	}
-
 }

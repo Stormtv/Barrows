@@ -34,8 +34,9 @@ public class Armor {
 		AhrimHelm(new int[] { 4708, 4856, 4857, 4858, 4859 }, Equipment.Gear.HELM, 4860),
 		AhrimBody(new int[] { 4712, 4868, 4869, 4870, 4871 }, Equipment.Gear.BODY, 4872),
 		AhrimLeg(new int[] { 4714, 4874, 4875, 4876, 4877 }, Equipment.Gear.LEGS, 4878),
-		AhrimStaff(new int[] { 4710, 4862, 4863, 4864, 4865 }, Equipment.Gear.WEAPON, 4866);
+		AhrimStaff(new int[] { 4710, 4862, 4863, 4864, 4865 }, Equipment.Gear.WEAPON, 4866),
 
+		AmuletOfGlory(new int[] { 1704, 1706, 1708, 1710, 1712 }, Equipment.Gear.NECK, -1);
 		private int[] id;
 		private Equipment.Gear gear;
 		private int Degraded;

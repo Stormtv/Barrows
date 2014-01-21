@@ -10,6 +10,7 @@ import org.tribot.api2007.Combat;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Game;
+import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
@@ -145,10 +146,16 @@ public class BrotherKilling {
 				Prayer.activate(b.getPrayer());
 			}
 			RSNPC target = aggressiveNPC();
+			Var.tarName = target.getName();
+			Var.tarHp = target.getHealth();
 			if (target == null || target.isInCombat()
 					&& target.getHealth() == 0) {
 				b.setKilled(true);
-				Looting.loot(Var.arrowId);
+				while (GroundItems.find(Var.arrowId).length > 0
+						&& PathFinding.canReach(
+								GroundItems.find(Var.arrowId)[0], false)) {
+					Looting.loot(Var.arrowId);
+				}
 				return;
 			}
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {

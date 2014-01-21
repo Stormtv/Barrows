@@ -19,7 +19,8 @@ import scripts.Barrows.util.RSArea;
 import scripts.Barrows.util.Timer;
 
 public class Var {
-	
+	public static int tarHp = 0;
+	public static String tarName = null;
 	public static boolean recharge = true;
 
 	public static final RSArea veracDig = new RSArea(new RSTile[] {
