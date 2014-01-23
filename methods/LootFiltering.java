@@ -6,51 +6,75 @@ import org.tribot.api2007.Inventory;
 import org.tribot.api2007.types.RSItem;
 
 import scripts.Barrows.gui.LootTable;
-
+import scripts.Barrows.types.Var;
+import scripts.Barrows.util.*;
 public class LootFiltering {
 
 	static HashMap<Integer, Integer> startList = new HashMap<Integer, Integer>();
 	static HashMap<Integer, Integer> currentList = new HashMap<Integer, Integer>();
 	static HashMap<Integer, String> nameList = new HashMap<Integer, String>();
 
-	public static void add(int id, int amm, boolean start, String name) {
-		nameList.put(id, name);
+	public static void addInventory(boolean start) {
 		if (start) {
-			if (startList.containsKey(id)) {
-				startList.put(id, startList.get(id) + amm);
-			} else {
-				startList.put(id, amm);
+			for (RSItem r : Inventory.getAll()) {
+				if (r != null && contains(r.getID())) {
+					try {
+						nameList.put(r.getID(), r.getDefinition().getName());
+					} catch (Exception e) {
+					}
+					startList.put(r.getID(), getStack(r.getID()));
+				}
 			}
 		} else {
-			if (currentList.containsKey(id)) {
-				currentList.put(id, currentList.get(id) + amm);
-			} else {
-				currentList.put(id, amm);
+			for (RSItem r : Inventory.getAll()) {
+				if (r != null && contains(r.getID())) {
+					try {
+						nameList.put(r.getID(), r.getDefinition().getName());
+					} catch (Exception e) {
+					}
+					currentList.put(r.getID(), getStack(r.getID()));
+				}
 			}
 		}
 	}
 
-	public static void addInventory(boolean start) {
-		for (RSItem r : Inventory.getAll()) {
-			if (r != null)
-				add(r.getID(), r.getStack(), start, r.getDefinition().getName());
+	public static void addLoot(){
+		for(int i : Var.lootIDs){
+			int change = getChange(i);
+			if(change > 0){
+				LootTable.addReward(nameList.get(i), i, change, PriceHandler.getPrice(i));
+			}
 		}
 	}
-
-	public static void compare() {
-		for (int i : currentList.keySet()) {
-			int ammount = 0;
-			if (startList.containsKey(i)) {
-				ammount = currentList.get(i) - startList.get(i);
+	
+	
+	public static int getChange(int id) {
+		if (currentList.containsKey(id)) {
+			if (startList.containsKey(id)) {
+				return currentList.get(id) - startList.get(id);
 			} else {
-				ammount = currentList.get(i);
-			}
-			if (ammount > 0) {
-				LootTable.addReward(nameList.get(i), i, ammount,
-						PriceHandler.getPrice(i));
-				GeneralMethods.updateTracker(nameList.get(i), ammount);
+				return currentList.get(id);
 			}
 		}
+		return 0;
+	}
+
+	static int getStack(int id) {
+		int count = 0;
+		for (RSItem r : Inventory.find(id)) {
+			if (r != null) {
+				count = count + r.getStack();
+			}
+		}
+		return count;
+	}
+
+	static boolean contains(int id) {
+		for (int i : Var.lootIDs) {
+			if (i == id)
+				return true;
+		}
+		return false;
 	}
 
 }

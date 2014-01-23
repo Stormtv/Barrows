@@ -105,7 +105,7 @@ public class TunnelTraversing {
 					finalPrice += PriceHandler.getPrice(i.getID())
 							* i.getStack();
 				}
-				LootFiltering.compare();
+				LootFiltering.addLoot();
 				GeneralMethods.takeScreenShot();
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
