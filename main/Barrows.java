@@ -201,6 +201,10 @@ public class Barrows extends Script implements Painting, MouseActions,
 		Graphics2D g = (Graphics2D) g2;
 		if (showPaint)
 			PaintHandler.drawPaint(g);
+		else{
+			g.draw(closePaint);
+			g.drawString("Enable Paint", (closePaint.x - 80), (closePaint.y + 15));
+		}
 	}
 
 	Rectangle paint = new Rectangle(0, 340, 480, 140);
