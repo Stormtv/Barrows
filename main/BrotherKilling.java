@@ -146,8 +146,6 @@ public class BrotherKilling {
 				Prayer.activate(b.getPrayer());
 			}
 			RSNPC target = aggressiveNPC();
-			Var.tarName = target.getName();
-			Var.tarHp = target.getHealth();
 			if (target == null || target.isInCombat()
 					&& target.getHealth() == 0) {
 				b.setKilled(true);
