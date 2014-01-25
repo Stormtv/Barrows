@@ -335,7 +335,7 @@ public class Pathing {
 							if (door.length > 1
 									&& door[0].getPosition().distanceTo(
 											Player.getPosition()) < 10) {
-								GeneralMethods.clickObject(door[0], "Open",
+								GeneralMethods.clickObject(door[1], "Open",
 										true, false);
 							}
 						} else {
