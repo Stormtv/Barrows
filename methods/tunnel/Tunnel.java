@@ -37,6 +37,13 @@ public class Tunnel {
 			}
 		}
 	}
+	
+	public boolean isCompleted() {
+		int bitmask = 0x1;
+		int val = Game.getSetting(453);
+		int shifted = val >> 26;
+		return (shifted & bitmask) == 1;
+	}
 
 	public static void goToTunnel() {
 		for (Brothers b : Brothers.values()) {
