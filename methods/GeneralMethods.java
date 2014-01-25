@@ -42,6 +42,7 @@ import org.tribot.util.Util;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
+import scripts.Barrows.main.*;
 
 public class GeneralMethods {
 
@@ -138,7 +139,7 @@ public class GeneralMethods {
 			}
 			Date k = new Date(System.currentTimeMillis());
 			ImageIO.write(
-					Screen.getGameImage(),
+					new Barrows().getScreenshot(true),
 					"png",
 					new File(dir, "Reward - " + k.toString() + " "
 							+ System.currentTimeMillis() + ".png"));

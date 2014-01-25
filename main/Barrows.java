@@ -5,12 +5,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Player;
+import org.tribot.api2007.Screen;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
@@ -56,6 +58,22 @@ public class Barrows extends Script implements Painting, MouseActions,
 				General.sleep(loop());
 			}
 		}
+	}
+	
+	public BufferedImage getScreenshot(boolean includePaint) {
+		BufferedImage i = new BufferedImage(765, 502,
+				BufferedImage.TYPE_3BYTE_BGR);
+		Graphics g = i.getGraphics();
+		for (int x = 0; x <= 765; x++) {
+			for (int y = 0; y <= 502; y++) {
+				g.setColor(Screen.getColorAt(x, y));
+				g.fillRect(x, y, 1, 1);
+			}
+		}
+		if (includePaint) {
+			onPaint(i.getGraphics());
+		}
+		return i;
 	}
 
 	@SuppressWarnings("deprecation")

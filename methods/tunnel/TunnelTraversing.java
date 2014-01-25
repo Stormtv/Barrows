@@ -105,10 +105,10 @@ public class TunnelTraversing {
 					finalPrice += PriceHandler.getPrice(i.getID())
 							* i.getStack();
 				}
-				LootFiltering.addLoot();
-				GeneralMethods.takeScreenShot();
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
+				LootFiltering.addLoot();
+				GeneralMethods.takeScreenShot();
 				if (Potions.getPrayerDoses() < Var.nextRunDoses
 						|| Inventory.getCount(Var.food.getId()) < Var.nextRunFood) {
 					Var.forceBank = true;
