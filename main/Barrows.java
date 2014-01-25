@@ -68,6 +68,12 @@ public class Barrows extends Script implements Painting, MouseActions,
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
 			}
+			
+			if(Player.getPosition().getX() > 3580 && Player.getPosition().getX() < 3590){
+				Walking.walkTo(new RSTile(3575, 3292, 0));
+				while(Player.isMoving())
+					General.sleep(100);
+			}
 
 			if (Armor.getCurrentDegraded() > 0) {
 				Repairing.repair();
