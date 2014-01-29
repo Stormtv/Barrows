@@ -30,7 +30,6 @@ import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
-import org.tribot.api2007.Screen;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSGroundItem;

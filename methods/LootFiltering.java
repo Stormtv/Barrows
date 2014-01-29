@@ -7,7 +7,7 @@ import org.tribot.api2007.types.RSItem;
 
 import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.types.Var;
-import scripts.Barrows.util.*;
+
 public class LootFiltering {
 
 	static HashMap<Integer, Integer> startList = new HashMap<Integer, Integer>();
