@@ -34,6 +34,7 @@ import scripts.Barrows.methods.TrialVersionHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.methods.tunnel.TunnelTraversing;
+import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Prayer;
 import scripts.Barrows.types.enums.Armor;
@@ -131,6 +132,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 				}
 				return General.random(10, 30);
 			}
+			Brothers.statusCheck();
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()
 					&& !Var.lootedChest) {
 				BrotherKilling.StartFight();
@@ -181,9 +183,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");
 			GeneralMethods.adjustBrightness();
 			activateGUI();
-			//TODO HAD Weird Results Double Check this
-			//for (Brothers b : Brothers.values())
-				//b.setKilled(b.isReallyKilled());
+			Brothers.statusCheck();
 			new Thread(new PriceHandler()).start();
 			activateTable();
 			while (Var.guiWait) {

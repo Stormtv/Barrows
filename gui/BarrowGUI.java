@@ -7,6 +7,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
+
 import java.awt.Color;
 import java.awt.Image;
 
@@ -21,6 +22,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.types.Brother;
+import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Food;
@@ -40,10 +42,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.tribot.api.General;
 import org.tribot.util.Util;
 
 @SuppressWarnings("serial")
@@ -103,9 +105,7 @@ public class BarrowGUI extends JFrame {
 				chckbxUsePotions.setSelected(currentBrother.usePotions());
 				chckbxRecharge.setSelected(Var.recharge);
 
-				// if (!imageLoader.isAlive()) {
 				imageLoader.start();
-				// }
 
 				modelSelected.setSize(6);
 				modelSelected
@@ -292,9 +292,6 @@ public class BarrowGUI extends JFrame {
 		btnSetEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBrother.setEquipmentIds(Equipment.getEquipedItems());
-				// if (!imageLoader.isAlive()) {
-				//imageLoader.start();
-				// }
 			}
 		});
 		cbxBrother = new JComboBox<Brother.Brothers>(BrotherModel);
@@ -306,9 +303,6 @@ public class BarrowGUI extends JFrame {
 				chckbxUsePrayer.setSelected(!currentBrother.getPrayer().equals(
 						Prayer.Prayers.None));
 				chckbxUsePotions.setSelected(currentBrother.usePotions());
-				// if (!imageLoader.isAlive()) {
-				//imageLoader.start();
-				// }
 			}
 		});
 
@@ -1014,14 +1008,20 @@ public class BarrowGUI extends JFrame {
 						.getSelectedItem();
 
 				Var.arrowId = Equipment.getEquipmentID(Equipment.Gear.ARROW);
-				try {
-					Var.fileName = "Settings";
-					GUISave.save();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				if (validateInput()) {
+					try {
+						Var.fileName = "Settings";
+						GUISave.save();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					Var.guiWait = false;
+					Var.gui.setVisible(false);
+				} else {
+					System.out
+							.println("ERROR: please check to make sure you set your equipment for all the brothers and for the tunnels");
+					General.println("ERROR: please check to make sure you set your equipment for all the brothers and for the tunnels");
 				}
-				Var.guiWait = false;
-				Var.gui.setVisible(false);
 			}
 		});
 
@@ -1330,9 +1330,6 @@ public class BarrowGUI extends JFrame {
 						Prayer.Prayers.None));
 				chckbxUsePotions.setSelected(currentBrother.usePotions());
 				chckbxRecharge.setSelected(Var.recharge);
-				// if (!imageLoader.isAlive()) {
-				//imageLoader.start();
-				// }
 				modelSelected.setSize(6);
 				modelSelected.set(Brother.Brothers.Dharok.killOrder(), "Dharok");
 				modelSelected.set(Brother.Brothers.Karil.killOrder(), "Karil");
@@ -1797,6 +1794,34 @@ public class BarrowGUI extends JFrame {
 			}
 		}
 	});
+	
+	public boolean validateInput() {
+		for (Brothers b : Brothers.values()) {
+			int count = 0;
+			for (int[] i : b.getEquipmentIds()) {
+				for (int n : i) {
+					if (n == -1) {
+						count++;
+					}
+				}
+			}
+			if (count == 11) {
+				return false;
+			}
+		}
+		for (int[] i : Var.tunnelEquipment) {
+			int count = 0;
+			for (int n : i) {
+				if (n==-1) {
+					count++;
+				}
+			}
+			if (count == 11) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	private static Image getImage(String url) {
 		try {

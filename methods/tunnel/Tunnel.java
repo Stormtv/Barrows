@@ -38,7 +38,7 @@ public class Tunnel {
 		}
 	}
 	
-	public boolean isCompleted() {
+	public static boolean isCompleted() {
 		int bitmask = 0x1;
 		int val = Game.getSetting(453);
 		int shifted = val >> 26;
