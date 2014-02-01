@@ -97,7 +97,7 @@ public class Var {
 
 	public static String status;
 
-	public static boolean lootedChest = false;
+	//public static boolean lootedChest = false;
 
 	public static Pathing.PathBank bankPath = PathBank.ECTOPHIAL;
 

@@ -24,24 +24,14 @@ import scripts.Barrows.types.enums.Food;
 public class TunnelTraversing {
 
 	public static void traverseTunnel() {
-		if (Var.startingRoom == null) {
-			Rooms.TunnelRoom room = Rooms.getRoom();
-			if (room != null
-					&& room.getExitTile() != null
-					&& Objects.getAt(room.getExitTile()) != null
-					&& Objects.getAt(room.getExitTile()).length > 0
-					&& Objects.getAt(room.getExitTile())[0].getModel() != null
-					&& Objects.getAt(room.getExitTile())[0].getModel()
-							.getPoints().length > 0) {
-				Var.startingRoom = room;
-			}
-			if (Var.startingRoom == null) return;
-		}
+		Var.startingRoom = Rooms.getStartingRoom();
+		if (Var.startingRoom == null)
+			return;
 		if (Rooms.getRoom() != null) {
 			if (TunnelPuzzle.isPuzzleScreenOpen()) {
 				TunnelPuzzle.solvePuzzle();
 			} else {
-				if (Var.lootedChest) {
+				if (Tunnel.isCompleted()) {
 					if (Rooms.getRoom() != null
 							&& Var.startingRoom != null
 							&& Rooms.getRoom().equals(Var.startingRoom)) {
@@ -95,7 +85,6 @@ public class TunnelTraversing {
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
-				Var.lootedChest = true;
 				Looting.loot(Var.lootIDs);
 				LootFiltering.addInventory(false);
 				int finalPrice = 0;

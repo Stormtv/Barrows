@@ -132,20 +132,19 @@ public class Barrows extends Script implements Painting, MouseActions,
 				}
 				return General.random(10, 30);
 			}
-			Brothers.statusCheck();
-			if (Pathing.isInBarrows() && BrotherKilling.canKill()
-					&& !Var.lootedChest) {
+			if (!Tunnel.isCompleted() || !Pathing.isInBarrows()) Brothers.statusCheck();
+			if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
 				BrotherKilling.StartFight();
 				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-					&& !Var.lootedChest || !BrotherKilling.canKill()
-					&& Tunnel.inCrypt() && !Var.lootedChest) {
+					&& !Tunnel.isCompleted() || !BrotherKilling.canKill()
+					&& Tunnel.inCrypt() && !Tunnel.isCompleted()) {
 				Tunnel.goToTunnel();
 				return General.random(10, 30);
 			}
 			if (!BrotherKilling.canKill() && Tunnel.inCrypt()
-					&& Var.lootedChest) {
+					&& Tunnel.isCompleted()) {
 				Tunnel.exitCrypt();
 				return General.random(10, 30);
 			}
@@ -156,7 +155,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 				return General.random(10, 30);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
-					&& Var.lootedChest) {
+					&& Tunnel.isCompleted()) {
 				BrotherKilling.reset();
 				return General.random(10, 30);
 			}

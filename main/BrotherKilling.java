@@ -463,7 +463,6 @@ public class BrotherKilling {
 
 	public static void reset() {
 		Var.startingRoom = null;
-		Var.lootedChest = false;
 		for (Brothers b : Brothers.values()) {
 			b.setKilled(false);
 			b.setTunnel(false);

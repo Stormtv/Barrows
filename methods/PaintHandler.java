@@ -22,7 +22,6 @@ import scripts.Barrows.types.Var;
 import scripts.Barrows.util.Timer;
 
 public class PaintHandler {
-
 	static Image paint = getImage("http://i.imgur.com/L78CUru.png");
 	static Image skull = getImage("http://i.imgur.com/cT9vKDD.png");
 	static Image tunnel = getImage("http://i.imgur.com/OmCBk5T.png");

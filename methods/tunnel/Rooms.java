@@ -2,6 +2,7 @@ package scripts.Barrows.methods.tunnel;
 
 import java.util.ArrayList;
 
+import org.tribot.api2007.Game;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.types.RSTile;
@@ -92,6 +93,20 @@ public class Rooms {
 		return null;
 	}
 
+	public static TunnelRoom getStartingRoom() {
+		int bitmask = 0x1;
+		int val = Game.getSetting(452);
+		int shifted = val >> 6;
+		if ((shifted & bitmask) == 1) return Rooms.TunnelRoom.NW;
+		shifted = val >> 7;
+		if ((shifted & bitmask) == 1) return Rooms.TunnelRoom.NE;
+		shifted = val >> 8;
+		if ((shifted & bitmask) == 1) return Rooms.TunnelRoom.SW;
+		shifted = val >> 9;
+		if ((shifted & bitmask) == 1) return Rooms.TunnelRoom.SE;
+		return null;
+	}
+	
 	public static boolean InTunnel() {
 		TunnelRoom r = getRoom();
 		return r != null && r.toString() != null && r.toString().length() > 0 && r.toString().contains("unne");

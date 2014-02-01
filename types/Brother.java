@@ -3,7 +3,7 @@ package scripts.Barrows.types;
 import org.tribot.api2007.Game;
 
 import scripts.Barrows.util.RSArea;
-import scripts.Barrows.methods.tunnel.Tunnel;
+import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.types.enums.Magic;
 import scripts.Barrows.types.enums.Prayer;
 
@@ -154,12 +154,11 @@ public class Brother {
 		}
 
 		public static void statusCheck() {
-			if (!Tunnel.isCompleted()) {
 				for (Brothers b : Brothers.values())
 					b.setKilled(b.isReallyKilled());
 				for (Brothers b : Brothers.values())
 					b.setTunnel(b.isReallyTunnel());
-				}
+			Var.startingRoom = Rooms.getStartingRoom();
 		}
 		
 	}

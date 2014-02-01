@@ -40,7 +40,7 @@ public class Tunnel {
 	
 	public static boolean isCompleted() {
 		int bitmask = 0x1;
-		int val = Game.getSetting(453);
+		int val = Game.getSetting(452);
 		int shifted = val >> 26;
 		return (shifted & bitmask) == 1;
 	}
@@ -76,15 +76,7 @@ public class Tunnel {
 						General.sleep(10, 21);
 					}
 					General.sleep(450, 650);
-					Rooms.TunnelRoom room = Rooms.getRoom();
-					if (room != null
-							&& room.getExitTile() != null
-							&& Objects.getAt(room.getExitTile()).length>0
-							&& Objects.getAt(room.getExitTile())[0].getModel() != null
-							&& Objects.getAt(room.getExitTile())[0].getModel()
-									.getPoints().length > 0) {
-						Var.startingRoom = room;
-					}
+					Var.startingRoom = Rooms.getStartingRoom();
 					Camera.setCameraAngle(General.random(80, 100));
 				}
 			}
