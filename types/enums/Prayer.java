@@ -40,9 +40,9 @@ public class Prayer {
 
 	public enum Prayers {
 		None(-1, -1, "", -1), Piety(55, 54, "Piety", 70), Chivalry(53, 52,
-				"Chivalry", 60), ProtectFromMelee(41, 97, "Protect from Melee",
-				43), ProtectFromMissiles(39, 96, "Protect from Missiles", 40), ProtectFromMagic(
-				37, 95, "Protect from Magic", 37);
+				"Chivalry", 60), ProtectFromMelee(18, 16384, "Protect from Melee",
+				43), ProtectFromMissiles(17, 8192, "Protect from Missiles", 40), ProtectFromMagic(
+				16, 4096, "Protect from Magic", 37);
 
 		private final int interfaceId, settingID, levelRequired;
 		private final String name;
@@ -72,7 +72,7 @@ public class Prayer {
 		}
 
 		public boolean isActivated() {
-			return Game.getSetting(getSettingID()) > 0;
+			return Game.getSetting(83) == getSettingID();
 		}
 	}
 
