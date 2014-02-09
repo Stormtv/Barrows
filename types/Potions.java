@@ -17,13 +17,15 @@ import scripts.Barrows.types.enums.Prayer;
 
 public class Potions {
 
-	public static int[] PRAYER_POTIONS = { 2434, 143, 141, 139 };
+	public static int[] PRAYER_POTIONS = { 2434, 143, 141, 139, 3024, 3026,
+			3028, 3030 };
 	public static int[] SUPER_POTS = { 161, 159, 157, 2440, 167, 165, 163,
 			2442, 149, 147, 145, 2436, 2444, 169, 171, 173 };
-	private static int[] PRAYER_POTIONS_LEAST_TO_HIGH = {143,141,139,2434};
-	public static int[] SUPER_ATTACK = {2436, 145, 147, 149};
-	public static int[] SUPER_STRENGTH = {2440, 157, 159, 161};
-	public static int[] SUPER_DEFENCE = {2442, 163, 165, 167};
+	private static int[] PRAYER_POTIONS_LEAST_TO_HIGH = { 3030, 3028, 3026,
+			3024, 143, 141, 139, 2434 };
+	public static int[] SUPER_ATTACK = { 2436, 145, 147, 149 };
+	public static int[] SUPER_STRENGTH = { 2440, 157, 159, 161 };
+	public static int[] SUPER_DEFENCE = { 2442, 163, 165, 167 };
 
 	public static int getPrayerPerDose() {
 		return Skills.getActualLevel(Skills.SKILLS.PRAYER) / 4 + 7;
@@ -49,19 +51,20 @@ public class Potions {
 			if (Inventory.find(doseID).length > 0) {
 				openInventory();
 				if (Inventory.find(doseID)[0].click("Drink")) {
-					for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
-						General.sleep(50,75);
+					for (int fail = 0; fail < 10
+							&& Player.getAnimation() != 829; fail++) {
+						General.sleep(50, 75);
 					}
 					for (int fsafe = 0; fsafe < 50
 							&& Player.getAnimation() == 829; fsafe++) {
 						General.sleep(40);
 					}
-					General.sleep(450,600);
+					General.sleep(450, 600);
 				}
 				if (Game.getUptext().contains("->")) {
 					Walking.walkTo(Player.getPosition());
-					for  (int i=0;i<10 && !Game.getUptext().contains("->");i++){
-						General.sleep(30,50);
+					for (int i = 0; i < 10 && !Game.getUptext().contains("->"); i++) {
+						General.sleep(30, 50);
 					}
 				}
 			}
@@ -102,70 +105,76 @@ public class Potions {
 	}
 
 	public static void superPot() {
-		if (Inventory.getCount(161, 159, 157, 2440) > 0) {
+		if (Inventory.getCount(161, 159, 157, 2440) > 0
+				&& Skills.getCurrentLevel(Skills.SKILLS.STRENGTH)
+						- Skills.getActualLevel(Skills.SKILLS.STRENGTH) < 5) {
+			// Strength
 			openInventory();
 			Inventory.find(161, 159, 157, 2440)[0].click("Drink");
-			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
-				General.sleep(50,75);
+			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50
-					&& Player.getAnimation() == 829; fsafe++) {
+			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
-			General.sleep(450,600);
+			General.sleep(450, 600);
 		}
-		if (Inventory.getCount(167, 165, 163, 2442) > 0) {
+		if (Inventory.getCount(167, 165, 163, 2442) > 0
+				&& Skills.getCurrentLevel(Skills.SKILLS.DEFENCE)
+						- Skills.getActualLevel(Skills.SKILLS.DEFENCE) < 5) {
 			openInventory();
 			Inventory.find(167, 165, 163, 2442)[0].click("Drink");
-			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
-				General.sleep(50,75);
+			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50
-					&& Player.getAnimation() == 829; fsafe++) {
+			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
-			General.sleep(450,600);
+			General.sleep(450, 600);
 		}
-		if (Inventory.getCount(149, 147, 145, 2436) > 0) {
+		if (Inventory.getCount(149, 147, 145, 2436) > 0
+				&& Skills.getCurrentLevel(Skills.SKILLS.ATTACK)
+						- Skills.getActualLevel(Skills.SKILLS.ATTACK) < 5) {
 			openInventory();
 			Inventory.find(149, 147, 145, 2436)[0].click("Drink");
-			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
-				General.sleep(50,75);
+			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50
-					&& Player.getAnimation() == 829; fsafe++) {
+			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
-			General.sleep(450,600);
+			General.sleep(450, 600);
 		}
-		if (Inventory.getCount(2444, 169, 171, 173) > 0) {
+		if (Inventory.getCount(2444, 169, 171, 173) > 0
+				&& Skills.getCurrentLevel(Skills.SKILLS.RANGED)
+						- Skills.getActualLevel(Skills.SKILLS.RANGED) < 4) {
 			openInventory();
 			Inventory.find(2444, 169, 171, 173)[0].click("Drink");
-			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
-				General.sleep(50,75);
+			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50
-					&& Player.getAnimation() == 829; fsafe++) {
+			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
-			General.sleep(450,600);
+			General.sleep(450, 600);
 		}
-		if (Inventory.getCount(9745,9743,9741,9739) > 0 ) {
+		if (Inventory.getCount(9745, 9743, 9741, 9739) > 0
+				&& Skills.getCurrentLevel(Skills.SKILLS.STRENGTH)
+						- Skills.getActualLevel(Skills.SKILLS.STRENGTH) < 3) {
 			openInventory();
-			Inventory.find(9745,9743,9741,9739)[0].click("Drink");
-			for (int fail=0; fail<10 && Player.getAnimation() != 829; fail++) {
-				General.sleep(50,75);
+			Inventory.find(9745, 9743, 9741, 9739)[0].click("Drink");
+			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50
-					&& Player.getAnimation() == 829; fsafe++) {
+			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
 				General.sleep(40);
 			}
-			General.sleep(450,600);
+			General.sleep(450, 600);
 		}
 		if (Game.getUptext().contains("->")) {
 			Walking.walkTo(Player.getPosition());
-			for  (int i=0;i<10 && !Game.getUptext().contains("->");i++){
-				General.sleep(30,50);
+			for (int i = 0; i < 10 && !Game.getUptext().contains("->"); i++) {
+				General.sleep(30, 50);
 			}
 		}
 	}
@@ -173,7 +182,8 @@ public class Potions {
 	public static int getPrayerDoses() {
 		int doses = 0;
 		for (int i = 0; i < PRAYER_POTIONS_LEAST_TO_HIGH.length; i++) {
-			doses += Inventory.find(PRAYER_POTIONS_LEAST_TO_HIGH[i]).length*(i+1);
+			doses += Inventory.find(PRAYER_POTIONS_LEAST_TO_HIGH[i]).length
+					* (i + 1);
 		}
 		return doses;
 	}

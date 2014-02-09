@@ -2,6 +2,15 @@ package scripts.Barrows.types.enums;
 
 import java.util.ArrayList;
 
+import org.tribot.api.General;
+import org.tribot.api2007.Banking;
+import org.tribot.api2007.Game;
+import org.tribot.api2007.Inventory;
+import org.tribot.api2007.Equipment.SLOTS;
+import org.tribot.api2007.types.RSItem;
+
+import scripts.Barrows.types.enums.Equipment.Gear;
+
 public class Staves {
 	public enum Staff {
 		STAFF_OF_AIR(1381,new int[] {556}),
@@ -40,6 +49,58 @@ public class Staves {
 		
 		public int getId() {
 			return id;
+		}
+	}
+
+	public static void rechargeTrident() {
+		if (Inventory.getCount(554) > 0 && Inventory.getCount(560) > 0
+				&& Inventory.getCount(995) > 0 && Inventory.getCount(562) > 0
+				&& !Banking.isBankScreenOpen()) {
+			if (Equipment.isEquiped(11908)) {
+				org.tribot.api2007.Equipment.remove(SLOTS.WEAPON);
+				for (int i = 0; i < 25 && Equipment.isEquiped(11908); i++) {
+					General.sleep(30, 50);
+				}
+			}
+			int shield = Equipment.getEquipmentID(Gear.SHIELD);
+			if (shield != -1) {
+				org.tribot.api2007.Equipment.remove(SLOTS.SHIELD);
+				for (int i = 0; i < 25 && Equipment.isEquiped(shield); i++) {
+					General.sleep(30, 50);
+				}
+			}
+			if (Inventory.getCount(11908) > 0) {
+				General.println("Charging Staff");
+				RSItem[] runes = Inventory.find(554);
+				if (runes.length > 0) {
+					runes[0].click("Use");
+					for (int i = 0; i < 10 && !Game.getUptext().contains("->"); i++) {
+						General.sleep(30, 50);
+					}
+					if (Game.getUptext().contains("->")) {
+						RSItem[] staff = Inventory.find(11908);
+						if (staff.length > 0) {
+							staff[0].click("Use");
+							for (int i = 0; i < 30
+									&& Inventory.getCount(11907) == 0; i++) {
+								General.sleep(30, 50);
+							}
+						}
+					}
+				}
+			}
+			if (Inventory.getCount(11907) > 0) {
+				Equipment.equip(11907);
+				for (int i = 0; i < 30 && !Equipment.isEquiped(11907);i++) {
+					General.sleep(30,50);
+				}
+			}
+			if (Inventory.getCount(shield) > 0) {
+				Equipment.equip(shield);
+				for (int i = 0; i < 30 && !Equipment.isEquiped(shield);i++) {
+					General.sleep(30,50);
+				}
+			}
 		}
 	}
 }

@@ -34,6 +34,7 @@ import scripts.Barrows.types.enums.Equipment;
 import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.types.enums.Magic;
 import scripts.Barrows.types.enums.Prayer;
+import scripts.Barrows.types.enums.Prayer.Prayers;
 
 public class BrotherKilling {
 
@@ -403,6 +404,30 @@ public class BrotherKilling {
 				}
 			}
 		}
+		if (Equipment.isEquiped(11907) && Combat.getSelectedStyleIndex() != 0) {
+			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
+				Keyboard.pressFunctionKey(1);
+				for (int fail = 0; fail < 20
+						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
+					General.sleep(15, 25);
+				}
+				while (Combat.getSelectedStyleIndex() != 0) {
+					Combat.selectIndex(0);
+				}
+			}
+		}
+		if (Equipment.isEquiped(861) && Combat.getSelectedStyleIndex() != 1) {
+			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
+				Keyboard.pressFunctionKey(1);
+				for (int fail = 0; fail < 20
+						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
+					General.sleep(15, 25);
+				}
+				while (Combat.getSelectedStyleIndex() != 1) {
+					Combat.selectIndex(1);
+				}
+			}
+		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
 			if (!Magic.isAutocasting(b.getSpell())) {
 				Var.status = "Activating auto casting";
@@ -419,6 +444,17 @@ public class BrotherKilling {
 				&& !b.getPrayer().isActivated()) {
 			Prayer.activate(b.getPrayer());
 			Var.status = "Activated Prayer";
+		}
+		if (b.getPrayer().equals(Prayer.Prayers.None)
+				&& Prayer.getPoints() > 0) {
+			if (b.equals(Brother.Brothers.Ahrim)) {
+				Prayer.activate(Prayers.ProtectFromMagic);
+			} else if (b.equals(Brother.Brothers.Karil)) {
+				Prayer.activate(Prayers.ProtectFromMissiles);
+			} else {
+				Prayer.activate(Prayers.ProtectFromMelee);
+			}
+			Var.status = "Activated remaining prayer";
 		}
 	}
 

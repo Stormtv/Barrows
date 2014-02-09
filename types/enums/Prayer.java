@@ -91,7 +91,6 @@ public class Prayer {
 		}
 		return false;
 	}
-	
 
 	public static void disable(Prayers b) {
 		if (b.equals(Prayer.Prayers.None)) return;

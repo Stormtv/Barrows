@@ -39,6 +39,7 @@ import org.tribot.api2007.types.RSTile;
 import org.tribot.util.Util;
 
 import scripts.Barrows.methods.tunnel.Rooms;
+import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.main.*;
@@ -353,22 +354,25 @@ public class GeneralMethods {
 		if (!o.isOnScreen()) {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
-		if (o.getModel() == null
-				|| !(o.getModel().getAllVisiblePoints().length > 0)) {
+		
+		if (Rooms.getRoom() != null && !BrotherKilling.canKill()
+					&& !Tunnel.inCrypt()
+					&& !Var.bankArea.contains(Player.getPosition())
+					|| new RSTile(3431, 9897,
+							0).equals(o.getPosition())) {
 			for (RSObject a : Objects.getAt(o)) {
 				if (o.getModel() == null
 						|| o.getModel().getAllVisiblePoints().length <= 0) {
 					o = a;
 				}
 				if (a.getModel() != null
-						&& a.getModel().getPoints().length > 1000) {
+						&& a.getModel().getPoints().length >= o.getModel()
+								.getPoints().length) {
 					o = a;
 				}
 			}
-			if (Objects.getAt(o.getPosition()).length > 0) {
-				o = Objects.getAt(o.getPosition())[0];
-			}
 		}
+			
 		if (Rooms.getRoom() != curRoom) {
 			return;
 		}
