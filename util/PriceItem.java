@@ -59,7 +59,7 @@ public class PriceItem {
 			if (name != null && name.length() > 0) {
 				URL url = new URL(
 						"http://forums.zybez.net/runescape-2007-prices/api/"
-								+ name.toLowerCase().replace(" ", "_")
+								+ name.toLowerCase().replace(" ", "+")
 										.replace("(1)", "").replace("(2)", "")
 										.replace("(3)", "").replace("(4)", ""));
 				HttpURLConnection connection = (HttpURLConnection) url
