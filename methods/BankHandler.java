@@ -114,6 +114,8 @@ public class BankHandler {
 			}
 			if (Inventory.getCount(11908) > 0 || Equipment.isEquiped(11908)) {
 				Var.status = "Recharging the Trident";
+				Banking.deposit(Inventory.find(Var.food.getId()).length,
+						Var.food.getId());
 				if (Inventory.getCount(554) == 0
 						&& Banking.find(554).length != 0) {
 					Banking.withdraw(12500, 554);

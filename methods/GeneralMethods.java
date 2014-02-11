@@ -354,12 +354,10 @@ public class GeneralMethods {
 		if (!o.isOnScreen()) {
 			clickObject(o, option, fail + 1, minimap, checkReachable);
 		}
-		
+
 		if (Rooms.getRoom() != null && !BrotherKilling.canKill()
-					&& !Tunnel.inCrypt()
-					&& !Var.bankArea.contains(Player.getPosition())
-					|| new RSTile(3431, 9897,
-							0).equals(o.getPosition())) {
+				&& !Tunnel.inCrypt()
+				&& !Var.bankArea.contains(Player.getPosition())) {
 			for (RSObject a : Objects.getAt(o)) {
 				if (o.getModel() == null
 						|| o.getModel().getAllVisiblePoints().length <= 0) {

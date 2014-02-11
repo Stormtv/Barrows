@@ -139,7 +139,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.35;
+	public static double version = 1.351;
 
 	public static Timer runTime = new Timer(0);
 	
