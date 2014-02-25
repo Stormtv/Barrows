@@ -171,4 +171,16 @@ public class Brother {
 		}
 		return null;
 	}
+
+	public static boolean isPrayerBrotherAlive(Brothers target) {
+		for (Brothers b : Brothers.values()) {
+			if (target != null && target.equals(b)
+					&& target.getPrayer().equals(Prayer.Prayers.None))
+				continue;
+			if (!b.isKilled() && !b.getPrayer().equals(Prayer.Prayers.None)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

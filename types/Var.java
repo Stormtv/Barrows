@@ -139,7 +139,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.351;
+	public static double version = 1.38;
 
 	public static Timer runTime = new Timer(0);
 	
@@ -152,4 +152,8 @@ public class Var {
 	public static int nextRunFood = 0;
 
 	public static String fileName = "Settings";
+	
+	public static int mouseSpeed = 350;
+	
+	public static int runEnergy = 30;
 }

@@ -2,7 +2,6 @@ package scripts.Barrows.methods;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +26,7 @@ import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Objects;
+import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
@@ -38,11 +38,12 @@ import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.util.Util;
 
+import scripts.Barrows.main.Barrows;
+import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
-import scripts.Barrows.main.*;
 
 public class GeneralMethods {
 
@@ -75,6 +76,17 @@ public class GeneralMethods {
 		Var.status = s;
 	}
 
+	public static void enableRun() {
+		if (Game.getRunEnergy() > Var.runEnergy && !isRunEnabled()) {
+			Options.setRunOn(true);
+			Var.runEnergy = General.random(30, 60);
+		}
+	}
+	
+	public static boolean isRunEnabled() {
+		return Game.getSetting(173) == 1;
+	}
+	
 	public static boolean needsToLogout() {
 		if (!beSure()) {
 			notify("Out of supplies, re-checking 5 times:");
@@ -383,9 +395,8 @@ public class GeneralMethods {
 			General.sleep(10, 15);
 		if (Game.getUptext().contains(option)
 				|| Game.getUptext().contains("Use")) {
-			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+			GeneralMethods.enableRun();
 			Mouse.click(1);
-			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 			Var.debugObject = null;
 			Var.centerPoint = null;
 			General.sleep(250, 350);
@@ -398,9 +409,8 @@ public class GeneralMethods {
 			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
 				General.sleep(20, 25);
 			if (ChooseOption.isOpen() && ChooseOption.isOptionValid(option)) {
-				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+				GeneralMethods.enableRun();
 				ChooseOption.select(option);
-				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				Var.debugObject = null;
 				Var.centerPoint = null;
 				General.sleep(250, 350);
@@ -439,9 +449,8 @@ public class GeneralMethods {
 					&& !Game.getUptext().contains("Walk"); fSafe++)
 				General.sleep(5, 10);
 			if (Game.getUptext().contains("Walk")) {
-				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+				GeneralMethods.enableRun();
 				Mouse.click(1);
-				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				for (int fail = 0; fail < 20 && Game.getDestination() == null; fail++) {
 					General.sleep(12, 18);
 				}
@@ -454,9 +463,8 @@ public class GeneralMethods {
 				for (int fSafe = 0; fSafe < 15 && !ChooseOption.isOpen(); fSafe++)
 					General.sleep(5, 10);
 				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
-					Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+					GeneralMethods.enableRun();
 					ChooseOption.select("Walk here");
-					Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 					for (int fail = 0; fail < 20
 							&& Game.getDestination() == null; fail++) {
 						General.sleep(12, 18);
@@ -564,14 +572,6 @@ public class GeneralMethods {
 		return false;
 	}
 
-	public static void enableRun() {
-		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
-	}
-
-	public static void disableRun() {
-		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
-	}
-
 	public static boolean arrayContains(int array[], int id) {
 		for (int i : array) {
 			if (i == id)
@@ -587,9 +587,8 @@ public class GeneralMethods {
 			Var.status = "Looting: " + n.getDefinition().getName();
 			Mouse.setSpeed(General.random(110, 120));
 			if (!n.isOnScreen()) {
-				Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+				GeneralMethods.enableRun();
 				screenWalkTo(n);
-				Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 				General.sleep(250, 350);
 				while (Player.isMoving()) {
 					General.sleep(20, 30);
@@ -598,14 +597,12 @@ public class GeneralMethods {
 			if (n.getPosition().distanceTo(Player.getPosition()) > 8) {
 				enableRun();
 				screenWalkTo(n);
-				disableRun();
 			}
 			if (!groundItemCheck(n))
 				return;
 			Mouse.setSpeed(General.random(220, 300));
 			enableRun();
 			n.click("Take " + n.getDefinition().getName());
-			disableRun();
 			General.sleep(250, 350);
 			while (Player.isMoving())
 				General.sleep(40);

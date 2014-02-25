@@ -53,6 +53,7 @@ public class Staves {
 	}
 
 	public static void rechargeTrident() {
+		int[] chargedTrident = new int[] {11907,11905};
 		if (Inventory.getCount(554) > 0 && Inventory.getCount(560) > 0
 				&& Inventory.getCount(995) > 0 && Inventory.getCount(562) > 0
 				&& !Banking.isBankScreenOpen()) {
@@ -82,16 +83,16 @@ public class Staves {
 						if (staff.length > 0) {
 							staff[0].click("Use");
 							for (int i = 0; i < 30
-									&& Inventory.getCount(11907) == 0; i++) {
+									&& Inventory.getCount(chargedTrident) == 0; i++) {
 								General.sleep(30, 50);
 							}
 						}
 					}
 				}
 			}
-			if (Inventory.getCount(11907) > 0) {
-				Equipment.equip(11907);
-				for (int i = 0; i < 30 && !Equipment.isEquiped(11907);i++) {
+			if (Inventory.getCount(chargedTrident) > 0) {
+				Equipment.equip(chargedTrident);
+				for (int i = 0; i < 30 && !Equipment.isEquiped(chargedTrident);i++) {
 					General.sleep(30,50);
 				}
 			}

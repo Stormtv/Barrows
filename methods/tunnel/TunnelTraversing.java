@@ -1,7 +1,7 @@
 package scripts.Barrows.methods.tunnel;
 
 import org.tribot.api.General;
-
+import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
@@ -85,7 +85,10 @@ public class TunnelTraversing {
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
-				Looting.loot(Var.lootIDs);
+				while (GroundItems.find(Var.lootIDs).length > 0
+						&& PathFinding.canReach(
+								GroundItems.find(Var.lootIDs)[0], false))
+					Looting.loot(Var.lootIDs);
 				LootFiltering.addInventory(false);
 				int finalPrice = 0;
 				for (RSItem i : Inventory.getAll()) {
@@ -116,6 +119,7 @@ public class TunnelTraversing {
 				if (BankHandler.needToBank()) {
 					return;
 				}
+				GeneralMethods.enableRun();
 				Var.status = "Checking if needing to eat food";
 				Food.eatInCombat();
 				TunnelRoom current = Rooms.getRoom();

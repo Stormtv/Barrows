@@ -67,7 +67,7 @@ public class BarrowGUI extends JFrame {
 			picGloves, picRing, picCape, picSword, picShield, picArrow, picBro;
 	private static JTextField txtFood, txtSA, txtSS, txtSD, txtRP, txtPP,
 			txtArrows, txtCasts;
-	private static JSpinner spinner, spnFood, spnDoses;
+	private static JSpinner spinner, spnFood, spnDoses, spnMouseSpeed;
 
 	private Image helm = getImage("http://i.imgur.com/S4K9ppc.png");
 	private Image necklace = getImage("http://i.imgur.com/2RyM9tH.png");
@@ -122,6 +122,7 @@ public class BarrowGUI extends JFrame {
 				spinner.setValue(Var.killCount);
 				spnFood.setValue(Var.nextRunFood);
 				spnDoses.setValue(Var.nextRunDoses);
+				spnMouseSpeed.setValue(Var.mouseSpeed);
 				txtFood.setText(Integer.toString(Var.foodAmount));
 				txtSA.setText(Integer.toString(Var.superAttack));
 				txtSS.setText(Integer.toString(Var.superStrength));
@@ -994,6 +995,7 @@ public class BarrowGUI extends JFrame {
 				Var.killCount = (int) spinner.getValue();
 				Var.nextRunDoses = (int) spnDoses.getValue();
 				Var.nextRunFood = (int) spnFood.getValue();
+				Var.mouseSpeed = (int) spnMouseSpeed.getValue();
 				Var.foodAmount = Integer.parseInt(txtFood.getText());
 				Var.superAttack = Integer.parseInt(txtSA.getText());
 				Var.superStrength = Integer.parseInt(txtSS.getText());
@@ -1266,6 +1268,7 @@ public class BarrowGUI extends JFrame {
 				Var.killCount = (int) spinner.getValue();
 				Var.nextRunDoses = (int) spnDoses.getValue();
 				Var.nextRunFood = (int) spnFood.getValue();
+				Var.mouseSpeed = (int) spnMouseSpeed.getValue();
 				Var.foodAmount = Integer.parseInt(txtFood.getText());
 				Var.superAttack = Integer.parseInt(txtSA.getText());
 				Var.superStrength = Integer.parseInt(txtSS.getText());
@@ -1343,6 +1346,7 @@ public class BarrowGUI extends JFrame {
 				spinner.setValue(Var.killCount);
 				spnFood.setValue(Var.nextRunFood);
 				spnDoses.setValue(Var.nextRunDoses);
+				spnMouseSpeed.setValue(Var.mouseSpeed);
 				txtFood.setText(Integer.toString(Var.foodAmount));
 				txtSA.setText(Integer.toString(Var.superAttack));
 				txtSS.setText(Integer.toString(Var.superStrength));
@@ -1356,194 +1360,92 @@ public class BarrowGUI extends JFrame {
 				cbxBank.setSelectedItem(Var.bankPath);
 			}
 		});
+		
+		panel_7 = new JPanel();
+		panel_7.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								panel,
-																								GroupLayout.DEFAULT_SIZE,
-																								122,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								panel_6,
-																								Alignment.TRAILING,
-																								0,
-																								0,
-																								Short.MAX_VALUE))
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addComponent(
-																				panel_1,
-																				GroupLayout.PREFERRED_SIZE,
-																				495,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								panel_4,
-																								GroupLayout.PREFERRED_SIZE,
-																								193,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								panel_3,
-																								GroupLayout.PREFERRED_SIZE,
-																								193,
-																								GroupLayout.PREFERRED_SIZE)))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				panel_2,
-																				GroupLayout.DEFAULT_SIZE,
-																				492,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addComponent(
-																				panel_5,
-																				GroupLayout.PREFERRED_SIZE,
-																				121,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addGroup(
-																								groupLayout
-																										.createSequentialGroup()
-																										.addComponent(
-																												btnSave,
-																												GroupLayout.PREFERRED_SIZE,
-																												88,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addGap(18)
-																										.addComponent(
-																												btnLoad,
-																												GroupLayout.PREFERRED_SIZE,
-																												87,
-																												GroupLayout.PREFERRED_SIZE))
-																						.addComponent(
-																								btnStart,
-																								GroupLayout.PREFERRED_SIZE,
-																								193,
-																								GroupLayout.PREFERRED_SIZE))))
-										.addGap(22)));
-		groupLayout
-				.setVerticalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																groupLayout
-																		.createParallelGroup(
-																				Alignment.BASELINE)
-																		.addComponent(
-																				panel_1,
-																				GroupLayout.PREFERRED_SIZE,
-																				349,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGroup(
-																				groupLayout
-																						.createSequentialGroup()
-																						.addComponent(
-																								panel,
-																								GroupLayout.PREFERRED_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addPreferredGap(
-																								ComponentPlacement.RELATED,
-																								8,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								panel_6,
-																								GroupLayout.PREFERRED_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.PREFERRED_SIZE)))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				panel_3,
-																				GroupLayout.PREFERRED_SIZE,
-																				98,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(5)
-																		.addComponent(
-																				panel_4,
-																				0,
-																				0,
-																				Short.MAX_VALUE)))
-										.addPreferredGap(
-												ComponentPlacement.UNRELATED)
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addComponent(
-																panel_2,
-																GroupLayout.PREFERRED_SIZE,
-																93,
-																Short.MAX_VALUE)
-														.addComponent(
-																panel_5,
-																GroupLayout.DEFAULT_SIZE,
-																93,
-																Short.MAX_VALUE)
-														.addGroup(
-																Alignment.LEADING,
-																groupLayout
-																		.createSequentialGroup()
-																		.addGroup(
-																				groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING,
-																								false)
-																						.addComponent(
-																								btnLoad,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								btnSave,
-																								GroupLayout.DEFAULT_SIZE,
-																								38,
-																								Short.MAX_VALUE))
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addComponent(
-																				btnStart,
-																				GroupLayout.DEFAULT_SIZE,
-																				44,
-																				Short.MAX_VALUE)))
-										.addGap(33)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+								.addComponent(panel_6, Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panel_7, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+								.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))))
+					.addGap(22))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+								.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
+							.addGap(5)
+							.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(panel_7, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
+						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(btnLoad, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)))
+					.addGap(33))
+		);
+		
+		lblMouseSpeed = new JLabel("Mouse Speed:");
+		
+		spnMouseSpeed = new JSpinner();
+		spnMouseSpeed.setModel(new SpinnerNumberModel(350, 0, 1000, 1));
+		GroupLayout gl_panel_7 = new GroupLayout(panel_7);
+		gl_panel_7.setHorizontalGroup(
+			gl_panel_7.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_7.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblMouseSpeed)
+					.addGap(18)
+					.addComponent(spnMouseSpeed, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_7.setVerticalGroup(
+			gl_panel_7.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_7.createSequentialGroup()
+					.addGroup(gl_panel_7.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMouseSpeed)
+						.addComponent(spnMouseSpeed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(24, Short.MAX_VALUE))
+		);
+		panel_7.setLayout(gl_panel_7);
 		getContentPane().setLayout(groupLayout);
 	}
 
@@ -1561,230 +1463,240 @@ public class BarrowGUI extends JFrame {
 		public void run() {
 			while (Var.gui.isVisible()) {
 				try {
-					if (currentBrother.equals(Brother.Brothers.Dharok)) {
-						if (picBro != null) {
-							picBro.setIcon(new ImageIcon(dharok));
-						} else {
-							picBro = new JLabel(new ImageIcon(dharok));
-						}
-					} else if (currentBrother.equals(Brother.Brothers.Ahrim)) {
-						if (picBro != null) {
-							picBro.setIcon(new ImageIcon(ahrim));
-						} else {
-							picBro = new JLabel(new ImageIcon(ahrim));
-						}
-					} else if (currentBrother.equals(Brother.Brothers.Torag)) {
-						if (picBro != null) {
-							picBro.setIcon(new ImageIcon(torag));
-						} else {
-							picBro = new JLabel(new ImageIcon(torag));
-						}
-					} else if (currentBrother.equals(Brother.Brothers.Guthan)) {
-						if (picBro != null) {
-							picBro.setIcon(new ImageIcon(guthan));
-						} else {
-							picBro = new JLabel(new ImageIcon(guthan));
-						}
-					} else if (currentBrother.equals(Brother.Brothers.Verac)) {
-						if (picBro != null) {
-							picBro.setIcon(new ImageIcon(verac));
-						} else {
-							picBro = new JLabel(new ImageIcon(verac));
-						}
-					} else if (currentBrother.equals(Brother.Brothers.Karil)) {
-						if (picBro != null) {
-							picBro.setIcon(new ImageIcon(karil));
-						} else {
-							picBro = new JLabel(new ImageIcon(karil));
-						}
-					}
-					if (currentBrother.getEquipmentIds() != null
-							&& currentBrother.getEquipmentIds().length > 0) {
-						if (currentBrother.getEquipmentIds()[0][0] != -1) {
-							if (picHelm != null) {
-								picHelm.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[0][0])));
+					if (currentBrother != null) {
+						if (currentBrother.equals(Brother.Brothers.Dharok)) {
+							if (picBro != null) {
+								picBro.setIcon(new ImageIcon(dharok));
 							} else {
-								picHelm = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[0][0])));
+								picBro = new JLabel(new ImageIcon(dharok));
 							}
-						} else {
-							if (picHelm != null) {
-								picHelm.setIcon(new ImageIcon(helm));
+						} else if (currentBrother
+								.equals(Brother.Brothers.Ahrim)) {
+							if (picBro != null) {
+								picBro.setIcon(new ImageIcon(ahrim));
 							} else {
-								picHelm = new JLabel(new ImageIcon(helm));
+								picBro = new JLabel(new ImageIcon(ahrim));
+							}
+						} else if (currentBrother
+								.equals(Brother.Brothers.Torag)) {
+							if (picBro != null) {
+								picBro.setIcon(new ImageIcon(torag));
+							} else {
+								picBro = new JLabel(new ImageIcon(torag));
+							}
+						} else if (currentBrother
+								.equals(Brother.Brothers.Guthan)) {
+							if (picBro != null) {
+								picBro.setIcon(new ImageIcon(guthan));
+							} else {
+								picBro = new JLabel(new ImageIcon(guthan));
+							}
+						} else if (currentBrother
+								.equals(Brother.Brothers.Verac)) {
+							if (picBro != null) {
+								picBro.setIcon(new ImageIcon(verac));
+							} else {
+								picBro = new JLabel(new ImageIcon(verac));
+							}
+						} else if (currentBrother
+								.equals(Brother.Brothers.Karil)) {
+							if (picBro != null) {
+								picBro.setIcon(new ImageIcon(karil));
+							} else {
+								picBro = new JLabel(new ImageIcon(karil));
 							}
 						}
-						if (currentBrother.getEquipmentIds()[1][0] != -1) {
-							if (picCape != null) {
-								picCape.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[1][0])));
+						if (currentBrother.getEquipmentIds() != null
+								&& currentBrother.getEquipmentIds().length > 0) {
+							if (currentBrother.getEquipmentIds()[0][0] != -1) {
+								if (picHelm != null) {
+									picHelm.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[0][0])));
+								} else {
+									picHelm = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[0][0])));
+								}
 							} else {
-								picCape = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[1][0])));
+								if (picHelm != null) {
+									picHelm.setIcon(new ImageIcon(helm));
+								} else {
+									picHelm = new JLabel(new ImageIcon(helm));
+								}
 							}
-						} else {
-							if (picCape != null) {
-								picCape.setIcon(new ImageIcon(cape));
+							if (currentBrother.getEquipmentIds()[1][0] != -1) {
+								if (picCape != null) {
+									picCape.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[1][0])));
+								} else {
+									picCape = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[1][0])));
+								}
 							} else {
-								picCape = new JLabel(new ImageIcon(cape));
+								if (picCape != null) {
+									picCape.setIcon(new ImageIcon(cape));
+								} else {
+									picCape = new JLabel(new ImageIcon(cape));
+								}
 							}
-						}
-						if (currentBrother.getEquipmentIds()[2][0] != -1) {
-							if (picNeck != null) {
-								picNeck.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[2][0])));
+							if (currentBrother.getEquipmentIds()[2][0] != -1) {
+								if (picNeck != null) {
+									picNeck.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[2][0])));
+								} else {
+									picNeck = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[2][0])));
+								}
 							} else {
-								picNeck = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[2][0])));
+								if (picNeck != null) {
+									picNeck.setIcon(new ImageIcon(necklace));
+								} else {
+									picNeck = new JLabel(
+											new ImageIcon(necklace));
+								}
 							}
-						} else {
-							if (picNeck != null) {
-								picNeck.setIcon(new ImageIcon(necklace));
+							if (currentBrother.getEquipmentIds()[3][0] != -1) {
+								if (picSword != null) {
+									picSword.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[3][0])));
+								} else {
+									picSword = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[3][0])));
+								}
 							} else {
-								picNeck = new JLabel(new ImageIcon(necklace));
+								if (picSword != null) {
+									picSword.setIcon(new ImageIcon(weapon));
+								} else {
+									picSword = new JLabel(new ImageIcon(weapon));
+								}
 							}
-						}
-						if (currentBrother.getEquipmentIds()[3][0] != -1) {
-							if (picSword != null) {
-								picSword.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[3][0])));
+							if (currentBrother.getEquipmentIds()[4][0] != -1) {
+								if (picBody != null) {
+									picBody.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[4][0])));
+								} else {
+									picBody = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[4][0])));
+								}
 							} else {
-								picSword = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[3][0])));
+								if (picBody != null) {
+									picBody.setIcon(new ImageIcon(body));
+								} else {
+									picBody = new JLabel(new ImageIcon(body));
+								}
 							}
-						} else {
-							if (picSword != null) {
-								picSword.setIcon(new ImageIcon(weapon));
+							if (currentBrother.getEquipmentIds()[5][0] != -1) {
+								if (picShield != null) {
+									picShield.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[5][0])));
+								} else {
+									picShield = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[5][0])));
+								}
 							} else {
-								picSword = new JLabel(new ImageIcon(weapon));
+								if (picShield != null) {
+									picShield.setIcon(new ImageIcon(shield));
+								} else {
+									picShield = new JLabel(
+											new ImageIcon(shield));
+								}
 							}
-						}
-						if (currentBrother.getEquipmentIds()[4][0] != -1) {
-							if (picBody != null) {
-								picBody.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[4][0])));
+							if (currentBrother.getEquipmentIds()[6][0] != -1) {
+								if (picLegs != null) {
+									picLegs.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[6][0])));
+								} else {
+									picLegs = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[6][0])));
+								}
 							} else {
-								picBody = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[4][0])));
+								if (picLegs != null) {
+									picLegs.setIcon(new ImageIcon(legs));
+								} else {
+									picLegs = new JLabel(new ImageIcon(legs));
+								}
 							}
-						} else {
-							if (picBody != null) {
-								picBody.setIcon(new ImageIcon(body));
+							if (currentBrother.getEquipmentIds()[7][0] != -1) {
+								if (picGloves != null) {
+									picGloves.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[7][0])));
+								} else {
+									picGloves = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[7][0])));
+								}
 							} else {
-								picBody = new JLabel(new ImageIcon(body));
+								if (picGloves != null) {
+									picGloves.setIcon(new ImageIcon(gloves));
+								} else {
+									picGloves = new JLabel(
+											new ImageIcon(gloves));
+								}
 							}
-						}
-						if (currentBrother.getEquipmentIds()[5][0] != -1) {
-							if (picShield != null) {
-								picShield.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[5][0])));
+							if (currentBrother.getEquipmentIds()[8][0] != -1) {
+								if (picBoots != null) {
+									picBoots.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[8][0])));
+								} else {
+									picBoots = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[8][0])));
+								}
 							} else {
-								picShield = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[5][0])));
+								if (picBoots != null) {
+									picBoots.setIcon(new ImageIcon(boots));
+								} else {
+									picBoots = new JLabel(new ImageIcon(boots));
+								}
 							}
-						} else {
-							if (picShield != null) {
-								picShield.setIcon(new ImageIcon(shield));
+							if (currentBrother.getEquipmentIds()[9][0] != -1) {
+								if (picRing != null) {
+									picRing.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[9][0])));
+								} else {
+									picRing = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[9][0])));
+								}
 							} else {
-								picShield = new JLabel(new ImageIcon(shield));
+								if (picRing != null) {
+									picRing.setIcon(new ImageIcon(ring));
+								} else {
+									picRing = new JLabel(new ImageIcon(ring));
+								}
 							}
-						}
-						if (currentBrother.getEquipmentIds()[6][0] != -1) {
-							if (picLegs != null) {
-								picLegs.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[6][0])));
+							if (currentBrother.getEquipmentIds()[10][0] != -1) {
+								if (picArrow != null) {
+									picArrow.setIcon(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[10][0])));
+								} else {
+									picArrow = new JLabel(new ImageIcon(
+											getIcon(currentBrother
+													.getEquipmentIds()[10][0])));
+								}
 							} else {
-								picLegs = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[6][0])));
-							}
-						} else {
-							if (picLegs != null) {
-								picLegs.setIcon(new ImageIcon(legs));
-							} else {
-								picLegs = new JLabel(new ImageIcon(legs));
-							}
-						}
-						if (currentBrother.getEquipmentIds()[7][0] != -1) {
-							if (picGloves != null) {
-								picGloves.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[7][0])));
-							} else {
-								picGloves = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[7][0])));
-							}
-						} else {
-							if (picGloves != null) {
-								picGloves.setIcon(new ImageIcon(gloves));
-							} else {
-								picGloves = new JLabel(new ImageIcon(gloves));
-							}
-						}
-						if (currentBrother.getEquipmentIds()[8][0] != -1) {
-							if (picBoots != null) {
-								picBoots.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[8][0])));
-							} else {
-								picBoots = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[8][0])));
-							}
-						} else {
-							if (picBoots != null) {
-								picBoots.setIcon(new ImageIcon(boots));
-							} else {
-								picBoots = new JLabel(new ImageIcon(boots));
-							}
-						}
-						if (currentBrother.getEquipmentIds()[9][0] != -1) {
-							if (picRing != null) {
-								picRing.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[9][0])));
-							} else {
-								picRing = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[9][0])));
-							}
-						} else {
-							if (picRing != null) {
-								picRing.setIcon(new ImageIcon(ring));
-							} else {
-								picRing = new JLabel(new ImageIcon(ring));
-							}
-						}
-						if (currentBrother.getEquipmentIds()[10][0] != -1) {
-							if (picArrow != null) {
-								picArrow.setIcon(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[10][0])));
-							} else {
-								picArrow = new JLabel(new ImageIcon(
-										getIcon(currentBrother
-												.getEquipmentIds()[10][0])));
-							}
-						} else {
-							if (picArrow != null) {
-								picArrow.setIcon(new ImageIcon(arrow));
-							} else {
-								picArrow = new JLabel(new ImageIcon(arrow));
+								if (picArrow != null) {
+									picArrow.setIcon(new ImageIcon(arrow));
+								} else {
+									picArrow = new JLabel(new ImageIcon(arrow));
+								}
 							}
 						}
 					}
@@ -1794,6 +1706,8 @@ public class BarrowGUI extends JFrame {
 			}
 		}
 	});
+	private JPanel panel_7;
+	private JLabel lblMouseSpeed;
 	
 	public boolean validateInput() {
 		for (Brothers b : Brothers.values()) {

@@ -138,7 +138,7 @@ public class BrotherKilling {
 		while (Player.getRSPlayer().getInteractingCharacter() != null
 				|| aggressiveNPC() != null
 				|| !PathFinding.canReach(aggressiveNPC(), false)) {
-			if (BankHandler.needToBank()) {
+			if (BankHandler.needToBank(b)) {
 				return;
 			}
 			UpKeep(b);
@@ -404,6 +404,18 @@ public class BrotherKilling {
 				}
 			}
 		}
+		if (Equipment.isEquiped(4587) && Combat.getSelectedStyleIndex()!=1) {
+			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
+				Keyboard.pressFunctionKey(1);
+				for (int fail = 0; fail < 20
+						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
+					General.sleep(15, 25);
+				}
+			}
+			while (Combat.getSelectedStyleIndex() != 1) {
+				Combat.selectIndex(1);
+			}
+		}
 		if (Equipment.isEquiped(11907) && Combat.getSelectedStyleIndex() != 0) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				Keyboard.pressFunctionKey(1);
@@ -411,9 +423,9 @@ public class BrotherKilling {
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);
 				}
-				while (Combat.getSelectedStyleIndex() != 0) {
-					Combat.selectIndex(0);
-				}
+			}
+			while (Combat.getSelectedStyleIndex() != 0) {
+				Combat.selectIndex(0);
 			}
 		}
 		if (Equipment.isEquiped(861) && Combat.getSelectedStyleIndex() != 1) {
@@ -423,9 +435,9 @@ public class BrotherKilling {
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);
 				}
-				while (Combat.getSelectedStyleIndex() != 1) {
-					Combat.selectIndex(1);
-				}
+			}
+			while (Combat.getSelectedStyleIndex() != 1) {
+				Combat.selectIndex(1);
 			}
 		}
 		if (!b.getSpell().equals(Magic.Spell.NONE)) {
@@ -480,12 +492,10 @@ public class BrotherKilling {
 	}
 
 	private static void attackMob(RSNPC n) {
-		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
 		GeneralMethods.click(n, "Attack");
 		General.sleep(50, 100);
 		while (Player.isMoving())
 			General.sleep(10);
-		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 	}
 
 	private static boolean isBrother(RSNPC n) {

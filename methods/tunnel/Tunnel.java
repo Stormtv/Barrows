@@ -199,7 +199,7 @@ public class Tunnel {
 
 	private static void walkToMob(RSNPC n) {
 		Var.status = "Navigating to target";
-		Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+		GeneralMethods.enableRun();
 		GeneralMethods.screenWalkTo(n);
 		General.sleep(250, 350);
 		while (Player.isMoving() && !n.isOnScreen()) {
@@ -211,7 +211,7 @@ public class Tunnel {
 	private static boolean attackMob(RSNPC target) {
 		Var.status = "Attacking monster";
 		if (target != null) {
-			Keyboard.pressKey((char) KeyEvent.VK_CONTROL);
+			GeneralMethods.enableRun();
 			GeneralMethods.click(target, "Attack");
 			General.sleep(250, 350);
 			while (Player.isMoving())

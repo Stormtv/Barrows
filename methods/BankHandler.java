@@ -21,6 +21,8 @@ import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.methods.Pathing.PathBank;
 import scripts.Barrows.methods.Pathing.PathBarrows;
+import scripts.Barrows.types.Brother;
+import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Potions;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.enums.Equipment;
@@ -98,53 +100,56 @@ public class BankHandler {
 		if (Banking.isBankScreenOpen()) {
 			if (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) > Skills
 					.getCurrentLevel(Skills.SKILLS.HITPOINTS)
-							+ Var.food.getHealAmount()) {
+					+ Var.food.getHealAmount()) {
 				int withdrawAmount = (int) Math.ceil((Skills
 						.getActualLevel(Skills.SKILLS.HITPOINTS) - Skills
 						.getCurrentLevel(Skills.SKILLS.HITPOINTS))
 						/ Var.food.getHealAmount());
 				Var.status = "Eating at bank";
-				Banking.withdraw(withdrawAmount,
-						Var.food.getId());
+				Banking.withdraw(withdrawAmount, Var.food.getId());
 				Banking.close();
 				eatAtBank(withdrawAmount);
 				if (!Banking.isBankScreenOpen()) {
 					openBank();
-				} 
+				}
 			}
 			if (Inventory.getCount(11908) > 0 || Equipment.isEquiped(11908)) {
 				Var.status = "Recharging the Trident";
 				Banking.deposit(Inventory.find(Var.food.getId()).length,
 						Var.food.getId());
-				if (Inventory.getCount(554) == 0
-						&& Banking.find(554).length != 0) {
-					Banking.withdraw(12500, 554);
-				} else {
-					Var.running = false;
+				if (Inventory.getCount(554) == 0) {
+					if (Banking.find(554).length != 0) {
+						Banking.withdraw(12500, 554);
+					} else {
+						Var.running = false;
+					}
 				}
-				if (Inventory.getCount(560) == 0
-						&& Banking.find(560).length != 0) {
+				if (Inventory.getCount(560) == 0) {
+					if (Banking.find(560).length != 0) {
 					Banking.withdraw(2500, 560);
-				} else {
-					Var.running = false;
+					} else {
+						Var.running = false;
+					}
 				}
-				if (Inventory.getCount(562) == 0 
-						&& Banking.find(562).length != 0) {
-					Banking.withdraw(2500, 562);
-				} else {
-					Var.running = false;
+				if (Inventory.getCount(562) == 0) {
+					if (Banking.find(562).length != 0) {
+						Banking.withdraw(2500, 562);
+					} else {
+						Var.running = false;
+					}
 				}
-				if (Inventory.getCount(995) == 0
-						&& Banking.find(995).length != 0) {
-					Banking.withdraw(25000, 995);
-				} else {
-					Var.running = false;
+				if (Inventory.getCount(995) == 0) {
+					if (Banking.find(995).length != 0) {
+						Banking.withdraw(25000, 995);
+					} else {
+						Var.running = false;
+					}
 				}
 				Banking.close();
 				Staves.rechargeTrident();
 				if (!Banking.isBankScreenOpen()) {
 					openBank();
-				} 
+				}
 			}
 			if (hasJunk()) {
 				Banking.depositAllExcept(getRequiredItems());
@@ -227,7 +232,7 @@ public class BankHandler {
 				if (Var.arrowId > 0
 						&& (org.tribot.api2007.Equipment.getCount(Var.arrowId) + Inventory
 								.getCount(Var.arrowId)) < Var.arrowCount) {
-					Var.status = "Withdrawing Arrows";
+					Var.status = "Withdrawing Arrows " + Var.arrowId;
 					Banking.withdraw(
 							(Var.arrowCount - org.tribot.api2007.Equipment
 									.getCount(Var.arrowId)), Var.arrowId);
@@ -480,28 +485,33 @@ public class BankHandler {
 	static int getSpaceLeft() {
 		return (28 - Inventory.getAll().length);
 	}
-
+	
 	public static boolean needToBank() {
+		return needToBank(null);
+	}
+
+	public static boolean needToBank(Brothers b) {
 		int count = 0;
 		for (int i = 0; i < 5; i++) {
 			if (Inventory.getCount(Var.food.getId()) == 0
-					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 || GeneralMethods
-							.getHPPercent() < 50) || !Magic.hasCasts(1)
+					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35
+					|| GeneralMethods.getHPPercent() < 50) 
+					|| !Magic.hasCasts(1)
 					|| Inventory.getCount(Var.SPADE_ID) == 0
-					|| Var.arrowId != -1
+					|| (Var.arrowId != -1
 					&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < 1
-					&& Inventory.getCount(Var.arrowId) < 1
+					&& Inventory.getCount(Var.arrowId) < 1)
 					|| Inventory.getCount(11908) > 0
 					|| Equipment.isEquiped(11908)
-					|| Inventory.getCount(Potions.PRAYER_POTIONS) == 0
+					|| (Inventory.getCount(Potions.PRAYER_POTIONS) == 0
 					&& Var.prayerPotion > 0
-					&& Prayer.getPoints() - Potions.prayerDrain() < 5) {
+					&& Prayer.getPoints() - Potions.prayerDrain() < 5
+					&& Brother.isPrayerBrotherAlive(b))) {
 				count++;
 			}
 		}
 		if (count == 5 && Inventory.getAll().length != 0) {
-			General.println("needToBank Force Bank "
-					+ Player.getPosition().toString());
+			General.println("needToBank Force Bank");
 			Var.forceBank = true;
 		}
 		return count == 5;
@@ -511,6 +521,8 @@ public class BankHandler {
 		return Inventory.getCount(Var.food.getId()) < Var.foodAmount
 				|| !Magic.hasCasts(Var.spellCount)
 				|| Inventory.getCount(Var.SPADE_ID) == 0
+				|| Inventory.getCount(11908) > 0
+				|| Equipment.isEquiped(11908)
 				|| Var.arrowId != -1
 				&& org.tribot.api2007.Equipment.getCount(Var.arrowId) < Var.arrowCount
 				|| Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion;

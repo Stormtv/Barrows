@@ -22,6 +22,7 @@ import org.tribot.api2007.Projection;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
+import org.tribot.api2007.types.RSModel;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
@@ -192,7 +193,7 @@ public class Pathing {
 			if (t.distanceTo(Player.getPosition()) < 30
 					&& Projection.isInMinimap(Projection.tileToMinimap(t))) {
 				Walking.walkTo(t);
-				General.sleep(250,350);
+				General.sleep(250, 350);
 				if (i == 0) {
 					while (Player.isMoving() && !Player.getPosition().equals(t)) {
 						Var.status = "Waiting until at tile " + t.toString();
@@ -209,6 +210,21 @@ public class Pathing {
 				return;
 			}
 		}
+	}
+
+	private static RSObject getAt(RSTile rsTile) {
+		int count = 0;
+		RSObject f = null;
+		for (RSObject c : Objects.getAt(rsTile)) {
+			if (c != null) {
+				RSModel m = c.getModel();
+				if (m != null && m.getPoints().length > count) {
+					count = m.getPoints().length;
+					f = c;
+				}
+			}
+		}
+		return f;
 	}
 
 	public static void goFromVarrock() {
@@ -330,13 +346,12 @@ public class Pathing {
 						RSTile after = new RSTile(3321, 3468, 0);
 						if (after.distanceTo(Player.getRSPlayer()) < 10
 								&& !PathFinding.canReach(after, false)) {
-							RSObject[] door = Objects.getAt(new RSTile(3319,
-									3467, 0));
-							if (door.length > 1
-									&& door[0].getPosition().distanceTo(
+							RSObject door = getAt(new RSTile(3319, 3467, 0));
+							if (door != null
+									&& door.getPosition().distanceTo(
 											Player.getPosition()) < 10) {
-								GeneralMethods.clickObject(door[1], "Open",
-										true, false);
+								GeneralMethods.clickObject(door, "Open", true,
+										false);
 							}
 						} else {
 							if (canWalkToVarrock())
@@ -583,8 +598,8 @@ public class Pathing {
 				if (portal.length > 0) {
 					RSObject wave = getFocus(portal[0]);
 					if (wave != null && PathFinding.canReach(wave, true)) {
-						GeneralMethods.clickObject(portal[0], "Enter", false,
-								false);
+						GeneralMethods.clickObject(portal[0], "Enter", true,
+								true);
 						Timing.waitCondition(new Condition() {
 
 							@Override
@@ -597,7 +612,7 @@ public class Pathing {
 						RSObject door = getClosestDoor(portal[0]);
 						if (door != null) {
 							GeneralMethods.clickObject(door, "Open", true,
-									false);
+									true);
 						}
 					}
 				}
@@ -738,7 +753,7 @@ public class Pathing {
 		Walking.setWalkingTimeout(500);
 		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
-		if(!Banking.close())
+		if (!Banking.close())
 			General.sleep(100);
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
@@ -802,7 +817,6 @@ public class Pathing {
 					} else {
 						GeneralMethods.enableRun();
 						Walking.walkTo(new RSTile(3505, 3437, 0));
-						GeneralMethods.disableRun();
 					}
 				} else {
 					if (canEnterBoat()) {
@@ -810,7 +824,6 @@ public class Pathing {
 					} else {
 						GeneralMethods.enableRun();
 						Walking.walkPath(pathToBoatFromShortcut);
-						GeneralMethods.disableRun();
 					}
 				}
 			}

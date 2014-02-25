@@ -37,7 +37,7 @@ public class Armor {
 		AhrimStaff(new int[] { 4710, 4862, 4863, 4864, 4865 }, Equipment.Gear.WEAPON, 4866),
 
 		AmuletOfGlory(new int[] { 1704, 1706, 1708, 1710, 1712 }, Equipment.Gear.NECK, -1),
-		TridentOfTheSeas(new int[] {11907, 11908}, Equipment.Gear.WEAPON, -1);
+		TridentOfTheSeas(new int[] {11905, 11907, 11908}, Equipment.Gear.WEAPON, -1);
 		private int[] id;
 		private Equipment.Gear gear;
 		private int Degraded;
