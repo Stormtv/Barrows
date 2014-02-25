@@ -758,7 +758,7 @@ public class Pathing {
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
-			if (trapdoor.length > 0
+			if (trapdoor != null && trapdoor.length > 0
 					&& Player.getPosition().distanceTo(trapdoor[1]) < 15) {
 				GeneralMethods.clickObject(trapdoor[1], "Open", true, false);
 			} else {
@@ -815,14 +815,12 @@ public class Pathing {
 							}
 						}
 					} else {
-						GeneralMethods.enableRun();
 						Walking.walkTo(new RSTile(3505, 3437, 0));
 					}
 				} else {
 					if (canEnterBoat()) {
 						enterBoat();
 					} else {
-						GeneralMethods.enableRun();
 						Walking.walkPath(pathToBoatFromShortcut);
 					}
 				}

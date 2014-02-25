@@ -395,7 +395,6 @@ public class GeneralMethods {
 			General.sleep(10, 15);
 		if (Game.getUptext().contains(option)
 				|| Game.getUptext().contains("Use")) {
-			GeneralMethods.enableRun();
 			Mouse.click(1);
 			Var.debugObject = null;
 			Var.centerPoint = null;
@@ -409,7 +408,6 @@ public class GeneralMethods {
 			for (int fSafe = 0; fSafe < 20 && !ChooseOption.isOpen(); fSafe++)
 				General.sleep(20, 25);
 			if (ChooseOption.isOpen() && ChooseOption.isOptionValid(option)) {
-				GeneralMethods.enableRun();
 				ChooseOption.select(option);
 				Var.debugObject = null;
 				Var.centerPoint = null;
@@ -449,7 +447,6 @@ public class GeneralMethods {
 					&& !Game.getUptext().contains("Walk"); fSafe++)
 				General.sleep(5, 10);
 			if (Game.getUptext().contains("Walk")) {
-				GeneralMethods.enableRun();
 				Mouse.click(1);
 				for (int fail = 0; fail < 20 && Game.getDestination() == null; fail++) {
 					General.sleep(12, 18);
@@ -463,7 +460,6 @@ public class GeneralMethods {
 				for (int fSafe = 0; fSafe < 15 && !ChooseOption.isOpen(); fSafe++)
 					General.sleep(5, 10);
 				if (ChooseOption.isOpen() && ChooseOption.isOptionValid("Walk")) {
-					GeneralMethods.enableRun();
 					ChooseOption.select("Walk here");
 					for (int fail = 0; fail < 20
 							&& Game.getDestination() == null; fail++) {
@@ -587,7 +583,7 @@ public class GeneralMethods {
 			Var.status = "Looting: " + n.getDefinition().getName();
 			Mouse.setSpeed(General.random(110, 120));
 			if (!n.isOnScreen()) {
-				GeneralMethods.enableRun();
+				enableRun();
 				screenWalkTo(n);
 				General.sleep(250, 350);
 				while (Player.isMoving()) {
