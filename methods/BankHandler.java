@@ -466,7 +466,7 @@ public class BankHandler {
 			Timing.waitCondition(new Condition() {
 				@Override
 				public boolean active() {
-					return Inventory.getCount() < prev;
+					return getCount() < prev;
 				}
 
 			}, General.random(1700, 1900));
@@ -475,6 +475,15 @@ public class BankHandler {
 			}
 			General.sleep(150, 190);
 		}
+	}
+	
+	public static int getCount(){
+		int count = 0;
+		for(RSItem r : Inventory.getAll()){
+			if(r != null)
+				count++;
+		}
+		return count;
 	}
 
 	static boolean has(int... l) {
