@@ -61,8 +61,8 @@ public class GeneralMethods {
 					General.sleep(45, 75);
 				}
 			}
-			if (Interfaces.get(261, 5) != null) {
-				if (Interfaces.get(261, 5).click("Adjust Screen Brightness")) {
+			if (Interfaces.get(261, 6) != null) {
+				if (Interfaces.get(261, 6).click("Adjust Screen Brightness")) {
 					for (int i = 0; i < 20 && Game.getSetting(166) != 4; i++) {
 						General.sleep(10, 30);
 					}
@@ -312,10 +312,10 @@ public class GeneralMethods {
 	}
 
 	private static boolean isObjectValid(RSObject o) {
-		if (o == null || o.getModel() == null || Banking.isBankScreenOpen()) {
+		if (o == null || Banking.isBankScreenOpen()) {
 			return false;
 		}
-		for (RSObject a : Objects.getAt((Positionable) o.getPosition())) {
+		for (RSObject a : Objects.getAt(o.getPosition())) {
 			if (a.getID() == o.getID()) {
 				return true;
 			}
@@ -428,7 +428,7 @@ public class GeneralMethods {
 	public static void screenWalkTo(Positionable p) {
 		screenWalkTo(p, 0);
 	}
-
+	
 	private static void screenWalkTo(Positionable p, int count) {
 		if (count == 20) {
 			return;
@@ -525,7 +525,7 @@ public class GeneralMethods {
 	}
 
 	public static boolean click(RSNPC m, String option) {
-		Mouse.setSpeed(500);
+		Mouse.setSpeed(General.random(350, 500));
 		if (m != null && m.isValid() && m.getModel() != null) {
 			if (!m.isOnScreen()) {
 				Camera.turnToTile(m);

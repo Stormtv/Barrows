@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
 
@@ -139,7 +140,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.381;
+	public static double version = 1.49;
 
 	public static Timer runTime = new Timer(0);
 	
@@ -156,4 +157,11 @@ public class Var {
 	public static int mouseSpeed = 350;
 	
 	public static int runEnergy = 30;
+	
+	public static ABCUtil abc_util = null;
+	
+	public static int[][] storedEquipment;
+	
+	public static int storedArrowCount;
+
 }

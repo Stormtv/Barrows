@@ -36,8 +36,8 @@ public class Armor {
 		AhrimLeg(new int[] { 4714, 4874, 4875, 4876, 4877 }, Equipment.Gear.LEGS, 4878),
 		AhrimStaff(new int[] { 4710, 4862, 4863, 4864, 4865 }, Equipment.Gear.WEAPON, 4866),
 
-		AmuletOfGlory(new int[] { 1704, 1706, 1708, 1710, 1712 }, Equipment.Gear.NECK, -1),
-		TridentOfTheSeas(new int[] {11905, 11907, 11908}, Equipment.Gear.WEAPON, -1);
+		AmuletOfGlory(new int[] { 1704, 1706, 1708, 1710, 1712 }, Equipment.Gear.NECK, -10),
+		TridentOfTheSeas(new int[] {11905, 11907, 11908}, Equipment.Gear.WEAPON, -10);
 		private int[] id;
 		private Equipment.Gear gear;
 		private int Degraded;
@@ -64,7 +64,7 @@ public class Armor {
 	public static int getCurrentDegraded() {
 		for (Degradables d : Degradables.values()) {
 			if (Inventory.getCount(d.getDegraded()) > 0
-					|| Equipment.isEquiped(d.getDegraded())) {
+					|| org.tribot.api2007.Equipment.isEquipped(d.getDegraded())) {
 				return d.getDegraded();
 			}
 		}

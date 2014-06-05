@@ -21,6 +21,8 @@ import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.Walking;
+import org.tribot.api2007.types.RSInterfaceChild;
+import org.tribot.api2007.types.RSInterfaceComponent;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSModel;
 import org.tribot.api2007.types.RSNPC;
@@ -36,7 +38,7 @@ import scripts.Barrows.util.FairyRing;
 public class Pathing {
 
 	public enum PathBarrows {
-		SWAMP, SHORTCUT, BURGH_DE_ROTT, FAIRY_RINGS
+		SWAMP, SHORTCUT, BURGH_DE_ROTT, FAIRY_RINGS, MINIGAME
 	}
 
 	public enum PathBank {
@@ -741,11 +743,121 @@ public class Pathing {
 			case FAIRY_RINGS:
 				goFromEdge();
 				break;
+			case MINIGAME:
+				goViaMinigame();
+				break;
 			}
 		}
 		if (isFromBoatToBarrows()) {
 			Var.status = "Going to barrows";
+			if (Player.getPosition().distanceTo(new RSTile(3546,3326,0)) < 10) {
+				Var.status = "Weird glitch fixing";
+				Walking.walkTo(new RSTile(3550, 3316));
+				General.sleep(300,500);
+				while (Player.isMoving()) {
+					General.sleep(30,50);
+				}
+			}
 			Walking.walkPath(pathToBarrows);
+		}
+	}
+	
+	private static void goViaMinigame() {
+		Var.status = "Going to barrows via minigame";
+		Walking.setWalkingTimeout(500);
+		Mouse.setSpeed(General.random(100, 130));
+		if (!Banking.close())
+			General.sleep(100);
+		if (Player.getPosition().distanceTo(new RSTile(3499, 3300, 0)) > 15
+				&& Rooms.getRoom() == null) {
+			if (!GameTab.getOpen().equals(GameTab.TABS.QUESTS)) {
+				General.println("Trying to minigame tele");
+				Keyboard.pressFunctionKey(3);
+				for (int i = 0; i < 20
+						&& !GameTab.getOpen().equals(GameTab.TABS.QUESTS); i++) {
+					General.sleep(30, 50);
+				}
+			}
+			RSInterfaceChild MinigameButton = Interfaces.get(274, 12);
+			RSInterfaceChild MinigameButtonAch = Interfaces.get(259, 11);
+			if (GameTab.getOpen().equals(GameTab.TABS.QUESTS)
+					&& MinigameButton != null) {
+				MinigameButton.click("Swap to Minigames");
+				for (int i = 0; i < 20 && Interfaces.get(274, 12) != null; i++) {
+					General.sleep(30, 50);
+				}
+			}
+			if (GameTab.getOpen().equals(GameTab.TABS.QUESTS)
+					&& MinigameButtonAch != null) {
+				MinigameButtonAch.click("Swap to Minigames");
+				for (int i = 0; i < 20 && Interfaces.get(259, 11) != null; i++) {
+					General.sleep(30, 50);
+				}
+			}
+			if (GameTab.getOpen().equals(GameTab.TABS.QUESTS)
+					&& MinigameButton == null) {
+				// Inside minigame tab
+				RSInterfaceChild ChatRoom = Interfaces.get(76, 9);
+				if (ChatRoom != null && !ChatRoom.getText().contains("Shades")) {
+
+					// Opening Minigame Room Selector List
+					RSInterfaceChild MinigameSelect = Interfaces.get(76, 8);
+					if (MinigameSelect != null) {
+						MinigameSelect.click("");
+						for (int i = 0; i < 20
+								&& Interfaces.get(76, 19).getChildren() != null; i++) {
+							General.sleep(30, 50);
+						}
+					}
+
+					// Entering the Shades room
+					RSInterfaceChild MinigameList = Interfaces.get(76, 19);
+					if (MinigameList != null) {
+						RSInterfaceComponent[] MinigameListComponents = MinigameList
+								.getChildren();
+						if (MinigameListComponents != null
+								&& MinigameListComponents.length >= 10) {
+							RSInterfaceComponent MinigameListShades = MinigameListComponents[9];
+							if (MinigameListShades != null) {
+								MinigameListShades.click("");
+								for (int i = 0; i < 20
+										&& Interfaces.get(76, 23) != null
+										&& !Interfaces.get(76, 23).getText()
+												.equals("377"); i++) {
+									General.sleep(100, 200);
+									General.println("Waiting to join the chat");
+								}
+							}
+						}
+					}
+				}
+
+				// Teleporting
+				RSInterfaceChild SuggestedWorld = Interfaces.get(76, 23);
+				if (SuggestedWorld != null
+						&& SuggestedWorld.getText().equals("377")) {
+					RSInterfaceChild TeleportButton = Interfaces.get(76, 26);
+					if (TeleportButton != null) {
+						TeleportButton.click("Teleport");
+						for (int i = 0; i < 50 && Player.getAnimation() != 4847; i++) {
+							General.sleep(100, 200);
+						}
+						while (Player.getAnimation() == 4847
+								|| Player.getAnimation() == 4850
+								|| Player.getAnimation() == 4853
+								|| Player.getAnimation() == 4855
+								|| Player.getAnimation() == 4857) {
+							General.sleep(300, 500);
+						}
+					}
+				}
+			}
+		}
+		if (Player.getPosition().distanceTo(new RSTile(3499, 3300, 0)) < 25) {
+			Walking.blindWalkTo(new RSTile(3520,3284,0));
+			General.sleep(350,500);
+			while (Player.isMoving() && !isFromBoatToBarrows())
+				General.sleep(100, 200);
 		}
 	}
 
@@ -754,7 +866,7 @@ public class Pathing {
 		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
 		if (!Banking.close())
-			General.sleep(100);
+			General.sleep(1000);
 		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));

@@ -5,7 +5,6 @@ import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
-import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
@@ -68,8 +67,9 @@ public class TunnelTraversing {
 	private static void openChest() {
 		BrotherKilling.killBrotherInTunnel();
 		RSObject[] chest = Objects.find(10, 20973);
-		if (chest.length > 0) {
-			if (chest[0].getModel().getPoints().length == 606) {
+		if (chest.length > 0 && !Tunnel.isCompleted()) {
+			if (!Tunnel.isChestOpen()) {
+				Var.status = "Opening Closed Chest";
 				for (Brothers b : Brothers.values()) {
 					if (!b.isKilled() && b.isTunnel()) {
 						BrotherKilling.getReadyToFight(b);
@@ -77,7 +77,11 @@ public class TunnelTraversing {
 				}
 				GeneralMethods.clickObject(chest[0], "Open", false, true);
 				BrotherKilling.killBrotherInTunnel();
+				for (int i=0; i < 20 && !Tunnel.isChestOpen();i++) {
+					General.sleep(30,50);
+				}
 			} else {
+				Var.status = "Grabbin some of dat mad loot";
 				LootFiltering.addInventory(true);
 				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
@@ -100,7 +104,7 @@ public class TunnelTraversing {
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
 				LootFiltering.addLoot();
-				GeneralMethods.takeScreenShot();
+				//GeneralMethods.takeScreenShot();
 				if (Potions.getPrayerDoses() < Var.nextRunDoses
 						|| Inventory.getCount(Var.food.getId()) < Var.nextRunFood) {
 					Var.forceBank = true;
@@ -110,7 +114,6 @@ public class TunnelTraversing {
 	}
 
 	private static void tunnelWalkTo(TunnelRoom r) {
-		Walking.setWalkingTimeout(500);
 		Var.status = "Generating shortest path";
 		TunnelDoor[] path = WTunnelTraverse.doorPathToChest(r);
 		TunnelRoom curRoom = null;
@@ -151,9 +154,11 @@ public class TunnelTraversing {
 										.getRoom())); i++) {
 							General.sleep(100, 150);
 						}
-						Var.status = "Checking for puzzle";
-						if (TunnelPuzzle.isPuzzleScreenOpen()) {
-							TunnelPuzzle.solvePuzzle();
+						if (Tunnel.isPuzzleDoor(door)) {
+							Var.status = "Checking for puzzle";
+							if (TunnelPuzzle.isPuzzleScreenOpen()) {
+								TunnelPuzzle.solvePuzzle();
+							}
 						}
 						Var.status = "Checking for brother";
 						BrotherKilling.killBrotherInTunnel();

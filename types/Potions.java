@@ -1,9 +1,6 @@
 package scripts.Barrows.types;
 
-import java.awt.event.KeyEvent;
-
 import org.tribot.api.General;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
 import org.tribot.api2007.Game;
@@ -19,10 +16,13 @@ public class Potions {
 
 	public static int[] PRAYER_POTIONS = { 2434, 143, 141, 139, 3024, 3026,
 			3028, 3030 };
+	public static int[] PRAYER_POTIONS_3DOSE = {2434, 139, 3024, 3026};
 	public static int[] SUPER_POTS = { 161, 159, 157, 2440, 167, 165, 163,
 			2442, 149, 147, 145, 2436, 2444, 169, 171, 173 };
+	public static int[] SUPER_POTS_3DOSE = { 2436, 145, 2440, 157, 2442, 163,
+			2444, 169 };
 	private static int[] PRAYER_POTIONS_LEAST_TO_HIGH = { 3030, 3028, 3026,
-			3024, 143, 141, 139, 2434 };
+			3024, 143, 141, 139, 2434};
 	public static int[] SUPER_ATTACK = { 2436, 145, 147, 149 };
 	public static int[] SUPER_STRENGTH = { 2440, 157, 159, 161 };
 	public static int[] SUPER_DEFENCE = { 2442, 163, 165, 167 };
@@ -86,7 +86,7 @@ public class Potions {
 
 	public static void openInventory() {
 		if (GameTab.getOpen() != TABS.INVENTORY) {
-			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			GameTab.open(TABS.INVENTORY);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);

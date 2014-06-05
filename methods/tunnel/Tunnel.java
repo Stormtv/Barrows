@@ -1,10 +1,8 @@
 package scripts.Barrows.methods.tunnel;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
@@ -37,7 +35,7 @@ public class Tunnel {
 			}
 		}
 	}
-	
+
 	public static boolean isCompleted() {
 		int bitmask = 0x1;
 		int val = Game.getSetting(452);
@@ -101,7 +99,8 @@ public class Tunnel {
 	}
 
 	public static int getKcLeft() {
-		return Brother.getTunnelBrother().isKilled() ? getCount() : getCount() - 1;
+		return Brother.getTunnelBrother().isKilled() ? getCount()
+				: getCount() - 1;
 	}
 
 	private static int getCount() {
@@ -116,26 +115,32 @@ public class Tunnel {
 	}
 
 	public static void fightForKc() {
-		Var.status = "Getting Kc up to " + Var.killCount;
-		RSNPC target;
-		Food.eatInCombat();
-		if (Player.getRSPlayer().getInteractingCharacter() == null) {
-			if (agressiveNPC().isEmpty()) {
-				target = closestNPC(combatFilter(reachFilter()));
+		try {
+			Var.status = "Getting Kc up to " + Var.killCount;
+			RSNPC target = null;
+			Food.eatInCombat();
+			if (Player.getRSPlayer().getInteractingCharacter() == null) {
+				if (agressiveNPC().isEmpty()) {
+					target = closestNPC(combatFilter(reachFilter()));
+				} else {
+					target = closestNPC(agressiveNPC());
+				}
+				if (target != null && !target.isOnScreen()) {
+					walkToMob(target);
+				}
+				if (target != null) {
+					attackMob(target);
+				}
 			} else {
-				target = closestNPC(agressiveNPC());
+				RSNPC attackingNPC = (RSNPC) Player.getRSPlayer()
+						.getInteractingCharacter();
+				if (attackingNPC.getHealth() > 0 && isAttackable(attackingNPC)) {
+					target = attackingNPC;
+				}
+				levelUpCloser();
 			}
-			if (target != null && !target.isOnScreen()) {
-				walkToMob(target);
-			}
-			attackMob(target);
-		} else {
-			RSNPC attackingNPC = (RSNPC) Player.getRSPlayer()
-					.getInteractingCharacter();
-			if (attackingNPC.getHealth() > 0 && isAttackable(attackingNPC)) {
-				target = attackingNPC;
-			}
-			levelUpCloser();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -205,7 +210,6 @@ public class Tunnel {
 		while (Player.isMoving() && !n.isOnScreen()) {
 			General.sleep(25, 50);
 		}
-		Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 	}
 
 	private static boolean attackMob(RSNPC target) {
@@ -216,7 +220,6 @@ public class Tunnel {
 			General.sleep(250, 350);
 			while (Player.isMoving())
 				General.sleep(10);
-			Keyboard.releaseKey((char) KeyEvent.VK_CONTROL);
 			return true;
 		} else {
 			General.println("No Target Found this is strange");
@@ -249,5 +252,12 @@ public class Tunnel {
 			Var.status = "Grats on a def level let me close that interface";
 			Interfaces.get(161, 2).click("Continue");
 		}
+	}
+
+	public static boolean isChestOpen() {
+		int bitmask = 0x1;
+		int val = Game.getSetting(453);
+		int shifted = val >> 16;
+		return (shifted & bitmask) == 1;
 	}
 }

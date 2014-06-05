@@ -1450,7 +1450,7 @@ public class BarrowGUI extends JFrame {
 	}
 
 	private static Image getIcon(int id) {
-		String url = "http://www.runelocus.com/img/items/" + id + ".png";
+		String url = "http://www.runelocus.com/items/img/" + id + ".png";
 		try {
 			return ImageIO.read(new URL(url));
 		} catch (IOException e) {

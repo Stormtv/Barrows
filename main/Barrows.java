@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Mouse;
+import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Screen;
 import org.tribot.api2007.Walking;
@@ -28,7 +29,6 @@ import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.Pathing;
-import scripts.Barrows.methods.Repairing;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.TrialVersionHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
@@ -41,8 +41,7 @@ import scripts.Barrows.types.enums.Armor;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
-public class Barrows extends Script implements Painting, MouseActions,
-		MousePainting, Ending {
+public class Barrows extends Script implements Ending, Painting, MouseActions, MousePainting {
 
 	@Override
 	public void run() {
@@ -52,7 +51,6 @@ public class Barrows extends Script implements Painting, MouseActions,
 		onStart();
 		Var.runTime = new Timer(0);
 		while (Var.running && TrialVersionHandler.isAuthorized()) {
-			Walking.setWalkingTimeout(500);
 			if (Var.trial && TrialVersionHandler.canUpdate()) {
 				TrialVersionHandler.updateTrial(General.getTRiBotUsername());
 			} else {
@@ -77,36 +75,43 @@ public class Barrows extends Script implements Painting, MouseActions,
 		return i;
 	}
 
-	@SuppressWarnings("deprecation")
 	private int loop() {
-		Walking.walking_timeout = General.random(250, 350);
-		Mouse.setSpeed(Var.mouseSpeed+General.random(-100, 100));
+		Walking.setWalkingTimeout(General.random(250, 350));
+		Mouse.setSpeed(Var.mouseSpeed+General.random(-125, 125));
 		try {
 			GeneralMethods.adjustBrightness();
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
 					&& !Tunnel.inCrypt() && !Pathing.isInBarrows()) {
 				Prayer.disableAllPrayers();
+				return General.random(25, 50);
 			}
-			
 			if(Player.getPosition().getX() > 3580 && Player.getPosition().getX() < 3590){
 				Walking.walkTo(new RSTile(3575, 3292, 0));
 				while(Player.isMoving())
-					General.sleep(100);
+					General.sleep(100,150);
+				return General.random(25, 50);
 			}
-
 			if (Armor.getCurrentDegraded() > 0) {
-				Repairing.repair();
-				return General.random(10, 30);
+				Var.status = "Armor Broke Kinda sucks gotta go to bank :(";
+				if (!Var.bankArea.contains(Player.getPosition())) {
+					Pathing.goToBank();
+				} else {
+					System.out.println("Armor broke and repairing barrows armor has not yet been implemented | Stopping Script");
+					General.println("Armor broke and repairing barrows armor has not yet been implemented | Stopping Script");
+					Var.running = false;
+				}
+				//Repairing.repair();
+				return General.random(25, 50);
 			}
 			if (BankHandler.needsMoreSupplies()
 					&& Var.bankArea.contains(Player.getPosition())) {
 				Var.forceBank = false;
 				BankHandler.bank();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (Var.forceBank && Var.bankArea.contains(Player.getPosition())) {
 				Var.forceBank = false;
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (BankHandler.needToBank()
 					&& !Var.bankArea.contains(Player.getPosition())
@@ -123,55 +128,55 @@ public class Barrows extends Script implements Painting, MouseActions,
 				Var.status = "Heading to the bank";
 				Walking.setWalkingTimeout(1);
 				Pathing.goToBank();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (!Pathing.isInBarrows() && !Tunnel.inCrypt()
 					&& Rooms.getRoom() == null && !BankHandler.needToBank()) {
 				if (Rooms.getRoom() == null) {
 					Pathing.getToBarrows();
 				}
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (!Tunnel.isCompleted() || !Pathing.isInBarrows()) Brothers.statusCheck();
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
 				BrotherKilling.StartFight();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 					&& !Tunnel.isCompleted() || !BrotherKilling.canKill()
 					&& Tunnel.inCrypt() && !Tunnel.isCompleted()) {
 				Tunnel.goToTunnel();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (!BrotherKilling.canKill() && Tunnel.inCrypt()
 					&& Tunnel.isCompleted()) {
 				Tunnel.exitCrypt();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (Rooms.getRoom() != null && !BrotherKilling.canKill()
 					&& !Tunnel.inCrypt()
 					&& !Var.bankArea.contains(Player.getPosition())) {
 				TunnelTraversing.traverseTunnel();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (Pathing.isInBarrows() && !BrotherKilling.canKill()
 					&& Tunnel.isCompleted()) {
 				BrotherKilling.reset();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (!Pathing.isInBarrows() && Pathing.isCloseToBarrows()) {
 				Pathing.walkToCenterOfBarrows();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 			if (Tunnel.inCrypt()) {
 				Tunnel.exitCrypt();
-				return General.random(10, 30);
+				return General.random(25, 50);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return General.random(10, 30);
+			return General.random(25, 50);
 		}
-		return General.random(10, 30);
+		return General.random(25, 50);
 	}
 
 	private void onStart() {
@@ -185,6 +190,8 @@ public class Barrows extends Script implements Painting, MouseActions,
 			Brothers.statusCheck();
 			new Thread(new PriceHandler()).start();
 			activateTable();
+			Var.abc_util = new ABCUtil();
+
 			while (Var.guiWait) {
 				sleep(100);
 			}
@@ -222,7 +229,7 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	boolean showPaint = true;
 
-	@Override
+	
 	public void onPaint(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
 		if (showPaint)

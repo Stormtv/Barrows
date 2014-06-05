@@ -1,11 +1,9 @@
 package scripts.Barrows.types.enums;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -49,7 +47,7 @@ public class Food {
 
 	public static void forceFeed() {
 		if (GameTab.getOpen() != TABS.INVENTORY) {
-			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			GameTab.open(GameTab.TABS.INVENTORY);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
@@ -76,7 +74,7 @@ public class Food {
 				.getCurrentLevel(Skills.SKILLS.HITPOINTS)) >= Var.food
 				.getHealAmount()) {
 			if (GameTab.getOpen() != TABS.INVENTORY) {
-				Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+				GameTab.open(GameTab.TABS.INVENTORY);
 				for (int fsafe = 0; fsafe < 20
 						&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 					General.sleep(15);

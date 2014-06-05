@@ -1,6 +1,5 @@
 package scripts.Barrows.main;
 
-import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 import org.tribot.api.General;
@@ -223,6 +222,9 @@ public class BrotherKilling {
 	}
 
 	public static boolean killBrotherInTunnel() {
+		if (Brothers.isAllReallyDead()) {
+			return false;
+		}
 		while (Player.isMoving())
 			General.sleep(15, 30);
 		for (int fSafe = 0; fSafe < 5 && aggressiveNPC() == null; fSafe++) {
@@ -264,7 +266,7 @@ public class BrotherKilling {
 
 	private static void dig(Brothers b) {
 		if (!GameTab.getOpen().equals(TABS.INVENTORY)) {
-			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			GameTab.open(GameTab.TABS.INVENTORY);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
@@ -341,6 +343,18 @@ public class BrotherKilling {
 					&& Inventory.getCount(Var.food.getId()) > 0
 					&& Inventory.isFull()) {
 				Food.forceFeed();
+			}
+		}
+		if (Equipment.isEquiped(4587) && Combat.getSelectedStyleIndex()!=1) {
+			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
+				Keyboard.pressFunctionKey(1);
+				for (int fail = 0; fail < 20
+						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
+					General.sleep(15, 25);
+				}
+			}
+			while (Combat.getSelectedStyleIndex() != 1) {
+				Combat.selectIndex(1);
 			}
 		}
 		if (Food.canEatWithoutWaste()) {

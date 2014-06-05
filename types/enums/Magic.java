@@ -1,6 +1,5 @@
 package scripts.Barrows.types.enums;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
@@ -156,7 +155,7 @@ public class Magic {
 				}
 			}
 		}
-		if (Equipment.isEquiped(8841)) { 
+		if (org.tribot.api2007.Equipment.isEquipped(8841)) { 
 			if (Interfaces.get(201, 0) != null) {
 				if (Interfaces.get(201, 0).getChild(getVoidMaceInterface(s))
 						.click(s.name)) {
@@ -164,7 +163,7 @@ public class Magic {
 							&& Interfaces.get(201, 0) != null; fail++) {
 						General.sleep(50, 75);
 					}
-					Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+					GameTab.open(GameTab.TABS.INVENTORY);
 					for (int fail = 0; fail < 20
 							&& !GameTab.getOpen().equals(TABS.INVENTORY); fail++) {
 						General.sleep(15, 50);
@@ -181,7 +180,7 @@ public class Magic {
 							&& Interfaces.get(201, 0) != null; fail++) {
 						General.sleep(50, 75);
 					}
-					Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+					GameTab.open(GameTab.TABS.INVENTORY);
 					for (int fail = 0; fail < 20
 							&& !GameTab.getOpen().equals(TABS.INVENTORY); fail++) {
 						General.sleep(15, 50);

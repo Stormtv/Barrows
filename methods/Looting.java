@@ -1,10 +1,7 @@
 package scripts.Barrows.methods;
 
-import java.awt.event.KeyEvent;
-
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GroundItems;
@@ -42,7 +39,7 @@ public class Looting {
 			RSItem[] food = Inventory.find(Food.getFoodIDs());
 			if ((Inventory.getAll().length + itemsOnG.length) > 28) {
 				if (!(GameTab.getOpen() == TABS.INVENTORY)) {
-					Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+					GameTab.open(GameTab.TABS.INVENTORY);
 				}
 				if (getFoodAmount() > 0) {
 					for (int i = 0; i < itemsOnG.length && i < food.length; i++) {
@@ -59,7 +56,7 @@ public class Looting {
 					RSItem[] foodd = Inventory.find(Food.getFoodIDs());
 					if ((Inventory.getAll().length + itemsOnG.length) > 28) {
 						if (!(GameTab.getOpen() == TABS.INVENTORY)) {
-							Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+							GameTab.open(GameTab.TABS.INVENTORY);
 						}
 						if (getFoodAmount() > 0) {
 							for (int i = 0; i < itemsOnG.length

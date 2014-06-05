@@ -9,8 +9,6 @@ import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Equipment.SLOTS;
 import org.tribot.api2007.types.RSItem;
 
-import scripts.Barrows.types.enums.Equipment.Gear;
-
 public class Staves {
 	public enum Staff {
 		STAFF_OF_AIR(1381,new int[] {556}),
@@ -57,16 +55,16 @@ public class Staves {
 		if (Inventory.getCount(554) > 0 && Inventory.getCount(560) > 0
 				&& Inventory.getCount(995) > 0 && Inventory.getCount(562) > 0
 				&& !Banking.isBankScreenOpen()) {
-			if (Equipment.isEquiped(11908)) {
+			if (org.tribot.api2007.Equipment.isEquipped(11908)) {
 				org.tribot.api2007.Equipment.remove(SLOTS.WEAPON);
-				for (int i = 0; i < 25 && Equipment.isEquiped(11908); i++) {
+				for (int i = 0; i < 25 && org.tribot.api2007.Equipment.isEquipped(11908); i++) {
 					General.sleep(30, 50);
 				}
 			}
-			int shield = Equipment.getEquipmentID(Gear.SHIELD);
+			int shield = org.tribot.api2007.Equipment.getItem(SLOTS.SHIELD).getID();
 			if (shield != -1) {
 				org.tribot.api2007.Equipment.remove(SLOTS.SHIELD);
-				for (int i = 0; i < 25 && Equipment.isEquiped(shield); i++) {
+				for (int i = 0; i < 25 && org.tribot.api2007.Equipment.isEquipped(shield); i++) {
 					General.sleep(30, 50);
 				}
 			}
@@ -92,13 +90,13 @@ public class Staves {
 			}
 			if (Inventory.getCount(chargedTrident) > 0) {
 				Equipment.equip(chargedTrident);
-				for (int i = 0; i < 30 && !Equipment.isEquiped(chargedTrident);i++) {
+				for (int i = 0; i < 30 && !org.tribot.api2007.Equipment.isEquipped(chargedTrident);i++) {
 					General.sleep(30,50);
 				}
 			}
 			if (Inventory.getCount(shield) > 0) {
 				Equipment.equip(shield);
-				for (int i = 0; i < 30 && !Equipment.isEquiped(shield);i++) {
+				for (int i = 0; i < 30 && !org.tribot.api2007.Equipment.isEquipped(shield);i++) {
 					General.sleep(30,50);
 				}
 			}

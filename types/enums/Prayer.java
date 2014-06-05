@@ -1,7 +1,6 @@
 package scripts.Barrows.types.enums;
 
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 
 import org.tribot.api.General;
 import org.tribot.api.input.Keyboard;
@@ -119,7 +118,7 @@ public class Prayer {
 			disable(b);
 		}
 		if (GameTab.getOpen() != TABS.INVENTORY) {
-			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			GameTab.open(TABS.INVENTORY);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
@@ -165,7 +164,7 @@ public class Prayer {
 			activate(p);
 		}
 		if (GameTab.getOpen() != TABS.INVENTORY) {
-			Keyboard.pressKey((char) KeyEvent.VK_ESCAPE);
+			GameTab.open(TABS.INVENTORY);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.INVENTORY); fsafe++) {
 				General.sleep(15);
