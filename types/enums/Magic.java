@@ -155,7 +155,7 @@ public class Magic {
 				}
 			}
 		}
-		if (org.tribot.api2007.Equipment.isEquipped(8841)) { 
+		if (Equipment.isEquipped(8841)) { 
 			if (Interfaces.get(201, 0) != null) {
 				if (Interfaces.get(201, 0).getChild(getVoidMaceInterface(s))
 						.click(s.name)) {

@@ -6,7 +6,6 @@ import org.tribot.api.General;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
-import org.tribot.api2007.Equipment.SLOTS;
 import org.tribot.api2007.types.RSItem;
 
 public class Staves {
@@ -55,16 +54,16 @@ public class Staves {
 		if (Inventory.getCount(554) > 0 && Inventory.getCount(560) > 0
 				&& Inventory.getCount(995) > 0 && Inventory.getCount(562) > 0
 				&& !Banking.isBankScreenOpen()) {
-			if (org.tribot.api2007.Equipment.isEquipped(11908)) {
-				org.tribot.api2007.Equipment.remove(SLOTS.WEAPON);
-				for (int i = 0; i < 25 && org.tribot.api2007.Equipment.isEquipped(11908); i++) {
+			if (Equipment.isEquipped(11908)) {
+				Equipment.remove(Equipment.SLOTS.WEAPON);
+				for (int i = 0; i < 25 && Equipment.isEquipped(11908); i++) {
 					General.sleep(30, 50);
 				}
 			}
-			int shield = org.tribot.api2007.Equipment.getItem(SLOTS.SHIELD).getID();
+			int shield = Equipment.getItem(Equipment.SLOTS.SHIELD).getID();
 			if (shield != -1) {
-				org.tribot.api2007.Equipment.remove(SLOTS.SHIELD);
-				for (int i = 0; i < 25 && org.tribot.api2007.Equipment.isEquipped(shield); i++) {
+				Equipment.remove(Equipment.SLOTS.SHIELD);
+				for (int i = 0; i < 25 && Equipment.isEquipped(shield); i++) {
 					General.sleep(30, 50);
 				}
 			}
@@ -90,13 +89,13 @@ public class Staves {
 			}
 			if (Inventory.getCount(chargedTrident) > 0) {
 				Equipment.equip(chargedTrident);
-				for (int i = 0; i < 30 && !org.tribot.api2007.Equipment.isEquipped(chargedTrident);i++) {
+				for (int i = 0; i < 30 && !Equipment.isEquipped(chargedTrident);i++) {
 					General.sleep(30,50);
 				}
 			}
 			if (Inventory.getCount(shield) > 0) {
 				Equipment.equip(shield);
-				for (int i = 0; i < 30 && !org.tribot.api2007.Equipment.isEquipped(shield);i++) {
+				for (int i = 0; i < 30 && !Equipment.isEquipped(shield);i++) {
 					General.sleep(30,50);
 				}
 			}

@@ -46,6 +46,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import org.tribot.api.General;
+import org.tribot.api2007.Combat;
 import org.tribot.util.Util;
 
 @SuppressWarnings("serial")
@@ -293,6 +294,7 @@ public class BarrowGUI extends JFrame {
 		btnSetEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentBrother.setEquipmentIds(Equipment.getEquipedItems());
+				currentBrother.setSelectedStance(Combat.getSelectedStyleIndex());
 			}
 		});
 		cbxBrother = new JComboBox<Brother.Brothers>(BrotherModel);
@@ -350,6 +352,7 @@ public class BarrowGUI extends JFrame {
 		btnSetTunnelEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Var.tunnelEquipment = Equipment.getEquipedItems();
+				Var.tunnelStance = Combat.getSelectedStyleIndex();
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
@@ -1009,7 +1012,7 @@ public class BarrowGUI extends JFrame {
 				Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows
 						.getSelectedItem();
 
-				Var.arrowId = Equipment.getEquipmentID(Equipment.Gear.ARROW);
+				Var.arrowId = Equipment.getEquipmentID(Equipment.SLOTS.ARROW);
 				if (validateInput()) {
 					try {
 						Var.fileName = "Settings";
@@ -1282,7 +1285,7 @@ public class BarrowGUI extends JFrame {
 				Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows
 						.getSelectedItem();
 
-				Var.arrowId = Equipment.getEquipmentID(Equipment.Gear.ARROW);
+				Var.arrowId = Equipment.getEquipmentID(Equipment.SLOTS.ARROW);
 				try {
 					Var.fileName = JOptionPane.showInputDialog("Filename",
 							"Enter your file name");

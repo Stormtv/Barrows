@@ -10,12 +10,12 @@ import scripts.Barrows.types.enums.Prayer;
 public class Brother {
 
 	public enum Brothers {
-		Dharok(2, "Dharok", false, false, Var.dharokDig, new int[][] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20720, 20668, 1, 443, 354),
-		Karil(0, "Karil", false, false, Var.karilDig, new int[][] {}, Prayer.Prayers.ProtectFromMissiles, false, Magic.Spell.NONE, 20771, 20670, 3, 443, 394),
-		Verac(3, "Verac", false, false, Var.veracDig, new int[][] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20772, 20672, 5, 443, 454),
-		Guthan(5, "Guthan", false, false, Var.guthanDig, new int[][] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20722, 20669, 2, 443, 414),
-		Torag(4, "Torag", false, false, Var.toragDig, new int[][] {}, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20721, 20671, 4, 443, 434),
-		Ahrim(1, "Ahrim", false, false, Var.ahrimDig, new int[][] {}, Prayer.Prayers.ProtectFromMagic, false, Magic.Spell.NONE, 20770, 20667, 0, 443, 374);
+		Dharok(2, "Dharok", false, false, Var.dharokDig, new int[][] {}, -1, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20720, 20668, 1, 443, 354),
+		Karil(0, "Karil", false, false, Var.karilDig, new int[][] {}, -1,  Prayer.Prayers.ProtectFromMissiles, false, Magic.Spell.NONE, 20771, 20670, 3, 443, 394),
+		Verac(3, "Verac", false, false, Var.veracDig, new int[][] {}, -1,  Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20772, 20672, 5, 443, 454),
+		Guthan(5, "Guthan", false, false, Var.guthanDig, new int[][] {}, -1, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20722, 20669, 2, 443, 414),
+		Torag(4, "Torag", false, false, Var.toragDig, new int[][] {}, -1, Prayer.Prayers.ProtectFromMelee, false, Magic.Spell.NONE, 20721, 20671, 4, 443, 434),
+		Ahrim(1, "Ahrim", false, false, Var.ahrimDig, new int[][] {}, -1, Prayer.Prayers.ProtectFromMagic, false, Magic.Spell.NONE, 20770, 20667, 0, 443, 374);
 
 		private int killOrder;
 		private final String name;
@@ -23,6 +23,7 @@ public class Brother {
 		private boolean isTunnel;
 		private final RSArea digArea;
 		private int[][] equipmentIds;
+		private int selectedStance;
 		private Prayer.Prayers prayer;
 		private boolean usePotions;
 		private Magic.Spell spell;
@@ -34,14 +35,15 @@ public class Brother {
 
 		Brothers(final int killOrder, String name, boolean killed,
 				boolean isTunnel, final RSArea digArea, int[][] equipmentIds,
-				final Prayer.Prayers prayer, boolean usePotions,
-				Magic.Spell spell, int cryptID, int stairID, 
-				int killedShift, int x, int y) {
+				int selectedStance, final Prayer.Prayers prayer,
+				boolean usePotions, Magic.Spell spell, int cryptID,
+				int stairID, int killedShift, int x, int y) {
 			this.killOrder = killOrder;
 			this.name = name;
 			this.killed = killed;
 			this.isTunnel = isTunnel;
 			this.equipmentIds = equipmentIds;
+			this.selectedStance = selectedStance;
 			this.digArea = digArea;
 			this.prayer = prayer;
 			this.spell = spell;
@@ -146,6 +148,14 @@ public class Brother {
 			this.equipmentIds = equipmentIds;
 		}
 
+		public int getSelectedStance() {
+			return selectedStance;
+		}
+		
+		public void setSelectedStance(int selectedStance) {
+			this.selectedStance = selectedStance;
+		}
+		
 		public boolean isReallyKilled() {
 			int bitmask = 0x1;
 			int val = Game.getSetting(453);

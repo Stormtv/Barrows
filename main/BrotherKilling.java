@@ -318,16 +318,16 @@ public class BrotherKilling {
 		dropVials();
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
-			for (int fsafe = 0; fsafe < 20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+			for (int fsafe = 0; fsafe < 20 && !Equipment.isEquipped(Var.arrowId); fsafe++) {
 				General.sleep(50);
 			}
 		}
 		while (!Equipment.isAllEquiped(Var.tunnelEquipment)) {
 			for (int[] i : Var.tunnelEquipment) {
-				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
+				if (!Equipment.isEquipped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 					continue;
-				} else if (!Equipment.isEquiped(i)
+				} else if (!Equipment.isEquipped(i)
 						&& Inventory.getCount(i) == 0) {
 					Var.status = "Unable to find Equipment ("
 							+ Arrays.toString(i) + ")";
@@ -345,7 +345,12 @@ public class BrotherKilling {
 				Food.forceFeed();
 			}
 		}
-		if (Equipment.isEquiped(4587) && Combat.getSelectedStyleIndex()!=1) {
+		if (Combat.getSelectedStyleIndex() != Var.tunnelStance
+				&& Var.tunnelStance != -1) {
+			Var.status = "Setting Combat Stance";
+			Combat.selectIndex(Var.tunnelStance);
+		}
+		if (Equipment.isEquipped(4587) && Combat.getSelectedStyleIndex()!=1) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				Keyboard.pressFunctionKey(1);
 				for (int fail = 0; fail < 20
@@ -369,16 +374,16 @@ public class BrotherKilling {
 		dropVials();
 		while (Inventory.find(Var.arrowId).length > 0) {
 			Equipment.equip(Var.arrowId);
-			for (int fsafe = 0; fsafe < 20 && !Equipment.isEquiped(Var.arrowId); fsafe++) {
+			for (int fsafe = 0; fsafe < 20 && !Equipment.isEquipped(Var.arrowId); fsafe++) {
 				General.sleep(50);
 			}
 		}
 		while (!Equipment.isAllEquiped(b.getEquipmentIds())) {
 			for (int[] i : b.getEquipmentIds()) {
-				if (!Equipment.isEquiped(i) && Inventory.getCount(i) > 0) {
+				if (!Equipment.isEquipped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
 					continue;
-				} else if (!Equipment.isEquiped(i)
+				} else if (!Equipment.isEquipped(i)
 						&& Inventory.getCount(i) == 0
 						&& !Arrays.toString(i).contains("-1")) {
 					Var.status = "Unable to find Equipment ("
@@ -397,10 +402,15 @@ public class BrotherKilling {
 				Food.forceFeed();
 			}
 		}
+		if (Combat.getSelectedStyleIndex() != b.getSelectedStance()
+				&& b.getSelectedStance() != -1) {
+			Var.status = "Setting Combat Stance";
+			Combat.selectIndex(b.getSelectedStance());
+		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();
 		}
-		if (Equipment.isEquiped(Var.Salamanders)) {
+		if (Equipment.isEquipped(Var.Salamanders)) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				Keyboard.pressFunctionKey(1);
 				for (int fail = 0; fail < 20
@@ -418,7 +428,7 @@ public class BrotherKilling {
 				}
 			}
 		}
-		if (Equipment.isEquiped(4587) && Combat.getSelectedStyleIndex()!=1) {
+		if (Equipment.isEquipped(4587) && Combat.getSelectedStyleIndex()!=1) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				Keyboard.pressFunctionKey(1);
 				for (int fail = 0; fail < 20
@@ -430,7 +440,7 @@ public class BrotherKilling {
 				Combat.selectIndex(1);
 			}
 		}
-		if (Equipment.isEquiped(11907) && Combat.getSelectedStyleIndex() != 0) {
+		if (Equipment.isEquipped(11907) && Combat.getSelectedStyleIndex() != 0) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				Keyboard.pressFunctionKey(1);
 				for (int fail = 0; fail < 20
@@ -442,7 +452,7 @@ public class BrotherKilling {
 				Combat.selectIndex(0);
 			}
 		}
-		if (Equipment.isEquiped(861) && Combat.getSelectedStyleIndex() != 1) {
+		if (Equipment.isEquipped(861) && Combat.getSelectedStyleIndex() != 1) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				Keyboard.pressFunctionKey(1);
 				for (int fail = 0; fail < 20

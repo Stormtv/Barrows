@@ -29,6 +29,7 @@ public class GUISave {
 			prop.setProperty(b.getName()+"Spell", b.getSpell().toString());
 			prop.setProperty(b.getName()+"Prayer", b.getPrayer().toString());
 			prop.setProperty(b.getName()+"Potions", Boolean.toString(b.usePotions()));
+			prop.setProperty(b.getName()+"selectedStance", Integer.toString(b.getSelectedStance()));
 		}
 		prop.setProperty("food", Var.food.toString());
 		prop.setProperty("foodAmount", Integer.toString(Var.foodAmount));
@@ -40,6 +41,7 @@ public class GUISave {
 		prop.setProperty("arrows", Integer.toString(Var.arrowCount));
 		prop.setProperty("casts", Integer.toString(Var.spellCount));
 		prop.setProperty("TunnelEquip", Arrays.deepToString(Var.tunnelEquipment));
+		prop.setProperty("tunnelStance", Integer.toString(Var.tunnelStance));
 		prop.setProperty("bankPath",Var.bankPath.toString());
 		prop.setProperty("barrowsPath", Var.barrowsPath.toString());
 		prop.setProperty("recharge",Boolean.toString(Var.recharge));
@@ -84,6 +86,10 @@ public class GUISave {
 					}
 				}
 				b.setUsePotions(Boolean.parseBoolean(prop.getProperty(b.getName()+"Potions")));
+				String stance = prop.getProperty(b.getName()+"selectedStance");
+				if (stance != null) {
+					b.setSelectedStance(Integer.valueOf(stance));
+				}
 			}
 			for (Food.Edibles f : Food.Edibles.values()) {
 				if (prop.getProperty("food").equals(f.toString())) {
@@ -92,6 +98,10 @@ public class GUISave {
 			}
 			Var.recharge = Boolean.parseBoolean(prop.getProperty("recharge"));
 			Var.tunnelEquipment = parseTwoDimensionalIntArray(prop.getProperty("TunnelEquip"));
+			String tunnelStance = prop.getProperty("tunnelStance");
+			if (tunnelStance != null) {
+				Var.tunnelStance = 	Integer.valueOf(tunnelStance);
+			}
 			Var.foodAmount = Integer.valueOf(prop.getProperty("foodAmount"));
 			Var.superAttack = Integer.valueOf(prop.getProperty("superAttack"));
 			Var.superStrength = Integer.valueOf(prop.getProperty("superStrength"));
@@ -117,6 +127,7 @@ public class GUISave {
 			
 			streamI.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

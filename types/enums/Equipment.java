@@ -5,26 +5,15 @@ import java.util.Arrays;
 import org.tribot.api.General;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
-import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
-import org.tribot.api2007.types.RSInterface;
+import org.tribot.api2007.types.RSItem;
 
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Var;
 import scripts.Barrows.types.Brother.Brothers;
 
-public class Equipment {
-
-	public enum Gear {
-		HELM(0), CAPE(1), NECK(2), WEAPON(3), BODY(4), SHIELD(5), LEGS(6), GLOVES(
-				7), BOOTS(8), RING(9), ARROW(10);
-		private final int value;
-
-		private Gear(int value) {
-			this.value = value;
-		}
-	}
+public class Equipment extends org.tribot.api2007.Equipment {
 
 	public static void equip(int... id) {
 		if (!GameTab.getOpen().equals(GameTab.TABS.INVENTORY)) {
@@ -42,20 +31,10 @@ public class Equipment {
 		}
 	}
 
-	public static int getEquipmentID(Gear spot) {
-		if (!GameTab.getOpen().equals(GameTab.TABS.EQUIPMENT)) {
-			GameTab.open(GameTab.TABS.EQUIPMENT);
-			for (int i = 0; i < 20
-					&& !GameTab.getOpen().equals(GameTab.TABS.EQUIPMENT); i++) {
-				General.sleep(10, 25);
-			}
-		}
-		RSInterface equipment = Interfaces.get(387, spot.value+6);
-		if (equipment != null) {
-			RSInterface itemInterface = Interfaces.get(387, spot.value+6).getChild(1);
-			if (itemInterface != null) {
-				return itemInterface.getComponentItem();
-			}
+	public static int getEquipmentID(SLOTS spot) {
+		RSItem target = Equipment.getItem(spot);
+		if (target != null) {
+			return target.getID();
 		}
 		return -1;
 	}
@@ -64,7 +43,7 @@ public class Equipment {
 		try {
 		int[][] items = new int [11][];
 			int count = 0;
-			for (Gear i : Gear.values()) {
+			for (SLOTS i : SLOTS.values()) {
 				int itemID = getEquipmentID(i);
 				boolean isBarrows = false;
 				for (Armor.Degradables b : Armor.Degradables.values()) {
@@ -91,7 +70,7 @@ public class Equipment {
 
 	public static boolean isAllEquiped(int... id) {
 		for (int i : id) {
-			if (i != -1 && !isEquiped(i))
+			if (i != -1 && !isEquipped(i))
 				return false;
 		}
 		return true;
@@ -105,24 +84,11 @@ public class Equipment {
 					emptySpot = true;
 				}
 			}
-			if (!emptySpot && !isEquiped(i)) {
+			if (!emptySpot && !isEquipped(i)) {
 				return false;
 			}
 		}
 		return true;
-	}
-	
-
-	public static boolean isEquiped(int... id) {
-		for (Equipment.Gear g : Gear.values()) {
-			int equipedItem = getEquipmentID(g);
-			for (int i : id) {
-				if (i == equipedItem) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public static void equipMostFullSet() {
@@ -147,7 +113,7 @@ public class Equipment {
 			for (int[] i : bestEquip) {
 				if (!Equipment.isAllEquiped(i) && Inventory.getCount(i) > 0) {
 					Equipment.equip(i);
-				} else if (!Equipment.isEquiped(i) && Inventory.getCount(i) == 0) {
+				} else if (!Equipment.isEquipped(i) && Inventory.getCount(i) == 0) {
 					Var.status = "Unable to find Equipment ("+Arrays.toString(i)+")";
 				}
 			}
@@ -175,20 +141,10 @@ public class Equipment {
 		return equip;
 	}
 
-	public static int getCount(Gear spot) {
-		if (!GameTab.getOpen().equals(GameTab.TABS.EQUIPMENT)) {
-			GameTab.open(GameTab.TABS.EQUIPMENT);
-			for (int i = 0; i < 20
-					&& !GameTab.getOpen().equals(GameTab.TABS.EQUIPMENT); i++) {
-				General.sleep(10, 25);
-			}
-		}
-		RSInterface equipment = Interfaces.get(387, spot.value+6);
-		if (equipment != null) {
-			RSInterface itemInterface = Interfaces.get(387, spot.value+6).getChild(1);
-			if (itemInterface != null) {
-				return itemInterface.getComponentStack();
-			}
+	public static int getCount(SLOTS slot) {
+		RSItem target = Equipment.getItem(slot);
+		if (target != null) {
+			return target.getStack();
 		}
 		return 0;
 	}

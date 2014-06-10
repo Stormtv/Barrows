@@ -140,7 +140,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.49;
+	public static double version = 1.51;
 
 	public static Timer runTime = new Timer(0);
 	
@@ -160,8 +160,6 @@ public class Var {
 	
 	public static ABCUtil abc_util = null;
 	
-	public static int[][] storedEquipment;
+	public static int tunnelStance = -1;
 	
-	public static int storedArrowCount;
-
 }
