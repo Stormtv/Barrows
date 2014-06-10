@@ -105,7 +105,6 @@ public class BankHandler {
 						/ Var.food.getHealAmount());
 				Var.status = "Eating at bank";
 				Banking.withdraw(withdrawAmount, Var.food.getId());
-				General.println("Eating at bank");
 				Banking.close();
 				eatAtBank(withdrawAmount);
 				if (!Banking.isBankScreenOpen()) {
@@ -145,8 +144,6 @@ public class BankHandler {
 					}
 				}
 				Banking.close();
-				General.println("Recharge Trident");
-
 				Staves.rechargeTrident();
 				if (!Banking.isBankScreenOpen()) {
 					openBank();
@@ -157,7 +154,6 @@ public class BankHandler {
 			} else {
 				if (GeneralMethods.needsToLogout()) {
 					while (Banking.isBankScreenOpen())
-						General.println("closing supout");
 						Banking.close();
 					while (!Login.getLoginState().equals(
 							Login.STATE.LOGINSCREEN))
@@ -245,8 +241,6 @@ public class BankHandler {
 					}, 3000);
 					while (Inventory.getCount(Var.arrowId) > 0
 							&& Banking.isBankScreenOpen()) {
-						General.println("arrows at bank");
-
 						Banking.close();
 						for (int fail = 0; fail < 20
 								&& Banking.isBankScreenOpen(); fail++) {
@@ -268,8 +262,6 @@ public class BankHandler {
 				if (Inventory.getCount(Var.arrowId) > 0) {
 					while (Inventory.getCount(Var.arrowId) > 0
 							&& Banking.isBankScreenOpen()) {
-						General.println("arrow2 at bank");
-
 						Banking.close();
 						for (int fail = 0; fail < 20
 								&& Banking.isBankScreenOpen(); fail++) {
@@ -497,32 +489,29 @@ public class BankHandler {
 
 	public static boolean needToBank(Brothers b) {
 		int count = 0;
-		if (!Banking.isBankScreenOpen()) {
-			for (int i = 0; i < 5; i++) {
-				if (Inventory.getCount(Var.food.getId()) == 0
-						&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 || GeneralMethods
-								.getHPPercent() < 50)
-						|| !Magic.hasCasts(1)
-						|| Inventory.getCount(Var.SPADE_ID) == 0
-						|| (Var.arrowId != -1
-								&& Equipment.getCount(Equipment.SLOTS.ARROW) < 1 && Inventory
-								.getCount(Var.arrowId) < 1)
-						|| Inventory.getCount(11908) > 0
-						|| Equipment.isEquipped(11908)
-						|| (Inventory.getCount(Potions.PRAYER_POTIONS) == 0
-								&& Var.prayerPotion > 0
-								&& Prayer.getPoints() - Potions.prayerDrain() < 5 && Brother
-									.isPrayerBrotherAlive(b))) {
-					count++;
-				}
+		for (int i = 0; i < 5; i++) {
+			if (Inventory.getCount(Var.food.getId()) == 0
+					&& (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35 || GeneralMethods
+							.getHPPercent() < 50)
+					|| !Magic.hasCasts(1)
+					|| Inventory.getCount(Var.SPADE_ID) == 0
+					|| (Var.arrowId != -1
+							&& Equipment.getCount(Equipment.SLOTS.ARROW) < 1 && Inventory
+							.getCount(Var.arrowId) < 1)
+					|| Inventory.getCount(11908) > 0
+					|| Equipment.isEquipped(11908)
+					|| (Inventory.getCount(Potions.PRAYER_POTIONS) == 0
+							&& Var.prayerPotion > 0
+							&& Prayer.getPoints() - Potions.prayerDrain() < 5 && Brother
+								.isPrayerBrotherAlive(b))) {
+				count++;
 			}
-			if (count == 5 && Inventory.getAll().length != 0) {
-				General.println("needToBank Force Bank");
-				Var.forceBank = true;
-			}
-			return count == 5;
 		}
-		return false;
+		if (count == 5 && Inventory.getAll().length != 0) {
+			General.println("needToBank Force Bank");
+			Var.forceBank = true;
+		}
+		return count == 5;
 	}
 
 	public static boolean needsMoreSupplies() {
