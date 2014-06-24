@@ -27,6 +27,7 @@ public class Staves {
 		EARTH_BATTLESTAFF(1399, new int[] {557}),
 		LAVA_BATTLESTAFF(3053, new int[] {554,557}),
 		MUD_BATTLESTAFF(6562, new int[] {555,557}),
+		SMOKE_BATTLESTAFF(11998, new int[] {554, 556}),
 		STEAM_BATTLESTAFF(11736, new int[] {554,555});
 		
 		private final int id;
