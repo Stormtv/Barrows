@@ -16,6 +16,7 @@ import scripts.Barrows.methods.Pathing.PathBarrows;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Food;
+import scripts.Barrows.types.enums.ZybezItem;
 import scripts.Barrows.util.RSArea;
 import scripts.Barrows.util.Timer;
 
@@ -128,7 +129,7 @@ public class Var {
 
 	public static int[] lootIDs;
 
-	public static HashMap<Integer, Integer> priceTable = new HashMap<Integer, Integer>();
+	public static HashMap<String, ZybezItem> priceTable = new HashMap<String, ZybezItem>();
 
 	public static HashMap<Integer, Integer> lootCount = new HashMap<Integer, Integer>();
 
@@ -140,7 +141,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.52;
+	public static double version = 1.54;
 
 	public static Timer runTime = new Timer(0);
 	
@@ -154,12 +155,12 @@ public class Var {
 
 	public static String fileName = "Settings";
 	
-	public static int mouseSpeed = 350;
-	
 	public static int runEnergy = 30;
 	
 	public static ABCUtil abc_util = null;
 	
 	public static int tunnelStance = -1;
+	
+	public static long lastBusyTime;
 	
 }

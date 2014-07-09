@@ -3,6 +3,7 @@ package scripts.Barrows.methods.tunnel;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
+import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Interfaces;
@@ -19,6 +20,7 @@ import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.types.Var;
+import scripts.wCombatAIO.types.vars;
 
 public class Tunnel {
 
@@ -138,6 +140,10 @@ public class Tunnel {
 					target = attackingNPC;
 				}
 				levelUpCloser();
+				vars.abc_util.BOOL_TRACKER.HOVER_NEXT.reset();
+				if (vars.abc_util.BOOL_TRACKER.HOVER_NEXT.next()) {
+					closestNPC(combatFilter(reachFilter())).hover();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -146,21 +152,20 @@ public class Tunnel {
 
 	private static RSNPC closestNPC(ArrayList<RSNPC> a) {
 		int dist = Integer.MAX_VALUE;
-		int level = 90;
 		RSNPC target = null;
+		RSNPC prevTarget = null;
 		for (RSNPC n : a) {
-			if (n.getCombatLevel() < level) {
-				level = n.getCombatLevel();
+			int thisDist = n.getPosition().distanceTo(
+					(Positionable) Player.getPosition());
+			if (thisDist < dist) {
+				dist = thisDist;
+				prevTarget = target;
+				target = n;
 			}
 		}
-		for (RSNPC n : a) {
-			if (n.getCombatLevel() == level) {
-				int thisDist = n.getPosition().distanceTo(Player.getPosition());
-				if (thisDist < dist) {
-					dist = thisDist;
-					target = n;
-				}
-			}
+		vars.abc_util.BOOL_TRACKER.USE_CLOSEST.reset();
+		if (prevTarget != null && !vars.abc_util.BOOL_TRACKER.USE_CLOSEST.next()) {
+				target = prevTarget;
 		}
 		return target;
 	}

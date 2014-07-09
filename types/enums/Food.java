@@ -18,16 +18,10 @@ import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.types.Var;
 
 public class Food {
-	public enum Edibles {		
-		None(-1,-1),
-		Shark(385,20),
-		Monkfish(7946,16),
-		Swordfish(373,14),
-		Bass(365,13),
-		Lobster(379,12),
-		Tuna(361,10),
-		Salmon(329,9),
-		Trout(333,7);
+	public enum Edibles {
+		None(-1, -1), Shark(385, 20), Monkfish(7946, 16), Swordfish(373, 14), Bass(
+				365, 13), Lobster(379, 12), Tuna(361, 10), Salmon(329, 9), Trout(
+				333, 7);
 
 		private int Id, healAmount;
 
@@ -106,10 +100,12 @@ public class Food {
 
 	public static void eatInCombat() {
 		if (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) < 35
-				|| GeneralMethods.getHPPercent() < 50) {
+				|| GeneralMethods.getHPPercent() <= Var.abc_util.INT_TRACKER.NEXT_EAT_AT
+						.next()) {
 			if (Inventory.find(Var.food.getId()).length > 0) {
 				eat();
 			}
+			Var.abc_util.INT_TRACKER.NEXT_EAT_AT.reset();
 		}
 	}
 

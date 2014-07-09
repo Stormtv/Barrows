@@ -12,7 +12,6 @@ import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Looting;
-import scripts.Barrows.methods.LootFiltering;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
 import scripts.Barrows.types.Brother.Brothers;
@@ -82,10 +81,10 @@ public class TunnelTraversing {
 				}
 			} else {
 				Var.status = "Grabbin some of dat mad loot";
-				LootFiltering.addInventory(true);
+				//LootFiltering.addInventory(true);
 				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
-					price += PriceHandler.getPrice(i.getID()) * i.getStack();
+					price += PriceHandler.getPrice(i.getDefinition().getName()) * i.getStack();
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
@@ -93,17 +92,17 @@ public class TunnelTraversing {
 						&& PathFinding.canReach(
 								GroundItems.find(Var.lootIDs)[0], false))
 					Looting.loot(Var.lootIDs);
-				LootFiltering.addInventory(false);
+				//LootFiltering.addInventory(false);
 				int finalPrice = 0;
 				for (RSItem i : Inventory.getAll()) {
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						Var.pieces++;
-					finalPrice += PriceHandler.getPrice(i.getID())
+					finalPrice += PriceHandler.getPrice(i.getDefinition().getName())
 							* i.getStack();
 				}
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
-				LootFiltering.addLoot();
+				//LootFiltering.addLoot();
 				GeneralMethods.takeScreenShot();
 				if (Potions.getPrayerDoses() < Var.nextRunDoses
 						|| Inventory.getCount(Var.food.getId()) < Var.nextRunFood) {

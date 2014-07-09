@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import org.tribot.api.General;
-import org.tribot.api.input.Keyboard;
+import org.tribot.api.Timing;
 import org.tribot.api.input.Mouse;
 import org.tribot.api.interfaces.Positionable;
+import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Camera;
 import org.tribot.api2007.ChooseOption;
@@ -53,9 +54,11 @@ public class GeneralMethods {
 	}
 
 	public static void adjustBrightness() {
+		System.out.println("PLEASE SET BRIGHTNESS TO FULL");
+		General.println("PLEASE SET BRIGHTNESS TO FULL");
 		while (Game.getSetting(166) != 4) {
 			if (!GameTab.getOpen().equals(TABS.OPTIONS)) {
-				Keyboard.pressFunctionKey(10);
+				GameTab.open(GameTab.TABS.OPTIONS);
 				for (int i = 0; i < 20
 						&& !GameTab.getOpen().equals(TABS.OPTIONS); i++) {
 					General.sleep(45, 75);
@@ -74,13 +77,6 @@ public class GeneralMethods {
 	static void notify(String s) {
 		System.out.println(s);
 		Var.status = s;
-	}
-
-	public static void enableRun() {
-		if (Game.getRunEnergy() > Var.runEnergy && !isRunEnabled()) {
-			Options.setRunOn(true);
-			Var.runEnergy = General.random(30, 60);
-		}
 	}
 	
 	public static boolean isRunEnabled() {
@@ -113,6 +109,54 @@ public class GeneralMethods {
 
 	static boolean hasFood() {
 		return getBankCount(Var.food.getId()) < 10;
+	}
+	
+	public static void ABCL() {
+		// ABC: Examining Random Objects
+		Var.abc_util.performExamineObject();
+
+		// ABC: Randomly Rotating Camera
+		Var.abc_util.performRotateCamera();
+
+		// ABC: Quest Checker
+		Var.abc_util.performQuestsCheck();
+		
+		// ABC: Music Checker
+		Var.abc_util.performMusicCheck();
+		
+		// ABC: Friend Checker
+		Var.abc_util.performFriendsCheck();
+		
+		// ABC: Equipment Checker
+		Var.abc_util.performEquipmentCheck();
+		
+		// Leave Game
+		Var.abc_util.performLeaveGame();
+
+		// Pick up mouse
+		Var.abc_util.performPickupMouse();
+
+		// Random Mouse Movement
+		Var.abc_util.performRandomMouseMovement();
+
+		// Random Right Click
+		Var.abc_util.performRandomRightClick();
+
+		// Rotate camera
+		Var.abc_util.performRotateCamera();
+
+		// ABCL: Check XP
+		Var.abc_util.performXPCheck(Skills.SKILLS.HUNTER);
+		
+		// ABCL: Check Combat Tab
+		Var.abc_util.performCombatCheck();
+	}
+	
+	public static void enableRun() {
+		if (Game.getRunEnergy() >= Var.abc_util.INT_TRACKER.NEXT_RUN_AT.next()) {
+			Options.setRunOn(true);
+			Var.abc_util.INT_TRACKER.NEXT_RUN_AT.reset();
+		}
 	}
 
 	static boolean hasCastsInBank() {
@@ -288,10 +332,46 @@ public class GeneralMethods {
 			}
 		}
 	}
+	
+	public static void waitNewOrSwitchDelay(final long last_busy_time,
+			final boolean combat) {
+		// All ABCUtil objects contain the exact same data, so it doesn't matter
+		// whether we construct a new one, or use a constant one.
+		final ABCUtil abc = new ABCUtil();
+
+		if (Timing.timeFromMark(last_busy_time) >= General.random(8000, 12000)) {
+			if (combat) {
+				General.sleep(abc.DELAY_TRACKER.NEW_OBJECT_COMBAT.next());
+
+				abc.DELAY_TRACKER.NEW_OBJECT_COMBAT.reset();
+			} else {
+				General.sleep(abc.DELAY_TRACKER.NEW_OBJECT.next());
+
+				abc.DELAY_TRACKER.NEW_OBJECT.reset();
+			}
+		} else {
+			if (combat) {
+				General.sleep(abc.DELAY_TRACKER.SWITCH_OBJECT_COMBAT.next());
+
+				abc.DELAY_TRACKER.SWITCH_OBJECT_COMBAT.reset();
+			} else {
+				General.sleep(abc.DELAY_TRACKER.SWITCH_OBJECT.next());
+
+				abc.DELAY_TRACKER.SWITCH_OBJECT.reset();
+			}
+		}
+	}
+
 
 	public static void clickObject(RSObject o, String option,
 			boolean minimapVisible, boolean checkReachable) {
+		if (option.toLowerCase().contains("attack")) {
+			waitNewOrSwitchDelay(Var.lastBusyTime, true);
+		} else {
+			waitNewOrSwitchDelay(Var.lastBusyTime, false);
+		}
 		clickObject(o, option, 0, minimapVisible, checkReachable);
+		Var.lastBusyTime = System.currentTimeMillis();
 	}
 
 	public static boolean turnTilOnScreen(Positionable p) {
@@ -323,7 +403,7 @@ public class GeneralMethods {
 		return false;
 	}
 
-	static void clickObject(RSObject o, String option, int fail,
+	private static void clickObject(RSObject o, String option, int fail,
 			boolean minimap, boolean checkReachable) {
 		Rooms.TunnelRoom curRoom = Rooms.getRoom();
 		Var.status = "Checking Validity of Object";
@@ -426,7 +506,9 @@ public class GeneralMethods {
 	}
 
 	public static void screenWalkTo(Positionable p) {
+		waitNewOrSwitchDelay(Var.lastBusyTime, false);
 		screenWalkTo(p, 0);
+		Var.lastBusyTime = System.currentTimeMillis();
 	}
 	
 	private static void screenWalkTo(Positionable p, int count) {
@@ -525,7 +607,11 @@ public class GeneralMethods {
 	}
 
 	public static boolean click(RSNPC m, String option) {
-		Mouse.setSpeed(General.random(350, 500));
+		if (option.toLowerCase().contains("attack")) {
+			waitNewOrSwitchDelay(Var.lastBusyTime, true);
+		} else {
+			waitNewOrSwitchDelay(Var.lastBusyTime, false);
+		}
 		if (m != null && m.isValid() && m.getModel() != null) {
 			if (!m.isOnScreen()) {
 				Camera.turnToTile(m);
@@ -556,6 +642,7 @@ public class GeneralMethods {
 				}
 			}
 		}
+		Var.lastBusyTime = System.currentTimeMillis();
 		return false;
 	}
 
@@ -577,11 +664,11 @@ public class GeneralMethods {
 	}
 
 	public static void leftClick(RSGroundItem n) {
+		waitNewOrSwitchDelay(Var.lastBusyTime, false);
 		try {
 			if (!groundItemCheck(n))
 				return;
 			Var.status = "Looting: " + n.getDefinition().getName();
-			Mouse.setSpeed(General.random(110, 120));
 			if (!n.isOnScreen()) {
 				enableRun();
 				screenWalkTo(n);
@@ -596,12 +683,13 @@ public class GeneralMethods {
 			}
 			if (!groundItemCheck(n))
 				return;
-			Mouse.setSpeed(General.random(220, 300));
 			enableRun();
 			n.click("Take " + n.getDefinition().getName());
 			General.sleep(250, 350);
-			while (Player.isMoving())
+			while (Player.isMoving()) {
+				Var.lastBusyTime = System.currentTimeMillis();
 				General.sleep(40);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

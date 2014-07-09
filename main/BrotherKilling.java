@@ -3,8 +3,6 @@ package scripts.Barrows.main;
 import java.util.Arrays;
 
 import org.tribot.api.General;
-import org.tribot.api.input.Keyboard;
-import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Combat;
 import org.tribot.api2007.GameTab;
 import org.tribot.api2007.GameTab.TABS;
@@ -141,6 +139,7 @@ public class BrotherKilling {
 				return;
 			}
 			UpKeep(b);
+			GeneralMethods.ABCL();
 			if (!b.getPrayer().equals(Prayer.Prayers.None)
 					&& !b.getPrayer().isActivated()) {
 				Prayer.activate(b.getPrayer());
@@ -190,7 +189,6 @@ public class BrotherKilling {
 			if (Pathing.isInBarrows()) {
 				if (b.getDigArea() != null) {
 					Var.status = "Walking to mound";
-					Mouse.setSpeed(General.random(100, 130));
 					Walking.setControlClick(true);
 					Walking.setWalkingTimeout(1500);
 					General.sleep(200, 350);
@@ -291,7 +289,7 @@ public class BrotherKilling {
 		if (Inventory.getCount(229) > 0) {
 			for (RSItem i : Inventory.find(229)) {
 				int count = Inventory.getAll().length;
-				i.click("Drop");
+				Inventory.drop(i);
 				for (int x = 0; x < 20 && count == Inventory.getAll().length; x++) {
 					General.sleep(25, 30);
 				}
@@ -300,7 +298,7 @@ public class BrotherKilling {
 		if (Inventory.getCount(2959) > 0) {
 			for (RSItem i : Inventory.find(2959)) {
 				int count = Inventory.getAll().length;
-				i.click("Drop");
+				Inventory.drop(i);
 				for (int x = 0; x < 20 && count == Inventory.getAll().length; x++) {
 					General.sleep(25, 30);
 				}
@@ -352,7 +350,7 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquipped(4587) && Combat.getSelectedStyleIndex()!=1) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				Keyboard.pressFunctionKey(1);
+				GameTab.open(GameTab.TABS.COMBAT);
 				for (int fail = 0; fail < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);
@@ -412,7 +410,7 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquipped(Var.Salamanders)) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				Keyboard.pressFunctionKey(1);
+				GameTab.open(GameTab.TABS.COMBAT);
 				for (int fail = 0; fail < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);
@@ -430,7 +428,7 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquipped(4587) && Combat.getSelectedStyleIndex()!=1) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				Keyboard.pressFunctionKey(1);
+				GameTab.open(GameTab.TABS.COMBAT);
 				for (int fail = 0; fail < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);
@@ -442,7 +440,7 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquipped(11907) && Combat.getSelectedStyleIndex() != 0) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				Keyboard.pressFunctionKey(1);
+				GameTab.open(GameTab.TABS.COMBAT);
 				for (int fail = 0; fail < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);
@@ -454,7 +452,7 @@ public class BrotherKilling {
 		}
 		if (Equipment.isEquipped(861) && Combat.getSelectedStyleIndex() != 1) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				Keyboard.pressFunctionKey(1);
+				GameTab.open(GameTab.TABS.COMBAT);
 				for (int fail = 0; fail < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
 					General.sleep(15, 25);

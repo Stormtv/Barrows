@@ -3,7 +3,6 @@ package scripts.Barrows.types.enums;
 import java.awt.Point;
 
 import org.tribot.api.General;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api.input.Mouse;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
@@ -92,10 +91,10 @@ public class Prayer {
 	}
 
 	public static void disable(Prayers b) {
-		if (b.equals(Prayer.Prayers.None)) return;
-		Mouse.setSpeed(General.random(100, 130));
+		if (b.equals(Prayer.Prayers.None))
+			return;
 		if (GameTab.getOpen() != TABS.PRAYERS) {
-			Keyboard.pressFunctionKey(5);
+			GameTab.open(GameTab.TABS.PRAYERS);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
 				General.sleep(15);
@@ -139,9 +138,8 @@ public class Prayer {
 		if (Prayer.getPoints()==0) {
 			Potions.drink();
 		}
-		Mouse.setSpeed(General.random(100, 130));
 		if (GameTab.getOpen() != TABS.PRAYERS) {
-			Keyboard.pressFunctionKey(5);
+			GameTab.open(GameTab.TABS.PRAYERS);
 			for (int fsafe = 0; fsafe < 20
 					&& !GameTab.getOpen().equals(TABS.PRAYERS); fsafe++) {
 				General.sleep(15);

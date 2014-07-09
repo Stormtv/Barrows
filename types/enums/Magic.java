@@ -3,7 +3,6 @@ package scripts.Barrows.types.enums;
 import java.util.ArrayList;
 
 import org.tribot.api.General;
-import org.tribot.api.input.Keyboard;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.GameTab;
@@ -142,7 +141,7 @@ public class Magic {
 		if (isAutocasting(s))
 			return true;
 		if (!GameTab.getOpen().equals(TABS.COMBAT)) {
-			Keyboard.pressFunctionKey(1);
+			GameTab.open(TABS.COMBAT);
 			for (int fail = 0; fail < 20
 					&& !GameTab.getOpen().equals(TABS.COMBAT); fail++) {
 				General.sleep(15, 50);

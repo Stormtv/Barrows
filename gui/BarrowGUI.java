@@ -68,7 +68,7 @@ public class BarrowGUI extends JFrame {
 			picGloves, picRing, picCape, picSword, picShield, picArrow, picBro;
 	private static JTextField txtFood, txtSA, txtSS, txtSD, txtRP, txtPP,
 			txtArrows, txtCasts;
-	private static JSpinner spinner, spnFood, spnDoses, spnMouseSpeed;
+	private static JSpinner spinner, spnFood, spnDoses;
 
 	private Image helm = getImage("http://i.imgur.com/S4K9ppc.png");
 	private Image necklace = getImage("http://i.imgur.com/2RyM9tH.png");
@@ -123,7 +123,6 @@ public class BarrowGUI extends JFrame {
 				spinner.setValue(Var.killCount);
 				spnFood.setValue(Var.nextRunFood);
 				spnDoses.setValue(Var.nextRunDoses);
-				spnMouseSpeed.setValue(Var.mouseSpeed);
 				txtFood.setText(Integer.toString(Var.foodAmount));
 				txtSA.setText(Integer.toString(Var.superAttack));
 				txtSS.setText(Integer.toString(Var.superStrength));
@@ -998,7 +997,6 @@ public class BarrowGUI extends JFrame {
 				Var.killCount = (int) spinner.getValue();
 				Var.nextRunDoses = (int) spnDoses.getValue();
 				Var.nextRunFood = (int) spnFood.getValue();
-				Var.mouseSpeed = (int) spnMouseSpeed.getValue();
 				Var.foodAmount = Integer.parseInt(txtFood.getText());
 				Var.superAttack = Integer.parseInt(txtSA.getText());
 				Var.superStrength = Integer.parseInt(txtSS.getText());
@@ -1271,7 +1269,6 @@ public class BarrowGUI extends JFrame {
 				Var.killCount = (int) spinner.getValue();
 				Var.nextRunDoses = (int) spnDoses.getValue();
 				Var.nextRunFood = (int) spnFood.getValue();
-				Var.mouseSpeed = (int) spnMouseSpeed.getValue();
 				Var.foodAmount = Integer.parseInt(txtFood.getText());
 				Var.superAttack = Integer.parseInt(txtSA.getText());
 				Var.superStrength = Integer.parseInt(txtSS.getText());
@@ -1349,7 +1346,6 @@ public class BarrowGUI extends JFrame {
 				spinner.setValue(Var.killCount);
 				spnFood.setValue(Var.nextRunFood);
 				spnDoses.setValue(Var.nextRunDoses);
-				spnMouseSpeed.setValue(Var.mouseSpeed);
 				txtFood.setText(Integer.toString(Var.foodAmount));
 				txtSA.setText(Integer.toString(Var.superAttack));
 				txtSS.setText(Integer.toString(Var.superStrength));
@@ -1363,9 +1359,6 @@ public class BarrowGUI extends JFrame {
 				cbxBank.setSelectedItem(Var.bankPath);
 			}
 		});
-		
-		panel_7 = new JPanel();
-		panel_7.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -1380,7 +1373,6 @@ public class BarrowGUI extends JFrame {
 							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel_7, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 								.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 								.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -1410,9 +1402,7 @@ public class BarrowGUI extends JFrame {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 							.addGap(5)
-							.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(panel_7, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
+							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
@@ -1425,30 +1415,6 @@ public class BarrowGUI extends JFrame {
 							.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)))
 					.addGap(33))
 		);
-		
-		lblMouseSpeed = new JLabel("Mouse Speed:");
-		
-		spnMouseSpeed = new JSpinner();
-		spnMouseSpeed.setModel(new SpinnerNumberModel(350, 0, 1000, 1));
-		GroupLayout gl_panel_7 = new GroupLayout(panel_7);
-		gl_panel_7.setHorizontalGroup(
-			gl_panel_7.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_7.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblMouseSpeed)
-					.addGap(18)
-					.addComponent(spnMouseSpeed, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_panel_7.setVerticalGroup(
-			gl_panel_7.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_7.createSequentialGroup()
-					.addGroup(gl_panel_7.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMouseSpeed)
-						.addComponent(spnMouseSpeed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(24, Short.MAX_VALUE))
-		);
-		panel_7.setLayout(gl_panel_7);
 		getContentPane().setLayout(groupLayout);
 	}
 
@@ -1709,8 +1675,6 @@ public class BarrowGUI extends JFrame {
 			}
 		}
 	});
-	private JPanel panel_7;
-	private JLabel lblMouseSpeed;
 	
 	public boolean validateInput() {
 		for (Brothers b : Brothers.values()) {

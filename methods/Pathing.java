@@ -4,8 +4,6 @@ import java.awt.Color;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.input.Keyboard;
-import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Equipment;
@@ -15,7 +13,6 @@ import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.NPCs;
 import org.tribot.api2007.Objects;
-import org.tribot.api2007.Options;
 import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
@@ -394,11 +391,10 @@ public class Pathing {
 	public static boolean goViaSwamp() {
 		Walking.setControlClick(true);
 		Walking.setWalkingTimeout(500);
-		Mouse.setSpeed(General.random(100, 130));
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn()
 				&& Rooms.getRoom() == null && !Pathing.isInBarrows()
 				&& !Tunnel.inCrypt())
-			Options.setRunOn(true);
+			GeneralMethods.enableRun();
 		if (!warning()) {
 			if (isInBarrows())
 				return true;
@@ -423,7 +419,6 @@ public class Pathing {
 	}
 
 	public static void goToBank() {
-		Mouse.setSpeed(General.random(100, 130));
 		switch (Var.bankPath) {
 		case ECTOPHIAL:
 			walkFromEcto();
@@ -591,7 +586,7 @@ public class Pathing {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn()
 				&& Rooms.getRoom() == null && !Pathing.isInBarrows()
 				&& !Tunnel.inCrypt())
-			Options.setRunOn(true);
+			GeneralMethods.enableRun();
 		if (isInHouse()) {
 			if (Prayer.getPoints() < Prayer.getLevel() && Var.recharge) {
 				pray();
@@ -652,7 +647,7 @@ public class Pathing {
 		if (Game.getRunEnergy() > General.random(9, 13) && !Game.isRunOn()
 				&& Rooms.getRoom() == null && !Pathing.isInBarrows()
 				&& !Tunnel.inCrypt())
-			Options.setRunOn(true);
+			GeneralMethods.enableRun();
 		if (Prayer.getPoints() == Prayer.getLevel()
 				&& Restocking.canWalkToAltar()) {
 			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
@@ -724,7 +719,6 @@ public class Pathing {
 	}
 
 	public static void getToBarrows() {
-		Mouse.setSpeed(General.random(100, 130));
 		Walking.setWalkingTimeout(500);
 		if (isInBarrows()) {
 			return;
@@ -765,14 +759,13 @@ public class Pathing {
 	private static void goViaMinigame() {
 		Var.status = "Going to barrows via minigame";
 		Walking.setWalkingTimeout(500);
-		Mouse.setSpeed(General.random(100, 130));
 		if (!Banking.close())
 			General.sleep(100);
 		if (Player.getPosition().distanceTo(new RSTile(3499, 3300, 0)) > 15
 				&& Rooms.getRoom() == null) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.QUESTS)) {
 				General.println("Trying to minigame tele");
-				Keyboard.pressFunctionKey(3);
+				GameTab.open(GameTab.TABS.QUESTS);
 				for (int i = 0; i < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.QUESTS); i++) {
 					General.sleep(30, 50);
@@ -863,11 +856,9 @@ public class Pathing {
 
 	static void goViaShortcut() {
 		Walking.setWalkingTimeout(500);
-		Mouse.setSpeed(General.random(100, 130));
 		Var.status = "Using shortcut to get to barrows";
 		if (!Banking.close())
 			General.sleep(1000);
-		Mouse.setSpeed(General.random(100, 150));
 		if (isNearTrapDoor()) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
 			if (trapdoor != null && trapdoor.length > 0
@@ -1067,7 +1058,7 @@ public class Pathing {
 	static void setBuildingMode() {
 		if (Interfaces.get(398, 19) == null) {
 			if (GameTab.getOpen() != GameTab.TABS.OPTIONS) {
-				Keyboard.pressFunctionKey(10);
+				GameTab.open(GameTab.TABS.OPTIONS);
 			}
 			Interfaces.get(261, 35).click("Open");
 			for (int fsafe = 0; fsafe < 20 && Interfaces.get(398, 19) == null; fsafe++) {

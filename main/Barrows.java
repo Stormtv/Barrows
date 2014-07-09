@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
 
 import org.tribot.api.General;
-import org.tribot.api.input.Mouse;
 import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Screen;
@@ -77,7 +76,7 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 
 	private int loop() {
 		Walking.setWalkingTimeout(General.random(250, 350));
-		Mouse.setSpeed(Var.mouseSpeed+General.random(-125, 125));
+		GeneralMethods.ABCL();
 		try {
 			GeneralMethods.adjustBrightness();
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
@@ -185,6 +184,8 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 			println("Thank you for using wBarrows "
 					+ General.getTRiBotUsername()
 					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");
+			System.out.println("ALWAYS BESURE TO WATCH THE SCRIPT COMPLETE AT LEAST ONE RUN BEFORE AFKING!");
+			println("ALWAYS BESURE TO WATCH THE SCRIPT COMPLETE AT LEAST ONE RUN BEFOR AFKING!");
 			GeneralMethods.adjustBrightness();
 			activateGUI();
 			Brothers.statusCheck();
@@ -232,9 +233,9 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 	
 	public void onPaint(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
-		if (showPaint)
+		if (showPaint) {
 			PaintHandler.drawPaint(g);
-		else{
+		} else {
 			g.draw(closePaint);
 			g.drawString("Enable Paint", (closePaint.x - 80), (closePaint.y + 15));
 		}

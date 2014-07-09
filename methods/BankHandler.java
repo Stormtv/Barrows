@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
-import org.tribot.api.input.Mouse;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.GameTab;
@@ -88,7 +87,6 @@ public class BankHandler {
 		if (!Banking.isPinScreenOpen() && !Banking.isBankScreenOpen()) {
 			Equipment.equipMostFullSet();
 		}
-		Mouse.setSpeed(General.random(100, 130));
 		if (!Banking.isBankScreenOpen()) {
 			openBank();
 		}
