@@ -286,23 +286,9 @@ public class BrotherKilling {
 	}
 
 	private static void dropVials() {
-		if (Inventory.getCount(229) > 0) {
-			for (RSItem i : Inventory.find(229)) {
-				int count = Inventory.getAll().length;
-				Inventory.drop(i);
-				for (int x = 0; x < 20 && count == Inventory.getAll().length; x++) {
-					General.sleep(25, 30);
-				}
-			}
-		}
-		if (Inventory.getCount(2959) > 0) {
-			for (RSItem i : Inventory.find(2959)) {
-				int count = Inventory.getAll().length;
-				Inventory.drop(i);
-				for (int x = 0; x < 20 && count == Inventory.getAll().length; x++) {
-					General.sleep(25, 30);
-				}
-			}
+		RSItem[] dropables = Inventory.find(new int[] {229, 2959});
+		if (dropables != null && dropables.length > 0) {
+			Inventory.drop(dropables);
 		}
 		if (Game.getUptext().contains("->")) {
 			Walking.walkTo(Player.getPosition());
