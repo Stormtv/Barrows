@@ -121,6 +121,7 @@ public class Tunnel {
 			RSNPC target = null;
 			Food.eatInCombat();
 			if (Player.getRSPlayer().getInteractingCharacter() == null) {
+				Var.hoverCheck = true;
 				if (agressiveNPC().isEmpty()) {
 					target = closestNPC(combatFilter(reachFilter()));
 				} else {
@@ -140,9 +141,10 @@ public class Tunnel {
 				}
 				levelUpCloser();
 				Var.abc_util.BOOL_TRACKER.HOVER_NEXT.reset();
-				if (Var.abc_util.BOOL_TRACKER.HOVER_NEXT.next()) {
+				if (Var.abc_util.BOOL_TRACKER.HOVER_NEXT.next() && Var.hoverCheck ) {
 					closestNPC(combatFilter(reachFilter())).hover();
 				}
+				Var.hoverCheck = false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

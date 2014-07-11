@@ -141,7 +141,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.57;
+	public static double version = 1.58;
 
 	public static Timer runTime = new Timer(0);
 	
@@ -161,5 +161,7 @@ public class Var {
 	
 	public static int tunnelStance = -1;
 	
-	public static long lastBusyTime;	
+	public static long lastBusyTime;
+	
+	public static boolean hoverCheck = true;
 }
