@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.tribot.api.General;
 import org.tribot.api.Timing;
+import org.tribot.api.input.Keyboard;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.Equipment;
@@ -765,7 +766,7 @@ public class Pathing {
 				&& Rooms.getRoom() == null) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.QUESTS)) {
 				General.println("Trying to minigame tele");
-				GameTab.open(GameTab.TABS.QUESTS);
+				Keyboard.pressFunctionKey(3);
 				for (int i = 0; i < 20
 						&& !GameTab.getOpen().equals(GameTab.TABS.QUESTS); i++) {
 					General.sleep(30, 50);

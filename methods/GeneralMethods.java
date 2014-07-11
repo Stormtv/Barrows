@@ -54,9 +54,9 @@ public class GeneralMethods {
 	}
 
 	public static void adjustBrightness() {
-		System.out.println("PLEASE SET BRIGHTNESS TO FULL");
-		General.println("PLEASE SET BRIGHTNESS TO FULL");
 		while (Game.getSetting(166) != 4) {
+			System.out.println("PLEASE SET BRIGHTNESS TO FULL");
+			General.println("PLEASE SET BRIGHTNESS TO FULL");
 			if (!GameTab.getOpen().equals(TABS.OPTIONS)) {
 				GameTab.open(GameTab.TABS.OPTIONS);
 				for (int i = 0; i < 20

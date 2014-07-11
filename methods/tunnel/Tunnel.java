@@ -20,7 +20,6 @@ import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.enums.Food;
 import scripts.Barrows.types.Var;
-import scripts.wCombatAIO.types.vars;
 
 public class Tunnel {
 
@@ -140,8 +139,8 @@ public class Tunnel {
 					target = attackingNPC;
 				}
 				levelUpCloser();
-				vars.abc_util.BOOL_TRACKER.HOVER_NEXT.reset();
-				if (vars.abc_util.BOOL_TRACKER.HOVER_NEXT.next()) {
+				Var.abc_util.BOOL_TRACKER.HOVER_NEXT.reset();
+				if (Var.abc_util.BOOL_TRACKER.HOVER_NEXT.next()) {
 					closestNPC(combatFilter(reachFilter())).hover();
 				}
 			}
@@ -163,8 +162,8 @@ public class Tunnel {
 				target = n;
 			}
 		}
-		vars.abc_util.BOOL_TRACKER.USE_CLOSEST.reset();
-		if (prevTarget != null && !vars.abc_util.BOOL_TRACKER.USE_CLOSEST.next()) {
+		Var.abc_util.BOOL_TRACKER.USE_CLOSEST.reset();
+		if (prevTarget != null && !Var.abc_util.BOOL_TRACKER.USE_CLOSEST.next()) {
 				target = prevTarget;
 		}
 		return target;
