@@ -34,6 +34,7 @@ import org.tribot.api2007.Projection;
 import org.tribot.api2007.Skills;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSGroundItem;
+import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSTile;
@@ -146,7 +147,9 @@ public class GeneralMethods {
 		Var.abc_util.performRotateCamera();
 
 		// ABCL: Check XP
-		Var.abc_util.performXPCheck(Skills.SKILLS.HUNTER);
+		Var.abc_util.performXPCheck(Skills.SKILLS.HITPOINTS);
+		Var.abc_util.performXPCheck(Skills.SKILLS.MAGIC);
+
 		
 		// ABCL: Check Combat Tab
 		Var.abc_util.performCombatCheck();
@@ -696,16 +699,15 @@ public class GeneralMethods {
 	}
 
 	public static String lastMessage() {
-		try {
-			if (Interfaces.get(137) != null) {
-				for (int i = Interfaces.get(137, 2).getChildren().length - 1; i > 0; i--) {
-					if (Interfaces.get(137, 2).getChildren()[i].getText() != "") {
-						return Interfaces.get(137, 2).getChildren()[i]
-								.getText();
-					}
+		RSInterface message = Interfaces.get(137, 2);
+		if (message != null) {
+			RSInterface child = message.getChild(0);
+			if (child != null) {
+				String text = child.getText();
+				if (text != null) {
+					return text;
 				}
 			}
-		} catch (Exception e) {
 		}
 		return "";
 	}

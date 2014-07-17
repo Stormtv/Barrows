@@ -1,10 +1,11 @@
-/*package scripts.Barrows.methods;
+package scripts.Barrows.methods;
 
 import java.util.HashMap;
 
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.types.RSItem;
 
+import scripts.Barrows.gui.LootTable;
 import scripts.Barrows.types.Var;
 
 public class LootFiltering {
@@ -36,6 +37,27 @@ public class LootFiltering {
 			}
 		}
 	}
+	
+	public static void addLoot() {
+		for (int i : Var.lootIDs) {
+			int change = getChange(i);
+			if (change > 0) {
+				LootTable.addReward(nameList.get(i), i, change,
+						PriceHandler.getPrice(nameList.get(i)));
+			}
+		}
+	}
+
+	public static int getChange(int id) {
+		if (currentList.containsKey(id)) {
+			if (startList.containsKey(id)) {
+				return currentList.get(id) - startList.get(id);
+			} else {
+				return currentList.get(id);
+			}
+		}
+		return 0;
+	}
 
 	static int getStack(int id) {
 		int count = 0;
@@ -55,4 +77,4 @@ public class LootFiltering {
 		return false;
 	}
 
-}*/
+}

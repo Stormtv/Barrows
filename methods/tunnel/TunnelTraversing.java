@@ -5,12 +5,14 @@ import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
+import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
 import scripts.Barrows.main.BrotherKilling;
 import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
+import scripts.Barrows.methods.LootFiltering;
 import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.PriceHandler;
 import scripts.Barrows.methods.tunnel.Rooms.TunnelRoom;
@@ -81,20 +83,23 @@ public class TunnelTraversing {
 				}
 			} else {
 				Var.status = "Grabbin some of dat mad loot";
-				//LootFiltering.addInventory(true);
+				LootFiltering.addInventory(true);
 				int price = 0;
 				for (RSItem i : Inventory.getAll()) {
 					price += PriceHandler.getPrice(i.getDefinition().getName()) * i.getStack();
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
+				RSGroundItem[] foundItems = GroundItems.find(Var.lootIDs);
 				while (GroundItems.find(Var.lootIDs).length > 0
 						&& PathFinding.canReach(
 								GroundItems.find(Var.lootIDs)[0], false))
 					Looting.loot(Var.lootIDs);
-				//LootFiltering.addInventory(false);
+				LootFiltering.addInventory(false);
 				int finalPrice = 0;
-				for (RSItem i : Inventory.getAll()) {
+				String items = "";
+				for (RSGroundItem i : foundItems) {
+					items += i.getDefinition().getName() + "(" + i.getStack() + ") ";
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						Var.pieces++;
 					finalPrice += PriceHandler.getPrice(i.getDefinition().getName())
@@ -102,12 +107,18 @@ public class TunnelTraversing {
 				}
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
-				//LootFiltering.addLoot();
+				System.out.println("Chest #" + Var.chests + ": " + items
+						+ " Value Looted: " + (finalPrice - price));
+				LootFiltering.addLoot();
 				GeneralMethods.takeScreenShot();
 				if (Potions.getPrayerDoses() < Var.nextRunDoses
 						|| Inventory.getCount(Var.food.getId()) < Var.nextRunFood) {
 					Var.forceBank = true;
 				}
+				while (GroundItems.find(Var.lootIDs).length > 0
+						&& PathFinding.canReach(
+								GroundItems.find(Var.lootIDs)[0], false))
+					Looting.loot(Var.lootIDs);
 			}
 		}
 	}

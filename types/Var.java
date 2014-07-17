@@ -32,9 +32,9 @@ public class Var {
 	public static final int ECTOPHIAL = 4251;
 	public static final int EMPTY_ECTOPHIAL = 4252;
 
-	public static final int[] armour_ids = { 4726, 4730, 4728, 4724, 4708, 4710, 4712,
-			4714, 4716, 4718, 4720, 4722, 4732, 4734, 4736, 4738, 4745,
-			4747, 4749, 4751, 4753, 4755, 4757, 4759 };
+	public static final int[] armour_ids = { 4726, 4730, 4724, 4728, 4708, 4710, 4712, 4714, 4716,
+		4718, 4720, 4722, 4732, 4734, 4736, 4738, 4745, 4747,
+		4749, 4751, 4753, 4755, 4757, 4759 };
 
 	public static final RSArea dharokDig = new RSArea(new RSTile[] {
 			new RSTile(3574, 3301, 0), new RSTile(3578, 3301, 0),
@@ -141,7 +141,7 @@ public class Var {
 	
 	public static boolean trial = false;
 
-	public static double version = 1.58;
+	public static double version = 1.59;
 
 	public static Timer runTime = new Timer(0);
 	

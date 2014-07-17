@@ -654,7 +654,6 @@ public class Pathing {
 			RSItem[] ectophial = Inventory.find(Var.ECTOPHIAL);
 			if (ectophial.length > 0) {
 				if (ectophial[0].click("")) {
-					RSTile here = Player.getPosition();
 					Timing.waitCondition(new Condition() {
 						@Override
 						public boolean active() {
@@ -669,8 +668,6 @@ public class Pathing {
 							return Player.getAnimation() == -1;
 						}
 					}, 7000);
-					if (Player.getPosition() != here)
-						Var.trips++;
 				}
 			}
 		}

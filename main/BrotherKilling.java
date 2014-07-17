@@ -386,7 +386,8 @@ public class BrotherKilling {
 				Food.forceFeed();
 			}
 		}
-		if (Combat.getSelectedStyleIndex() != b.getSelectedStance()
+		if (b.getSpell().equals(Magic.Spell.NONE)
+				&& Combat.getSelectedStyleIndex() != b.getSelectedStance()
 				&& b.getSelectedStance() != -1) {
 			Var.status = "Setting Combat Stance";
 			Combat.selectIndex(b.getSelectedStance());
