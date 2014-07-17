@@ -84,8 +84,11 @@ public class TunnelTraversing {
 				Var.status = "Grabbin some of dat mad loot";
 				LootFiltering.addInventory(true);
 				int price = 0;
+				int heldPieces = 0;
 				for (RSItem i : Inventory.getAll()) {
 					price += PriceHandler.getPrice(i.getDefinition().getName()) * i.getStack();
+					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
+						heldPieces++;
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
@@ -103,6 +106,7 @@ public class TunnelTraversing {
 					finalPrice += PriceHandler.getPrice(i.getDefinition().getName())
 							* i.getStack();
 				}
+				Var.pieces =- heldPieces;
 				Var.profit += finalPrice - price;
 				Var.chests += 1;
 				System.out.println("Chest #" + Var.chests + ": " + items
