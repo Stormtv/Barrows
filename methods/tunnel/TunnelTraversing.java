@@ -5,7 +5,6 @@ import org.tribot.api2007.GroundItems;
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Objects;
 import org.tribot.api2007.PathFinding;
-import org.tribot.api2007.types.RSGroundItem;
 import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSObject;
 
@@ -90,7 +89,6 @@ public class TunnelTraversing {
 				}
 				GeneralMethods.clickObject(chest[0], "Search", false, true);
 				BrotherKilling.killBrotherInTunnel();
-				RSGroundItem[] foundItems = GroundItems.find(Var.lootIDs);
 				while (GroundItems.find(Var.lootIDs).length > 0
 						&& PathFinding.canReach(
 								GroundItems.find(Var.lootIDs)[0], false))
@@ -98,7 +96,7 @@ public class TunnelTraversing {
 				LootFiltering.addInventory(false);
 				int finalPrice = 0;
 				String items = "";
-				for (RSGroundItem i : foundItems) {
+				for (RSItem i : Inventory.getAll()) {
 					items += i.getDefinition().getName() + "(" + i.getStack() + ") ";
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						Var.pieces++;
