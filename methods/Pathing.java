@@ -827,7 +827,7 @@ public class Pathing {
 				RSInterfaceChild SuggestedWorld = Interfaces.get(76, 23);
 				if (SuggestedWorld != null
 						&& SuggestedWorld.getText().equals("377")) {
-					RSInterfaceChild TeleportButton = Interfaces.get(76, 26);
+					RSInterfaceChild TeleportButton = Interfaces.get(76, 29);
 					if (TeleportButton != null) {
 						TeleportButton.click("Teleport");
 						for (int i = 0; i < 50 && Player.getAnimation() != 4847; i++) {

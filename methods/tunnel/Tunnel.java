@@ -61,8 +61,8 @@ public class Tunnel {
 							&& Interfaces.get(210, 1) == null; fail++) {
 						General.sleep(10, 21);
 					}
-					if (Interfaces.get(210, 1) != null) {
-						Interfaces.get(210, 1).click("Continue");
+					if (Interfaces.get(204, 1) != null) {
+						Interfaces.get(204, 1).click("Continue");
 					}
 					for (int fail = 0; fail < 20
 							&& Interfaces.get(228, 1) == null; fail++) {

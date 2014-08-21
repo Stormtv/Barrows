@@ -85,7 +85,9 @@ public class TunnelTraversing {
 				LootFiltering.addInventory(true);
 				int price = 0;
 				int heldPieces = 0;
+				String oldItems = "";
 				for (RSItem i : Inventory.getAll()) {
+					oldItems += i.getDefinition().getName() + " ";
 					price += PriceHandler.getPrice(i.getDefinition().getName()) * i.getStack();
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						heldPieces++;
@@ -100,7 +102,9 @@ public class TunnelTraversing {
 				int finalPrice = 0;
 				String items = "";
 				for (RSItem i : Inventory.getAll()) {
-					items += i.getDefinition().getName() + "(" + i.getStack() + ") ";
+					if (!oldItems.contains(i.getDefinition().getName())) {
+						items += i.getDefinition().getName() + "(" + i.getStack() + ") ";
+					}
 					if (GeneralMethods.arrayContains(Var.armour_ids, i.getID()))
 						Var.pieces++;
 					finalPrice += PriceHandler.getPrice(i.getDefinition().getName())
