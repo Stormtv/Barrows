@@ -159,9 +159,9 @@ public class BankHandler {
 					Var.running = false;
 					return;
 				}
-				final int count = Inventory.getAll().length;
 				if (Inventory.getCount(Var.SPADE_ID) < 1) {
 					Var.status = "Withdrawing Spade";
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(1, Var.SPADE_ID);
 					Timing.waitCondition(new Condition() {
 						@Override
@@ -181,6 +181,7 @@ public class BankHandler {
 				if (Var.bankPath.equals(Pathing.PathBank.ECTOPHIAL)
 						&& Inventory.getCount(Var.ECTOPHIAL) == 0) {
 					Var.status = "Withdrawing Ectophial";
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(1, Var.ECTOPHIAL);
 					Timing.waitCondition(new Condition() {
 						@Override
@@ -193,6 +194,7 @@ public class BankHandler {
 				if (Var.bankPath.equals(Pathing.PathBank.HOUSE)
 						&& Inventory.getCount(8013) == 0) {
 					Var.status = "Withdrawing House Teleport";
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(1, 8013);
 					Timing.waitCondition(new Condition() {
 						@Override
@@ -205,6 +207,7 @@ public class BankHandler {
 				if (Var.bankPath.equals(Pathing.PathBarrows.FAIRY_RINGS)
 						&& Inventory.getCount(772) == 0) {
 					Var.status = "Withdrawing Dramen Staff";
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(1, 772);
 					Timing.waitCondition(new Condition() {
 						@Override
@@ -217,6 +220,7 @@ public class BankHandler {
 				if (Var.bankPath.equals(Pathing.PathBank.VARROCK)
 						&& Inventory.getCount(8007) == 0) {
 					Var.status = "Withdrawing Varrock Teletab";
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(1, 8007);
 					Timing.waitCondition(new Condition() {
 						@Override
@@ -229,6 +233,7 @@ public class BankHandler {
 						&& (Equipment.getCount(Var.arrowId) + Inventory
 								.getCount(Var.arrowId)) < Var.arrowCount) {
 					Var.status = "Withdrawing Arrows " + Var.arrowId;
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(
 							(Var.arrowCount - Equipment.getCount(Var.arrowId)), Var.arrowId);
 					Timing.waitCondition(new Condition() {
@@ -282,6 +287,7 @@ public class BankHandler {
 						&& Inventory.getCount(Potions.SUPER_ATTACK) != Var.superAttack) {
 					if (Inventory.getCount(Potions.SUPER_ATTACK) < Var.superAttack) {
 						Var.status = "Withdrawing Super Attack";
+						final int count = Inventory.getAll().length;
 						Banking.withdraw(
 								Var.superAttack
 										- Inventory
@@ -296,6 +302,7 @@ public class BankHandler {
 						}, 3000);
 					} else {
 						Var.status = "Depositing Super Attack";
+						final int count = Inventory.getAll().length;
 						Banking.deposit(
 								Inventory.getCount(Potions.SUPER_ATTACK)
 										- Var.superAttack, Potions.SUPER_ATTACK);
@@ -314,6 +321,7 @@ public class BankHandler {
 						&& Inventory.getCount(Potions.SUPER_STRENGTH) != Var.superStrength) {
 					if (Inventory.getCount(Potions.SUPER_STRENGTH) < Var.superStrength) {
 						Var.status = "Withdrawing Super Strength";
+						final int count = Inventory.getAll().length;
 						Banking.withdraw(
 								Var.superStrength
 										- Inventory
@@ -328,6 +336,7 @@ public class BankHandler {
 						}, 3000);
 					} else {
 						Var.status = "Depositing Super Strength";
+						final int count = Inventory.getAll().length;
 						Banking.deposit(
 								Inventory.getCount(Potions.SUPER_STRENGTH)
 										- Var.superStrength,
@@ -346,6 +355,7 @@ public class BankHandler {
 						&& Inventory.getCount(Potions.SUPER_DEFENCE) != Var.superDefence) {
 					if (Inventory.getCount(Potions.SUPER_DEFENCE) < Var.superDefence) {
 						Var.status = "Withdrawing Super Defence";
+						final int count = Inventory.getAll().length;
 						Banking.withdraw(
 								Var.superDefence
 										- Inventory
@@ -359,6 +369,7 @@ public class BankHandler {
 						}, 3000);
 					} else {
 						Var.status = "Depositing Super Defence";
+						final int count = Inventory.getAll().length;
 						Banking.deposit(
 								Inventory.getCount(Potions.SUPER_DEFENCE)
 										- Var.superDefence,
@@ -376,6 +387,7 @@ public class BankHandler {
 				}
 				if (Var.prayerPotion != Inventory
 						.getCount(Potions.PRAYER_POTIONS)) {
+					final int count = Inventory.getAll().length;
 					if (Inventory.getCount(Potions.PRAYER_POTIONS) < Var.prayerPotion) {
 						Var.status = "Withdrawing Prayer Potions";
 						Banking.withdraw(
@@ -401,6 +413,7 @@ public class BankHandler {
 				for (int[] i : Equipment.requiredEquipment()) {
 					if (!has(i) && i[0] != -1) {
 						Var.status = "Withdrawing Equipment";
+						final int count = Inventory.getAll().length;
 						Banking.withdraw(1, i);
 						Timing.waitCondition(new Condition() {
 
@@ -421,6 +434,7 @@ public class BankHandler {
 				}
 				if (getSpaceLeft() > 0) {
 					Var.status = "Withdrawing Food";
+					final int count = Inventory.getAll().length;
 					Banking.withdraw(0, Var.food.getId());
 					Timing.waitCondition(new Condition() {
 

@@ -16,7 +16,7 @@ public class Armor {
 		DharoksLegs(new int[] { 4722, 4898, 4899, 4900, 4901 }, Equipment.SLOTS.LEGS, 4902),
 		DharoksHELMET(new int[] { 4716, 4880, 4881, 4882, 4883 }, Equipment.SLOTS.HELMET, 4884),
 
-		VeracsHELMET(new int[] { 4753, 4976, 4977, 4978, 4979 }, Equipment.SLOTS.HELMET, 4981),
+		VeracsHELMET(new int[] { 4753, 4976, 4977, 4978, 4979 }, Equipment.SLOTS.HELMET, 4980),
 		VeracsBody(new int[] { 4757, 4988, 4989, 4990, 4991 }, Equipment.SLOTS.BODY, 4992),
 		VeracsLegs(new int[] { 4759, 4994, 4995, 4996, 4997 }, Equipment.SLOTS.LEGS, 4998),
 		VeracsFlail(new int[] { 4755, 4982, 4983, 4984, 4985 }, Equipment.SLOTS.WEAPON, 4986),

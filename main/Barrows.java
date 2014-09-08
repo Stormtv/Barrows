@@ -29,6 +29,7 @@ import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.PaintHandler;
 import scripts.Barrows.methods.Pathing;
 import scripts.Barrows.methods.PriceHandler;
+import scripts.Barrows.methods.Repairing;
 import scripts.Barrows.methods.TrialVersionHandler;
 import scripts.Barrows.methods.tunnel.Rooms;
 import scripts.Barrows.methods.tunnel.Tunnel;
@@ -91,15 +92,8 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 				return General.random(25, 50);
 			}
 			if (Armor.getCurrentDegraded() > 0) {
-				Var.status = "Armor Broke Kinda sucks gotta go to bank :(";
-				if (!Var.bankArea.contains(Player.getPosition())) {
-					Pathing.goToBank();
-				} else {
-					System.out.println("Armor broke and repairing barrows armor has not yet been implemented | Stopping Script");
-					General.println("Armor broke and repairing barrows armor has not yet been implemented | Stopping Script");
-					Var.running = false;
-				}
-				//Repairing.repair();
+				Var.status = "Armor Broke Kinda sucks gotta go repair it";
+				Repairing.repair();
 				return General.random(25, 50);
 			}
 			if (BankHandler.needsMoreSupplies()
@@ -123,7 +117,8 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 					&& !Player.getPosition().equals(new RSTile(3498, 3380, 1))
 					&& !Player.getPosition().equals(new RSTile(3490, 3413, 0))
 					&& !Player.getPosition().equals(new RSTile(3497, 3381, 1))
-					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))) {
+					&& !Player.getPosition().equals(new RSTile(3522, 3285, 0))
+					&& !Var.bankArea.contains(Player.getPosition())) {
 				Var.status = "Heading to the bank";
 				Walking.setWalkingTimeout(1);
 				Pathing.goToBank();
