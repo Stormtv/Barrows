@@ -23,6 +23,7 @@ import scripts.Barrows.methods.BankHandler;
 import scripts.Barrows.methods.GeneralMethods;
 import scripts.Barrows.methods.Looting;
 import scripts.Barrows.methods.Pathing;
+import scripts.Barrows.methods.tunnel.Tunnel;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Potions;
@@ -69,15 +70,15 @@ public class BrotherKilling {
 			bro.setTunnel(true);
 		}
 		if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
-			if (!isInCrypt(bro)) {
+			if (!Tunnel.inCrypt()) {
 				Prayer.disableAllPrayers();
 				Var.status = "Going to crypt " + bro.getName();
 				goToCrypt(bro);
 			}
-			for (int fSafe = 0; fSafe < 20 && !isInCrypt(bro); fSafe++) {
+			for (int fSafe = 0; fSafe < 20 && !Tunnel.inCrypt(); fSafe++) {
 				General.sleep(75);
 			}
-			if (isInCrypt(bro)) {
+			if (Tunnel.inCrypt()) {
 				if (aggressiveNPC() != null) {
 					CombatManager(bro);
 				} else {
@@ -93,7 +94,7 @@ public class BrotherKilling {
 	}
 
 	private static void kill(Brothers bro) {
-		RSObject[] coffin = Objects.find(10, bro.getCryptID());
+		RSObject[] coffin = Objects.find(10, "Sarcophagus");
 		if (coffin.length > 0) {
 			Var.status = "Searching the coffin";
 			GeneralMethods.clickObject(coffin[0], "Search", false, false);
@@ -170,8 +171,9 @@ public class BrotherKilling {
 	}
 
 	private static void exitCrypt(Brothers b) {
-		if (Objects.find(10, b.getStair()).length > 0) {
-			RSObject stair = Objects.find(10, b.getStair())[0];
+		RSObject[] stairs = Objects.find(10, "Staircase"); 
+		if (stairs.length > 0) {
+			RSObject stair = stairs[0];
 			GeneralMethods.clickObject(stair, "Climb", false, true);
 			for (int fSafe = 0; fSafe < 20
 					&& Player.getPosition().getPlane() == 3; fSafe++) {
@@ -334,18 +336,6 @@ public class BrotherKilling {
 			Var.status = "Setting Combat Stance";
 			Combat.selectIndex(Var.tunnelStance);
 		}
-		if (Equipment.isEquipped(4587) && Combat.getSelectedStyleIndex()!=1) {
-			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				GameTab.open(GameTab.TABS.COMBAT);
-				for (int fail = 0; fail < 20
-						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
-					General.sleep(15, 25);
-				}
-			}
-			while (Combat.getSelectedStyleIndex() != 1) {
-				Combat.selectIndex(1);
-			}
-		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();
 		}
@@ -413,18 +403,6 @@ public class BrotherKilling {
 				}
 			}
 		}
-		if (Equipment.isEquipped(4587) && Combat.getSelectedStyleIndex()!=1) {
-			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
-				GameTab.open(GameTab.TABS.COMBAT);
-				for (int fail = 0; fail < 20
-						&& !GameTab.getOpen().equals(GameTab.TABS.COMBAT); fail++) {
-					General.sleep(15, 25);
-				}
-			}
-			while (Combat.getSelectedStyleIndex() != 1) {
-				Combat.selectIndex(1);
-			}
-		}
 		if (Equipment.isEquipped(11907) && Combat.getSelectedStyleIndex() != 0) {
 			if (!GameTab.getOpen().equals(GameTab.TABS.COMBAT)) {
 				GameTab.open(GameTab.TABS.COMBAT);
@@ -483,13 +461,13 @@ public class BrotherKilling {
 		return Interfaces.get(210, 0) != null;
 	}
 
-	public static boolean isInCrypt(Brothers b) {
+	/*public static boolean isInCrypt(Brothers b) {
 		if (b == null) {
 			return false;
 		}
 		return (Player.getPosition().getPlane() == 3 && Objects.find(15,
 				b.getCryptID()).length > 0);
-	}
+	}*/
 
 	public static RSNPC aggressiveNPC() {
 		for (RSNPC n : NPCs.getAll()) {

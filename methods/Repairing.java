@@ -189,7 +189,7 @@ public class Repairing {
 					}
 				}, 3000);
 			}
-			if (Inventory.getCount(995) >= 330000) {
+			if (Inventory.getCount(995) >= 330000 && Banking.isBankScreenOpen()) {
 				Var.status = "got dat bling bling closing the bank";
 				Banking.close();
 				for (int i = 0; i < 20 && Banking.isBankScreenOpen(); i++) {
@@ -206,7 +206,13 @@ public class Repairing {
 			} else {
 				bank();
 			}
-		} else if (Armor.getCurrentDegraded() > 0) {
+		} else if (Banking.isBankScreenOpen()) {
+			Var.status = "got dat bling bling closing the bank";
+			Banking.close();
+			for (int i = 0; i < 20 && Banking.isBankScreenOpen(); i++) {
+				General.sleep(30,50);
+			}
+		} else if (Armor.getCurrentDegraded() > 0 && !Banking.isBankScreenOpen()) {
 			if (Var.bankArea.contains(Player.getPosition())
 					&& new RSTile(Player.getPosition().getX(), Player
 							.getPosition().getY()).distanceTo(new RSTile(3223,

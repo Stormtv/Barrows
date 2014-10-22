@@ -25,14 +25,13 @@ public class Tunnel {
 
 	public static void exitCrypt() {
 		Var.status = "Lost Exiting Crypt";
-		for (Brothers b : Brothers.values()) {
-			if (Objects.find(10, b.getStair()).length > 0) {
-				RSObject stair = Objects.find(10, b.getStair())[0];
-				GeneralMethods.clickObject(stair, "Climb", false, true);
-				for (int fSafe = 0; fSafe < 20
-						&& Player.getPosition().getPlane() == 3; fSafe++) {
-					General.sleep(75);
-				}
+		RSObject[] stairs = Objects.find(10, "Staircase");
+		if (stairs.length > 0) {
+			RSObject stair = stairs[0];
+			GeneralMethods.clickObject(stair, "Climb", false, true);
+			for (int fSafe = 0; fSafe < 20
+					&& Player.getPosition().getPlane() == 3; fSafe++) {
+				General.sleep(75);
 			}
 		}
 	}
@@ -47,11 +46,11 @@ public class Tunnel {
 	public static void goToTunnel() {
 		for (Brothers b : Brothers.values()) {
 			if (b.isTunnel()) {
-				if (!BrotherKilling.isInCrypt(b)) {
+				if (!Tunnel.inCrypt()) {
 					BrotherKilling.goToCrypt(b);
 				}
-				if (BrotherKilling.isInCrypt(b)) {
-					RSObject[] sarco = Objects.find(20, b.getCryptID());
+				if (Tunnel.inCrypt()) {
+					RSObject[] sarco = Objects.find(20, "Sarcophagus");
 					if (Interfaces.get(210) == null
 							&& Interfaces.get(228) == null) {
 						GeneralMethods.clickObject(sarco[0], "Search", false,
@@ -83,16 +82,16 @@ public class Tunnel {
 	}
 
 	public static boolean inCrypt() {
-		return Objects.find(20, "Sarcophagus").length > 0;
-	}
-
-	public static Brothers whosCrypt() {
-		for (Brother.Brothers b : Brother.Brothers.values()) {
-			if (Objects.find(20, b.getCryptID()).length > 0) {
-				return b;
+		int count = 0;
+		for (int i = 0; i < 20; i++) {
+			if(Objects.find(20, "Sarcophagus").length > 0) {
+				count++;
 			}
 		}
-		return null;
+		if (count > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public static int getKillCount() {

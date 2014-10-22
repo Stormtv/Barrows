@@ -27,8 +27,6 @@ public class Brother {
 		private Prayer.Prayers prayer;
 		private boolean usePotions;
 		private Magic.Spell spell;
-		private int cryptID;
-		private int stairID;
 		private int killedShift;
 		private int x;
 		private int y;
@@ -47,8 +45,6 @@ public class Brother {
 			this.digArea = digArea;
 			this.prayer = prayer;
 			this.spell = spell;
-			this.cryptID = cryptID;
-			this.stairID = stairID;
 			this.killedShift = killedShift;
 			this.x = x;
 			this.y = y;
@@ -70,10 +66,6 @@ public class Brother {
 
 		public boolean isKilled() {
 			return killed;
-		}
-
-		public int getStair() {
-			return stairID;
 		}
 
 		public int killOrder() {
@@ -109,11 +101,6 @@ public class Brother {
 		public Magic.Spell getSpell() {
 			return spell;
 		}
-
-		public int getCryptID() {
-			return cryptID;
-		}
-
 		// Setters
 
 		public void setKillOrder(int index) {

@@ -58,7 +58,7 @@ public class TunnelTraversing {
 		if (climbingTool != null) {
 			GeneralMethods.clickObject(climbingTool, "Climb", false, false);
 			for (int i = 0; i < 40
-					&& !BrotherKilling.isInCrypt(Tunnel.whosCrypt()); i++) {
+					&& !Tunnel.inCrypt(); i++) {
 				General.sleep(10, 20);
 			}
 		}
