@@ -50,32 +50,39 @@ public class Tunnel {
 					BrotherKilling.goToCrypt(b);
 				}
 				if (Tunnel.inCrypt()) {
-					RSObject[] sarco = Objects.find(20, "Sarcophagus");
-					if (Interfaces.get(210) == null
-							&& Interfaces.get(228) == null) {
-						GeneralMethods.clickObject(sarco[0], "Search", false,
-								true);
+					RSObject[] coffin = Objects.find(10, "Sarcophagus");
+					if (coffin.length > 0) {
+						if (Interfaces.get(210) == null
+								&& Interfaces.get(228) == null) {
+							Var.status = "Searching the coffin";
+							GeneralMethods.clickObject(coffin[0], "Search", false, false);
+							Var.status = "Searched the coffin";
+						}
+						General.sleep(350,500);
+						while(Player.isMoving())General.sleep(10, 20);
+						for (int fail = 0; fail < 20
+								&& Interfaces.get(210, 1) == null; fail++) {
+							General.sleep(10, 21);
+						}
+						if (Interfaces.get(204, 1) != null) {
+							Interfaces.get(204, 1).click("Continue");
+						}
+						for (int fail = 0; fail < 20
+								&& Interfaces.get(228, 1) == null; fail++) {
+							General.sleep(10, 21);
+						}
+						if (Interfaces.get(228, 1) != null) {
+							Interfaces.get(228, 1).click("Continue");
+						}
+						for (int fail = 0; fail < 40 && Rooms.getRoom() == null; fail++) {
+							General.sleep(10, 21);
+						}
+						General.sleep(450, 650);
+						Var.startingRoom = Rooms.getStartingRoom();
+						Camera.setCameraAngle(General.random(80, 100));
+					} else {
+						General.println("Sarcophagus Length is less thans 1");
 					}
-					for (int fail = 0; fail < 20
-							&& Interfaces.get(210, 1) == null; fail++) {
-						General.sleep(10, 21);
-					}
-					if (Interfaces.get(204, 1) != null) {
-						Interfaces.get(204, 1).click("Continue");
-					}
-					for (int fail = 0; fail < 20
-							&& Interfaces.get(228, 1) == null; fail++) {
-						General.sleep(10, 21);
-					}
-					if (Interfaces.get(228, 1) != null) {
-						Interfaces.get(228, 1).click("Continue");
-					}
-					for (int fail = 0; fail < 40 && Rooms.getRoom() == null; fail++) {
-						General.sleep(10, 21);
-					}
-					General.sleep(450, 650);
-					Var.startingRoom = Rooms.getStartingRoom();
-					Camera.setCameraAngle(General.random(80, 100));
 				}
 			}
 		}

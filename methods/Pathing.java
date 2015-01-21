@@ -857,7 +857,7 @@ public class Pathing {
 		Var.status = "Using shortcut to get to barrows";
 		if (!Banking.close())
 			General.sleep(1000);
-		if (isNearTrapDoor()) {
+		if (isNearTrapDoor() && Player.getPosition().distanceTo(new RSTile(3509,3449,0)) > 5) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
 			if (trapdoor != null && trapdoor.length > 0
 					&& Player.getPosition().distanceTo(trapdoor[1]) < 15) {
@@ -956,8 +956,8 @@ public class Pathing {
 			new RSTile(3492, 9817, 0), new RSTile(3499, 9811, 0) };
 
 	static boolean isNearTrapDoor() {
-		return new RSTile(3505, 3468, 0).distanceTo(Player.getRSPlayer()) < 15
-				|| new RSTile(3495, 3464, 0).distanceTo(Player.getRSPlayer()) < 15;
+		return new RSTile(3505, 3468, 0).distanceTo(Player.getRSPlayer()) < 20
+				|| new RSTile(3495, 3464, 0).distanceTo(Player.getRSPlayer()) < 20;
 	}
 
 	public static void enterBoat() {

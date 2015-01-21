@@ -334,7 +334,12 @@ public class BrotherKilling {
 		if (Combat.getSelectedStyleIndex() != Var.tunnelStance
 				&& Var.tunnelStance != -1) {
 			Var.status = "Setting Combat Stance";
-			Combat.selectIndex(Var.tunnelStance);
+			try {
+				Combat.selectIndex(Var.tunnelStance);
+			} catch(Exception e) {
+				General.println("Error With tunnel stance");
+				e.printStackTrace();
+			}
 		}
 		if (Food.canEatWithoutWaste()) {
 			Food.eat();

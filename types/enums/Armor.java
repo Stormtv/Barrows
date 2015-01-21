@@ -37,7 +37,8 @@ public class Armor {
 		AhrimStaff(new int[] { 4710, 4862, 4863, 4864, 4865 }, Equipment.SLOTS.WEAPON, 4866),
 
 		AmuletOfGlory(new int[] { 1704, 1706, 1708, 1710, 1712 }, Equipment.SLOTS.AMULET, -10),
-		TridentOfTheSeas(new int[] {11905, 11907, 11908}, Equipment.SLOTS.WEAPON, -10);
+		TridentOfTheSeas(new int[] {11905, 11907, 11908}, Equipment.SLOTS.WEAPON, -10),
+		CrystalShield(new int[] {4224,4225,4226,4227,4228,4229,4230,4231,4233,4234}, Equipment.SLOTS.SHIELD, -10);
 		private int[] id;
 		private Equipment.SLOTS SLOTS;
 		private int Degraded;

@@ -50,13 +50,14 @@ public class Potions {
 			int doseID = getBestDoseToDrink();
 			if (Inventory.find(doseID).length > 0) {
 				openInventory();
+				int count = Inventory.find(doseID).length;
 				if (Inventory.find(doseID)[0].click("Drink")) {
 					for (int fail = 0; fail < 10
 							&& Player.getAnimation() != 829; fail++) {
 						General.sleep(50, 75);
 					}
 					for (int fsafe = 0; fsafe < 50
-							&& Player.getAnimation() == 829; fsafe++) {
+							&& Inventory.find(doseID).length >= count; fsafe++) {
 						General.sleep(40);
 					}
 					General.sleep(450, 600);
@@ -110,66 +111,76 @@ public class Potions {
 						- Skills.getActualLevel(Skills.SKILLS.STRENGTH) < 5) {
 			// Strength
 			openInventory();
+			int did = Inventory.find(161, 159, 157, 2440)[0].getID();
+			int count = Inventory.find(did).length;
 			Inventory.find(161, 159, 157, 2440)[0].click("Drink");
-			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+			for (int fail = 0; fail < 30 && Player.getAnimation() != 829; fail++) {
 				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
-				General.sleep(40);
+			for (int fsafe = 0; fsafe < 50 && Inventory.find(did).length >= count; fsafe++) {
+				General.sleep(40,80);
 			}
-			General.sleep(450, 600);
+			General.sleep(350,700);
 		}
 		if (Inventory.getCount(167, 165, 163, 2442) > 0
 				&& Skills.getCurrentLevel(Skills.SKILLS.DEFENCE)
 						- Skills.getActualLevel(Skills.SKILLS.DEFENCE) < 5) {
 			openInventory();
+			int did = Inventory.find(167, 165, 163, 2442)[0].getID();
+			int count = Inventory.find(did).length;			
 			Inventory.find(167, 165, 163, 2442)[0].click("Drink");
-			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+			for (int fail = 0; fail < 30 && Player.getAnimation() != 829; fail++) {
 				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
-				General.sleep(40);
+			for (int fsafe = 0; fsafe < 50 && Inventory.find(did).length >= count; fsafe++) {
+				General.sleep(40,80);
 			}
-			General.sleep(450, 600);
+			General.sleep(350,700);
 		}
 		if (Inventory.getCount(149, 147, 145, 2436) > 0
 				&& Skills.getCurrentLevel(Skills.SKILLS.ATTACK)
 						- Skills.getActualLevel(Skills.SKILLS.ATTACK) < 5) {
 			openInventory();
+			int did = Inventory.find(149,147,145,2436)[0].getID();
+			int count = Inventory.find(did).length;
 			Inventory.find(149, 147, 145, 2436)[0].click("Drink");
-			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+			for (int fail = 0; fail < 30 && Player.getAnimation() != 829; fail++) {
 				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
-				General.sleep(40);
+			for (int fsafe = 0; fsafe < 50 && Inventory.find(did).length >= count; fsafe++) {
+				General.sleep(40,80);
 			}
-			General.sleep(450, 600);
+			General.sleep(350,700);
 		}
 		if (Inventory.getCount(2444, 169, 171, 173) > 0
 				&& Skills.getCurrentLevel(Skills.SKILLS.RANGED)
 						- Skills.getActualLevel(Skills.SKILLS.RANGED) < 4) {
 			openInventory();
+			int did = Inventory.find(2444, 169, 171, 173)[0].getID();
+			int count = Inventory.find(did).length;
 			Inventory.find(2444, 169, 171, 173)[0].click("Drink");
-			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+			for (int fail = 0; fail < 30 && Player.getAnimation() != 829; fail++) {
 				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
-				General.sleep(40);
+			for (int fsafe = 0; fsafe < 50 && Inventory.find(did).length >= count; fsafe++) {
+				General.sleep(40,80);
 			}
-			General.sleep(450, 600);
+			General.sleep(350,700);
 		}
 		if (Inventory.getCount(9745, 9743, 9741, 9739) > 0
 				&& Skills.getCurrentLevel(Skills.SKILLS.STRENGTH)
 						- Skills.getActualLevel(Skills.SKILLS.STRENGTH) < 3) {
 			openInventory();
+			int did = Inventory.find(9745, 9743, 9741, 9739)[0].getID();
+			int count = Inventory.find(did).length;
 			Inventory.find(9745, 9743, 9741, 9739)[0].click("Drink");
-			for (int fail = 0; fail < 10 && Player.getAnimation() != 829; fail++) {
+			for (int fail = 0; fail < 30 && Player.getAnimation() != 829; fail++) {
 				General.sleep(50, 75);
 			}
-			for (int fsafe = 0; fsafe < 50 && Player.getAnimation() == 829; fsafe++) {
-				General.sleep(40);
+			for (int fsafe = 0; fsafe < 50 && Inventory.find(did).length >= count; fsafe++) {
+				General.sleep(40,80);
 			}
-			General.sleep(450, 600);
+			General.sleep(350,700);
 		}
 		if (Game.getUptext().contains("->")) {
 			Walking.walkTo(Player.getPosition());
