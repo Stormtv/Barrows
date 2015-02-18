@@ -106,7 +106,7 @@ public class BrotherKilling {
 		}
 		for (int fSafe = 0; fSafe < 20 && !tunnelInterface() || fSafe < 20
 				&& aggressiveNPC() == null; fSafe++) {
-			General.sleep(20);
+			General.sleep(35,60);
 			Var.status = "Waiting";
 		}
 		if (tunnelInterface()) {

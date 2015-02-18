@@ -81,6 +81,7 @@ public class TunnelTraversing {
 					General.sleep(30,50);
 				}
 			} else {
+				BrotherKilling.killBrotherInTunnel();
 				Var.status = "Grabbin some of dat mad loot";
 				LootFiltering.addInventory(true);
 				int price = 0;
