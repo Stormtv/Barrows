@@ -79,7 +79,6 @@ public class Barrows extends Script implements Painting, MouseActions,
 
 	@SuppressWarnings("deprecation")
 	private int loop() {
-		Walking.walking_timeout = General.random(250, 350);
 		Mouse.setSpeed(Var.mouseSpeed+General.random(-100, 100));
 		try {
 			GeneralMethods.adjustBrightness();

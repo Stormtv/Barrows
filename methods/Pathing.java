@@ -611,8 +611,8 @@ public class Pathing {
 					} else {
 						RSObject door = getClosestDoor(portal[0]);
 						if (door != null) {
-							GeneralMethods.clickObject(door, "Open", true,
-									true);
+							GeneralMethods
+									.clickObject(door, "Open", true, true);
 						}
 					}
 				}
@@ -1016,7 +1016,7 @@ public class Pathing {
 			} else {
 				if (new RSTile(2412, 4434, 0).distanceTo(Player.getRSPlayer()) < 10) {
 					if (Interfaces.get(426, 33) != null) {
-						if (FairyRing.SetFairyCombination("b", "k", "r")) {
+						if (FairyRing.setFairyCombination()) {
 							if (Interfaces.get(426, 33).click("Ok")) {
 								Timing.waitCondition(new Condition() {
 									@Override
