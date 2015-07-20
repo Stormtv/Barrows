@@ -80,7 +80,7 @@ public class BrotherKilling {
 			}
 			if (Tunnel.inCrypt()) {
 				if (aggressiveNPC() != null) {
-					CombatManager(bro);
+					combatManager(bro);
 				} else {
 					if (bro != null && !bro.isTunnel() && !bro.isKilled()) {
 						Var.status = "Checking Coffin";
@@ -119,7 +119,7 @@ public class BrotherKilling {
 			if (target != null) {
 				Var.status = "Target Found";
 				attackMob(target);
-				CombatManager(bro);
+				combatManager(bro);
 			} else if (GeneralMethods.lastMessage().equals(
 					"You don't find anything.")) {
 				Var.status = "No Target must of killed him already";
@@ -132,14 +132,14 @@ public class BrotherKilling {
 		exitCrypt(bro);
 	}
 
-	private static void CombatManager(Brothers b) {
+	private static void combatManager(Brothers b) {
 		while (Player.getRSPlayer().getInteractingCharacter() != null
 				|| aggressiveNPC() != null
 				|| !PathFinding.canReach(aggressiveNPC(), false)) {
 			if (BankHandler.needToBank(b)) {
 				return;
 			}
-			UpKeep(b);
+			upKeep(b);
 			GeneralMethods.ABCL();
 			if (!b.getPrayer().equals(Prayer.Prayers.None)
 					&& !b.getPrayer().isActivated()) {
@@ -163,7 +163,7 @@ public class BrotherKilling {
 		}
 	}
 
-	private static void UpKeep(Brothers b) {
+	private static void upKeep(Brothers b) {
 		if (!b.getPrayer().equals(Prayer.Prayers.None)) {
 			Potions.drinkPrayerInCombat();
 		}
@@ -238,7 +238,7 @@ public class BrotherKilling {
 			tunnelPrayer(bro);
 			getReadyToFight(bro);
 			attackMob(target);
-			CombatManager(bro);
+			combatManager(bro);
 			if (!BankHandler.needToBank()) {
 				Var.status = "Disabling Prayer";
 				Prayer.disableAllPrayers();

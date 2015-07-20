@@ -7,17 +7,13 @@ import org.tribot.api.Timing;
 import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Banking;
 import org.tribot.api2007.GameTab;
+import org.tribot.api2007.GameTab.TABS;
+import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Login;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Skills;
-import org.tribot.api2007.GameTab.TABS;
-import org.tribot.api2007.Inventory;
-import org.tribot.api2007.Objects;
 import org.tribot.api2007.types.RSItem;
-import org.tribot.api2007.types.RSObject;
 
-import scripts.Barrows.methods.Pathing.PathBank;
-import scripts.Barrows.methods.Pathing.PathBarrows;
 import scripts.Barrows.types.Brother;
 import scripts.Barrows.types.Brother.Brothers;
 import scripts.Barrows.types.Potions;
@@ -32,32 +28,28 @@ public class BankHandler {
 	public static int[] getRequiredItems() {
 		ArrayList<Integer> items = new ArrayList<Integer>();
 
-		for (int[] i : Equipment.requiredEquipment()) {
-			for (int j : i) {
-				if (!items.contains(j)) {
+		for (int[] i : Equipment.requiredEquipment())
+			for (int j : i)
+				if (!items.contains(j))
 					items.add(j);
-				}
-			}
-		}
-		for (int[] i : Var.tunnelEquipment) {
-			for (int j : i) {
-				if (!items.contains(j)) {
+
+		for (int[] i : Var.tunnelEquipment)
+			for (int j : i)
+				if (!items.contains(j))
 					items.add(j);
-				}
-			}
-		}
+
 		items.add(Var.food.getId());
 		items.add(Var.SPADE_ID);
 		items.add(Var.arrowId);
-		if (Var.bankPath.equals(PathBank.ECTOPHIAL)) {
-			items.add(Var.ECTOPHIAL);
-		} else if (Var.bankPath.equals(PathBank.HOUSE)) {
-			items.add(8013);
-		} else if (Var.bankPath.equals(PathBank.VARROCK)) {
-			items.add(8007);
-		} else if (Var.barrowsPath.equals(PathBarrows.FAIRY_RINGS)) {
-			items.add(772);
-		}
+
+		int id_for_to_bank = Var.bankPath.getId();
+		int id_for_to_barrows = Var.barrowsPath.getId();
+
+		if (id_for_to_bank != -1)
+			items.add(id_for_to_bank);
+		if (id_for_to_barrows != -1)
+			items.add(id_for_to_barrows);
+
 		for (int i : Potions.PRAYER_POTIONS_3DOSE)
 			items.add(i);
 		for (int i : Potions.SUPER_POTS_3DOSE)
@@ -65,9 +57,8 @@ public class BankHandler {
 		for (int i : Magic.getRuneIDs())
 			items.add(i);
 		int[] intArray = new int[items.size()];
-		for (int i = 0; i < items.size(); i++) {
+		for (int i = 0; i < items.size(); i++)
 			intArray[i] = items.get(i).intValue();
-		}
 
 		return intArray;
 	}
@@ -76,23 +67,22 @@ public class BankHandler {
 		ArrayList<Integer> items = new ArrayList<Integer>();
 		for (int i : getRequiredItems())
 			items.add(i);
-		for (RSItem r : Inventory.getAll()) {
+		for (RSItem r : Inventory.getAll())
 			if (!items.contains(r.getID()))
 				return true;
-		}
 		return false;
 	}
 
 	public static void bank() {
-		if (!Banking.isPinScreenOpen() && !Banking.isBankScreenOpen()) {
+		if (!Banking.isPinScreenOpen() && !Banking.isBankScreenOpen())
 			Equipment.equipMostFullSet();
-		}
-		if (!Banking.isBankScreenOpen()) {
+
+		if (!Banking.isBankScreenOpen())
 			openBank();
-		}
-		if (Banking.isPinScreenOpen()) {
+
+		if (Banking.isPinScreenOpen())
 			Banking.inPin();
-		}
+
 		if (Banking.isBankScreenOpen()) {
 			if (Skills.getActualLevel(Skills.SKILLS.HITPOINTS) > Skills
 					.getCurrentLevel(Skills.SKILLS.HITPOINTS)
@@ -105,51 +95,46 @@ public class BankHandler {
 				Banking.withdraw(withdrawAmount, Var.food.getId());
 				Banking.close();
 				eatAtBank(withdrawAmount);
-				if (!Banking.isBankScreenOpen()) {
+				if (!Banking.isBankScreenOpen())
 					openBank();
-				}
 			}
 			if (Inventory.getCount(11908) > 0 || Equipment.isEquipped(11908)) {
 				Var.status = "Recharging the Trident";
 				Banking.deposit(Inventory.find(Var.food.getId()).length,
 						Var.food.getId());
-				if (Inventory.getCount(554) == 0) {
-					if (Banking.find(554).length != 0) {
+				if (Inventory.getCount(554) == 0)
+					if (Banking.find(554).length != 0)
 						Banking.withdraw(12500, 554);
-					} else {
+					else
 						Var.running = false;
-					}
-				}
-				if (Inventory.getCount(560) == 0) {
-					if (Banking.find(560).length != 0) {
-					Banking.withdraw(2500, 560);
-					} else {
+
+				if (Inventory.getCount(560) == 0)
+					if (Banking.find(560).length != 0)
+						Banking.withdraw(2500, 560);
+					else
 						Var.running = false;
-					}
-				}
-				if (Inventory.getCount(562) == 0) {
-					if (Banking.find(562).length != 0) {
+
+				if (Inventory.getCount(562) == 0)
+					if (Banking.find(562).length != 0)
 						Banking.withdraw(2500, 562);
-					} else {
+					else
 						Var.running = false;
-					}
-				}
-				if (Inventory.getCount(995) == 0) {
-					if (Banking.find(995).length != 0) {
+
+				if (Inventory.getCount(995) == 0)
+					if (Banking.find(995).length != 0)
 						Banking.withdraw(25000, 995);
-					} else {
+					else
 						Var.running = false;
-					}
-				}
+
 				Banking.close();
 				Staves.rechargeTrident();
-				if (!Banking.isBankScreenOpen()) {
+				if (!Banking.isBankScreenOpen())
 					openBank();
-				}
+
 			}
-			if (hasJunk()) {
+			if (hasJunk())
 				Banking.depositAllExcept(getRequiredItems());
-			} else {
+			else {
 				if (GeneralMethods.needsToLogout()) {
 					while (Banking.isBankScreenOpen())
 						Banking.close();
@@ -235,7 +220,8 @@ public class BankHandler {
 					Var.status = "Withdrawing Arrows " + Var.arrowId;
 					final int count = Inventory.getAll().length;
 					Banking.withdraw(
-							(Var.arrowCount - Equipment.getCount(Var.arrowId)), Var.arrowId);
+							(Var.arrowCount - Equipment.getCount(Var.arrowId)),
+							Var.arrowId);
 					Timing.waitCondition(new Condition() {
 						@Override
 						public boolean active() {
@@ -425,8 +411,7 @@ public class BankHandler {
 						System.out.println("lil " + i);
 						return;
 					} else if (i.length > 1
-							&& Inventory.getCount(i)
-									+ Equipment.getCount(i) > 1) {
+							&& Inventory.getCount(i) + Equipment.getCount(i) > 1) {
 						if (Inventory.getCount(i) > 0) {
 							Banking.deposit(1, i);
 						}
@@ -450,24 +435,17 @@ public class BankHandler {
 	}
 
 	private static void openBank() {
-		RSObject[] banker = Objects.findNearest(15, "Bank booth");
-		if (banker.length > 0 && !Banking.isBankScreenOpen()
-				&& !Banking.isPinScreenOpen()) {
-			Var.status = "Opening the bank";
-			GeneralMethods.clickObject(banker[0], "Bank", true, true);
-			for (int fail = 0; fail < 20 && !Banking.isBankScreenOpen()
-					&& !Banking.isPinScreenOpen(); fail++) {
-				General.sleep(20, 40);
+		Banking.openBankBooth();
+		Timing.waitCondition(new Condition() {
+			@Override
+			public boolean active() {
+				return Banking.isBankScreenOpen();
 			}
-		}
+		}, 5000);
 	}
 
 	private static void eatAtBank(int withdrawAmount) {
-		General.sleep(90, 120);
-		if (GameTab.getOpen() != TABS.INVENTORY) {
-			GameTab.open(GameTab.TABS.INVENTORY);
-		}
-		General.sleep(30, 90);
+		GameTab.open(GameTab.TABS.INVENTORY);
 		RSItem[] d = Inventory.find(Var.food.getId());
 		for (int i = 0; i < withdrawAmount && i < d.length; i++) {
 			final int prev = Inventory.getAll().length;
@@ -479,22 +457,24 @@ public class BankHandler {
 				}
 
 			}, General.random(1700, 1900));
-			for (int fsafe = 0; fsafe < 5 && Player.getAnimation() != -1; fsafe++) {
-				General.sleep(75, 100);
-			}
-			General.sleep(150, 190);
+			Timing.waitCondition(new Condition() {
+
+				@Override
+				public boolean active() {
+					return Player.getAnimation() != -1;
+				}
+			}, General.random(400, 700));
 		}
 	}
 
 	static boolean has(int... l) {
-		return Inventory.getCount(l) > 0
-				|| Equipment.isEquipped(l);
+		return Inventory.getCount(l) > 0 || Equipment.isEquipped(l);
 	}
 
 	static int getSpaceLeft() {
 		return (28 - Inventory.getAll().length);
 	}
-	
+
 	public static boolean needToBank() {
 		return needToBank(null);
 	}

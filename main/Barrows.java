@@ -13,6 +13,7 @@ import org.tribot.api.General;
 import org.tribot.api.util.ABCUtil;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.Screen;
+import org.tribot.api2007.Skills.SKILLS;
 import org.tribot.api2007.Walking;
 import org.tribot.api2007.types.RSTile;
 import org.tribot.script.Script;
@@ -41,7 +42,8 @@ import scripts.Barrows.types.enums.Armor;
 import scripts.Barrows.util.Timer;
 
 @ScriptManifest(authors = { "wussupwussup, integer" }, category = "Money Making", name = "wBarrows")
-public class Barrows extends Script implements Ending, Painting, MouseActions, MousePainting {
+public class Barrows extends Script implements Ending, Painting, MouseActions,
+		MousePainting {
 
 	@Override
 	public void run() {
@@ -58,7 +60,7 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 			}
 		}
 	}
-	
+
 	public BufferedImage getScreenshot(boolean includePaint) {
 		BufferedImage i = new BufferedImage(765, 502,
 				BufferedImage.TYPE_3BYTE_BGR);
@@ -76,8 +78,7 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 	}
 
 	private int loop() {
-		Walking.setWalkingTimeout(General.random(250, 350));
-		GeneralMethods.ABCL();
+		Var.abc_util.performTimedActions(SKILLS.STRENGTH);
 		try {
 			GeneralMethods.adjustBrightness();
 			if (Prayer.anyPrayerEnabled() && Rooms.getRoom() == null
@@ -85,10 +86,11 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 				Prayer.disableAllPrayers();
 				return General.random(25, 50);
 			}
-			if(Player.getPosition().getX() > 3580 && Player.getPosition().getX() < 3590){
+			if (Player.getPosition().getX() > 3580
+					&& Player.getPosition().getX() < 3590) {
 				Walking.walkTo(new RSTile(3575, 3292, 0));
-				while(Player.isMoving())
-					General.sleep(100,150);
+				while (Player.isMoving())
+					General.sleep(100, 150);
 				return General.random(25, 50);
 			}
 			if (Armor.getCurrentDegraded() > 0) {
@@ -131,7 +133,8 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 				}
 				return General.random(25, 50);
 			}
-			if (!Tunnel.isCompleted() || !Pathing.isInBarrows()) Brothers.statusCheck();
+			if (!Tunnel.isCompleted() || !Pathing.isInBarrows())
+				Brothers.statusCheck();
 			if (Pathing.isInBarrows() && BrotherKilling.canKill()) {
 				BrotherKilling.StartFight();
 				return General.random(25, 50);
@@ -178,8 +181,9 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 			GeneralMethods.updateTracker("Script Runs", 1);
 			println("Thank you for using wBarrows "
 					+ General.getTRiBotUsername()
-					+ ", if you have any issues contact us on skype: wussupscripts / integerscripting");
-			System.out.println("ALWAYS BESURE TO WATCH THE SCRIPT COMPLETE AT LEAST ONE RUN BEFORE AFKING!");
+					+ ", if you have any issues contact me on skype: assume.support");
+			System.out
+					.println("ALWAYS BESURE TO WATCH THE SCRIPT COMPLETE AT LEAST ONE RUN BEFORE AFKING!");
 			println("ALWAYS BESURE TO WATCH THE SCRIPT COMPLETE AT LEAST ONE RUN BEFOR AFKING!");
 			GeneralMethods.adjustBrightness();
 			activateGUI();
@@ -225,14 +229,14 @@ public class Barrows extends Script implements Ending, Painting, MouseActions, M
 
 	boolean showPaint = true;
 
-	
 	public void onPaint(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
 		if (showPaint) {
 			PaintHandler.drawPaint(g);
 		} else {
 			g.draw(closePaint);
-			g.drawString("Enable Paint", (closePaint.x - 80), (closePaint.y + 15));
+			g.drawString("Enable Paint", (closePaint.x - 80),
+					(closePaint.y + 15));
 		}
 	}
 

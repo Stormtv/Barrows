@@ -35,6 +35,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -968,63 +969,69 @@ public class BarrowGUI extends JFrame {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (int index = 0; index < 6; index++) {
-					String s = modelSelected.getElementAt(index);
-					switch (s) {
-					case "Dharok":
-						Brother.Brothers.Dharok.setKillOrder(index);
-						break;
-					case "Karil":
-						Brother.Brothers.Karil.setKillOrder(index);
-						break;
-					case "Verac":
-						Brother.Brothers.Verac.setKillOrder(index);
-						break;
-					case "Guthan":
-						Brother.Brothers.Guthan.setKillOrder(index);
-						break;
-					case "Torag":
-						Brother.Brothers.Torag.setKillOrder(index);
-						break;
-					case "Ahrim":
-						Brother.Brothers.Ahrim.setKillOrder(index);
-						break;
+				try {
+					for (int index = 0; index < 6; index++) {
+						String s = modelSelected.getElementAt(index);
+						switch (s) {
+						case "Dharok":
+							Brother.Brothers.Dharok.setKillOrder(index);
+							break;
+						case "Karil":
+							Brother.Brothers.Karil.setKillOrder(index);
+							break;
+						case "Verac":
+							Brother.Brothers.Verac.setKillOrder(index);
+							break;
+						case "Guthan":
+							Brother.Brothers.Guthan.setKillOrder(index);
+							break;
+						case "Torag":
+							Brother.Brothers.Torag.setKillOrder(index);
+							break;
+						case "Ahrim":
+							Brother.Brothers.Ahrim.setKillOrder(index);
+							break;
+						}
 					}
+
+					Var.food = (Food.Edibles) cbxFood.getSelectedItem();
+
+					Var.killCount = (int) spinner.getValue();
+					Var.nextRunDoses = (int) spnDoses.getValue();
+					Var.nextRunFood = (int) spnFood.getValue();
+					Var.foodAmount = Integer.parseInt(txtFood.getText());
+					Var.superAttack = Integer.parseInt(txtSA.getText());
+					Var.superStrength = Integer.parseInt(txtSS.getText());
+					Var.superDefence = Integer.parseInt(txtSD.getText());
+					Var.rangingPotion = Integer.parseInt(txtRP.getText());
+					Var.prayerPotion = Integer.parseInt(txtPP.getText());
+					Var.arrowCount = Integer.parseInt(txtArrows.getText());
+					Var.spellCount = Integer.parseInt(txtCasts.getText());
+
+					Var.bankPath = (Pathing.PathBank) cbxBank.getSelectedItem();
+					Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows
+							.getSelectedItem();
+
+					Var.arrowId = Equipment
+							.getEquipmentID(Equipment.SLOTS.ARROW);
+					if (true) {// if (validateInput()) {
+						try {
+							Var.fileName = "Settings";
+							GUISave.save();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						Var.guiWait = false;
+						Var.gui.setVisible(false);
+					} else {
+						System.out
+								.println("ERROR: please check to make sure you set your equipment for all the brothers and for the tunnels");
+						General.println("ERROR: please check to make sure you set your equipment for all the brothers and for the tunnels");
+					}
+				} catch (Exception ee) {
+					ee.printStackTrace();
 				}
 
-				Var.food = (Food.Edibles) cbxFood.getSelectedItem();
-
-				Var.killCount = (int) spinner.getValue();
-				Var.nextRunDoses = (int) spnDoses.getValue();
-				Var.nextRunFood = (int) spnFood.getValue();
-				Var.foodAmount = Integer.parseInt(txtFood.getText());
-				Var.superAttack = Integer.parseInt(txtSA.getText());
-				Var.superStrength = Integer.parseInt(txtSS.getText());
-				Var.superDefence = Integer.parseInt(txtSD.getText());
-				Var.rangingPotion = Integer.parseInt(txtRP.getText());
-				Var.prayerPotion = Integer.parseInt(txtPP.getText());
-				Var.arrowCount = Integer.parseInt(txtArrows.getText());
-				Var.spellCount = Integer.parseInt(txtCasts.getText());
-
-				Var.bankPath = (Pathing.PathBank) cbxBank.getSelectedItem();
-				Var.barrowsPath = (Pathing.PathBarrows) cbxBarrows
-						.getSelectedItem();
-
-				Var.arrowId = Equipment.getEquipmentID(Equipment.SLOTS.ARROW);
-				if (validateInput()) {
-					try {
-						Var.fileName = "Settings";
-						GUISave.save();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					Var.guiWait = false;
-					Var.gui.setVisible(false);
-				} else {
-					System.out
-							.println("ERROR: please check to make sure you set your equipment for all the brothers and for the tunnels");
-					General.println("ERROR: please check to make sure you set your equipment for all the brothers and for the tunnels");
-				}
 			}
 		});
 
@@ -1360,68 +1367,203 @@ public class BarrowGUI extends JFrame {
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-								.addComponent(panel_6, Alignment.TRAILING, 0, 0, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(panel_5, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
-								.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))))
-					.addGap(22))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 349, GroupLayout.PREFERRED_SIZE)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-								.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-							.addGap(5)
-							.addComponent(panel_4, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
-						.addComponent(panel_5, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(btnLoad, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnStart, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)))
-					.addGap(33))
-		);
+		groupLayout
+				.setHorizontalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								panel,
+																								GroupLayout.DEFAULT_SIZE,
+																								122,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								panel_6,
+																								Alignment.TRAILING,
+																								0,
+																								0,
+																								Short.MAX_VALUE))
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				panel_1,
+																				GroupLayout.PREFERRED_SIZE,
+																				495,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								panel_4,
+																								GroupLayout.PREFERRED_SIZE,
+																								193,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(
+																								panel_3,
+																								GroupLayout.PREFERRED_SIZE,
+																								193,
+																								GroupLayout.PREFERRED_SIZE)))
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addComponent(
+																				panel_2,
+																				GroupLayout.DEFAULT_SIZE,
+																				492,
+																				Short.MAX_VALUE)
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				panel_5,
+																				GroupLayout.PREFERRED_SIZE,
+																				121,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addGroup(
+																								groupLayout
+																										.createSequentialGroup()
+																										.addComponent(
+																												btnSave,
+																												GroupLayout.PREFERRED_SIZE,
+																												88,
+																												GroupLayout.PREFERRED_SIZE)
+																										.addGap(18)
+																										.addComponent(
+																												btnLoad,
+																												GroupLayout.PREFERRED_SIZE,
+																												87,
+																												GroupLayout.PREFERRED_SIZE))
+																						.addComponent(
+																								btnStart,
+																								GroupLayout.PREFERRED_SIZE,
+																								193,
+																								GroupLayout.PREFERRED_SIZE))))
+										.addGap(22)));
+		groupLayout
+				.setVerticalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																groupLayout
+																		.createParallelGroup(
+																				Alignment.BASELINE)
+																		.addComponent(
+																				panel_1,
+																				GroupLayout.PREFERRED_SIZE,
+																				349,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGroup(
+																				groupLayout
+																						.createSequentialGroup()
+																						.addComponent(
+																								panel,
+																								GroupLayout.PREFERRED_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED,
+																								8,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								panel_6,
+																								GroupLayout.PREFERRED_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.PREFERRED_SIZE)))
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addComponent(
+																				panel_3,
+																				GroupLayout.PREFERRED_SIZE,
+																				98,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(5)
+																		.addComponent(
+																				panel_4,
+																				GroupLayout.DEFAULT_SIZE,
+																				246,
+																				Short.MAX_VALUE)))
+										.addPreferredGap(
+												ComponentPlacement.UNRELATED)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																panel_2,
+																GroupLayout.PREFERRED_SIZE,
+																93,
+																Short.MAX_VALUE)
+														.addComponent(
+																panel_5,
+																GroupLayout.DEFAULT_SIZE,
+																93,
+																Short.MAX_VALUE)
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.LEADING,
+																								false)
+																						.addComponent(
+																								btnLoad,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								btnSave,
+																								GroupLayout.DEFAULT_SIZE,
+																								38,
+																								Short.MAX_VALUE))
+																		.addPreferredGap(
+																				ComponentPlacement.UNRELATED)
+																		.addComponent(
+																				btnStart,
+																				GroupLayout.DEFAULT_SIZE,
+																				44,
+																				Short.MAX_VALUE)))
+										.addGap(33)));
 		getContentPane().setLayout(groupLayout);
 	}
 
 	private static Image getIcon(int id) {
-		String url = "http://www.runelocus.com/items/img/" + id + ".png";
 		try {
-			return ImageIO.read(new URL(url));
+			URL url = new URL("http://cdn.rsbuddy.com/items/" + id + ".png");
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setRequestProperty("User-Agent",
+					"Mozilla/6.0 (Windows NT 6.2; WOW64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1");
+			con.connect();
+			return ImageIO.read(url.openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -1675,7 +1817,7 @@ public class BarrowGUI extends JFrame {
 			}
 		}
 	});
-	
+
 	public boolean validateInput() {
 		for (Brothers b : Brothers.values()) {
 			int count = 0;
@@ -1690,10 +1832,12 @@ public class BarrowGUI extends JFrame {
 				return false;
 			}
 		}
+		if (Var.tunnelEquipment == null)
+			return false;
 		for (int[] i : Var.tunnelEquipment) {
 			int count = 0;
 			for (int n : i) {
-				if (n==-1) {
+				if (n == -1) {
 					count++;
 				}
 			}

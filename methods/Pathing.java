@@ -35,12 +35,40 @@ import scripts.Barrows.util.FairyRing;
 
 public class Pathing {
 
+	private static final int ID_HOUSE_TELEPORT_TAB = 8013;
+
+	private static final int ID_VARROCK_TELEPORT_TAB = 8007;
+
+	private static final int ID_FAIRY_RING_ITEM_NOT_SURE_THING = 772;
+
 	public enum PathBarrows {
-		SWAMP, SHORTCUT, BURGH_DE_ROTT, FAIRY_RINGS, MINIGAME
+		SWAMP(-1), SHORTCUT(-1), BURGH_DE_ROTT(-1), FAIRY_RINGS(
+				ID_FAIRY_RING_ITEM_NOT_SURE_THING), MINIGAME(-1);
+
+		private int id_to_add;
+
+		private PathBarrows(int id_to_add) {
+			this.id_to_add = id_to_add;
+		}
+
+		public int getId() {
+			return id_to_add;
+		}
 	}
 
 	public enum PathBank {
-		HOUSE, ECTOPHIAL, VARROCK, BURGH_DE_ROTT, FAIRY_RINGS
+		HOUSE(ID_HOUSE_TELEPORT_TAB), ECTOPHIAL(Var.ECTOPHIAL), VARROCK(
+				ID_VARROCK_TELEPORT_TAB), BURGH_DE_ROTT(-1), FAIRY_RINGS(-1);
+
+		private int id_to_add;
+
+		private PathBank(int id_to_add) {
+			this.id_to_add = id_to_add;
+		}
+
+		public int getId() {
+			return id_to_add;
+		}
 	}
 
 	public static boolean isInHouse() {
@@ -609,8 +637,8 @@ public class Pathing {
 					} else {
 						RSObject door = getClosestDoor(portal[0]);
 						if (door != null) {
-							GeneralMethods.clickObject(door, "Open", true,
-									true);
+							GeneralMethods
+									.clickObject(door, "Open", true, true);
 						}
 					}
 				}
@@ -742,18 +770,18 @@ public class Pathing {
 		}
 		if (isFromBoatToBarrows()) {
 			Var.status = "Going to barrows";
-			if (Player.getPosition().distanceTo(new RSTile(3546,3326,0)) < 10) {
+			if (Player.getPosition().distanceTo(new RSTile(3546, 3326, 0)) < 10) {
 				Var.status = "Weird glitch fixing";
 				Walking.walkTo(new RSTile(3550, 3316));
-				General.sleep(300,500);
+				General.sleep(300, 500);
 				while (Player.isMoving()) {
-					General.sleep(30,50);
+					General.sleep(30, 50);
 				}
 			}
 			Walking.walkPath(pathToBarrows);
 		}
 	}
-	
+
 	private static void goViaMinigame() {
 		Var.status = "Going to barrows via minigame";
 		Walking.setWalkingTimeout(500);
@@ -845,8 +873,8 @@ public class Pathing {
 			}
 		}
 		if (Player.getPosition().distanceTo(new RSTile(3499, 3300, 0)) < 25) {
-			Walking.blindWalkTo(new RSTile(3520,3284,0));
-			General.sleep(350,500);
+			Walking.blindWalkTo(new RSTile(3520, 3284, 0));
+			General.sleep(350, 500);
 			while (Player.isMoving() && !isFromBoatToBarrows())
 				General.sleep(100, 200);
 		}
@@ -857,7 +885,8 @@ public class Pathing {
 		Var.status = "Using shortcut to get to barrows";
 		if (!Banking.close())
 			General.sleep(1000);
-		if (isNearTrapDoor() && Player.getPosition().distanceTo(new RSTile(3509,3449,0)) > 5) {
+		if (isNearTrapDoor()
+				&& Player.getPosition().distanceTo(new RSTile(3509, 3449, 0)) > 5) {
 			RSObject[] trapdoor = Objects.getAt(new RSTile(3495, 3464, 0));
 			if (trapdoor != null && trapdoor.length > 0
 					&& Player.getPosition().distanceTo(trapdoor[1]) < 15) {

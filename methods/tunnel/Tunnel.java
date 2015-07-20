@@ -46,20 +46,21 @@ public class Tunnel {
 	public static void goToTunnel() {
 		for (Brothers b : Brothers.values()) {
 			if (b.isTunnel()) {
-				if (!Tunnel.inCrypt()) {
+				if (!Tunnel.inCrypt())
 					BrotherKilling.goToCrypt(b);
-				}
-				if (Tunnel.inCrypt()) {
+				else {
 					RSObject[] coffin = Objects.find(10, "Sarcophagus");
 					if (coffin.length > 0) {
 						if (Interfaces.get(210) == null
 								&& Interfaces.get(228) == null) {
 							Var.status = "Searching the coffin";
-							GeneralMethods.clickObject(coffin[0], "Search", false, false);
+							GeneralMethods.clickObject(coffin[0], "Search",
+									false, false);
 							Var.status = "Searched the coffin";
 						}
-						General.sleep(350,500);
-						while(Player.isMoving())General.sleep(10, 20);
+						General.sleep(350, 500);
+						while (Player.isMoving())
+							General.sleep(10, 20);
 						for (int fail = 0; fail < 20
 								&& Interfaces.get(210, 1) == null; fail++) {
 							General.sleep(10, 21);
@@ -91,7 +92,7 @@ public class Tunnel {
 	public static boolean inCrypt() {
 		int count = 0;
 		for (int i = 0; i < 20; i++) {
-			if(Objects.find(20, "Sarcophagus").length > 0) {
+			if (Objects.find(20, "Sarcophagus").length > 0) {
 				count++;
 			}
 		}
@@ -147,7 +148,8 @@ public class Tunnel {
 				}
 				levelUpCloser();
 				Var.abc_util.BOOL_TRACKER.HOVER_NEXT.reset();
-				if (Var.abc_util.BOOL_TRACKER.HOVER_NEXT.next() && Var.hoverCheck ) {
+				if (Var.abc_util.BOOL_TRACKER.HOVER_NEXT.next()
+						&& Var.hoverCheck) {
 					closestNPC(combatFilter(reachFilter())).hover();
 				}
 				Var.hoverCheck = false;
@@ -172,7 +174,7 @@ public class Tunnel {
 		}
 		Var.abc_util.BOOL_TRACKER.USE_CLOSEST.reset();
 		if (prevTarget != null && !Var.abc_util.BOOL_TRACKER.USE_CLOSEST.next()) {
-				target = prevTarget;
+			target = prevTarget;
 		}
 		return target;
 	}
